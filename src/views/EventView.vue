@@ -79,14 +79,13 @@ const myEvents = ref([])
 
 const addEvent = async () =>{
     console.log("i made it here")
-    const docRef = await addDoc(collection(db, "events"), {
+    await addDoc(collection(db, "events"), {
       name: newEventName.value,
       desc: newEventDesc.value,
       startDate: Timestamp.fromDate(new Date(newEventStartTime.value)),
       endDate: Timestamp.fromDate(new Date(newEventEndTime.value)),
       creationDate: Timestamp.fromDate(new Date())
     });
-    console.log("Document written with ID: ", docRef.id);
   }
 
 const deleteEvent = async id => {
