@@ -3,7 +3,7 @@
     <form @submit.prevent="addEvent">
       <h2>Add New Event:</h2>
       <input
-        v-model="newEventName"
+        v-model="newEvent.name"
         class="input"
         placeholder="Event Name"
         type="text"
@@ -11,7 +11,7 @@
       <br>
         <label for="startTime">Start Time: </label>
       <input 
-        v-model="newEventStartTime"
+        v-model="newEvent.startTime"
         type="datetime-local"
         id="startTime" 
         name="startTime"
@@ -19,23 +19,20 @@
       <br>
       <label for="endTime">End Time: </label>
       <input 
-        v-model="newEventEndTime"
+        v-model="newEvent.endTime"
         type="datetime-local"
         id="endTime" 
         name="endTime"
         required>
       <br>
       <textarea
-        v-model="newEventDesc"
+        v-model="newEvent.desc"
         class="input"
         placeholder="Event Description"
         type="textarea"
         required></textarea>
       <br>
       <button type="submit">Submit</button>
-    
-    
-    
     </form>
   </div>
     <table>
@@ -65,25 +62,25 @@
 </template>
 
 <script setup>
-import { onMounted, ref} from 'vue'
+import { onMounted, ref } from 'vue'
 import { collection, onSnapshot, addDoc, Timestamp, doc, deleteDoc } from "firebase/firestore"; 
 import { db } from "@/firebase"
 
-// gotta figure out if you need these refs
-const newEventStartTime = ref('')
-const newEventEndTime = ref('')
-const newEventName = ref('')
-const newEventDesc = ref('')
+const newEvent = ref({
+  name: '',
+  startTime: '',
+  endTime:'',
+  desc: ''
+})
 
 const myEvents = ref([])
 
 const addEvent = async () =>{
-    console.log("i made it here")
     await addDoc(collection(db, "events"), {
-      name: newEventName.value,
-      desc: newEventDesc.value,
-      startDate: Timestamp.fromDate(new Date(newEventStartTime.value)),
-      endDate: Timestamp.fromDate(new Date(newEventEndTime.value)),
+      name: newEvent.value.name,
+      desc: newEvent.value.desc,
+      startDate: Timestamp.fromDate(new Date(newEvent.value.startTime)),
+      endDate: Timestamp.fromDate(new Date(newEvent.value.endTime)),
       creationDate: Timestamp.fromDate(new Date())
     });
   }
