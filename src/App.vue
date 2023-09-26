@@ -1,31 +1,18 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import TheHeader from './components/TheHeader.vue'
-</script>
+
 
 <template>
  
- <TheHeader />
-
+ <TheHeader :user="user" @login-clicked="showLoginPage = true" />
+ <main class="global-main">
+ <LoginPage v-if="showLoginPage" @user-logged-in="onUserLoggedIn" @some-event="theyWannaSignup" />
+ <SignupPage v-if="showSignupPage" @other-event="theyWannaLogin"/>
  <router-view></router-view>
-
+</main>
     
-      
-
-      
-   
-  
-
-
 </template>
 
 <style>
-  *{
-    box-sizing: border-box;
-    margin:0;
-    padding:0;
-    
-  }
+  
   body{
     margin-top: 5rem;
   }
@@ -44,7 +31,41 @@ import TheHeader from './components/TheHeader.vue'
     font: inherit;
     color: inherit;
 }
-
-
-
 </style>
+
+<script>
+import { RouterLink, RouterView } from 'vue-router'
+import TheHeader from './components/TheHeader.vue'
+import LoginPage from './views/LoginPage.vue';
+import SignupPage from './views/SignupPage.vue';
+
+export default {
+  components: {
+    TheHeader,
+    LoginPage,
+    SignupPage,
+  },
+  data() {
+    return {
+      user: null,
+      showLoginPage: false,
+      showSignupPage: false,
+    };
+  },
+  methods: {
+    onUserLoggedIn(user) {
+      this.user = user;
+      this.showLoginPage = false;
+    },
+    theyWannaSignup(){
+      this.showLoginPage = false;
+      this.showSignupPage = true;
+      
+    },
+    theyWannaLogin(){
+      this.showSignupPage = false;
+      this.showLoginPage = true;
+    }
+  },
+};
+</script>

@@ -1,29 +1,34 @@
+
+
 <template>
     <div class="form-container" id="formContainer">
         
-        <form>
+        <form @submit.prevent="submitLogin">
             <div class="form-header">
                 <h2>Login</h2>
                 
             </div>
             
             <div>
-                <label for = "email"></label>
-                <input type = "email" id="email" placeholder="Email">
+                
+                <input type = "email" v-model="email" placeholder="Email">
             </div>
             
             <div>
-                <label for = "password"></label>
-                <input type = "password" id="password" placeholder="Password">
+                
+                <input type = "password" v-model="password" placeholder="Password">
             </div>
             
             
-            <button type="submit" class="submit-btn">Submit</button>
-            <button  type="button" class="swap-login" @click="$emit('someEvent')" >No account? Signup.</button>
+            <button type="submit" class="submit-btn" @click=" $emit('user-logged-in', { name: 'John Doe', avatar: '../components/nami.png' })">Submit</button>
+            <button  type="button" class="swap-signup" @click="$emit('some-event')">No account? Signup.</button>
         </form>
         <div class="pika-contain">
             <img src="../components/pikachu.webp" alt="" class="pika">
-        </div>  
+        </div> 
+        {{ user?.email }}
+        <button type="button" class="signout" @click="submitSignOut">Sign Out</button> 
+       
 </div>
     
 </template>
@@ -110,3 +115,42 @@ input:focus{
 
 </style>
 
+
+<script setup>
+import { ref} from 'vue'
+import { firebaseAppAuth } from '@/firebase'
+import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth'
+
+const user = ref(null)
+
+const email = ref('')
+const password = ref('')
+
+const submitLogin = async () => {
+    
+    await signInWithEmailAndPassword(firebaseAppAuth, email.value, password.value)
+        .then((data) => {
+            console.log("Login Successful")
+           
+        }).catch((error) => {
+            console.log(error.code)
+            alert(error.message)
+        })
+        
+}
+
+const submitSignInWIthGoogle = () => {
+    //TODO
+}
+
+const submitSignOut = async () => {
+     await signOut(firebaseAppAuth).then((res) => {}).catch((error) =>{
+        console.log(error.code)
+        alert(error.message)
+     })
+  }
+
+onAuthStateChanged(firebaseAppAuth, currentUser => {
+    user.value = currentUser
+})
+</script>

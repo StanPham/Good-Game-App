@@ -9,36 +9,51 @@
             
             <div>
                 <label for = "email"></label>
-                <input type = "email" id="email" placeholder="Email">
+                <input type = "email" id="email" placeholder="Email" required>
             </div>
             <div>
                 <label for = "username"></label>
-                <input type = "text" id="username" placeholder="Username">
+                <input type = "text" id="username" placeholder="Username" required>
             </div>
             <div>
                 <label for = "password"></label>
-                <input type = "password" id="password" placeholder="Password">
+                <input type = "password" id="password" placeholder="Password" required>
             </div>
             <div>
                 <label for = "passwordC"></label>
-                <input type = "password" id="passwordC" placeholder="Confirm password">
+                <input type = "password" id="passwordC" placeholder="Confirm password" required>
             </div>
             
             <button type="submit" class="submit-btn">Submit</button>
-            <button  type="button" class="swap-login" @click="$emit('someEvent')" >Have an account? Login.</button>
+            <button  type="button" class="swap-login" @click="$emit('other-event')" >Have an account? Login.</button>
         </form>
+        <div class="pika-contain">
+            <img src="../components/pikachu.webp" alt="" class="pika">
+        </div> 
     
 </div>
     
 </template>
 
 <style scoped>
+.pika-contain{
+    display:flex;
+    align-items: center;
+}
+.pika{
+    max-width: 50%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+   
+   
+}
 .form-container{
    
     margin-inline: auto;
     width: clamp(200px, 90vw,50rem);
    
-    
+    display:flex;
     
     background-color: rgb(66, 60, 63);
    
@@ -50,7 +65,7 @@
 
 
 form{
-    width:100%;
+    width:clamp(23rem,50%,5000px);
     display:flex;
     flex-direction: column;
     padding: 1.25em;
@@ -93,6 +108,12 @@ input:focus{
     cursor:pointer;
     background-color: rgb(32, 32, 32);
     transform: scale(1.01);
+}
+
+@media(max-width: 750px){
+    .pika-contain{
+        display:none;
+    }
 }
 
 

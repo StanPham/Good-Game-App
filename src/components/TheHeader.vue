@@ -1,3 +1,4 @@
+
 <template>
     <div class="header-bg">
       <div class="menu-icon" @click="toggleMobileMenu">
@@ -20,9 +21,19 @@
             <a href="#">CONTACT</a>
             <a href="#">XYZ123</a>
         </div>
-
-        <button class="login click" @click.stop="login">LOGIN</button>
-       
+      <div class="login-container">
+        <div v-if="user" @click="profileClicked">
+          <img :src="user.avatar" alt="User avatar" />
+          <span>{{ user.name }}</span>
+          <div v-if="userClickedProfile" class="profile-clicked">
+          </div>
+        
+          
+        </div>
+        <div v-else>
+          <button class="login click" @click.stop="$emit('login-clicked')">LOGIN</button>
+        </div>
+      </div>
     </div>
     <div v-if="isMobileMenuOpen" class="mobile-menu">
       <a href="#">EVENTS</a>
@@ -40,8 +51,8 @@
             </div>
   </div>
     
-    <TheSignup v-if="isSignupVisible" @some-event="callback" @close-this="throwback"/>
-    <TheLogin v-if="isLoginVisible" @other-event="callback"/>
+    <!-- <TheSignup v-if="isSignupVisible" @some-event="callback" @close-this="throwback"/> -->
+    <!-- <TheLogin v-if="isLoginVisible" @other-event="callback"/> -->
     
    
 </template>
@@ -82,8 +93,8 @@
 }
 
     .title{
-        padding-left:40px;
-        font-size: 1.7rem;
+        padding-left:2rem;
+        font-size: 1.6rem;
         width:24%;
         min-width: max(24%, 180px);
     }
@@ -137,16 +148,21 @@
   color: black;
 }
 
-.login{
+.login-container{
     margin-left: auto;
     padding-right: 20px;
 }
 .click{
   cursor: pointer;
 }
+.profile-clicked{
+  height:200px;
+  width:200px;
+  background-color: red;
+}
 
 @media (max-width: 767px) {
-  /* Show hamburger icon and hide desktop menu items */
+  
   .menu-icon {
     display: block;
    
@@ -188,13 +204,14 @@
 
 <script>
 import burger from './burger.svg';
-import TheSignup from './TheSignup.vue';
-import TheLogin from './TheLogin.vue';
+// import TheSignup from './TheSignup.vue';
+// import TheLogin from './TheLogin.vue';
 
 export default {
+  props: ['user'],
   components: {
-    TheSignup,
-    TheLogin,
+    // TheSignup,
+    // TheLogin,
     
   },
   name: 'TheHeader',
@@ -202,8 +219,9 @@ export default {
     return {
       burger: burger,
       isMobileMenuOpen: false,
-      isSignupVisible: false,
-      isLoginVisible:false,
+      userClickedProfile: false,
+      // isSignupVisible: false,
+      // isLoginVisible:false,
       
     };
   },
@@ -212,20 +230,22 @@ export default {
   
 methods: {
 
-    login() {
-      
-      this.isLoginVisible = !this.isLoginVisible;
-    },
+    // // login() {
+    // //   this.$emit('login-clicked');
+    // //   // this.isLoginVisible = !this.isLoginVisible;
+    // // },
     
-    callback(){
-      this.isSignupVisible = !this.isSignupVisible;
-      this.isLoginVisible = !this.isLoginVisible;
-    },
+    // callback(){
+    //   this.isSignupVisible = !this.isSignupVisible;
+    //   this.isLoginVisible = !this.isLoginVisible;
+    // },
 
-    throwback(){
-      this.isSignupVisible = !this.isSignupVisible;
+    // throwback(){
+    //   this.isSignupVisible = !this.isSignupVisible;
+    // },
+    profileClicked(){
+      userClickedProfile = !userClickedProfile;
     },
-    
     
     toggleMobileMenu() {
       console.log('Toggling mobile menu');
@@ -234,10 +254,12 @@ methods: {
       console.log(this.isMobileMenuOpen);
     },
     
-  },
+  }
+}
+
   
  
   
 
-};
+
 </script>
