@@ -1,7 +1,7 @@
 
 :root{
-  --main-bg: black;
-  --btn-color: purple;
+  --main-bg: #150026;
+  --btn-color: rgb(172, 53, 172);
   --text-color: white;
   
 }
@@ -12,6 +12,7 @@
   box-sizing: border-box;
   margin: 0;
   padding:0;
+  color:white;
   
 }
 html {
@@ -95,6 +96,8 @@ video {
   max-width: 100%;
   height: auto;
 }
+
+
 
 @media(min-width: 1024px)
 {

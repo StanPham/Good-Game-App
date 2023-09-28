@@ -4,7 +4,7 @@
       <div class="menu-icon" @click="toggleMobileMenu">
         <img :src="burger" alt="" class="burger icon-white" >
       </div>
-        <div class="title">Good Game</div>
+        <div class="title" @click="goHome">Good Game</div>
         <div class="space-wrappa">
         
             <div class="dropdown">
@@ -17,12 +17,12 @@
                     <a href="#">Link 3</a>
                 </div>
             </div>
-            <a href="#">EVENTS</a>
+            <a @click="goEvent">EVENTS</a>
             <a href="#">CONTACT</a>
             <a href="#">XYZ123</a>
         </div>
       <div class="login-container">
-        <div v-if="user" @click="profileClicked">
+        <div v-if="userLogged" @click="profileClicked">
           <img :src="user.avatar" alt="User avatar" />
           <span>{{ user.name }}</span>
           <div v-if="userClickedProfile" class="profile-clicked">
@@ -83,6 +83,7 @@
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
+  cursor:pointer;
 }
 .space-wrappa{
     display:flex;
@@ -97,6 +98,8 @@
         font-size: 1.6rem;
         width:24%;
         min-width: max(24%, 180px);
+        cursor:pointer;
+       
     }
 
     .dropdown {
@@ -175,15 +178,17 @@
   .mobile-menu {
     display: flex;
     flex-direction: column;
-    position: absolute;
+    position:absolute;
     align-items:center;
   min-width: 100vw;
-  background-color: black;
+  background-color: rgb(0, 0, 0);
   height:auto;
+  top: 2.8rem;
+  z-index:999;
   
   
   justify-content: center;
-  margin-top: -2.2rem;
+ 
  
   
  
@@ -203,12 +208,14 @@
 </style>
 
 <script>
+import { useUserStore } from '@/stores/counter.js'
 import burger from './burger.svg';
 // import TheSignup from './TheSignup.vue';
 // import TheLogin from './TheLogin.vue';
 
 export default {
-  props: ['user'],
+ 
+
   components: {
     // TheSignup,
     // TheLogin,
@@ -230,19 +237,7 @@ export default {
   
 methods: {
 
-    // // login() {
-    // //   this.$emit('login-clicked');
-    // //   // this.isLoginVisible = !this.isLoginVisible;
-    // // },
     
-    // callback(){
-    //   this.isSignupVisible = !this.isSignupVisible;
-    //   this.isLoginVisible = !this.isLoginVisible;
-    // },
-
-    // throwback(){
-    //   this.isSignupVisible = !this.isSignupVisible;
-    // },
     profileClicked(){
       userClickedProfile = !userClickedProfile;
     },
@@ -252,6 +247,12 @@ methods: {
       
       this.isMobileMenuOpen = !this.isMobileMenuOpen;
       console.log(this.isMobileMenuOpen);
+    },
+    goHome(){
+      this.$router.push('/');
+    },
+    goEvent(){
+      this.$router.push('/event');
     },
     
   }

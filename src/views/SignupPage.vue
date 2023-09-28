@@ -25,7 +25,7 @@
             </div>
             
             <button type="submit" class="submit-btn">Submit</button>
-            <button  type="button" class="swap-login" @click="$emit('other-event')" >Have an account? Login.</button>
+            <button  type="button" class="swap-login" @click="theyWannaLogin" >Have an account? Login.</button>
         </form>
         <div class="pika-contain">
             <img src="../components/pikachu.webp" alt="" class="pika">
@@ -60,6 +60,7 @@
    
     border-radius: 10px;
     color:white;
+    margin-top: 4rem;
 
 }
 
@@ -118,4 +119,15 @@ input:focus{
 
 
 </style>
+
+<script>
+export default{
+    name: 'SignupPage',
+    methods:{
+        theyWannaLogin(){
+            this.$router.push('/login');
+        }
+    }
+}
+</script>
 

@@ -1,4 +1,44 @@
+<script setup>
 
+import { ref} from 'vue'
+import { firebaseAppAuth } from '@/firebase'
+import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth'
+
+const user = ref(null)
+
+const email = ref('')
+const password = ref('')
+
+
+const submitLogin = async () => {
+    
+    await signInWithEmailAndPassword(firebaseAppAuth, email.value, password.value)
+        .then((data) => {
+            console.log("Login Successful")
+           
+        }).catch((error) => {
+            console.log(error.code)
+            alert(error.message)
+        })
+        
+}
+
+const submitSignInWIthGoogle = () => {
+    //TODO
+}
+
+const submitSignOut = async () => {
+     await signOut(firebaseAppAuth).then((res) => {}).catch((error) =>{
+        console.log(error.code)
+        alert(error.message)
+     })
+  }
+
+onAuthStateChanged(firebaseAppAuth, currentUser => {
+    user.value = currentUser
+})
+
+</script>
 
 <template>
     <div class="form-container" id="formContainer">
@@ -20,14 +60,14 @@
             </div>
             
             
-            <button type="submit" class="submit-btn" @click=" $emit('user-logged-in', { name: 'John Doe', avatar: '../components/nami.png' })">Submit</button>
-            <button  type="button" class="swap-signup" @click="$emit('some-event')">No account? Signup.</button>
+            <button type="submit" class="submit-btn" @click="mfLoggedIn, { name: 'John Doe', avatar: '../components/nami.png' }">Submit</button>
+            <button  type="button" class="swap-signup" @click="theyWannaSignup">No account? Signup.</button>
         </form>
         <div class="pika-contain">
             <img src="../components/pikachu.webp" alt="" class="pika">
         </div> 
-        {{ user?.email }}
-        <button type="button" class="signout" @click="submitSignOut">Sign Out</button> 
+        <!-- {{ user?.email }}
+        <button type="button" class="signout" @click="submitSignOut">Sign Out</button>  -->
        
 </div>
     
@@ -54,6 +94,7 @@
    
     border-radius: 10px;
     color:white;
+    margin-top:4rem;
 
 }
 h2{
@@ -115,42 +156,19 @@ input:focus{
 
 </style>
 
-
-<script setup>
-import { ref} from 'vue'
-import { firebaseAppAuth } from '@/firebase'
-import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth'
-
-const user = ref(null)
-
-const email = ref('')
-const password = ref('')
-
-const submitLogin = async () => {
+<script>
+export default{
+    name:'LoginPage',
     
-    await signInWithEmailAndPassword(firebaseAppAuth, email.value, password.value)
-        .then((data) => {
-            console.log("Login Successful")
+
+    methods:{
+        theyWannaSignup(){
+            this.$router.push('/signup');
+        },
+        mfLoggedIn(){
+            this.$router.push('/');
            
-        }).catch((error) => {
-            console.log(error.code)
-            alert(error.message)
-        })
-        
+        }
+    }
 }
-
-const submitSignInWIthGoogle = () => {
-    //TODO
-}
-
-const submitSignOut = async () => {
-     await signOut(firebaseAppAuth).then((res) => {}).catch((error) =>{
-        console.log(error.code)
-        alert(error.message)
-     })
-  }
-
-onAuthStateChanged(firebaseAppAuth, currentUser => {
-    user.value = currentUser
-})
 </script>
