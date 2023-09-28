@@ -12,6 +12,12 @@
     <div v-if="user">
         {{ user?.email }}
         <button type="button" @click="submitSignOut">Sign Out</button>
+    <div v-if="isAdmin">
+        Is Admin
+    </div>
+    <div v-else>
+        Not Admin
+    </div>
     </div>
 </template>
 
@@ -21,6 +27,7 @@ import { firebaseAppAuth } from '@/firebase'
 import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth'
 
 const user = ref(null)
+const isAdmin = ref(false)
 
 const email = ref('')
 const password = ref('')
@@ -48,5 +55,10 @@ const submitSignOut = async () => {
 
 onAuthStateChanged(firebaseAppAuth, currentUser => {
     user.value = currentUser
+    if(currentUser) {
+        currentUser.getIdTokenResult().then(idTokenResult => {
+            isAdmin.value = idTokenResult.claims.admin ? true : false
+        })
+    }
 })
 </script>
