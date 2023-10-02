@@ -1,0 +1,171 @@
+
+    <template>
+    <div class="container">
+        <h1 class="header">TODAYS EVENT</h1>
+        <div class="event-wrapper">
+                <h1 class="event-day">{{ funkyDate(todaysEvent.startDate) }}</h1>
+              
+                <div class="title-wrapper">
+                    <h2 class="event-title">{{ todaysEvent.name }} </h2>
+                    <h2 class="event-title ya"> innistrad draft</h2>
+                    <div class="start-time">{{ funkyDateNumbaTwo(todaysEvent.startDate) }} - 11:00pm</div>
+                    
+                </div>
+               
+                <p class="event-description">{{ todaysEvent.desc }}</p>
+                <br>
+                <button class="allEvents" @click="goEvent">All Events</button>
+                
+            </div>
+
+      
+           
+                
+              
+        
+        
+    </div>
+    
+    
+</template>
+
+<style scoped>
+.header{
+  text-align: center;
+  padding-top:10px;
+  text-decoration: underline;
+}
+.allEvents:hover{
+  color:#bb76ffa1;
+  background-color: white;
+  border-color: #bb76ffa1;
+}
+.allEvents{
+  background: #bb76ffa1;
+font-size:1.1rem;
+font-weight:bold;
+border-radius: 2rem;
+padding:.8rem 2rem;
+
+}
+.event-wrapper{
+    padding: 1rem;
+    font-size: clamp(1.3vw,1.2rem, 10vw);
+}
+
+
+.container{
+   
+  background: linear-gradient(-98.79deg, #BA76FF -8.25%, #180030 73.07%);
+   
+   border-radius: 1rem;
+   width: clamp(1px,100vw,26rem);
+   
+   
+   
+    
+  }
+    
+
+
+.start-time{
+    
+    font-weight:800;
+  
+}
+.title-wrapper{
+    align-items: center;
+    padding-top: 8px;
+    
+
+    
+}
+.event-title{
+    /* padding-left:1rem; */
+    font-weight:inherit;
+    font-style: italic;
+    color:rgb(214, 110, 214);
+    
+   
+}
+.event-description{
+    padding-top: 5px;
+}
+
+
+</style>
+
+<script setup>
+
+import { onMounted, ref, watch, computed } from 'vue'
+import { collection, onSnapshot, addDoc, Timestamp, doc, deleteDoc, orderBy, query} from "firebase/firestore"; 
+import { RouterLink, RouterView } from 'vue-router'
+import { db } from "@/firebase"
+
+const today = ref(new Date());
+today.value.setHours(0,0,0,0);
+const allEvents = ref([]);
+const eventRef = collection(db, 'events');
+const q = query(eventRef, orderBy("startDate"));
+
+
+onMounted( () => {
+  onSnapshot(q, (querySnapshot) => {
+    const tmpEvents = [];
+    querySnapshot.forEach((doc) => {
+      const event = {
+        id: doc.id,
+        name: doc.data().name,
+        desc: doc.data().desc,
+        startDate: new Date(doc.data().startDate.seconds*1000),
+        endDate: new Date(doc.data().endDate.seconds*1000)
+      }
+      tmpEvents.push(event)
+    });
+    allEvents.value = tmpEvents;
+    
+  });
+  
+})
+console.log(today.value.toDateString())
+const todaysEvent = computed(() => {
+  return allEvents.value.find(event => 
+    event.startDate.toDateString() === today.value.toDateString()
+  ) || { startDate: new Date(), name: '', desc: '' };
+});
+
+
+function funkyDate(date) {
+   
+    const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = date.toLocaleDateString('en-US', { month: 'short' });
+    return `${dayName}, ${month} ${day}`;
+     
+        
+    
+}
+
+function funkyDateNumbaTwo(date) {
+  let hours = date.getHours();
+    hours = hours %12;
+  const someHours = String(hours);
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${someHours}:${minutes}pm`;
+}
+
+
+function goEvent() {
+  this.$router.push('/event');
+}
+
+
+</script>
+
+
+
+
+
+
+
+

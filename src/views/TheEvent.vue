@@ -1,65 +1,165 @@
 <template>
     <div class="container">
-        <div class="header">EVENTS</div>
+        <div class="header-container">
+          
+            <div class="header">{{ currentMonthName }}</div>
+            <button @click.once="selectedMonth++">
+                clickme
+            </button>
+       
+        </div>
+
+        <div class="grid-container">
+            <!-- <div class="day-title">TUE</div>
+                <div class="day-title">WED</div>
+                <div class="day-title">THU</div>
+                <div class="day-title">FRI</div>
+                <div class="day-title">SAT</div>
+                <div class="day-title">SUN</div> -->
+                <!-- <div class="day-title" v-for="day in daysOfWeek" :key="day">{{ day }}</div> -->
+                <!-- <div v-for="day in daysOfWeek" :key="day">   -->
         <main class="event-list" v-for="event in myEvents" :key="event.id">
             <div class="event-wrapper">
-                <h1 class="event-day">{{ event.name }}</h1>
+                <h1 class="event-day">{{ funkyDate(event.startDate) }}</h1>
+                <h1 class="event-day-copy">{{ anothaFunkyDate(event.startDate) }}</h1>
                 <div class="title-wrapper">
-                    <div class="start-time">{{ event.startDate }}</div>
-                    <h2 class="event-title">{{ event.endDate }}</h2>
+                    <h2 class="event-title">{{ event.name }} </h2>
+                    <h2 class="event-title ya"> innistrad draft</h2>
+                    <div class="start-time">{{ funkyDateNumbaTwo(event.startDate) }} - 11:00pm</div>
+                    
                 </div>
+               
                 <p class="event-description">{{ event.desc }}</p>
-                <br>
-                <hr>
+                <br class="xd">
+                <hr class="xdd">
             </div>
         </main>
     </div>
+    </div>
+ 
 </template>
 
 <style scoped>
+.event-day-copy{
+    display:none;
+}
+.header-container{
+    display:flex;
+    background-color: rgb(91, 19, 133);
+    justify-content: center;
+}
+.day-title{
+    text-align: right;
+    font-size: 1.5rem;
+    margin-right:.5rem;
+    display:none;
+}
+.ya{
+    font-size:1.3rem;
+}
 .container{
     margin-top:2.8rem;
+    background-color: black;
+   
+    
   }
 .title-wrapper{
-    display:flex;
+    /* display:flex; */
 }
     .header{
         text-align: center;
-        
-        background-color: rgb(91, 19, 133);
+        font-family: var(--cool-font);
+        margin-left:5rem;
         font-size: 2.2rem;
     }
 
 .event-list{
-    background-color: black;
     padding:10px;
+   
 }
 .start-time{
-    font-size:1.5rem;
+    font-size:1.4rem;
     font-weight:800;
+  
 }
 .title-wrapper{
     align-items: center;
-    padding-top: 10px;
+    padding-top: 8px;
 
     
 }
 .event-title{
-    padding-left:1rem;
+    /* padding-left:1rem; */
     font-weight:inherit;
     font-style: italic;
+    color:rgb(214, 110, 214);
     
    
+}
+.event-description{
+    padding-top: 5px;
+}
+@media(min-width:768px){
+    .event-list{
+        text-align: center;
+    }
+}
+@media(min-width: 1600px){
+    .event-day{
+        display:none;
+    }
+    .event-day-copy{
+        display:block;
+        text-align: right;
+        font-size:1.5rem;
+        font-weight: 200;
+    }
+    .day-title{
+        display:block;
+    }
+    .xd,
+    .xdd{
+        display:none;
+    }
+    .event-list{
+        background-color: rgb(44, 37, 44);
+        text-align: left;
+        border-radius:1rem ;
+        min-height:250px;
+        
+        margin-top:1rem;
+       
+        
+    }
+    
+    .grid-container{
+        display:grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+        gap:1rem;
+        padding:1rem;
+        
+       
+    }
 }
 </style>
 
 <script setup>
-import { onMounted, ref } from 'vue'
-import { collection, onSnapshot, addDoc, Timestamp, doc, deleteDoc } from "firebase/firestore"; 
+
+import { onMounted, ref, watch, computed } from 'vue'
+import { collection, onSnapshot, addDoc, Timestamp, doc, deleteDoc, orderBy, query} from "firebase/firestore"; 
+
 import { db } from "@/firebase"
-const myEvents = ref([])
+
+const selectedMonth = ref(new Date().getMonth());
+const allEvents = ref([]);
+const myEvents = ref([]);
+const eventRef = collection(db, 'events');
+const q = query(eventRef, orderBy("startDate"));
+const daysOfWeek = [ "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+
 onMounted( () => {
-  onSnapshot(collection(db, 'events'), (querySnapshot) => {
+  onSnapshot(q, (querySnapshot) => {
     const tmpEvents = [];
     querySnapshot.forEach((doc) => {
       const event = {
@@ -71,9 +171,64 @@ onMounted( () => {
       }
       tmpEvents.push(event)
     });
-    myEvents.value = tmpEvents
+    allEvents.value = tmpEvents;
+    filterEventsByMonth(); 
   });
+  
 })
+watch(selectedMonth, () => {
+  filterEventsByMonth();
+});
+
+function filterEventsByMonth() {
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0); // Set current date's time to 00:00:00
+
+    // Filter events for the selected month which are on or after today's date
+    myEvents.value = allEvents.value
+        .filter(event => 
+            event.startDate.getMonth() === Number(selectedMonth.value) &&
+            event.startDate >= currentDate
+        )
+        .sort((a, b) => a.startDate - b.startDate); // Order events by start date
+}
+
+
+
+const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+];
+
+const currentMonthName = computed(() => {
+    return monthNames[selectedMonth.value].toUpperCase();
+});
+
+
+
+function funkyDate(date) {
+   
+    const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = date.toLocaleDateString('en-US', { month: 'short' });
+    return `${dayName}, ${month} ${day}`;
+     
+        
+    
+}
+function anothaFunkyDate(date){
+    const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+    const day = String(date.getDate()).padStart(2, '0');
+  
+    return `${dayName}, ${day}`;
+}
+function funkyDateNumbaTwo(date) {
+  let hours = date.getHours();
+    hours = hours %12;
+  const someHours = String(hours);
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${someHours}:${minutes}pm`;
+}
 
 
 

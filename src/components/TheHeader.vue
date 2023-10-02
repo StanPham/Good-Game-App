@@ -4,11 +4,11 @@
       <div class="menu-icon" @click="toggleMobileMenu">
         <img :src="burger" alt="" class="burger icon-white" >
       </div>
-        <div class="title" @click="goHome">Good Game</div>
+        <div class="title cool-font" @click="goHome">Good Game</div>
         <div class="space-wrappa">
         
             <div class="dropdown">
-                <button class="dropbtn">SHOP
+                <button class="dropbtn ">SHOP
                   
                 </button>
                 <div class="dropdown-content">
@@ -21,6 +21,7 @@
             <a href="#">CONTACT</a>
             <a href="#">XYZ123</a>
         </div>
+        
       <div class="login-container">
         <div v-if="userLogged" @click="profileClicked">
           <img :src="user.avatar" alt="User avatar" />
@@ -31,7 +32,8 @@
           
         </div>
         <div v-else>
-          <button class="login click" @click.stop="$emit('login-clicked')">LOGIN</button>
+          <!-- <button class="login click" @click.stop="$emit('login-clicked')">LOGIN</button> -->
+          <img :src="person" alt="" class="person icon-white">
         </div>
       </div>
     </div>
@@ -62,11 +64,14 @@
 .icon-white{
  filter: invert(100%) sepia(1%) saturate(7418%) hue-rotate(290deg) brightness(105%) contrast(98%);
 }
+.burger{
+  padding-top:5px;
+}
   .menu-icon{
     display:none;
   }
     .header-bg{
-        background-color: black;
+        background-color: rgba(88, 85, 88, 0.466);
         height: 2.8rem;
         position: fixed;
         min-width:100vw;
@@ -74,6 +79,8 @@
         align-items: center;
         color:white;
         top:0;
+        z-index:999;
+      
         
     }
     .header-bg a {
@@ -210,6 +217,7 @@
 <script>
 import { useUserStore } from '@/stores/counter.js'
 import burger from './burger.svg';
+import person from './person.svg';
 // import TheSignup from './TheSignup.vue';
 // import TheLogin from './TheLogin.vue';
 
@@ -227,6 +235,7 @@ export default {
       burger: burger,
       isMobileMenuOpen: false,
       userClickedProfile: false,
+      person: person,
       // isSignupVisible: false,
       // isLoginVisible:false,
       
