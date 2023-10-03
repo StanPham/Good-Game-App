@@ -36,7 +36,6 @@
         <datalist  id="productName">
           <option v-for="game in myGames" :key="game.id">{{ game.name }}</option>
         </datalist>
-      <button type="submit">Submit</button>
       <br>
       <input
         v-model="gameFormat"
@@ -46,6 +45,8 @@
         <datalist  id="formatName">
           <option v-for="format in selectedGameFormats" >{{ format }}</option>
         </datalist>
+
+      <button type="submit">Submit</button>
     </form>
   </div>
     <table>
@@ -117,7 +118,6 @@ const addEvent = async () =>{
     name: gameName.value,
     format: []
   }).then(() =>{
-    console.log("new Game added")
     newGame = false
   }).catch(err => {
     console.log(err);
@@ -132,7 +132,6 @@ const addEvent = async () =>{
       format: Array.from(selectedGameFormats.value)
     }).then(() =>{
     selectedGameFormats.value = Array.from(myGames.value[i].format)
-    console.log("new format added")
     newFormat = false
   }).catch(err => {
     console.log(err);
@@ -156,18 +155,11 @@ const gameChange = () => {
 }
 
 const formatChange = () => {
-  console.log("formatChange called")
-  console.log("Value of selectGameFormats:")
-  console.log(Array.from(selectedGameFormats.value))
   const i = Array.from(selectedGameFormats.value).indexOf(gameFormat.value)
-  console.log("Value of i")
-  console.log(i)
   if (i > -1) {
     newFormat = false
-    console.log("format in database")
   } else {
     newFormat = true
-    console.log("format not in database")
   }
   if(gameFormat.value == ""){
     newFormat = false

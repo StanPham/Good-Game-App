@@ -24,7 +24,7 @@
 <script setup>
 import { ref } from 'vue'
 import { firebaseAppAuth } from '@/firebase'
-import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth'
+import { signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 
 const user = ref(null)
 const isAdmin = ref(false)
@@ -43,7 +43,14 @@ const submitLogin = async () => {
 }
 
 const submitSignInWIthGoogle = () => {
-    //TODO
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(firebaseAppAuth, provider)
+        .then((result) => {
+            console.log(result.user)
+            router.push('/events')
+        }).catch((err) => {
+            err
+        })
 }
 
 const submitSignOut = async () => {
