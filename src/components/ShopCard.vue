@@ -64,15 +64,15 @@ padding:.8rem 2rem;
    
    border-radius: 1rem;
    width: clamp(1px,100vw,26rem);
-   
+   background: linear-gradient(-98.79deg, #BA76FF -8.25%, #180030 73.07%);
    display:flex;
    align-items: center;
    
     
   }
 
-  .container::before{
-    content: ""; /* Create a pseudo-element */
+  /* .container::before{
+    content: "";
   position: absolute;
   top: 0;
   right: 0;
@@ -81,7 +81,7 @@ padding:.8rem 2rem;
     background-image: url('../components/war.png');
    filter:brightness(40%);
    z-index:-1;
-  }
+  } */
     
 .event-title{
     /* padding-left:1rem; */

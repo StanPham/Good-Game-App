@@ -41,7 +41,7 @@
   border-color: #bb76ffa1;
 }
 .allEvents{
-  background: #bb76ffa1;
+  background: #bb76ffdc;
 font-size:1.1rem;
 font-weight:bold;
 border-radius: 2rem;
@@ -51,22 +51,23 @@ padding:.8rem 2rem;
 .event-wrapper{
     padding: 1rem;
     font-size: clamp(1.3vw,1.2rem, 10vw);
+    text-align: center;
 }
 
 
 .container{
    
-  background: linear-gradient(-98.79deg, #BA76FF -8.25%, #180030 73.07%);
+   background: linear-gradient(98.79deg, #a45aee -8.25%, #180030 30.07%); 
    
    border-radius: 1rem;
    width: clamp(1px,100vw,26rem);
    
-   
+   position:relative;
    
     
   }
     
-
+ 
 
 .start-time{
     

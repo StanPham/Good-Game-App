@@ -10,10 +10,10 @@
                 <h1 class="event-day">SHOP</h1>
               
                 
-                <h2 class="event-title">Check out our available products! </h2>
+                <h2 class="event-title">Check out our wide variety of available products! </h2>
                   
                 <br>
-                <button class="allEvents" >SHOP</button>
+                <button class="allEvents" >SHOP NOW</button>
                 <br> <br> <br>
         </div>
 
@@ -41,16 +41,14 @@
    
     
 }
-.event-wrapper >*{
-    color:black;
-}
+
 
 
 .container{
    
-   background-color:#f2ffe6;
+ 
   position:relative;
-   opacity:.9;
+   
    border-radius: 1rem;
    width: clamp(1px,100vw,26rem);
    
@@ -65,19 +63,24 @@
   right: 0;
   bottom: 0;
   left: 0;
-     background-image: url('../components/mtg.png'); 
+  
+     background-image: url('../components/knight.png'); 
      background-size: cover;
      background-repeat: no-repeat;
-   opacity:10%;
+     opacity: 75%;
+     filter:brightness(50%);
+     
+    
+   
    z-index:-1;
   }
     
 .event-title{
     /* padding-left:1rem; */
-    font-weight:inherit;
+    font-weight:bold;
     font-style: italic;
     
-    padding-top:2rem;
+    padding-top:1rem;
    
 }
 .event-description{
@@ -89,10 +92,12 @@
   border-color: #bb76ffa1;
 }
 .allEvents{
-  background: #bb76ffa1;
+  color:rgb(59, 51, 5);
+  background: #ffffff;
+ border: rgb(59, 51, 5) 3px solid;
 font-size:1.1rem;
 font-weight:bold;
-border-radius: 2rem;
+
 padding:.8rem 2rem;
 
 }
