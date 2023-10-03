@@ -20,7 +20,7 @@ import AnothaCard from '../components/AnothaCard.vue'
  <br>
  <AnothaCard />
  <br>
-<div class="deez"></div>
+
 
 
 </div>

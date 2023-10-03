@@ -55,7 +55,7 @@
     display:none;
 }
 .ya{
-    font-size:1.3rem;
+    font-size:1.7rem;
 }
 .container{
     margin-top:2.8rem;
@@ -64,7 +64,7 @@
     
   }
 .title-wrapper{
-    /* display:flex; */
+    font-size:1.5rem;
 }
     .header{
         text-align: center;
@@ -98,6 +98,7 @@
 }
 .event-description{
     padding-top: 5px;
+    font-size:1.2rem;
 }
 @media(min-width:768px){
     .event-list{
