@@ -65,7 +65,7 @@
   right: 0;
   bottom: 0;
   left: 0;
-     background-image: url('../components/tree.png'); 
+     background-image: url('../components/mtg.png'); 
      background-size: cover;
      background-repeat: no-repeat;
    opacity:10%;
