@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import TheHome from '../views/TheHome.vue'
 import SignupPage from '../views/SignupPage.vue'
 import LoginPage from '../views/LoginPage.vue'
-import TheShop from '../views/TheShop.vue'
+
 import TheCarousel from '../components/TheCarousel.vue'
 import TheEvent from '../views/TheEvent.vue'
 import TheAdmin from '../views/TheAdmin.vue'
@@ -22,11 +22,7 @@ const router = createRouter({
       name: 'signup',
       component: SignupPage
     },
-    {
-      path: '/signup',
-      name: 'signup',
-      component: SignupPage
-    },
+    
     {
       path: '/login',
       name: 'login',
@@ -35,7 +31,12 @@ const router = createRouter({
     {
       path: '/shop',
       name: 'shop',
-      component: TheShop
+      component: () => import('../views/TheShop.vue')
+    },
+    {
+      path: '/product/:name',
+      name: 'product',
+      component: () => import('../views/ProductView.vue')
     },
     {
       path: '/car',

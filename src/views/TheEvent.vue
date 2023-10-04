@@ -24,7 +24,7 @@
                 <h1 class="event-day-copy">{{ anothaFunkyDate(event.startDate) }}</h1>
                 <div class="title-wrapper">
                     <h2 class="event-title">{{ event.name }} </h2>
-                    <h2 class="event-title ya"> innistrad draft</h2>
+                    <h3 class=" ya"> {{event.format}}</h3>
                     <div class="start-time">{{ funkyDateNumbaTwo(event.startDate) }} - 11:00pm</div>
                     
                 </div>
@@ -55,7 +55,7 @@
     display:none;
 }
 .ya{
-    font-size:1.7rem;
+    color:rgb(214, 110, 214);
 }
 .container{
     margin-top:2.8rem;
@@ -80,6 +80,7 @@
 .start-time{
     font-size:1.4rem;
     font-weight:800;
+    padding-top:5px;
   
 }
 .title-wrapper{
@@ -167,6 +168,8 @@ onMounted( () => {
         id: doc.id,
         name: doc.data().name,
         desc: doc.data().desc,
+        game: doc.data().game || "No Game Set In Database",
+        format: doc.data().format,
         startDate: new Date(doc.data().startDate.seconds*1000),
         endDate: new Date(doc.data().endDate.seconds*1000)
       }
@@ -175,7 +178,18 @@ onMounted( () => {
     allEvents.value = tmpEvents;
     filterEventsByMonth(); 
   });
-  
+  onSnapshot(collection(db, 'game'), (querySnapshot) => {
+    const tmpGames = [];
+    querySnapshot.forEach((doc) =>{
+      const game = {
+        id: doc.id,
+        name: doc.data().name,
+        format: doc.data().format
+      }
+      tmpGames.push(game)
+    })
+    myGames.value = tmpGames
+  })
 })
 watch(selectedMonth, () => {
   filterEventsByMonth();

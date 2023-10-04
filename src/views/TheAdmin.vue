@@ -40,7 +40,21 @@
        class="input"
        placeholder="Event Description"
        type="textarea"
-       required></textarea>
+       required>
+      </textarea>
+      <input type="text" name="product" list="productName" v-model="gameName" @change="gameChange()" />
+        <datalist  id="productName">
+          <option v-for="game in myGames" :key="game.id">{{ game.name }}</option>
+        </datalist>
+        <input
+        v-model="gameFormat"
+        class="we"
+        placeholder="Format"
+        list="formatName"
+        @change="formatChange()">
+        <datalist  id="formatName">
+          <option v-for="format in selectedGameFormats" >{{ format }}</option>
+        </datalist>
      
      <button type="submit" class="submit-btn">Submit</button>
    </form>
@@ -50,6 +64,8 @@
        <th scope="col">Name</th>
        
        <th scope="col">Desc</th>
+       <th scope="col">Game</th>
+       <th scope="col">Format</th>
        <th scope="col">Start Date</th>
        <th scope="col">End Time</th>
        <th scope="col">Actions</th>
@@ -58,7 +74,8 @@
        <tr >
          <td class="name">{{ event.name }}</td>
          <td class="scrollable-cell"><div class="scrollable-content">{{ event.desc }}</div></td>
-
+         <td>{{ event.game }}</td>
+          <td>{{ event.format }}</td>
          <td>{{ funkyDate(event.startDate) }}</td>
          <td>{{ funkyDateNumbaTwo(event.endDate) }}</td>
          <td >
@@ -92,6 +109,12 @@
 </template>
 
 <style scoped>
+body{
+  font-family:Arial, Helvetica, sans-serif
+}
+.we{
+  color:black;
+}
 h2{
  margin-inline:auto;
 }
@@ -126,7 +149,7 @@ border: grey 1px solid;
 }
 
 .scrollable-content {
-   max-height: 13rem; 
+   max-height: 6rem; 
    overflow-y: auto;
   
    top: 0;
@@ -268,7 +291,7 @@ body{
 
 
 import { onMounted, ref, computed } from 'vue'
-import { collection, onSnapshot, addDoc, Timestamp, doc, deleteDoc } from "firebase/firestore"; 
+import { collection, onSnapshot, addDoc, Timestamp, doc, deleteDoc, updateDoc } from "firebase/firestore"; 
 import { db } from "@/firebase"
 
 const newEvent = ref({
@@ -278,6 +301,14 @@ const newEvent = ref({
  desc: ''
 })
 
+const myGames = ref([])
+const gameName = ref('')
+const gameFormat = ref('')
+const selectedGameFormats = ref([])
+var newGame = false
+var newFormat = false
+
+
 const myEvents = ref([])
 
 const addEvent = async () =>{
@@ -286,12 +317,63 @@ const addEvent = async () =>{
      desc: newEvent.value.desc,
      startDate: Timestamp.fromDate(new Date(newEvent.value.startTime)),
      endDate: Timestamp.fromDate(new Date(newEvent.value.endTime)),
+     game: gameName.value == "" ? null : gameName.value,
+    format: gameFormat.value == "" ? null : gameFormat.value,
      creationDate: Timestamp.fromDate(new Date())
    });
- }
+
+   if(newGame) {
+    await addDoc(collection(db, "game"), {
+    name: gameName.value,
+    format: []
+  }).then(() =>{
+    newGame = false
+  }).catch(err => {
+    console.log(err);
+  })
+  }
+  if(newFormat){
+    const i = myGames.value.findIndex(e => e.name === gameName.value);
+    selectedGameFormats.value.push(gameFormat.value)
+    console.log(myGames.value[i].id)
+    var gameRef = doc(db, "game", myGames.value[i].id)
+    await updateDoc(gameRef, {
+      format: Array.from(selectedGameFormats.value)
+    }).then(() =>{
+    selectedGameFormats.value = Array.from(myGames.value[i].format)
+    newFormat = false
+  }).catch(err => {
+    console.log(err);
+  })
+  }
+}
+ 
 
 const deleteEvent = async id => {
  if(confirm("you sure buddy?")) await deleteDoc(doc(db, "events", id));
+}
+
+const gameChange = () => {
+  const i = myGames.value.findIndex(e => e.name === gameName.value);
+  if (i > -1 && myGames.value[i].format) {
+    newGame = false
+    selectedGameFormats.value = Array.from(myGames.value[i].format)
+  } else {
+    newGame = true
+    selectedGameFormats.value = []
+  }
+}
+
+const formatChange = () => {
+  const i = Array.from(selectedGameFormats.value).indexOf(gameFormat.value)
+  if (i > -1) {
+    newFormat = false
+  } else {
+    newFormat = true
+  }
+  if(gameFormat.value == ""){
+    newFormat = false
+  }
 }
  
 onMounted( () => {
@@ -302,6 +384,8 @@ onMounted( () => {
        id: doc.id,
        name: doc.data().name,
        desc: doc.data().desc,
+       game: doc.data().game || "No Game Set In Database",
+        format: doc.data().format || [],
        startDate: new Date(doc.data().startDate.seconds*1000),
        endDate: new Date(doc.data().endDate.seconds*1000)
      }
@@ -309,7 +393,21 @@ onMounted( () => {
    });
    myEvents.value = tmpEvents
  });
+ onSnapshot(collection(db, 'game'), (querySnapshot) => {
+    const tmpGames = [];
+    querySnapshot.forEach((doc) =>{
+      const game = {
+        id: doc.id,
+        name: doc.data().name,
+        format: doc.data().format
+      }
+      tmpGames.push(game)
+    })
+    myGames.value = tmpGames
+  })
 })
+
+
 const sortedEvents = computed(() => {
   return myEvents.value.slice().sort((a, b) => a.startDate - b.startDate);
 });

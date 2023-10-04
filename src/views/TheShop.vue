@@ -27,6 +27,7 @@
 
     <main class="product-container" >
         <div class="work-wrap" v-for="shop in filteredShops" :key="shop.id">
+            <router-link :to="`/product/${shop.name}`" class="link">
         <div class="prac">
             <img :src="shop.image" alt="" class="pika">
             <div class="product-name">{{shop.name}}</div>
@@ -34,14 +35,18 @@
             <p class="quant">Quantity: {{shop.quant}}</p>
             <br>
         </div>
+    </router-link>
         </div>
-        
+   
     </main>
 </div>
     
 </template>
 
 <style scoped>
+.link{
+    text-decoration: none;
+}
 .search-icon{
     width:20px;
     position:absolute;
@@ -159,7 +164,7 @@ const myShops = ref([
     {
         id:2,
         image: pika,
-        name: 'Wilds of Eldraine Set Boosters',
+        name: 'Pokemon Pack Watch Twenty Seven',
         price: '$99.99',
         quant: 3,
         category: 'Pokemon',
@@ -168,7 +173,7 @@ const myShops = ref([
     {
         id:3,
         image: pika,
-        name: 'Wilds of Eldraine Set Boosters',
+        name: 'Yugioh Grindin and Shinin',
         price: '$99.99',
         quant: 3,
         category: 'Yugioh',
