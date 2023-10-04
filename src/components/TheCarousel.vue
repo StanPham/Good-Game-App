@@ -12,11 +12,16 @@
           
         />
       </transition>
-      <div class="car-text">
-      <h1 class="car-title">WELCOME TO GOOD GAME</h1>
-      <p>lorum ipsum yeeeeeeeeeeeeehaw</p>
+      <div class="car-text upper">
+        <div class="start-day">{{currentSlideText.startday}}</div>
+        <div class="start-date">{{currentSlideText.startdate}}</div>
+      </div>
+      <div class="car-text not-upper">
+        <h1 class="car-title">{{ currentSlideText.title }}</h1>
+        <div class="start-time">{{currentSlideText.starttime}}</div>
+      </div>
 
-    </div>
+    
       <button @click="prevImage" class="carousel-nav carousel-nav-left">←</button>
     <button @click="nextImage" class="carousel-nav carousel-nav-right">→</button>
 
@@ -38,19 +43,44 @@
 
 <style scoped>
 .car-title{
-  font-size:2.5rem;
+  font-size:1rem;
 }
 .car-text{
   position:absolute;
-  top:20%;
+  
   text-align:center;
-  width:100%;
-  background: #07060648;
+  width:clamp(1px,250px,50%);
+ 
+  
  font-family: var(--cool-font);
   display:flex;
   flex-direction: column;
   justify-content: center;
+ 
+  height:150px;
+  z-index:1;
 
+
+}
+.car-text::before {
+  content: "";
+  position: absolute;
+  border-radius:50%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: #070606;
+  
+filter: blur(10px);
+  z-index: -1;
+}
+.not-upper{
+  top:1%;
+  
+}
+.upper{
+  top:60%;
 }
 .img-container {
   position: relative;
@@ -136,6 +166,10 @@ export default {
       type: Array,
       required: true,
     },
+    slideTexts: {
+      type: Array,
+      required: true,
+    }
   },
   
   data() {
@@ -149,6 +183,9 @@ export default {
   computed: {
     currentImageSrc() {
       return this.imageSrc[this.currentImageIndex];
+    },
+    currentSlideText() {
+      return this.slideTexts[this.currentImageIndex];
     }
   },
 
@@ -206,48 +243,4 @@ export default {
 
 
 
-/* Event Name */
 
-position: absolute;
-width: 216px;
-height: 144px;
-left: 909px;
-top: 190px;
-
-
-
-/* Ellipse 1 */
-
-
-
-
-/* YuGiOh */
-
-position: absolute;
-width: 143px;
-height: 48px;
-left: 945px;
-top: 238px;
-
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 40px;
-line-height: 48px;
-text-align: center;
-
-color: #FFFFFF;
-
-/* Ellipse 1 */
-
-box-sizing: border-box;
-
-position: absolute;
-width: 216px;
-height: 144px;
-left: 909px;
-top: 190px;
-
-
-border: 1px solid #000000;
-filter: blur(10px);
