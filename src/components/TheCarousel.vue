@@ -12,13 +12,17 @@
           
         />
       </transition>
-      <div class="car-text upper">
+      <!-- <div class="car-text upper">
         <div class="start-day">{{currentSlideText.startday}}</div>
         <div class="start-date">{{currentSlideText.startdate}}</div>
-      </div>
+      </div> -->
       <div class="car-text not-upper">
+       
         <h1 class="car-title">{{ currentSlideText.title }}</h1>
         <div class="start-time">{{currentSlideText.starttime}}</div>
+        <!-- <div class="start-day">{{currentSlideText.startday}}</div> -->
+        <br>
+        <div class="start-date">{{currentSlideText.startdate}}</div>
       </div>
 
     
@@ -42,22 +46,33 @@
 </template>
 
 <style scoped>
+.start-date{
+  font-size:1.3rem;
+}
+.start-time{
+  font-size:1.2rem;
+  font-weight:bold;
+  color: rgb(255, 251, 255);
+ 
+}
 .car-title{
-  font-size:1rem;
+  font-size:1.3rem;
+  font-style: italic;
+
 }
 .car-text{
   position:absolute;
   
   text-align:center;
-  width:clamp(1px,250px,50%);
+  width:clamp(1px,300px,60%);
  
   
  font-family: var(--cool-font);
   display:flex;
   flex-direction: column;
   justify-content: center;
- 
-  height:150px;
+ font-size: 1rem;
+  height:250px;
   z-index:1;
 
 
@@ -76,7 +91,8 @@ filter: blur(10px);
   z-index: -1;
 }
 .not-upper{
-  top:1%;
+  top:10%;
+  left:21%;
   
 }
 .upper{

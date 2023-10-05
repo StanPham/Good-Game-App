@@ -54,10 +54,10 @@ function filterEventsByMonth() {
 
 function funkyDate(date) {
    
-  
+  const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
    const day = String(date.getDate()).padStart(2, '0');
    const month = date.toLocaleDateString('en-US', { month: 'short' });
-   return ` ${month} ${day}`;
+   return `${dayName}, ${month} ${day}`;
     
        
    
