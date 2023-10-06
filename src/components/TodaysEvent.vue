@@ -1,7 +1,7 @@
 
     <template>
     <div class="container">
-        <h1 class="header">TODAYS EVENT</h1>
+        <h1 class="header">NEXT EVENT</h1>
         <div class="event-wrapper">
                 <h1 class="event-day">{{ funkyDate(todaysEvent.startDate) }}</h1>
               
@@ -14,7 +14,7 @@
                
                 <p class="event-description">{{ todaysEvent.desc }}</p>
                 <br>
-                <button class="allEvents" @click="goEvent">All Events</button>
+               <button class="allEvents" @click="goEvent">All Events</button>
                 
             </div>
 
@@ -60,12 +60,12 @@ padding:.8rem 2rem;
    background: linear-gradient(98.79deg, #a45aee -8.25%, #180030 30.07%); 
    
    border-radius: 1rem;
-   width: clamp(1px,100vw,26rem);
+   width: clamp(10vw,100vw,32rem);
    
    position:relative;
    
     
-  }
+}
     
  
 
@@ -100,7 +100,7 @@ padding:.8rem 2rem;
 
 import { onMounted, ref, watch, computed } from 'vue'
 import { collection, onSnapshot, addDoc, Timestamp, doc, deleteDoc, orderBy, query} from "firebase/firestore"; 
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView, useRouter } from 'vue-router'
 import { db } from "@/firebase"
 
 const today = ref(new Date());
@@ -130,9 +130,10 @@ onMounted( () => {
 })
 console.log(today.value.toDateString())
 const todaysEvent = computed(() => {
-  return allEvents.value.find(event => 
-    event.startDate.toDateString() === today.value.toDateString()
-  ) || { startDate: new Date(), name: '', desc: '' };
+  const upcomingEvents = allEvents.value.filter(event => 
+    event.startDate >= today.value
+  );
+  return upcomingEvents.length ? upcomingEvents[0] : { startDate: new Date(), name: '', desc: '' };
 });
 
 
@@ -155,10 +156,10 @@ function funkyDateNumbaTwo(date) {
     return `${someHours}:${minutes}pm`;
 }
 
-
-function goEvent() {
-  this.$router.push('/event');
-}
+const router = useRouter();
+const goEvent = () => {
+  router.push('/event');
+};
 
 
 </script>

@@ -12,6 +12,7 @@
           
         />
       </transition>
+      <div class="flex-wrapper">
       <!-- <div class="car-text upper">
         <div class="start-day">{{currentSlideText.startday}}</div>
         <div class="start-date">{{currentSlideText.startdate}}</div>
@@ -21,10 +22,11 @@
         <h1 class="car-title">{{ currentSlideText.title }}</h1>
         <div class="start-time">{{currentSlideText.starttime}}</div>
         <!-- <div class="start-day">{{currentSlideText.startday}}</div> -->
-        <br>
+      
         <div class="start-date">{{currentSlideText.startdate}}</div>
       </div>
-
+    </div>
+    <button class="some-button">{{currentSlideText.btntext}}</button>
     
       <button @click="prevImage" class="carousel-nav carousel-nav-left">←</button>
     <button @click="nextImage" class="carousel-nav carousel-nav-right">→</button>
@@ -46,25 +48,50 @@
 </template>
 
 <style scoped>
+.some-button:active{
+ 
+ color:black;
+ background:rgb(255, 255, 255);
+
+}
+.some-button{
+ font-size:1.5rem;
+ font-weight:bold;
+  position:absolute;
+
+  width:200px;
+  height:70px;
+  
+  background:var(--btn-color);
+  inset:50%;
+  translate: -50% 100px;
+}
+.flex-wrapper{
+  width:100%;
+  display:flex;
+  justify-content: center;
+  position:relative;
+  top:-100%;
+}
 .start-date{
-  font-size:1.3rem;
+  font-size:1.5rem;
 }
 .start-time{
-  font-size:1.2rem;
+  font-size:1.5rem;
   font-weight:bold;
   color: rgb(255, 251, 255);
  
 }
 .car-title{
-  font-size:1.3rem;
-  font-style: italic;
+  font-size:2rem;
+  
 
 }
 .car-text{
   position:absolute;
   
   text-align:center;
-  width:clamp(1px,300px,60%);
+  width:clamp(1px,350px,90%);
  
   
  font-family: var(--cool-font);
@@ -72,7 +99,8 @@
   flex-direction: column;
   justify-content: center;
  font-size: 1rem;
-  height:250px;
+padding-top:3rem;
+padding-bottom:4rem;
   z-index:1;
 
 
@@ -80,19 +108,18 @@
 .car-text::before {
   content: "";
   position: absolute;
-  border-radius:50%;
+  
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  background: #070606;
+  background: #0706065d;
   
 filter: blur(10px);
   z-index: -1;
 }
 .not-upper{
-  top:10%;
-  left:21%;
+ 
   
 }
 .upper{
@@ -101,7 +128,7 @@ filter: blur(10px);
 .img-container {
   position: relative;
   height: clamp(50vh, 75vh, 30rem);
-  width: clamp(50vw,100vw,60rem);
+  width: clamp(55vw,60rem,100vw);
   
  
   
@@ -184,7 +211,7 @@ export default {
     },
     slideTexts: {
       type: Array,
-      required: true,
+      
     }
   },
   

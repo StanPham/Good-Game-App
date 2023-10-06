@@ -3,6 +3,11 @@ import { onMounted, ref, watch, computed } from 'vue'
 import { collection, onSnapshot, addDoc, Timestamp, doc, deleteDoc, orderBy, query} from "firebase/firestore"; 
 
 import { db } from "@/firebase"
+import warhammer from '../components/warhammer.jpg'
+import yugioh from '../components/yugioh.jpg'
+import store from '../components/store.jpg'
+import dragon from '../components/dragon.jpg'
+import bitter from '../components/bitter.jpg'
 import poke from '../components/poke.webp'
 import pika from '../components/pikachu.webp'
 import TheCarousel from '../components/TheCarousel.vue'
@@ -83,6 +88,7 @@ const slideTexts = computed(() => {
             title: event.name,
            
             starttime: funkyDateNumbaTwo(event.startDate),
+            btntext: 'View Events',
             
         }
     });
@@ -93,7 +99,7 @@ const slideTexts = computed(() => {
   <div class="wilma-container">
    
     
- <TheCarousel v-if="slideTexts.length" :image-src="[poke,pika,poke, pika]" :slideTexts="slideTexts"
+ <TheCarousel v-if="slideTexts.length" :image-src="[dragon,yugioh,poke, warhammer]" :slideTexts="slideTexts"
     
   
    
@@ -120,5 +126,15 @@ const slideTexts = computed(() => {
     gap:1rem;
     
 }
+@media(min-width: 1500px)
+{
+  .wilma-container{
+    margin-left: clamp(5vw,1rem,10vw);
+  
+    
+   
+  }
+}
+
 
 </style>

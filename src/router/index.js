@@ -18,6 +18,11 @@ const router = createRouter({
       component: TheHome
     },
     {
+      path: '/home2',
+      name: 'home2',
+      component: () => import('../views/AnotherHome.vue')
+    },
+    {
       path: '/signup',
       name: 'signup',
       component: SignupPage
