@@ -1,21 +1,20 @@
 
 <template>
     <div class="container">
-        <div class="card-picture">
-             <img src="../components/booster.png" alt="" class="some-picture"> 
-        </div>
+        
         <div class="event-wrapper">
             
-           
-                <h1 class="event-day">SHOP</h1>
+           <div class="text-wrapper">
+                <h1 class="event-day">RESERVE TABLES</h1>
               
                 
-                    <h2 class="event-title">Check out our currently available items! </h2>
-                  
-                <br>
-                <button class="allEvents" @click="goEvent">SHOP</button>
+                    <h2 class="event-title">Prefer a specific table? Make a table reservation today! </h2>
+           </div>
+                <br><br><br>
+                <button class="allEvents" @click="goEvent">RESERVE</button>
                 <br> <br> <br><br> <br> <br>
         </div>
+       
 
     </div>
     
@@ -23,18 +22,24 @@
 </template>        
                 
 <style scoped>
-.card-picture{
-    width:45%;
-    height:90%;
-    border-radius: 2rem;
-    transform: rotate(-10deg);
+.text-wrapper{
+    position:relative;
+}
+.text-wrapper::before {
+  content: "";
+  position: absolute;
+  
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
  
+  background: #0706065d;
+  
+filter: blur(10px);
+  z-index: -1;
+}
 
-}
-.some-picture{
-   
-    height:100%;
-}
 .allEvents:hover{
   color:#bb76ffa1;
   background-color: white;
@@ -52,7 +57,6 @@ padding:.8rem 2rem;
     padding-top: 1rem;
     font-size: clamp(1.3vw,1rem, 10vw);
     text-align: center;
-    width:45%;
     
 
     
@@ -60,19 +64,35 @@ padding:.8rem 2rem;
 
 
 .container{
-   height:100%;
- 
+   
+  /* background: linear-gradient(98.79deg, #4517c4 -8.25%, #1d0220 73.07%); */
   position:relative;
-   min-width:100%;
+   
    border-radius: 1rem;
-   width: clamp(10vw,100vw,32rem);
-   background: linear-gradient(-98.79deg, #BA76FF -8.25%, #180030 73.07%);
-   display:flex;
-   align-items: center;
+  width:100%;
+   
+   
+   
    
     
   }
 
+   .container::before{
+    width:100%;
+    content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+   background-image: url('./cardshop.jpg');
+   filter:brightness(35%);
+ background-repeat:no-repeat;
+ background-size:cover;
+
+   z-index:-1;
+     border-radius: 1rem;
+  } 
     
 .event-title{
     /* padding-left:1rem; */

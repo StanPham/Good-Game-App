@@ -1,13 +1,14 @@
 <template>
     <div class="main-container">
         <div class="header">New Products</div>
+        <br>
         <main class="product-container" >
-            <div class="left-arrow">xd</div>
+          
         <div class="work-wrap" v-for="shop in myShops" :key="shop.id">
             
         <div class="prac">
             <img :src="shop.image" alt="" class="pika">
-            <br>
+            <br><br>
             <div class="product-name">{{shop.name}}</div>
             
             <div class="price">{{ shop.price }}</div>
@@ -16,12 +17,17 @@
         </div>
   
         </div>
-        <div class="left-arrow">xd</div>
+        <div class="left-arrow"> <img src="./arrow.svg" alt="" class="arrow"></div>
     </main>
     </div>
 </template>
 
 <style scoped>
+.arrow{
+    width:50px;
+    filter: invert(100%) sepia(1%) saturate(7418%) hue-rotate(290deg) brightness(105%) contrast(98%);
+    cursor: pointer;
+}
 .left-arrow{
     width:1px;
 }
@@ -32,15 +38,20 @@
 .quant{
     font-size: .8rem;
 }
+.product-name,
 .price{
-    font-weight: bold;
+    font-size:1.1rem;
+}
+.price{
+  padding-top:5px;
 }
 .header{
-    background-color: purple;
+   background: rgba(12, 12, 12, 0.616);
     width:100%;
     text-align:center;
     font-size:3rem;
     font-family: var(--cool-font);
+    padding-top:10px;
     
 }
 main{
@@ -56,7 +67,7 @@ main{
 }
 .prac{
     padding-left:1rem;
-    
+    cursor:pointer;
     
 }
 img{
@@ -75,7 +86,7 @@ const myShops = ref([
     {
         id:1,
         image: mtg,
-        name: 'Wilds of Eldraine Set Boosters',
+        name: 'MTG Commander Masters',
         price: '$99.99',
         quant: 3,
         category: 'MTG',
@@ -92,8 +103,8 @@ const myShops = ref([
     },
     {
         id:3,
-        image: pika,
-        name: 'Yugioh Grindin and Shinin',
+        image: mtg,
+        name: 'MTG Commander Masters',
         price: '$99.99',
         quant: 3,
         category: 'Yugioh',

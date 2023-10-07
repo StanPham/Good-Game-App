@@ -209,6 +209,29 @@ filter: blur(10px);
   }
  
 }
+
+@media screen and (max-height: 480px) and (orientation: landscape) {
+  
+  
+  .car-text {
+    
+    font-size: 0.9rem;
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+  }
+  
+  .some-button {
+   
+    width: 150px;
+    height: 50px;
+    inset: 50%;
+    translate: -50% 50px;
+    font-size: 1.2rem;
+  }
+
+  
+}
+
 </style>
 
 <script>
