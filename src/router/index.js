@@ -13,13 +13,13 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
+      path: '/home2',
       name: 'home',
       component: TheHome
     },
     {
-      path: '/home2',
-      name: 'home2',
+      path: '/',
+      name: 'anothahome',
       component: () => import('../views/AnotherHome.vue')
     },
     {

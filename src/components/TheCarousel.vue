@@ -26,7 +26,7 @@
         <div class="start-date">{{currentSlideText.startdate}}</div>
       </div>
     </div>
-    <button class="some-button">{{currentSlideText.btntext}}</button>
+    <button class="some-button" @click.stop="">{{currentSlideText.btntext}}</button>
     
       <button @click="prevImage" class="carousel-nav carousel-nav-left">←</button>
     <button @click="nextImage" class="carousel-nav carousel-nav-right">→</button>
@@ -48,6 +48,7 @@
 </template>
 
 <style scoped>
+
 .some-button:active{
  
  color:black;
@@ -125,10 +126,12 @@ filter: blur(10px);
 .upper{
   top:60%;
 }
+
 .img-container {
   position: relative;
-  height: clamp(50vh, 75vh, 30rem);
-  width: clamp(55vw,60rem,100vw);
+  height: clamp(50vh, 75vh, 35rem);
+ 
+ 
   
  
   
@@ -197,6 +200,12 @@ filter: blur(10px);
 @media(min-width:1200px){
   .carousel-nav{
     display:block;
+  }
+ 
+}
+@media(max-width:1520px){
+  .img-container{
+    width:100vw;
   }
  
 }

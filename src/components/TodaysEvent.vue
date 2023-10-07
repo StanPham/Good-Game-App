@@ -3,6 +3,7 @@
     <div class="container">
         <h1 class="header">NEXT EVENT</h1>
         <div class="event-wrapper">
+          
                 <h1 class="event-day">{{ funkyDate(todaysEvent.startDate) }}</h1>
               
                 <div class="title-wrapper">
@@ -41,7 +42,7 @@
   border-color: #bb76ffa1;
 }
 .allEvents{
-  background: #bb76ffdc;
+  background: var(--btn-color);
 font-size:1.1rem;
 font-weight:bold;
 border-radius: 2rem;
@@ -60,8 +61,8 @@ padding:.8rem 2rem;
    background: linear-gradient(98.79deg, #a45aee -8.25%, #180030 30.07%); 
    
    border-radius: 1rem;
-   width: clamp(10vw,100vw,32rem);
-   
+ 
+   height:100%;
    position:relative;
    
     

@@ -18,6 +18,7 @@
         </div>
 
     </div>
+    
 
 </template>        
                 
@@ -63,7 +64,7 @@ padding:.8rem 2rem;
   position:relative;
    
    border-radius: 1rem;
-   width: clamp(1px,100vw,26rem);
+   width: clamp(10vw,100vw,32rem);
    background: linear-gradient(-98.79deg, #BA76FF -8.25%, #180030 73.07%);
    display:flex;
    align-items: center;

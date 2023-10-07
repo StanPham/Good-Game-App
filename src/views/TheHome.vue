@@ -7,7 +7,7 @@ import warhammer from '../components/warhammer.jpg'
 import yugioh from '../components/yugioh.jpg'
 import store from '../components/store.jpg'
 import dragon from '../components/dragon.jpg'
-import bitter from '../components/bitter.jpg'
+
 import poke from '../components/poke.webp'
 import pika from '../components/pikachu.webp'
 import TheCarousel from '../components/TheCarousel.vue'
