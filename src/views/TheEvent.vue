@@ -10,14 +10,7 @@
         </div>
 
         <div class="grid-container">
-            <!-- <div class="day-title">TUE</div>
-                <div class="day-title">WED</div>
-                <div class="day-title">THU</div>
-                <div class="day-title">FRI</div>
-                <div class="day-title">SAT</div>
-                <div class="day-title">SUN</div> -->
-                <!-- <div class="day-title" v-for="day in daysOfWeek" :key="day">{{ day }}</div> -->
-                <!-- <div v-for="day in daysOfWeek" :key="day">   -->
+            
         <main class="event-list" v-for="event in myEvents" :key="event.id">
             <div class="event-wrapper">
                 <h1 class="event-day">{{ funkyDate(event.startDate) }}</h1>
@@ -31,7 +24,7 @@
                
                 <p class="event-description">{{ event.desc }}</p>
                 <br class="xd">
-                <hr class="xdd">
+               
             </div>
         </main>
     </div>
@@ -40,6 +33,11 @@
 </template>
 
 <style scoped>
+.event-wrapper{
+    background:black;
+    border-radius:1rem;
+    padding:5%;
+}
 .event-day-copy{
     display:none;
 }
@@ -59,7 +57,7 @@
 }
 .container{
     margin-top:2.8rem;
-    background-color: black;
+    
    
     
   }
@@ -106,43 +104,7 @@
         text-align: center;
     }
 }
-@media(min-width: 1600px){
-    .event-day{
-        display:none;
-    }
-    .event-day-copy{
-        display:block;
-        text-align: right;
-        font-size:1.5rem;
-        font-weight: 200;
-    }
-    .day-title{
-        display:block;
-    }
-    .xd,
-    .xdd{
-        display:none;
-    }
-    .event-list{
-        background-color: rgb(44, 37, 44);
-        text-align: left;
-        border-radius:1rem ;
-        min-height:250px;
-        
-        margin-top:1rem;
-       
-        
-    }
-    
-    .grid-container{
-        display:grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-        gap:1rem;
-        padding:1rem;
-        
-       
-    }
-}
+
 </style>
 
 <script setup>

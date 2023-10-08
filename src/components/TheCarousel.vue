@@ -203,12 +203,7 @@ filter: blur(10px);
   }
  
 }
-@media(max-width:1520px){
-  .img-container{
-    width:100vw;
-  }
- 
-}
+
 
 @media screen and (max-height: 480px) and (orientation: landscape) {
   

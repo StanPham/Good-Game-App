@@ -73,7 +73,7 @@ btntext:'View Events'},
    width:clamp(1000px,80vw,80vw);
 }
 .car-card{
-  width: 65%;
+  width: 100vw;
 }
 .shop-card,
 .event-card{
@@ -104,12 +104,11 @@ btntext:'View Events'},
   width:clamp(700px,30%,30%);
 }
 }
-@media(max-width:1534px){
-  .car-card{
-    width:100vw;
+
+@media(min-width:1535px){
+   .car-card{
+    width: 65%;
   }
-}
-@media(min-width:1534px){
   .shop-comp{
     display:block;
   }
@@ -120,6 +119,7 @@ btntext:'View Events'},
   .table-card{
     width:45%;
   }
+ 
   
 }
 
