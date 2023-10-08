@@ -78,7 +78,7 @@ btntext:'View Events'},
 .shop-card,
 .event-card{
  
-  width:clamp(500px,30%,30%);
+  width:clamp(490px,30%,30%);
 }
 .wilma-container{
     margin-top:2.8rem;
@@ -105,7 +105,7 @@ btntext:'View Events'},
 }
 }
 
-@media(min-width:1535px){
+@media(min-width:1550px){
    .car-card{
     width: 65%;
   }
