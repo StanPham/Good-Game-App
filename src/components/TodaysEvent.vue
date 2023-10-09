@@ -1,7 +1,7 @@
 
     <template>
     <div class="container">
-        <h1 class="header">NEXT EVENT</h1>
+        <h1 class="header">{{titleOfCard}}</h1>
         <div class="event-wrapper">
           
                 <h1 class="event-day">{{ funkyDate(todaysEvent.startDate) }}</h1>
@@ -137,6 +137,13 @@ const todaysEvent = computed(() => {
   return upcomingEvents.length ? upcomingEvents[0] : { startDate: new Date(), name: '', desc: '' };
 });
 
+const titleOfCard = computed(() => {
+  if (todaysEvent.value.startDate.toDateString() === today.value.toDateString()) {
+    return "TODAY'S EVENT";
+  } else {
+    return "NEXT EVENT";
+  }
+});
 
 function funkyDate(date) {
    
