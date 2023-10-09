@@ -1,19 +1,21 @@
 <template>
     <div class="container">
         <div class="header-container">
-          
+            <img v-if="dude" src="../components/arrow.svg" @click="selectedMonth--" alt="" class="arrow-left">
             <div class="header">{{ currentMonthName }}</div>
-            <button @click.once="selectedMonth++">
-                clickme
-            </button>
+          
+            <img v-if="sup" src="../components/arrow.svg" @click="selectedMonth++" alt="" class="arrow">
+           
        
         </div>
 
-        <div class="grid-container">
+        
             
         <main class="event-list" v-for="event in myEvents" :key="event.id">
             <div class="event-wrapper">
                 <h1 class="event-day">{{ funkyDate(event.startDate) }}</h1>
+                <img :src="getImageForGame(event.game)" alt="" class="logo">
+                <div class="stop-flex">
                 <h1 class="event-day-copy">{{ anothaFunkyDate(event.startDate) }}</h1>
                 <div class="title-wrapper">
                     <h2 class="event-title">{{ event.name }} </h2>
@@ -24,19 +26,43 @@
                
                 <p class="event-description">{{ event.desc }}</p>
                 <br class="xd">
+                </div>
                
             </div>
         </main>
     </div>
-    </div>
+   
  
 </template>
 
 <style scoped>
+.arrow-left{
+    width:50px;
+    filter: invert(100%) sepia(1%) saturate(7418%) hue-rotate(290deg) brightness(105%) contrast(98%);
+    cursor: pointer;
+    padding-left:1rem;
+    rotate:180deg;
+}
+.arrow{
+    width:50px;
+    filter: invert(100%) sepia(1%) saturate(7418%) hue-rotate(290deg) brightness(105%) contrast(98%);
+    cursor: pointer;
+    padding-left:1rem;
+}
+.logo{
+    width:10%;
+    min-height:60px;
+   display:none;
+   
+}
+
 .event-wrapper{
     background:black;
-    border-radius:1rem;
-    padding:5%;
+        border-radius:1rem;
+    padding: clamp(20px,1.2rem, 2%);
+   width:clamp(12rem, 100vw, 65rem);
+    margin-left:auto;
+    margin-right:auto;
 }
 .event-day-copy{
     display:none;
@@ -58,21 +84,20 @@
 .container{
     margin-top:2.8rem;
     
-   
-    
-  }
+}
 .title-wrapper{
     font-size:1.5rem;
 }
     .header{
         text-align: center;
         font-family: var(--cool-font);
-        margin-left:5rem;
+       
         font-size: 2.2rem;
     }
 
 .event-list{
     padding:10px;
+
    
 }
 .start-time{
@@ -102,7 +127,23 @@
 @media(min-width:768px){
     .event-list{
         text-align: center;
+        
     }
+    .event-wrapper{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+       
+    }
+    
+    .event-day,
+    .stop-flex{
+        width:40%;
+    }
+    .logo{
+        display:block;
+    }
+ 
 }
 
 </style>
@@ -113,6 +154,11 @@ import { onMounted, ref, watch, computed } from 'vue'
 import { collection, onSnapshot, addDoc, Timestamp, doc, deleteDoc, orderBy, query} from "firebase/firestore"; 
 
 import { db } from "@/firebase"
+import cardback from '../images/cardback.png'
+import pokeball from '../images/pokeball.png'
+import warhammer from '../images/warhammer.jpg'
+import myhero from '../images/MHA.webp'
+import yugioh from '../images/yugioh.png'
 
 const selectedMonth = ref(new Date().getMonth());
 const allEvents = ref([]);
@@ -120,6 +166,7 @@ const myEvents = ref([]);
 const eventRef = collection(db, 'events');
 const q = query(eventRef, orderBy("startDate"));
 const daysOfWeek = [ "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const myGames = ref([])
 
 
 onMounted( () => {
@@ -207,6 +254,33 @@ function funkyDateNumbaTwo(date) {
     return `${someHours}:${minutes}pm`;
 }
 
+// ... other methods ...
+
+function getImageForGame(gameName) {
+    const gameImageMap = {
+        'Magic The Gathering': cardback,
+        'Pokemon': pokeball,
+        'Warhammer': warhammer,
+        'My Hero': myhero,
+        'Yugioh': yugioh,
+
+       
+    };
+
+    return gameImageMap[gameName]; // default.png is a fallback image if the game's image isn't defined
+}
+
+const currentMonth = ref(new Date().getMonth());
+
+
+const dude = computed(() => {
+    return selectedMonth.value === currentMonth.value + 1;
+});
+
+
+const sup = computed(() => {
+    return selectedMonth.value === currentMonth.value;
+});
 
 
 
