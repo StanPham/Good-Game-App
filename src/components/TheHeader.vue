@@ -12,9 +12,12 @@
                   
                 </button>
                 <div class="dropdown-content">
-                    <a href="#">Link 1</a>
-                    <a href="#">Link 2</a>
-                    <a href="#">Link 3</a>
+                  <a @click="navigateToShop('mtg')">Magic: The Gathering</a>
+                  <a @click="navigateToShop('yug')">YuGiOh</a>
+                  <a @click="navigateToShop('pok')">Pokemon</a>
+                  <a @click="navigateToShop('ddd')">D&D</a>
+                    <a href="#">Board Games</a>
+                    <a href="#">Accessories</a>
                 </div>
             </div>
             <a @click="goEvent">EVENTS</a>
@@ -291,6 +294,9 @@ methods: {
       this.isMobileMenuOpen = !this.isMobileMenuOpen;
       
     },
+    navigateToShop(category) {
+        this.$router.push({ name: 'shop', query: { category } });
+    }
     
   }
 }

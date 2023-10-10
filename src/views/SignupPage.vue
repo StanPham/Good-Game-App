@@ -1,3 +1,36 @@
+
+<script setup>
+
+import { ref } from 'vue'
+import { firebaseAppAuth } from '@/firebase'
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import router from '../router'
+
+const email = ref('')
+const password = ref('')
+
+const submitRegister = () => {
+    createUserWithEmailAndPassword(firebaseAppAuth, email.value, password.value)
+        .then((data) => {
+        }).catch((error) => {
+            console.log(error.code)
+            alert(error.message)
+        })
+    
+}
+
+const submitSignUpWIthGoogle = () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(firebaseAppAuth, provider)
+        .then((result) => {
+            console.log(result.user)
+            
+        }).catch((err) => {
+            err
+        })
+}
+
+</script>
 <template>
     <div class="form-container" id="formContainer">
         
@@ -25,6 +58,7 @@
             </div>
             
             <button type="submit" class="submit-btn">Submit</button>
+            <button type="button" @click="submitSignUpWIthGoogle">Sign Up With Google!</button>
             <button  type="button" class="swap-login" @click="theyWannaLogin" >Have an account? Login.</button>
         </form>
         <div class="pika-contain">

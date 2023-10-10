@@ -2,10 +2,10 @@
 
 import { ref} from 'vue'
 import { firebaseAppAuth } from '@/firebase'
-import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth'
+import { signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 
 const user = ref(null)
-
+const isAdmin = ref(false)
 const email = ref('')
 const password = ref('')
 
@@ -22,10 +22,17 @@ const submitLogin = async () => {
         })
         
 }
-
 const submitSignInWIthGoogle = () => {
-    //TODO
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(firebaseAppAuth, provider)
+        .then((result) => {
+            console.log(result.user)
+            router.push('/events')
+        }).catch((err) => {
+            err
+        })
 }
+
 
 const submitSignOut = async () => {
      await signOut(firebaseAppAuth).then((res) => {}).catch((error) =>{
@@ -34,8 +41,13 @@ const submitSignOut = async () => {
      })
   }
 
-onAuthStateChanged(firebaseAppAuth, currentUser => {
+  onAuthStateChanged(firebaseAppAuth, currentUser => {
     user.value = currentUser
+    if(currentUser) {
+        currentUser.getIdTokenResult().then(idTokenResult => {
+            isAdmin.value = idTokenResult.claims.admin ? true : false
+        })
+    }
 })
 
 </script>
@@ -61,6 +73,7 @@ onAuthStateChanged(firebaseAppAuth, currentUser => {
             
             
             <button type="submit" class="submit-btn" @click="mfLoggedIn, { name: 'John Doe', avatar: '../components/nami.png' }">Submit</button>
+            <button type="button" @click="submitSignInWIthGoogle">Sign In With Google!</button>
             <button  type="button" class="swap-signup" @click="theyWannaSignup">No account? Signup.</button>
         </form>
         <div class="pika-contain">

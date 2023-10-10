@@ -148,6 +148,8 @@ img{
 </style>
 
 <script setup>
+import { watch } from 'vue';
+import { useRoute } from 'vue-router';
 import {ref, computed} from 'vue';
 import pika from '../components/pikachu.webp'
 const selectedCategory = ref("");
@@ -158,7 +160,7 @@ const myShops = ref([
         name: 'Wilds of Eldraine Set Boosters',
         price: '$99.99',
         quant: 3,
-        category: 'MTG',
+        category: 'mtg',
 
     },
     {
@@ -181,7 +183,7 @@ const myShops = ref([
     },
 ]);
 const categoryMapping = {
-    mtg: 'MTG',
+    mtg: 'mtg',
     yug: 'Yugioh',
     pok: 'Pokemon',
     ddd: 'D&D',
@@ -192,6 +194,13 @@ const filteredShops = computed(() => {
     
     const actualCategory = categoryMapping[selectedCategory.value];
     return myShops.value.filter(shop => shop.category === actualCategory);
+});
+
+const route = useRoute();
+watch(route, (newRoute) => {
+    if (newRoute.query.category) {
+        selectedCategory.value = newRoute.query.category;
+    }
 });
 
 </script>

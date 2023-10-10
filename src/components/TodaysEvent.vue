@@ -111,6 +111,7 @@ today.value.setHours(0,0,0,0);
 const allEvents = ref([]);
 const eventRef = collection(db, 'events');
 const q = query(eventRef, orderBy("startDate"));
+const myGames = ref([])
 
 
 onMounted( () => {

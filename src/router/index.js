@@ -1,4 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
+
+import { firebaseAppAuth } from '@/firebase'
+import { onAuthStateChanged } from 'firebase/auth'
 import TheHome from '../views/TheHome.vue'
 import SignupPage from '../views/SignupPage.vue'
 import LoginPage from '../views/LoginPage.vue'
@@ -71,5 +74,24 @@ const router = createRouter({
     
   ]
 })
+
+function requireAuth(to, from, next ){
+  const unsubscribe = onAuthStateChanged(firebaseAppAuth, user => {
+    unsubscribe()
+    if(!user){
+      console.log("no user, route to login")
+      next('/login')
+    } else {
+    user.getIdTokenResult().then(idTokenResult => {
+        if(idTokenResult.claims.admin){
+          next()
+        } else {
+          alert("no perms")
+          next('/')
+        }
+    })
+    }
+  })
+}
 
 export default router
