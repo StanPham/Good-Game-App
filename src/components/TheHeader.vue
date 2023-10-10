@@ -32,15 +32,17 @@
           
         </div>
         <div v-else>
-          <!-- <button class="login click" @click.stop="$emit('login-clicked')">LOGIN</button> -->
-          <img :src="person" alt="" class="person icon-white">
+          <button class="login click" @click="goSignup">LOGIN</button> 
+          <!-- <img :src="person" alt="" class="person icon-white"> -->
         </div>
       </div>
     </div>
     <div v-if="isMobileMenuOpen" class="mobile-menu">
-      <a href="#">EVENTS</a>
+      <a class="mobile-login" @click="goSignupTwo" href="#">LOGIN</a>
+      <a href="#" @click="goEventTwo">EVENTS</a>
       <a href="#">CONTACT</a>
       <a href="#">XYZ123</a>
+     
       <div class="dropdown">
                 <button class="dropbtn">SHOP
                   
@@ -60,6 +62,13 @@
 </template>
 
 <style scoped>
+.mobile-menu{
+  display:none;
+}
+.mobile-login{
+  background-color: var(--btn-color);
+  width:100%;
+}
 
 .icon-white{
  filter: invert(100%) sepia(1%) saturate(7418%) hue-rotate(290deg) brightness(105%) contrast(98%);
@@ -69,6 +78,7 @@
 }
   .menu-icon{
     display:none;
+    padding-left:.8rem;
   }
     .header-bg{
         background-color: rgba(88, 85, 88, 0.466);
@@ -160,7 +170,7 @@
 
 .login-container{
     margin-left: auto;
-    padding-right: 20px;
+    padding-right: 2rem;
 }
 .click{
   cursor: pointer;
@@ -172,6 +182,9 @@
 }
 
 @media (max-width: 767px) {
+  .login-container{
+    display:none;
+  }
   
   .menu-icon {
     display: block;
@@ -262,6 +275,21 @@ methods: {
     },
     goEvent(){
       this.$router.push('/event');
+     
+    },
+    goEventTwo(){
+      this.$router.push('/event');
+      this.isMobileMenuOpen = !this.isMobileMenuOpen;
+    },
+    goSignup(){
+      this.$router.push('/login');
+     
+      
+    },
+    goSignupTwo(){
+      this.$router.push('/login');
+      this.isMobileMenuOpen = !this.isMobileMenuOpen;
+      
     },
     
   }

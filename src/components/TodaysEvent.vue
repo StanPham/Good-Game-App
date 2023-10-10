@@ -8,7 +8,7 @@
               
                 <div class="title-wrapper">
                     <h2 class="event-title">{{ todaysEvent.name }} </h2>
-                    <h2 class="event-title ya"> innistrad draft</h2>
+                    <h2 class="event-title ya"> {{ todaysEvent.format}}</h2>
                     <div class="start-time">{{ funkyDateNumbaTwo(todaysEvent.startDate) }} - 11:00pm</div>
                     
                 </div>
@@ -47,6 +47,8 @@ font-size:1.1rem;
 font-weight:bold;
 border-radius: 2rem;
 padding:.8rem 2rem;
+
+
 
 }
 .event-wrapper{
@@ -91,7 +93,7 @@ padding:.8rem 2rem;
    
 }
 .event-description{
-    padding-top: 5px;
+    padding: 1.5rem 0;
 }
 
 
@@ -119,16 +121,31 @@ onMounted( () => {
         id: doc.id,
         name: doc.data().name,
         desc: doc.data().desc,
+        game: doc.data().game || "No Game Set In Database",
+        format: doc.data().format,
         startDate: new Date(doc.data().startDate.seconds*1000),
         endDate: new Date(doc.data().endDate.seconds*1000)
       }
       tmpEvents.push(event)
     });
     allEvents.value = tmpEvents;
-    
+   
   });
-  
+  onSnapshot(collection(db, 'game'), (querySnapshot) => {
+    const tmpGames = [];
+    querySnapshot.forEach((doc) =>{
+      const game = {
+        id: doc.id,
+        name: doc.data().name,
+        format: doc.data().format
+      }
+      tmpGames.push(game)
+    })
+    myGames.value = tmpGames
+  })
 })
+
+
 console.log(today.value.toDateString())
 const todaysEvent = computed(() => {
   const upcomingEvents = allEvents.value.filter(event => 

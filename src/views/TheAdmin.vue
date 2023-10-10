@@ -346,6 +346,14 @@ const addEvent = async () =>{
     console.log(err);
   })
   }
+  newEvent.value = {
+     name: '',
+     startTime: '',
+     endTime: '',
+     desc: ''
+   };
+   gameName.value = '';
+   gameFormat.value = '';
 }
  
 

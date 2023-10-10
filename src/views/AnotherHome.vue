@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref, watch, computed } from 'vue'
 
-
+import morecards from '../images/cards.png'
 import cards from '../components/cards.jpg'
 import yugioh from '../components/yugioh.jpg'
 import store from '../components/store.jpg'
@@ -24,7 +24,7 @@ import MiniGame from '../components/MiniGame.vue';
   <div class="wilma-container">
    
    <div class="car-card"> 
- <TheCarousel  :image-src="[dragon,store,cards, yugioh]" :slideTexts="[{title:'Friday Night Magic Commander',
+ <TheCarousel  :image-src="[dragon,store,morecards, yugioh]" :slideTexts="[{title:'Friday Night Magic Commander',
 startdate: 'Oct 13',
 btntext:'View Events'},
 {title:'View a Wide Selection of Products', btntext:'Shop Now',},

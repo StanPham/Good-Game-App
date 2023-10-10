@@ -95,8 +95,8 @@ const myShops = ref([
     {
         id:2,
         image: cardcase,
-        name: 'Pokemon Pack Watch Twenty Seven',
-        price: '$99.99',
+        name: 'I:P Masquerena Card Case',
+        price: '$19.99',
         quant: 3,
         category: 'Pokemon',
 
@@ -113,8 +113,8 @@ const myShops = ref([
     {
         id:3,
         image: cardcase,
-        name: 'Yugioh Grindin and Shinin',
-        price: '$99.99',
+        name: 'I:P Masquerena Card Case',
+        price: '$19.99',
         quant: 3,
         category: 'Yugioh',
 
