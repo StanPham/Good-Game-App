@@ -1,3 +1,71 @@
+<script setup>
+import { signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import { firebaseAppAuth } from '@/firebase'
+import {ref} from 'vue'
+
+import burger from '../images/burger.svg';
+import person from '../images/person.svg';
+import router from '../router'
+
+
+const user = ref(null)
+const isAdmin = ref(false)
+const isMobileMenuOpen = ref(false);
+const userClickedProfile = ref(false);
+
+const submitSignOut = async () => {
+     await signOut(firebaseAppAuth).then((res) => {}).catch((error) =>{
+        console.log(error.code)
+        alert(error.message)
+     })
+     router.push('/');
+  }
+
+  onAuthStateChanged(firebaseAppAuth, currentUser => {
+    user.value = currentUser
+    if(currentUser) {
+        currentUser.getIdTokenResult().then(idTokenResult => {
+            isAdmin.value = idTokenResult.claims.admin ? true : false
+        })
+    }
+})
+const profileClicked = () => userClickedProfile.value = !userClickedProfile.value;
+
+const toggleMobileMenu = () => isMobileMenuOpen.value = !isMobileMenuOpen.value;
+
+const goHome = () => {
+    router.push('/');
+};
+
+const goEvent = () => {
+    router.push('/event');
+};
+
+const goEventTwo = () => {
+    router.push('/event');
+    isMobileMenuOpen.value = !isMobileMenuOpen.value;
+};
+
+const goSignup = () => {
+    router.push('/login');
+};
+
+const goSignupTwo = () => {
+    router.push('/login');
+    isMobileMenuOpen.value = !isMobileMenuOpen.value;
+};
+
+const navigateToShop = (category) => {
+    router.push({ name: 'shop', query: { category } });
+};
+
+const outsideClickHandler = () => {
+    if (isMobileMenuOpen.value) {
+        isMobileMenuOpen.value = false;
+    }
+};
+
+</script>
 
 <template>
     <div class="header-bg">
@@ -23,23 +91,25 @@
             <a @click="goEvent">EVENTS</a>
             <a href="#">CONTACT</a>
             <a href="#">XYZ123</a>
-        </div>
+         
         
-      <div class="login-container">
-        <div v-if="userLogged" @click="profileClicked">
-          <img :src="user.avatar" alt="User avatar" />
+   
+    </div>
+    <div class="login-container">
+        <div v-if="user" @click="profileClicked">
+          <!-- <img :src="user.avatar" alt="User avatar" />
           <span>{{ user.name }}</span>
           <div v-if="userClickedProfile" class="profile-clicked">
-          </div>
+          </div> -->
         
-          
+          {{ user?.email }}
+        <button type="button" @click="submitSignOut">Sign Out</button>
         </div>
         <div v-else>
           <button class="login click" @click="goSignup">LOGIN</button> 
           <!-- <img :src="person" alt="" class="person icon-white"> -->
         </div>
       </div>
-    </div>
     <div v-if="isMobileMenuOpen" class="mobile-menu" v-click-outside="outsideClickHandler">
       <a class="mobile-login" @click="goSignupTwo" href="#">LOGIN</a>
       <a href="#" @click="goEventTwo">EVENTS</a>
@@ -57,6 +127,7 @@
                 </div>
             </div>
   </div>
+</div>
     
     <!-- <TheSignup v-if="isSignupVisible" @some-event="callback" @close-this="throwback"/> -->
     <!-- <TheLogin v-if="isLoginVisible" @other-event="callback"/> -->
@@ -178,6 +249,7 @@
 .login-container{
     margin-left: auto;
     padding-right: 2rem;
+  
 }
 .click{
   cursor: pointer;
@@ -235,20 +307,14 @@
 </style>
 
 <script>
-import { useUserStore } from '@/stores/counter.js'
-import burger from '../images/burger.svg';
-import person from '../images/person.svg';
-// import TheSignup from './TheSignup.vue';
-// import TheLogin from './TheLogin.vue';
+
+
+
 
 export default {
  
 
-  components: {
-    // TheSignup,
-    // TheLogin,
-    
-  },
+  
   name: 'TheHeader',
   data() {
     return {
@@ -309,6 +375,7 @@ methods: {
     }
     
   }
+  
 }
 
   

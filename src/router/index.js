@@ -8,7 +8,7 @@ import LoginView from '../views/LoginView.vue'
 
 import TheCarousel from '../components/TheCarousel.vue'
 import EventView from '../views/EventView.vue'
-import AdminView from '../views/AdminView.vue'
+
 
 
 const router = createRouter({
@@ -50,7 +50,8 @@ const router = createRouter({
     {
       path: '/admin',
       name: 'admin',
-      component: AdminView    
+      component: () => import('../views/AdminView.vue'),
+      beforeEnter: requireAuth,  
     },
     
     

@@ -3,13 +3,13 @@
 import { ref} from 'vue'
 import { firebaseAppAuth } from '@/firebase'
 import { signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
-
+import router from '../router'
 const user = ref(null)
 const isAdmin = ref(false)
 const email = ref('')
 const password = ref('')
 
-
+const theyWannaSignup = () => router.push('/signup');
 const submitLogin = async () => {
     
     await signInWithEmailAndPassword(firebaseAppAuth, email.value, password.value)
@@ -20,7 +20,7 @@ const submitLogin = async () => {
             console.log(error.code)
             alert(error.message)
         })
-        
+        router.push('/');
 }
 const submitSignInWIthGoogle = () => {
     const provider = new GoogleAuthProvider();
@@ -79,8 +79,8 @@ const submitSignOut = async () => {
         <div class="pika-contain">
             <img src="../images/pikachu.webp" alt="" class="pika">
         </div> 
-        <!-- {{ user?.email }}
-        <button type="button" class="signout" @click="submitSignOut">Sign Out</button>  -->
+       
+   
        
 </div>
     
@@ -169,19 +169,4 @@ input:focus{
 
 </style>
 
-<script>
-export default{
-    name:'LoginPage',
-    
 
-    methods:{
-        theyWannaSignup(){
-            this.$router.push('/signup');
-        },
-        mfLoggedIn(){
-            this.$router.push('/');
-           
-        }
-    }
-}
-</script>
