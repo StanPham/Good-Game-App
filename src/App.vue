@@ -44,7 +44,7 @@
     font: inherit;
     color: inherit;
 }
-@media(min-width:930px){
+@media(min-width:1px){
   .wrap{
     display:block;
   }

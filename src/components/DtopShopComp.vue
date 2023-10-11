@@ -17,7 +17,7 @@
         </div>
   
         </div>
-        <div class="left-arrow"> <img src="./arrow.svg" alt="" class="arrow"></div>
+        <div class="left-arrow"> <img src="../images/arrow.svg" alt="" class="arrow"></div>
     </main>
     </div>
 </template>
@@ -79,9 +79,9 @@ img{
 
 <script setup>
 import {ref} from 'vue';
-import pika from './pikachu.webp';
-import mtg from './mtg.webp'
-import cardcase from './cardcase.png'
+import pika from '../images/pikachu.webp';
+import mtg from '../images/mtg.webp'
+import cardcase from '../images/cardcase.png'
 const myShops = ref([
     {
         id:1,

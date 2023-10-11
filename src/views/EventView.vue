@@ -1,10 +1,10 @@
 <template>
     <div class="container">
         <div class="header-container">
-            <img v-if="dude" src="../components/arrow.svg" @click="selectedMonth--" alt="" class="arrow-left">
+            <img v-if="dude" src="../images/arrow.svg" @click="selectedMonth--" alt="" class="arrow-left">
             <div class="header">{{ currentMonthName }}</div>
           
-            <img v-if="sup" src="../components/arrow.svg" @click="selectedMonth++" alt="" class="arrow">
+            <img v-if="sup" src="../images/arrow.svg" @click="selectedMonth++" alt="" class="arrow">
            
        
         </div>

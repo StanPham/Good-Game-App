@@ -2,7 +2,7 @@
 <template>
     <div class="container">
         <div class="card-picture">
-             <img src="../components/booster.png" alt="" class="some-picture"> 
+             <img src="../images/booster.png" alt="" class="some-picture"> 
         </div>
         <div class="event-wrapper">
             

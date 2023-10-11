@@ -31,17 +31,18 @@
 .icon-flex-container,
 .info-flex-container{
     display:flex;
+    flex-wrap:wrap;
 }
 .flex-container-one,
 .flex-container-two{
     justify-content:space-between;
 }
 .icon-flex-container{
-    width:150px;
+   
     justify-content: space-between;
 }
 .info-flex-container{
-    width:40%;
+   
     justify-content: space-between;
 }
 .icon{

@@ -2,75 +2,58 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import { firebaseAppAuth } from '@/firebase'
 import { onAuthStateChanged } from 'firebase/auth'
-import TheHome from '../views/TheHome.vue'
-import SignupPage from '../views/SignupPage.vue'
-import LoginPage from '../views/LoginPage.vue'
+
+import SignupView from '../views/SignupView.vue'
+import LoginView from '../views/LoginView.vue'
 
 import TheCarousel from '../components/TheCarousel.vue'
-import TheEvent from '../views/TheEvent.vue'
-import TheAdmin from '../views/TheAdmin.vue'
-import TheCard from '../components/TheCard.vue'
-import TodaysEvent from '../components/TodaysEvent.vue'
+import EventView from '../views/EventView.vue'
+import AdminView from '../views/AdminView.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {
-      path: '/home2',
-      name: 'home',
-      component: TheHome
-    },
+   
     {
       path: '/',
       name: 'anothahome',
-      component: () => import('../views/AnotherHome.vue')
+      component: () => import('../views/HomeView.vue')
     },
     {
       path: '/signup',
       name: 'signup',
-      component: SignupPage
+      component: SignupView
     },
     
     {
       path: '/login',
       name: 'login',
-      component: LoginPage
+      component: LoginView
     },
     {
       path: '/shop',
       name: 'shop',
-      component: () => import('../views/TheShop.vue')
+      component: () => import('../views/ShopView.vue')
     },
     {
       path: '/product/:name',
       name: 'product',
       component: () => import('../views/ProductView.vue')
     },
-    {
-      path: '/car',
-      name: 'car',
-      component: TheCarousel
-    },
+    
     {
       path: '/event',
       name: 'event',
-      component: TheEvent
+      component: EventView
     }, 
     {
       path: '/admin',
       name: 'admin',
-      component: TheAdmin
+      component: AdminView    
     },
-    {
-      path: '/card',
-      name: 'card',
-      component: TheCard
-    },
-    {
-      path: '/today',
-      name: 'today',
-      component: TodaysEvent
-    },
+    
+    
     
   ]
 })

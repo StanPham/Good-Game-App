@@ -1,85 +1,98 @@
-
 <script setup>
 
-import { ref } from 'vue'
+import { ref} from 'vue'
 import { firebaseAppAuth } from '@/firebase'
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
-import router from '../router'
+import { signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 
+const user = ref(null)
+const isAdmin = ref(false)
 const email = ref('')
 const password = ref('')
 
-const submitRegister = () => {
-    createUserWithEmailAndPassword(firebaseAppAuth, email.value, password.value)
+
+const submitLogin = async () => {
+    
+    await signInWithEmailAndPassword(firebaseAppAuth, email.value, password.value)
         .then((data) => {
+            console.log("Login Successful")
+           
         }).catch((error) => {
             console.log(error.code)
             alert(error.message)
         })
-    
+        
 }
-
-const submitSignUpWIthGoogle = () => {
+const submitSignInWIthGoogle = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(firebaseAppAuth, provider)
         .then((result) => {
             console.log(result.user)
-            
+            router.push('/events')
         }).catch((err) => {
             err
         })
 }
 
+
+const submitSignOut = async () => {
+     await signOut(firebaseAppAuth).then((res) => {}).catch((error) =>{
+        console.log(error.code)
+        alert(error.message)
+     })
+  }
+
+  onAuthStateChanged(firebaseAppAuth, currentUser => {
+    user.value = currentUser
+    if(currentUser) {
+        currentUser.getIdTokenResult().then(idTokenResult => {
+            isAdmin.value = idTokenResult.claims.admin ? true : false
+        })
+    }
+})
+
 </script>
+
 <template>
     <div class="form-container" id="formContainer">
         
-        <form>
+        <form @submit.prevent="submitLogin">
             <div class="form-header">
-                <h2>Register</h2>
+                <h2>Login</h2>
                 
             </div>
             
             <div>
-                <label for = "email"></label>
-                <input type = "email" id="email" placeholder="Email" required>
-            </div>
-            <div>
-                <label for = "username"></label>
-                <input type = "text" id="username" placeholder="Username" required>
-            </div>
-            <div>
-                <label for = "password"></label>
-                <input type = "password" id="password" placeholder="Password" required>
-            </div>
-            <div>
-                <label for = "passwordC"></label>
-                <input type = "password" id="passwordC" placeholder="Confirm password" required>
+                
+                <input type = "email" v-model="email" placeholder="Email">
             </div>
             
-            <button type="submit" class="submit-btn">Submit</button>
-            <button type="button" @click="submitSignUpWIthGoogle">Sign Up With Google!</button>
-            <button  type="button" class="swap-login" @click="theyWannaLogin" >Have an account? Login.</button>
+            <div>
+                
+                <input type = "password" v-model="password" placeholder="Password">
+            </div>
+            
+            
+            <button type="submit" class="submit-btn" @click="mfLoggedIn, { name: 'John Doe', avatar: '../components/nami.png' }">Submit</button>
+            <button type="button" @click="submitSignInWIthGoogle">Sign In With Google!</button>
+            <button  type="button" class="swap-signup" @click="theyWannaSignup">No account? Signup.</button>
         </form>
         <div class="pika-contain">
-            <img src="../components/pikachu.webp" alt="" class="pika">
+            <img src="../images/pikachu.webp" alt="" class="pika">
         </div> 
-    
+        <!-- {{ user?.email }}
+        <button type="button" class="signout" @click="submitSignOut">Sign Out</button>  -->
+       
 </div>
     
 </template>
 
 <style scoped>
-.pika-contain{
-    display:flex;
-    align-items: center;
-}
+
 .pika{
     max-width: 50%;
     display: block;
     margin-left: auto;
     margin-right: auto;
-   
    
 }
 .form-container{
@@ -94,10 +107,12 @@ const submitSignUpWIthGoogle = () => {
    
     border-radius: 10px;
     color:white;
-    margin-top: 4rem;
+    margin-top:4rem;
 
 }
-
+h2{
+    margin-bottom:1.3rem;
+}
 
 form{
     width:clamp(23rem,50%,5000px);
@@ -156,12 +171,17 @@ input:focus{
 
 <script>
 export default{
-    name: 'SignupPage',
+    name:'LoginPage',
+    
+
     methods:{
-        theyWannaLogin(){
-            this.$router.push('/login');
+        theyWannaSignup(){
+            this.$router.push('/signup');
+        },
+        mfLoggedIn(){
+            this.$router.push('/');
+           
         }
     }
 }
 </script>
-

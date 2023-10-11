@@ -2,15 +2,15 @@
 import { onMounted, ref, watch, computed } from 'vue'
 
 import morecards from '../images/cards.png'
-import cards from '../components/cards.jpg'
-import yugioh from '../components/yugioh.jpg'
-import store from '../components/store.jpg'
-import dragon from '../components/dragon.jpg'
+import cards from '../images/cards.jpg'
+import yugioh from '../images/yugioh.jpg'
+import store from '../images/store.jpg'
+import dragon from '../images/dragon.jpg'
 import TheCarousel from '../components/TheCarousel.vue'
 import TodaysEvent from '../components/TodaysEvent.vue';
-import ShopCard from '../components/ShopCard.vue';
-import AnothaCard from '../components/AnothaCard.vue';
-import ShopComp from '../components/ShopComp.vue';
+import ShopCard from '../components/MobileShopCard.vue';
+import AnothaCard from '../components/UnusedShopCard.vue';
+import ShopComp from '../components/DtopShopComp.vue';
 import TableCard from '../components/TableCard.vue'
 import MiniGame from '../components/MiniGame.vue';
 

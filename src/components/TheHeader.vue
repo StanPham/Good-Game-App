@@ -1,7 +1,7 @@
 
 <template>
     <div class="header-bg">
-      <div class="menu-icon" @click="toggleMobileMenu">
+      <div class="menu-icon" @click.stop="toggleMobileMenu">
         <img :src="burger" alt="" class="burger icon-white" >
       </div>
         <div class="title cool-font" @click="goHome">Good Game</div>
@@ -40,7 +40,7 @@
         </div>
       </div>
     </div>
-    <div v-if="isMobileMenuOpen" class="mobile-menu">
+    <div v-if="isMobileMenuOpen" class="mobile-menu" v-click-outside="outsideClickHandler">
       <a class="mobile-login" @click="goSignupTwo" href="#">LOGIN</a>
       <a href="#" @click="goEventTwo">EVENTS</a>
       <a href="#">CONTACT</a>
@@ -104,6 +104,10 @@
   padding: 14px 16px;
   text-decoration: none;
   cursor:pointer;
+}
+.header-bg a:hover {
+ background-color: white;
+ color:black;
 }
 .space-wrappa{
     display:flex;
@@ -201,7 +205,7 @@
   .mobile-menu {
     display: flex;
     flex-direction: column;
-    position:absolute;
+    position:fixed;
     align-items:center;
   min-width: 100vw;
   background-color: rgb(0, 0, 0);
@@ -232,8 +236,8 @@
 
 <script>
 import { useUserStore } from '@/stores/counter.js'
-import burger from './burger.svg';
-import person from './person.svg';
+import burger from '../images/burger.svg';
+import person from '../images/person.svg';
 // import TheSignup from './TheSignup.vue';
 // import TheLogin from './TheLogin.vue';
 
@@ -296,6 +300,12 @@ methods: {
     },
     navigateToShop(category) {
         this.$router.push({ name: 'shop', query: { category } });
+    },
+
+    outsideClickHandler() {
+        if (this.isMobileMenuOpen) {
+            this.isMobileMenuOpen = false;
+        }
     }
     
   }

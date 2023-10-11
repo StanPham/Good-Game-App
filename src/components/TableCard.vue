@@ -85,7 +85,7 @@ padding:.8rem 2rem;
   right: 0;
   bottom: 0;
   left: 0;
-   background-image: url('./cardshop.jpg');
+   background-image: url('../images/cardshop.jpg');
    filter:brightness(35%);
  background-repeat:no-repeat;
  background-size:cover;
