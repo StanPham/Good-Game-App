@@ -74,7 +74,7 @@ const outsideClickHandler = () => {
       </div>
         <div class="title cool-font" @click="goHome">Good Game</div>
         <div class="space-wrappa">
-        
+<!--         
             <div class="dropdown">
                 <button class="dropbtn ">SHOP
                   
@@ -87,20 +87,19 @@ const outsideClickHandler = () => {
                     <a href="#">Board Games</a>
                     <a href="#">Accessories</a>
                 </div>
-            </div>
+            </div> -->
             <a @click="goEvent">EVENTS</a>
-            <a href="#">CONTACT</a>
-            <a href="#">XYZ123</a>
+            <a style="text-decoration: line-through;">COMING SOON</a>
+            <a style="text-decoration: line-through;">COMING SOON</a>
+            <!-- <a href="#">CONTACT</a>
+            <a href="#">XYZ123</a> -->
          
         
    
     </div>
     <div class="login-container">
         <div v-if="user" @click="profileClicked">
-          <!-- <img :src="user.avatar" alt="User avatar" />
-          <span>{{ user.name }}</span>
-          <div v-if="userClickedProfile" class="profile-clicked">
-          </div> -->
+         
         
           {{ user?.email }}
         <button type="button" @click="submitSignOut">Sign Out</button>
@@ -113,19 +112,9 @@ const outsideClickHandler = () => {
     <div v-if="isMobileMenuOpen" class="mobile-menu" v-click-outside="outsideClickHandler">
       <a class="mobile-login" @click="goSignupTwo" href="#">LOGIN</a>
       <a href="#" @click="goEventTwo">EVENTS</a>
-      <a href="#">CONTACT</a>
-      <a href="#">XYZ123</a>
      
-      <div class="dropdown">
-                <button class="dropbtn">SHOP
-                  
-                </button>
-                <div class="dropdown-content">
-                    <a href="#">Link 1</a>
-                    <a href="#">Link 2</a>
-                    <a href="#">Link 3</a>
-                </div>
-            </div>
+     
+     
   </div>
 </div>
     

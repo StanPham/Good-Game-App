@@ -24,10 +24,10 @@ import MiniGame from '../components/MiniGame.vue';
   <div class="wilma-container">
    
    <div class="car-card"> 
- <TheCarousel  :image-src="[dragon,store,morecards, yugioh]" :slideTexts="[{title:'Friday Night Magic Commander',
+ <TheCarousel  :image-src="[dragon,morecards, yugioh]" :slideTexts="[{title:'Friday Night Magic Commander',
 startdate: 'Oct 13',
 btntext:'View Events'},
-{title:'View a Wide Selection of Products', btntext:'Shop Now',},
+
 {title:'Looking For Singles?', startdate:'Check out our TCGplayer',btntext: 'TCGplayer'},
 {title:'Yu-Gi-Oh!',starttime:'Every Sunday',startdate: '5pm',btntext:'View Events'}]"
     

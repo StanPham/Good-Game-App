@@ -5,13 +5,13 @@
         <div class="event-wrapper">
             
            <div class="text-wrapper">
-                <h1 class="event-day">RESERVE TABLES</h1>
+                <h1 class="event-day">COMING SOON!</h1>
               
                 
-                    <h2 class="event-title">Prefer a specific table? Make a table reservation today! </h2>
+                    <h2 class="event-title"> </h2>
            </div>
                 <br><br><br>
-                <button class="allEvents" @click="goEvent">RESERVE</button>
+                <button class="allEvents" @click="goEvent">coming soon</button>
                 <br> <br> <br><br> <br> <br>
         </div>
        

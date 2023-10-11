@@ -1,8 +1,8 @@
 <template>
 <div class="container">
     <div class="header">
-        <button class="start">Start</button>
-        <div class="score">Score: </div>
+        <button class="start"></button>
+        <div class="score"> COMING SOON</div>
     </div>
     <div class="minigame"></div>
 </div>
@@ -30,7 +30,8 @@
     width:25%;
 }
 .score{
-    padding-top:1rem;
+    padding-top:5rem;
+    font-size:3rem;
    
 }
 </style>

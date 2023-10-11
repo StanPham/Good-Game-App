@@ -17,7 +17,7 @@
         </div>
   
         </div>
-        <div class="left-arrow"> <img src="../images/arrow.svg" alt="" class="arrow"></div>
+       
     </main>
     </div>
 </template>

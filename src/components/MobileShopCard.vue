@@ -10,7 +10,7 @@
                 <h1 class="event-day">SHOP</h1>
               
                 
-                    <h2 class="event-title">Check out our currently available items! </h2>
+                    <h2 class="event-title">Coming soon! </h2>
                   
                 <br>
                 <button class="allEvents" @click="goEvent">SHOP</button>
