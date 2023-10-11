@@ -3,7 +3,7 @@
   
 
     <div class="search">
-        <img src="../components/search.svg" alt="deez" class="search-icon">
+        <img src="../images/search.svg" alt="deez" class="search-icon">
         <input type = "text" class="input-box" placeholder="Search">
     </div>
     <div class="cat-wrap">
@@ -151,7 +151,7 @@ img{
 import { watch } from 'vue';
 import { useRoute } from 'vue-router';
 import {ref, computed} from 'vue';
-import pika from '../components/pikachu.webp'
+import pika from '../images/pikachu.webp'
 const selectedCategory = ref("");
 const myShops = ref([
     {
