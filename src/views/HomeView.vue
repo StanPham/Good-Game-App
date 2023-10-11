@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted, ref, watch, computed } from 'vue'
+import router from '../router'
 
 import morecards from '../images/cards.png'
 import cards from '../images/cards.jpg'
@@ -25,11 +26,10 @@ import MiniGame from '../components/MiniGame.vue';
    
    <div class="car-card"> 
  <TheCarousel  :image-src="[dragon,morecards, yugioh]" :slideTexts="[{title:'Friday Night Magic Commander',
-startdate: 'Oct 13',
-btntext:'View Events'},
+startdate: 'Oct 13', btntext:'View Events', link:'/event'},
 
-{title:'Looking For Singles?', startdate:'Check out our TCGplayer',btntext: 'TCGplayer'},
-{title:'Yu-Gi-Oh!',starttime:'Every Sunday',startdate: '5pm',btntext:'View Events'}]"
+{title:'Looking For Singles?', startdate:'Check out our TCGplayer',btntext: 'TCGplayer', link:'https://shop.tcgplayer.com/sellerfeedback/71c2420f'},
+{title:'Yu-Gi-Oh!',starttime:'Every Sunday',startdate: '5pm',btntext:'View Events', link:'/event'}]"
     
   
    

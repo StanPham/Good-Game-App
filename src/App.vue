@@ -24,7 +24,7 @@
 }
 .wrap{
   padding-top:2.8rem;
-  display:none;
+  display:block;
  
   flex-shrink: 0;
   width:100vw;
@@ -44,11 +44,7 @@
     font: inherit;
     color: inherit;
 }
-@media(min-width:1px){
-  .wrap{
-    display:block;
-  }
-}
+
 </style>
 
 <script>

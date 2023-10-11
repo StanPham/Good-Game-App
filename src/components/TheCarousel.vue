@@ -26,7 +26,7 @@
         <div class="start-date">{{currentSlideText.startdate}}</div>
       </div>
     </div>
-    <button class="some-button" @click.stop="">{{currentSlideText.btntext}}</button>
+    <button class="some-button" @click.stop="navigateToLink">{{currentSlideText.btntext}}</button>
     
       <button @click="prevImage" class="carousel-nav carousel-nav-left">←</button>
     <button @click="nextImage" class="carousel-nav carousel-nav-right">→</button>
@@ -230,6 +230,7 @@ filter: blur(10px);
 </style>
 
 <script>
+import router from '../router'
 export default {
   props: {
     imageSrc: {
@@ -297,7 +298,22 @@ export default {
       } else if (difference < -50) { // If swipe left for more than 50px
         this.nextImage();
       }
+    },
+
+    navigateToLink() {
+    const link = this.currentSlideText.link;
+    console.log('xd');
+    if (link) {
+        // Check if the link starts with 'http' to determine if it's external
+        if (link.startsWith('http://') || link.startsWith('https://')) {
+            // Open the external link in a new tab
+            window.open(link, '_blank');
+        } else {
+            // Navigate internally within the SPA
+            router.push(link);
+        }
     }
+}
   },
   
 
@@ -308,6 +324,9 @@ export default {
   beforeUnmount() {
     clearInterval(this.interval);
   },
+
+  
+
 };
 </script>
 
