@@ -72,8 +72,12 @@ const submitSignOut = async () => {
             </div>
             
             
-            <button type="submit" class="submit-btn" @click="mfLoggedIn, { name: 'John Doe', avatar: '../components/nami.png' }">Submit</button>
-            <button type="button" @click="submitSignInWIthGoogle">Sign In With Google!</button>
+            <button type="submit" class="submit-btn" >Submit</button>
+           
+            <div class="google-container" @click="submitSignInWIthGoogle">
+                <img src="../images/google.png" alt="" class="google-image">
+            <button type="button"  class="google-button">Sign In With Google</button>
+        </div>
             <button  type="button" class="swap-signup" @click="theyWannaSignup">No account? Signup.</button>
         </form>
         <div class="pika-contain">
@@ -87,7 +91,36 @@ const submitSignOut = async () => {
 </template>
 
 <style scoped>
-
+.google-container:hover{
+    background-color: rgb(46, 44, 44);
+}
+.or{
+    flex-grow:1;
+    margin:auto;
+    padding:.5rem;
+   
+    font-weight:100;
+   
+}
+.swap-signup{
+    font-size:1.1rem;
+}
+.google-image{
+    width:1.6rem;
+    
+}
+.google-button{
+    flex-grow:1;
+    font-size:1.2rem;
+}
+.google-container{
+    display:flex;
+ border: black 1px solid;
+ background: rgb(37, 37, 37);
+ 
+    padding:.5rem;
+    border-radius:1rem;
+}
 .pika{
     max-width: 50%;
     display: block;
@@ -119,7 +152,7 @@ form{
     display:flex;
     flex-direction: column;
     padding: 1.25em;
-    gap:10px;
+    gap:15px;
     
     
 }
@@ -147,17 +180,18 @@ input:focus{
 
 .submit-btn{
    
-    background-color: rgb(168, 41, 168);
+    background-color: var(--btn-color);
     font-size: 20px;
-    border-radius: 10px;
+    border-radius: 1rem;
     padding:5px;
     border:none;
     color:white;
 }
 .submit-btn:hover{
     cursor:pointer;
-    background-color: rgb(32, 32, 32);
+    background-color: rgb(180, 70, 202);
     transform: scale(1.01);
+    color:  rgb(255, 255, 255);;
 }
 
 @media(max-width: 750px){

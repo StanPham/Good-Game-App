@@ -19,6 +19,7 @@ const submitRegister = () => {
     
 }
 
+
 const submitSignUpWIthGoogle = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(firebaseAppAuth, provider)
@@ -29,6 +30,8 @@ const submitSignUpWIthGoogle = () => {
             err
         })
 }
+
+const theyWannaLogin = () => router.push('/login');
 
 </script>
 <template>
@@ -58,7 +61,11 @@ const submitSignUpWIthGoogle = () => {
             </div>
             
             <button type="submit" class="submit-btn">Submit</button>
-            <button type="button" @click="submitSignUpWIthGoogle">Sign Up With Google!</button>
+            <div class="or">OR</div>
+            <div class="google-container" @click="submitSignUpWIthGoogle">
+                <img src="../images/google.png" alt="" class="google-image">
+            <button type="button"  class="google-button">Sign Up With Google</button>
+        </div>
             <button  type="button" class="swap-login" @click="theyWannaLogin" >Have an account? Login.</button>
         </form>
         <div class="pika-contain">
@@ -70,6 +77,36 @@ const submitSignUpWIthGoogle = () => {
 </template>
 
 <style scoped>
+.or{
+    flex-grow:1;
+    margin:auto;
+    padding:.5rem;
+   
+    font-weight:100;
+   
+}
+.swap-login{
+    font-size:1.1rem;
+}
+.google-image{
+    width:1.6rem;
+    
+}
+.google-button{
+    flex-grow:1;
+    font-size:1.2rem;
+}
+.google-container:hover{
+    background-color: rgb(46, 44, 44);
+}
+.google-container{
+    display:flex;
+ border: black 1px solid;
+ background: rgb(37, 37, 37);
+ 
+    padding:.5rem;
+    border-radius:1rem;
+}
 .pika-contain{
     display:flex;
     align-items: center;
@@ -132,7 +169,7 @@ input:focus{
 
 .submit-btn{
    
-    background-color: rgb(168, 41, 168);
+    background-color: var(--btn-color);
     font-size: 20px;
     border-radius: 10px;
     padding:5px;
@@ -141,7 +178,7 @@ input:focus{
 }
 .submit-btn:hover{
     cursor:pointer;
-    background-color: rgb(32, 32, 32);
+    background-color: rgb(180, 70, 202);
     transform: scale(1.01);
 }
 
@@ -154,14 +191,5 @@ input:focus{
 
 </style>
 
-<script>
-export default{
-    name: 'SignupPage',
-    methods:{
-        theyWannaLogin(){
-            this.$router.push('/login');
-        }
-    }
-}
-</script>
+
 
