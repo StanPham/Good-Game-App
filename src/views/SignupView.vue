@@ -44,8 +44,8 @@ const theyWannaLogin = () => router.push('/login');
             </div>
             
             <div>
-                <label for = "email"></label>
-                <input type = "email" id="email" placeholder="Email" required>
+                <label for = "emaill"></label>
+                <input type = "email" id="emaill" placeholder="Email" required>
             </div>
             <div>
                 <label for = "username"></label>

@@ -24,7 +24,8 @@
         <button class="filter-button">Filter By</button>
     </div> -->
 
-
+    <div class="main-container">
+        <div class="desktop-categories"></div>
     <main class="product-container" >
         <div class="work-wrap" v-for="shop in filteredShops" :key="shop.id">
             <router-link :to="`/product/${shop.name}`" class="link">
@@ -40,15 +41,22 @@
    
     </main>
 </div>
+</div>
     
 </template>
 
 <style scoped>
+.main-container{
+    margin-top:1rem;
+}
 .link{
     text-decoration: none;
+    width:100%;
+  
 }
 .search-icon{
     width:20px;
+    height:20px;
     position:absolute;
     top: 45%;
     left: 15%;
@@ -116,6 +124,7 @@ select{
 }
 .quant{
     font-size: .8rem;
+    padding-top:.2rem;
 }
 .price{
     font-weight: bold;
@@ -126,23 +135,45 @@ select{
     
 }
 main{
-    display:grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    /* display:flex;
    
-    
-    margin:1rem;
+  justify-content: space-between;
+    flex-wrap:wrap; */
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(9.5rem,1fr));
+   padding:5%;
     gap: 1.3rem;
-    max-width:100%;
+    width:clamp(100px, 100%,60rem) ;
+    background:rgb(0, 0, 0);
 
 
 }
 .prac{
-    padding-left:1rem;
-    background-color: rgb(87, 38, 38);
+    padding:1rem;
+   
+   display:flex;
+   justify-content: flex-start;
+   flex-direction: column;
+  
     
 }
 img{
-    max-height:100%;
+    height: clamp(150px, 20vh, 40rem);
+    width:clamp(75%, 75%, 50rem);
+}
+.work-wrap{
+    
+    /* width:clamp(150px,20vw,40rem);  */
+    background:rgb(29, 28, 28);
+   
+    border:rgb(73, 69, 69) 1px solid;
+    border-radius:.5rem;
+ 
+ 
+}
+
+.product-name{
+    padding-top:.5rem;
 }
 
 </style>
@@ -152,11 +183,12 @@ import { watch } from 'vue';
 import { useRoute } from 'vue-router';
 import {ref, computed} from 'vue';
 import pika from '../images/pikachu.webp'
+import booster from '../images/booster.png'
 const selectedCategory = ref("");
 const myShops = ref([
     {
         id:1,
-        image: pika,
+        image: booster,
         name: 'Wilds of Eldraine Set Boosters',
         price: '$99.99',
         quant: 3,
@@ -165,7 +197,7 @@ const myShops = ref([
     },
     {
         id:2,
-        image: pika,
+        image: booster,
         name: 'Pokemon Pack Watch Twenty Seven',
         price: '$99.99',
         quant: 3,
@@ -174,7 +206,34 @@ const myShops = ref([
     },
     {
         id:3,
-        image: pika,
+        image: booster,
+        name: 'Yugioh Grindin and Shinin',
+        price: '$99.99',
+        quant: 3,
+        category: 'Yugioh',
+
+    },
+    {
+        id:3,
+        image: booster,
+        name: 'Yugioh Grindin and Shinin',
+        price: '$99.99',
+        quant: 3,
+        category: 'Yugioh',
+
+    },
+    {
+        id:3,
+        image: booster,
+        name: 'Yugioh Grindin and Shinin',
+        price: '$99.99',
+        quant: 3,
+        category: 'Yugioh',
+
+    },
+    {
+        id:3,
+        image: booster,
         name: 'Yugioh Grindin and Shinin',
         price: '$99.99',
         quant: 3,
