@@ -3,8 +3,10 @@
   
 
     <div class="search">
+        <div class="search-container">
         <img src="../images/search.svg" alt="deez" class="search-icon">
         <input type = "text" class="input-box" placeholder="Search">
+    </div>
     </div>
     <div class="cat-wrap">
     <label for="product-select"></label>
@@ -18,15 +20,31 @@
     <option value="oth">Accessories</option>
     
     </select>
+ 
     </div>
+  
     <!-- <div class="filter">
         <img src="../components/filter.svg" alt="deez" class="filter-icon">
         <button class="filter-button">Filter By</button>
     </div> -->
-
+    
     <div class="main-container">
-        <div class="desktop-categories"></div>
+        <div class="desktop-categories">
+            <div class="button-wrapper">
+            <button @click="setActiveTab('')" class="cat-btn">All Products</button>
+            
+            <button @click="setActiveTab('mtg')" class="cat-btn">Magic: The Gathering</button> 
+            <button @click="setActiveTab('yug')" class="cat-btn">YuGiOh</button> 
+            <button @click="setActiveTab('pok')" class="cat-btn">Pokemon</button> 
+            <button @click="setActiveTab('oth')" class="cat-btn">Accessories</button> 
+            
+        </div>
+        </div>
+        <div class="title-wrap">
+            <div class="results">{{ categoryMapping[selectedCategory] }}: {{ filteredShops.length }} RESULTS </div>
+        
     <main class="product-container" >
+        
         <div class="work-wrap" v-for="shop in filteredShops" :key="shop.id">
             <router-link :to="`/product/${shop.name}`" class="link">
         <div class="prac">
@@ -42,12 +60,55 @@
     </main>
 </div>
 </div>
+</div>
     
 </template>
 
 <style scoped>
+.results{
+    font-size:1.1rem;
+    margin-left:1rem;
+}
+.cat-btn:hover,
+.cat-btn:focus{
+    background:white;
+    color:black;
+}
+.cat-btn{
+   
+   border-radius:1rem;
+   width:100%;
+   padding:.5rem;
+}
+.cat-btn{
+   
+    border-radius:1rem;
+    width:100%;
+    padding:.5rem;
+}
+.button-wrapper{
+    padding:1rem;
+    display:flex;
+    flex-direction: column;
+    gap:1rem;
+    font-size:1.3rem;
+}
+
+.desktop-categories{
+    display:none;
+    width:20%;
+    background: black;
+    border-radius: 1rem;
+    margin-top:1.4rem;
+ 
+}
 .main-container{
     margin-top:1rem;
+    display:flex;
+  
+  
+   justify-content: center;
+   gap:1rem;
 }
 .link{
     text-decoration: none;
@@ -58,8 +119,8 @@
     width:20px;
     height:20px;
     position:absolute;
-    top: 45%;
-    left: 15%;
+    top: 20%;
+    left: 1rem;
    
 }
 .filter-icon{
@@ -88,7 +149,7 @@
 }
 
 .input-box{
-    width:clamp(20rem, 50%,90vw);
+    width:100%;
     background-color: rgb(238, 235, 235);
     border-radius: 20px;
     border: 1px solid #21272b;
@@ -98,12 +159,18 @@
     color:black;
    
 }
+.search-container{
+    position:relative;
+    width:70%;
+    display:flex;
+    justify-content:center;
+}
 .search{
   width:100vw;
   padding-top:1rem;
   display:flex;
   justify-content: center;
-  position:relative;
+ 
  
    
 }
@@ -140,13 +207,19 @@ main{
   justify-content: space-between;
     flex-wrap:wrap; */
     display:grid;
-    grid-template-columns: repeat(auto-fit, minmax(9.5rem,1fr));
-   padding:5%;
+    grid-template-columns: repeat(auto-fit, minmax(10rem,1fr));
+   padding:clamp(10px,3%,1.5rem);
     gap: 1.3rem;
-    width:clamp(100px, 100%,60rem) ;
+    width:100%;
     background:rgb(0, 0, 0);
+  
+    border-radius:1rem;
+  
 
 
+}
+.title-wrap{
+    width:clamp(100px, 100%,70rem) ;
 }
 .prac{
     padding:1rem;
@@ -168,7 +241,9 @@ img{
    
     border:rgb(73, 69, 69) 1px solid;
     border-radius:.5rem;
- 
+    max-width:250px;
+    
+   
  
 }
 
@@ -176,6 +251,19 @@ img{
     padding-top:.5rem;
 }
 
+@media(min-width:763px){
+  main{
+    grid-template-columns: repeat(auto-fit, minmax(13rem,1fr));
+  }
+}
+@media(min-width:1450px){
+    .desktop-categories{
+        display:block;
+    }
+    .cat-wrap{
+        display:none;
+    }
+}
 </style>
 
 <script setup>
@@ -185,6 +273,10 @@ import {ref, computed} from 'vue';
 import pika from '../images/pikachu.webp'
 import booster from '../images/booster.png'
 const selectedCategory = ref("");
+
+const setActiveTab = (tabName) => {
+  selectedCategory.value = tabName;
+};
 const myShops = ref([
     {
         id:1,
@@ -192,7 +284,7 @@ const myShops = ref([
         name: 'Wilds of Eldraine Set Boosters',
         price: '$99.99',
         quant: 3,
-        category: 'mtg',
+        category: 'Magic: The Gathering',
 
     },
     {
@@ -242,12 +334,14 @@ const myShops = ref([
     },
 ]);
 const categoryMapping = {
-    mtg: 'mtg',
+    mtg: 'Magic: The Gathering',
     yug: 'Yugioh',
     pok: 'Pokemon',
     ddd: 'D&D',
-    oth: 'Accessories'
+    oth: 'Accessories',
+    '':'All Products'
 };
+
 const filteredShops = computed(() => {
     if (!selectedCategory.value) return myShops.value;  
     

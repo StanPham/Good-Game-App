@@ -293,9 +293,9 @@ export default {
     touchEnd() {
       let difference = this.currentX - this.startX;
 
-      if (difference > 50) { // If swipe right for more than 50px
+      if (difference > 50) { 
         this.prevImage();
-      } else if (difference < -50) { // If swipe left for more than 50px
+      } else if (difference < -50) { 
         this.nextImage();
       }
     },
@@ -304,12 +304,12 @@ export default {
     const link = this.currentSlideText.link;
     console.log('xd');
     if (link) {
-        // Check if the link starts with 'http' to determine if it's external
+        
         if (link.startsWith('http://') || link.startsWith('https://')) {
-            // Open the external link in a new tab
+           
             window.open(link, '_blank');
         } else {
-            // Navigate internally within the SPA
+            
             router.push(link);
         }
     }

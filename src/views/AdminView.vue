@@ -1,14 +1,14 @@
 <template>
   <body>
  <div class="tab">
- <button class="tablinks" @click="openCity(event, 'London')">Events</button>
- <button class="tablinks" @click="openCity(event, 'Paris')">Shop Reservations</button>
- <button class="tablinks" @click="openCity(event, 'Tokyo')">Table Reservations</button>
- <button class="tablinks" @click="openCity(event, 'Accounts')">Accounts</button>
+ <button class="tablinks" @click="setActiveTab('Events')">Events</button>
+ <button class="tablinks" @click="setActiveTab('Shop')">Shop</button>
+ <button class="tablinks" @click="setActiveTab('Table')">Table Reservations</button>
+ <button class="tablinks" @click="setActiveTab('Account')">Accounts</button>
 </div>
 
 <!-- Tab content -->
-<div id="London" class="tabcontent">
+<div v-show="activeTab === 'Events'" class="tabcontent">
  <div class="form-container">
    <form @submit.prevent="addEvent">
      <h2>Add New Event</h2>
@@ -93,15 +93,15 @@
    </table>
 </div>
 
-<div id="Paris" class="tabcontent">
- 
+<div v-show="activeTab === 'Shop'" class="tabcontent">
+ sdfsdfsd
 </div>
 
-<div id="Tokyo" class="tabcontent">
+<div v-show="activeTab === 'Table'" class="tabcontent">
  <h3>Table Reservations</h3>
  <p>Tokyo is the capital of Japan.</p>
 </div>
-<div id="Accounts" class="tabcontent">
+<div v-show="activeTab === 'Account'" class="tabcontent">
  <h3>Accounts</h3>
  <p>Tokyo is the capital of Japan.</p>
 </div>
@@ -280,7 +280,7 @@ body{
 
 /* Style the tab content */
 .tabcontent {
- display: none;
+
  padding: 6px 12px;
  border: 1px solid #ccc;
  background-color: #312d2d;
@@ -307,9 +307,13 @@ const gameFormat = ref('')
 const selectedGameFormats = ref([])
 var newGame = false
 var newFormat = false
+const activeTab = ref('Events');
 
 
 const myEvents = ref([])
+const setActiveTab = (tabName) => {
+  activeTab.value = tabName;
+};
 
 const addEvent = async () =>{
    await addDoc(collection(db, "events"), {
@@ -440,26 +444,6 @@ function funkyDateNumbaTwo(date) {
 
  
 
-function openCity(evt, cityName) {
- // Declare all variables
- var i, tabcontent, tablinks;
-
- // Get all elements with class="tabcontent" and hide them
- tabcontent = document.getElementsByClassName("tabcontent");
- for (i = 0; i < tabcontent.length; i++) {
-   tabcontent[i].style.display = "none";
- }
-
- // Get all elements with class="tablinks" and remove the class "active"
- tablinks = document.getElementsByClassName("tablinks");
- for (i = 0; i < tablinks.length; i++) {
-   tablinks[i].className = tablinks[i].className.replace(" active", "");
- }
-
- // Show the current tab, and add an "active" class to the button that opened the tab
- document.getElementById(cityName).style.display = "block";
- evt.currentTarget.className += " active";
-} 
 
 
 </script>
