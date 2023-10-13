@@ -5,7 +5,7 @@
     <div class="search">
         <div class="search-container">
         <img src="../images/search.svg" alt="deez" class="search-icon">
-        <input type = "text" class="input-box" placeholder="Search">
+        <input type = "text" class="input-box" placeholder="Search" v-model="searchQuery">
     </div>
     </div>
     <div class="cat-wrap">
@@ -273,6 +273,7 @@ import {ref, computed} from 'vue';
 import pika from '../images/pikachu.webp'
 import booster from '../images/booster.png'
 const selectedCategory = ref("");
+const searchQuery = ref("");
 
 const setActiveTab = (tabName) => {
   selectedCategory.value = tabName;
@@ -306,7 +307,7 @@ const myShops = ref([
 
     },
     {
-        id:3,
+        id:4,
         image: booster,
         name: 'Yugioh Grindin and Shinin',
         price: '$99.99',
@@ -315,7 +316,7 @@ const myShops = ref([
 
     },
     {
-        id:3,
+        id:5,
         image: booster,
         name: 'Yugioh Grindin and Shinin',
         price: '$99.99',
@@ -324,9 +325,18 @@ const myShops = ref([
 
     },
     {
-        id:3,
+        id:6,
         image: booster,
         name: 'Yugioh Grindin and Shinin',
+        price: '$99.99',
+        quant: 3,
+        category: 'Yugioh',
+
+    },
+    {
+        id:7,
+        image: booster,
+        name: 'idk',
         price: '$99.99',
         quant: 3,
         category: 'Yugioh',
@@ -343,11 +353,24 @@ const categoryMapping = {
 };
 
 const filteredShops = computed(() => {
-    if (!selectedCategory.value) return myShops.value;  
+    let results = myShops.value;
     
-    const actualCategory = categoryMapping[selectedCategory.value];
-    return myShops.value.filter(shop => shop.category === actualCategory);
+    if (selectedCategory.value) {
+        const actualCategory = categoryMapping[selectedCategory.value];
+        results = results.filter(shop => shop.category === actualCategory);
+    }
+    
+    if (searchQuery.value) {
+        const query = searchQuery.value.toLowerCase();
+        results = results.filter(shop => 
+            shop.name.toLowerCase().includes(query) || 
+            shop.category.toLowerCase().includes(query)
+        );
+    }
+    
+    return results;
 });
+
 
 const route = useRoute();
 watch(route, (newRoute) => {

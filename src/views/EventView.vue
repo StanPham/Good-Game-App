@@ -157,8 +157,9 @@ import { db } from "@/firebase"
 import cardback from '../images/cardback.png'
 import pokeball from '../images/pokeball.png'
 import warhammer from '../images/warhammer.jpg'
-import myhero from '../images/MHA.webp'
+import myhero from '../images/hero.webp'
 import yugioh from '../images/yugioh.png'
+
 
 const selectedMonth = ref(new Date().getMonth());
 const allEvents = ref([]);
@@ -257,17 +258,20 @@ function funkyDateNumbaTwo(date) {
 // ... other methods ...
 
 function getImageForGame(gameName) {
+    const thatsthenameofthegamemf = gameName.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+   
     const gameImageMap = {
-        'Magic The Gathering': cardback,
-        'Pokemon': pokeball,
-        'Warhammer': warhammer,
-        'My Hero': myhero,
-        'Yugioh': yugioh,
+        'magicthegathering': cardback,
+        'pokemon': pokeball,
+        'warhammer': warhammer,
+        'myhero': myhero,
+        'yugioh': yugioh,
+        'myheroacademia':myhero,
 
        
     };
 
-    return gameImageMap[gameName]; // default.png is a fallback image if the game's image isn't defined
+    return gameImageMap[thatsthenameofthegamemf]; 
 }
 
 const currentMonth = ref(new Date().getMonth());

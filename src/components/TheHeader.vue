@@ -112,6 +112,12 @@ const outsideClickHandler = () => {
     <div v-if="isMobileMenuOpen" class="mobile-menu" v-click-outside="outsideClickHandler">
       <a class="mobile-login" @click="goSignupTwo" href="#">LOGIN</a>
       <a href="#" @click="goEventTwo">EVENTS</a>
+      <a v-if="user" @click="profileClicked">
+         
+        
+         {{ user?.email }}
+       <button type="button" @click="submitSignOut">Sign Out</button>
+      </a>
      
      
      
