@@ -40,7 +40,7 @@ setGlobalOptions({maxInstances: 10})
 //       });
 // })
 
-exports.addAdminRole = onCall((request) =>  {
+exports.addadminrole = onCall((request) =>  {
     return new Promise((resolve, reject) => {
         getAuth().getUserByEmail(request.data.userEmail).then(user => {
             getAuth().setCustomUserClaims(user.uid, {

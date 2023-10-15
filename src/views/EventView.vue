@@ -1,38 +1,29 @@
 <template>
     <div class="container">
         <div class="header-container">
-            <img v-if="dude" src="../images/arrow.svg" @click="selectedMonth--" alt="" class="arrow-left">
+            <img v-if="getNextMonth" src="../images/arrow.svg" @click="selectedMonth--" alt="" class="arrow-left">
             <div class="header">{{ currentMonthName }}</div>
-          
-            <img v-if="sup" src="../images/arrow.svg" @click="selectedMonth++" alt="" class="arrow">
-           
-       
+            <img v-if="getCurrentMonth" src="../images/arrow.svg" @click="selectedMonth++" alt="" class="arrow">
         </div>
 
-        
-            
         <main class="event-list" v-for="event in myEvents" :key="event.id">
             <div class="event-wrapper">
-                <h1 class="event-day">{{ funkyDate(event.startDate) }}</h1>
+                <h1 class="event-day">{{ dateWithNameMonthDay(event.startDate) }}</h1>
+
                 <img :src="getImageForGame(event.game)" alt="" class="logo">
                 <div class="stop-flex">
-                <h1 class="event-day-copy">{{ anothaFunkyDate(event.startDate) }}</h1>
-                <div class="title-wrapper">
-                    <h2 class="event-title">{{ event.name }} </h2>
-                    <h3 class=" ya"> {{event.format}}</h3>
-                    <div class="start-time">{{ funkyDateNumbaTwo(event.startDate) }} - 11:00pm</div>
-                    
+                    <h1 class="event-day-copy">{{ dateWithNameDay(event.startDate) }}</h1>
+                    <div class="title-wrapper">
+                        <h2 class="event-title">{{ event.name }} </h2>
+                        <h3 class="event-format"> {{ event.format }}</h3>
+                        <div class="start-time">{{ dateWithHoursMinutes(event.startDate) }} - 11:00pm</div>
+                    </div>
+                    <p class="event-description">{{ event.desc }}</p>
+                    <br>
                 </div>
-               
-                <p class="event-description">{{ event.desc }}</p>
-                <br class="xd">
-                </div>
-               
             </div>
         </main>
     </div>
-   
- 
 </template>
 
 <style scoped>
@@ -53,9 +44,7 @@
     width:10%;
     min-height:60px;
    display:none;
-   
 }
-
 .event-wrapper{
     background:black;
         border-radius:1rem;
@@ -78,23 +67,20 @@
     margin-right:.5rem;
     display:none;
 }
-.ya{
+.event-format{
     color:rgb(214, 110, 214);
 }
 .container{
     margin-top:2.8rem;
-    
 }
 .title-wrapper{
     font-size:1.5rem;
 }
-    .header{
-        text-align: center;
-        font-family: var(--cool-font);
-       
-        font-size: 2.2rem;
-    }
-
+.header{
+    text-align: center;
+    font-family: var(--cool-font);
+    font-size: 2.2rem;
+}
 .event-list{
     padding:10px;
 
@@ -117,25 +103,21 @@
     font-weight:inherit;
     font-style: italic;
     color:rgb(214, 110, 214);
-    
-   
 }
 .event-description{
     padding-top: 5px;
     font-size:1.2rem;
 }
+
 @media(min-width:768px){
     .event-list{
         text-align: center;
-        
     }
     .event-wrapper{
         display: flex;
         align-items: center;
         justify-content: space-between;
-       
     }
-    
     .event-day,
     .stop-flex{
         width:40%;
@@ -143,34 +125,32 @@
     .logo{
         display:block;
     }
- 
 }
-
 </style>
 
 <script setup>
-
 import { onMounted, ref, watch, computed } from 'vue'
-import { collection, onSnapshot, addDoc, Timestamp, doc, deleteDoc, orderBy, query} from "firebase/firestore"; 
-
+import { collection, onSnapshot, orderBy, query} from "firebase/firestore"
 import { db } from "@/firebase"
+
 import cardback from '../images/cardback.png'
 import pokeball from '../images/pokeball.png'
 import warhammer from '../images/warhammer.jpg'
 import myhero from '../images/hero.webp'
 import yugioh from '../images/yugioh.png'
 
-
 const selectedMonth = ref(new Date().getMonth());
+const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+];
 const allEvents = ref([]);
 const myEvents = ref([]);
 const eventRef = collection(db, 'events');
 const q = query(eventRef, orderBy("startDate"));
-const daysOfWeek = [ "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-const myGames = ref([])
+const myGames = ref([]);
 
-
-onMounted( () => {
+onMounted(() => {
   onSnapshot(q, (querySnapshot) => {
     const tmpEvents = [];
     querySnapshot.forEach((doc) => {
@@ -201,6 +181,7 @@ onMounted( () => {
     myGames.value = tmpGames
   })
 })
+
 watch(selectedMonth, () => {
   filterEventsByMonth();
 });
@@ -218,47 +199,35 @@ function filterEventsByMonth() {
         .sort((a, b) => a.startDate - b.startDate); // Order events by start date
 }
 
-
-
-const monthNames = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
-];
-
 const currentMonthName = computed(() => {
     return monthNames[selectedMonth.value].toUpperCase();
 });
 
-
-
-function funkyDate(date) {
-   
+function dateWithNameMonthDay(date) {
     const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
     const day = String(date.getDate()).padStart(2, '0');
     const month = date.toLocaleDateString('en-US', { month: 'short' });
-    return `${dayName}, ${month} ${day}`;
-     
-        
     
+    return `${dayName}, ${month} ${day}`;
 }
-function anothaFunkyDate(date){
+
+function dateWithNameDay(date){
     const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
     const day = String(date.getDate()).padStart(2, '0');
   
     return `${dayName}, ${day}`;
 }
-function funkyDateNumbaTwo(date) {
+function dateWithHoursMinutes(date) {
   let hours = date.getHours();
     hours = hours %12;
   const someHours = String(hours);
     const minutes = String(date.getMinutes()).padStart(2, '0');
+
     return `${someHours}:${minutes}pm`;
 }
 
-// ... other methods ...
-
 function getImageForGame(gameName) {
-    const thatsthenameofthegamemf = gameName.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+    const formattedGameName = gameName.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
    
     const gameImageMap = {
         'magicthegathering': cardback,
@@ -267,25 +236,18 @@ function getImageForGame(gameName) {
         'myhero': myhero,
         'yugioh': yugioh,
         'myheroacademia':myhero,
-
-       
     };
 
-    return gameImageMap[thatsthenameofthegamemf]; 
+    return gameImageMap[formattedGameName]; 
 }
 
 const currentMonth = ref(new Date().getMonth());
 
-
-const dude = computed(() => {
+const getNextMonth = computed(() => {
     return selectedMonth.value === currentMonth.value + 1;
 });
 
-
-const sup = computed(() => {
+const getCurrentMonth = computed(() => {
     return selectedMonth.value === currentMonth.value;
 });
-
-
-
 </script>

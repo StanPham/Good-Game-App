@@ -1,26 +1,24 @@
 <script setup>
-
 import { ref} from 'vue'
 import { firebaseAppAuth } from '@/firebase'
-import { signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import { signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import router from '../router'
+
 const user = ref(null)
 const isAdmin = ref(false)
 const email = ref('')
 const password = ref('')
 
-const theyWannaSignup = () => router.push('/signup');
+const submitToSignUp = () => router.push('/signup');
 const submitLogin = async () => {
-    
     await signInWithEmailAndPassword(firebaseAppAuth, email.value, password.value)
         .then((data) => {
             console.log("Login Successful")
-           
+            router.push('/');
         }).catch((error) => {
             console.log(error.code)
             alert(error.message)
         })
-        router.push('/');
 }
 const submitSignInWIthGoogle = () => {
     const provider = new GoogleAuthProvider();
@@ -33,15 +31,7 @@ const submitSignInWIthGoogle = () => {
         })
 }
 
-
-const submitSignOut = async () => {
-     await signOut(firebaseAppAuth).then((res) => {}).catch((error) =>{
-        console.log(error.code)
-        alert(error.message)
-     })
-  }
-
-  onAuthStateChanged(firebaseAppAuth, currentUser => {
+onAuthStateChanged(firebaseAppAuth, currentUser => {
     user.value = currentUser
     if(currentUser) {
         currentUser.getIdTokenResult().then(idTokenResult => {
@@ -49,45 +39,37 @@ const submitSignOut = async () => {
         })
     }
 })
-
 </script>
 
 <template>
     <div class="form-container" id="formContainer">
-        
         <form @submit.prevent="submitLogin">
             <div class="form-header">
-                <h2>Login</h2>
-                
+                <h2>Login</h2>  
             </div>
             
             <div>
-                
-                <input type = "email" v-model="email" placeholder="Email">
+                <input type = "email" v-model="email" placeholder="Email" required>
             </div>
             
             <div>
-                
-                <input type = "password" v-model="password" placeholder="Password">
+                <input type = "password" v-model="password" placeholder="Password" required>
             </div>
-            
-            
+
             <button type="submit" class="submit-btn" >Submit</button>
            
             <div class="google-container" @click="submitSignInWIthGoogle">
                 <img src="../images/google.png" alt="" class="google-image">
-            <button type="button"  class="google-button">Sign In With Google</button>
-        </div>
-            <button  type="button" class="swap-signup" @click="theyWannaSignup">No account? Signup.</button>
+                <button type="button"  class="google-button">Sign In With Google</button>
+            </div>
+
+            <button  type="button" class="swap-signup" @click="submitToSignUp">No account? Signup.</button>
         </form>
-        <div class="pika-contain">
-            <img src="../images/pikachu.webp" alt="" class="pika">
+        
+        <div class="pikachu-image-container">
+            <img src="../images/pikachu.webp" alt="" class="pikachu-image">
         </div> 
-       
-   
-       
-</div>
-    
+    </div>
 </template>
 
 <style scoped>
@@ -98,9 +80,7 @@ const submitSignOut = async () => {
     flex-grow:1;
     margin:auto;
     padding:.5rem;
-   
     font-weight:100;
-   
 }
 .swap-signup{
     font-size:1.1rem;
@@ -121,7 +101,7 @@ const submitSignOut = async () => {
     padding:.5rem;
     border-radius:1rem;
 }
-.pika{
+.pikachu-image{
     max-width: 50%;
     display: block;
     margin-left: auto;
@@ -146,7 +126,6 @@ const submitSignOut = async () => {
 h2{
     margin-bottom:1.3rem;
 }
-
 form{
     width:clamp(23rem,50%,5000px);
     display:flex;
@@ -156,12 +135,10 @@ form{
     
     
 }
-
 .form-header{
     display:flex;
     justify-content: space-between;
 }
-
 input{
     border-radius: 5px;
     border: 1px solid rgb(24, 23, 22);
@@ -172,14 +149,10 @@ input{
     background-color: rgb(53, 55, 56);
     color:white;
 }
-
 input:focus{
-    outline:none;
-    
+    outline:none;   
 }
-
 .submit-btn{
-   
     background-color: var(--btn-color);
     font-size: 20px;
     border-radius: 1rem;
@@ -195,12 +168,8 @@ input:focus{
 }
 
 @media(max-width: 750px){
-    .pika-contain{
+    .pikachu-image-container{
         display:none;
     }
 }
-
-
 </style>
-
-

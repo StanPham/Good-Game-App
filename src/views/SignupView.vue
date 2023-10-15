@@ -1,6 +1,5 @@
 
 <script setup>
-
 import { ref } from 'vue'
 import { firebaseAppAuth } from '@/firebase'
 import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
@@ -8,6 +7,8 @@ import router from '../router'
 
 const email = ref('')
 const password = ref('')
+
+const submitToLogin = () => router.push('/login');
 
 const submitRegister = () => {
     createUserWithEmailAndPassword(firebaseAppAuth, email.value, password.value)
@@ -19,7 +20,6 @@ const submitRegister = () => {
     
 }
 
-
 const submitSignUpWIthGoogle = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(firebaseAppAuth, provider)
@@ -30,10 +30,8 @@ const submitSignUpWIthGoogle = () => {
             err
         })
 }
-
-const theyWannaLogin = () => router.push('/login');
-
 </script>
+
 <template>
     <div class="form-container" id="formContainer">
         
@@ -66,7 +64,7 @@ const theyWannaLogin = () => router.push('/login');
                 <img src="../images/google.png" alt="" class="google-image">
             <button type="button"  class="google-button">Sign Up With Google</button>
         </div>
-            <button  type="button" class="swap-login" @click="theyWannaLogin" >Have an account? Login.</button>
+            <button  type="button" class="swap-login" @click="submitToLogin">Have an account? Login.</button>
         </form>
         <div class="pika-contain">
             <img src="../images/pikachu.webp" alt="" class="pika">
@@ -81,9 +79,7 @@ const theyWannaLogin = () => router.push('/login');
     flex-grow:1;
     margin:auto;
     padding:.5rem;
-   
     font-weight:100;
-   
 }
 .swap-login{
     font-size:1.1rem;
@@ -101,9 +97,8 @@ const theyWannaLogin = () => router.push('/login');
 }
 .google-container{
     display:flex;
- border: black 1px solid;
- background: rgb(37, 37, 37);
- 
+    border: black 1px solid;
+    background: rgb(37, 37, 37);
     padding:.5rem;
     border-radius:1rem;
 }
@@ -120,21 +115,14 @@ const theyWannaLogin = () => router.push('/login');
    
 }
 .form-container{
-   
     margin-inline: auto;
     width: clamp(200px, 90vw,50rem);
-   
     display:flex;
-    
     background-color: rgb(66, 60, 63);
-   
-   
     border-radius: 10px;
     color:white;
     margin-top: 4rem;
-
 }
-
 
 form{
     width:clamp(23rem,50%,5000px);
@@ -187,9 +175,4 @@ input:focus{
         display:none;
     }
 }
-
-
 </style>
-
-
-
