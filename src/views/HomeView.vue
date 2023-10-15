@@ -1,5 +1,10 @@
 <script setup>
 import { onMounted, ref, watch, computed } from 'vue'
+
+import { collection, onSnapshot} from "firebase/firestore"; 
+
+import { db } from "@/firebase"
+
 import router from '../router'
 
 import morecards from '../images/cards.png'
@@ -17,8 +22,45 @@ import TableCard from '../components/TableCard.vue'
 import MiniGame from '../components/MiniGame.vue';
 
 
+const mySlides = ref([]);
 
+onMounted( () => {
+ onSnapshot(collection(db, 'carousel'), (querySnapshot) => {
+   const tmpSlides = [];
+   querySnapshot.forEach((doc) => {
+     const slide = {
+       id: doc.id,
+       title: doc.data().title,
+       subtitle: doc.data().subtitle,
+       subsubtitle: doc.data().subsubtitle,
+       btntxt: doc.data().btntxt,
+       link: doc.data().link,
+       img: doc.data().img,
 
+       
+     }
+     tmpSlides.push(slide)
+   });
+   mySlides.value = tmpSlides;
+   
+ });
+ 
+})
+
+const slideContents = computed(() => {
+    return mySlides.value.map(slide => {
+        return {
+            title: slide.title,
+            subtitle: slide.subtitle,
+            subsubtitle: slide.subsubtitle,
+           
+            btntxt: slide.btntxt,
+            link: slide.link,
+            img: slide.img,
+            
+        }
+    });
+});
 
 </script>
 
@@ -26,17 +68,9 @@ import MiniGame from '../components/MiniGame.vue';
   <div class="wilma-container">
    
    <div class="car-card"> 
- <TheCarousel  :image-src="[cat,morecards, yugioh]" :slideTexts="[{title:'Friday Night Magic Commander',
-startdate: 'Oct 13', btntext:'View Events', link:'/event'},
-
-{title:'Looking For Singles?', startdate:'Check out our TCGplayer',btntext: 'TCGplayer', link:'https://shop.tcgplayer.com/sellerfeedback/71c2420f'},
-{title:'Yu-Gi-Oh!',starttime:'Every Sunday',startdate: '5pm',btntext:'View Events', link:'/event'}]"
-    
-  
-   
-    
-  />
+      <TheCarousel v-if="slideContents.length" :slideContents="slideContents"/>
    </div>
+
   <div class="event-card">
  <TodaysEvent />
 </div>

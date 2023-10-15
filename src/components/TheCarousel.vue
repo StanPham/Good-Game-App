@@ -1,46 +1,43 @@
 <template>
   <div class="carousel">
     <div class="img-container"  @touchstart="touchStart"
-     @touchmove="touchMove"
-     @touchend="touchEnd">
-     
-      <transition mode="out-in">
-        <img
-          :key="currentImageSrc"
-          class="carousel-item"
-          :src="currentImageSrc"
-          
-        />
-      </transition>
-      <div class="flex-wrapper">
-      <!-- <div class="car-text upper">
-        <div class="start-day">{{currentSlideText.startday}}</div>
-        <div class="start-date">{{currentSlideText.startdate}}</div>
-      </div> -->
-      <div class="car-text not-upper">
-       
-        <h1 class="car-title">{{ currentSlideText.title }}</h1>
-        <div class="start-time">{{currentSlideText.starttime}}</div>
-        <!-- <div class="start-day">{{currentSlideText.startday}}</div> -->
-      
-        <div class="start-date">{{currentSlideText.startdate}}</div>
-      </div>
-    </div>
-    <button class="some-button" @click.stop="navigateToLink">{{currentSlideText.btntext}}</button>
-    
-      <button @click="prevImage" class="carousel-nav carousel-nav-left">←</button>
-    <button @click="nextImage" class="carousel-nav carousel-nav-right">→</button>
+        @touchmove="touchMove"
+        @touchend="touchEnd">
+        
+        <transition mode="out-in">
+          <img
+            :key="currentSlideText"
+            class="carousel-item"
+            :src="currentSlideText.img"
+            
+          />
+        </transition>
+        <div class="flex-wrapper">
+        
+            <div class="car-text not-upper">
+              
+              <h1 class="car-title">{{ currentSlideText.title }}</h1>
+              <div class="start-time">{{currentSlideText.subtitle}}</div>
+              <div class="start-date">{{currentSlideText.subsubtitle}}</div>
 
-    <div class="carousel-dots">
-      <span
-        v-for="(img, index) in imageSrc"
-        :key="index"
-        :class="{ active: currentImageIndex === index }"
-        @click="setIndex(index)"
-      ></span>
-    </div>
+            </div>
+        </div>
+
+        <button class="carousel-button" @click.stop="navigateToLink">{{currentSlideText.btntxt}}</button>
+        
+        <button @click="prevImage" class="carousel-nav carousel-nav-left">←</button>
+        <button @click="nextImage" class="carousel-nav carousel-nav-right">→</button>
+
+        <div class="carousel-dots">
+          <span
+            v-for="(img, index) in slideContents"
+            :key="index"
+            :class="{ active: currentImageIndex === index }"
+            @click="setIndex(index)"
+          ></span>
+        </div>
     
-    </div>
+  </div>
     
     
 
@@ -49,13 +46,13 @@
 
 <style scoped>
 
-.some-button:active{
+.carousel-button:active{
  
  color:black;
  background:rgb(255, 255, 255);
 
 }
-.some-button{
+.carousel-button{
  font-size:1.5rem;
  font-weight:bold;
   position:absolute;
@@ -215,7 +212,7 @@ filter: blur(10px);
     padding-bottom: 3rem;
   }
   
-  .some-button {
+  .carousel-button {
    
     width: 150px;
     height: 50px;
@@ -233,11 +230,8 @@ filter: blur(10px);
 import router from '../router'
 export default {
   props: {
-    imageSrc: {
-      type: Array,
-      required: true,
-    },
-    slideTexts: {
+   
+    slideContents: {
       type: Array,
       
     }
@@ -252,11 +246,11 @@ export default {
   },
 
   computed: {
-    currentImageSrc() {
-      return this.imageSrc[this.currentImageIndex];
-    },
+    // currentImageSrc() {
+    //   return this.slideContents.img[this.currentImageIndex];
+    // },
     currentSlideText() {
-      return this.slideTexts[this.currentImageIndex];
+      return this.slideContents[this.currentImageIndex];
     }
   },
 
@@ -268,13 +262,13 @@ export default {
       this.interval = setInterval(this.nextImage, 4000);
     },
     nextImage() {
-      this.currentImageIndex = (this.currentImageIndex + 1) % this.imageSrc.length;
+      this.currentImageIndex = (this.currentImageIndex + 1) % this.slideContents.length;
       this.startInterval();
       
     },
 
     prevImage() {
-      this.currentImageIndex = (this.currentImageIndex - 1 + this.imageSrc.length) % this.imageSrc.length;
+      this.currentImageIndex = (this.currentImageIndex - 1 + this.slideContents.length) % this.slideContents.length;
       this.startInterval();
     },
 
