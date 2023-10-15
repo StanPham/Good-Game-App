@@ -1,65 +1,56 @@
 <script setup>
-import { onMounted, ref, watch, computed } from 'vue'
-import router from '../router'
-
 import morecards from '../images/cards.png'
 import cat from '../images/cat.webp'
-import cards from '../images/cards.jpg'
 import yugioh from '../images/yugioh.jpg'
-import store from '../images/store.jpg'
-import dragon from '../images/dragon.jpg'
 import TheCarousel from '../components/TheCarousel.vue'
 import TodaysEvent from '../components/TodaysEvent.vue';
 import ShopCard from '../components/MobileShopCard.vue';
-import AnothaCard from '../components/UnusedShopCard.vue';
 import ShopComp from '../components/DtopShopComp.vue';
 import TableCard from '../components/TableCard.vue'
 import MiniGame from '../components/MiniGame.vue';
-
-
-
-
-
 </script>
 
 <template>
-  <div class="wilma-container">
-   
-   <div class="car-card"> 
- <TheCarousel  :image-src="[cat,morecards, yugioh]" :slideTexts="[{title:'Friday Night Magic Commander',
-startdate: 'Oct 13', btntext:'View Events', link:'/event'},
+  <div class="main-home-container"> 
+    <div class="car-card"> 
+      <TheCarousel
+          :image-src="[cat,morecards, yugioh]" 
+          :slideTexts="[{title:'Friday Night Magic Commander',
+                        startdate: 'Oct 13', 
+                        btntext:'View Events', 
+                        link:'/event'},
+                        {title:'Looking For Singles?', 
+                        startdate:'Check out our TCGplayer',
+                        btntext: 'TCGplayer', 
+                        link:'https://shop.tcgplayer.com/sellerfeedback/71c2420f'},
+                        {title:'Yu-Gi-Oh!',
+                        starttime:'Every Sunday',
+                        startdate: '5pm',
+                        btntext:'View Events', 
+                        link:'/event'}]" 
+      />
+    </div>
 
-{title:'Looking For Singles?', startdate:'Check out our TCGplayer',btntext: 'TCGplayer', link:'https://shop.tcgplayer.com/sellerfeedback/71c2420f'},
-{title:'Yu-Gi-Oh!',starttime:'Every Sunday',startdate: '5pm',btntext:'View Events', link:'/event'}]"
-    
-  
-   
-    
-  />
-   </div>
-  <div class="event-card">
- <TodaysEvent />
-</div>
-<div class="shop-card">
- <ShopCard />
-</div>
+    <div class="event-card">
+      <TodaysEvent />
+    </div>
 
- 
- <!-- <AnothaCard /> -->
+    <div class="shop-card">
+      <ShopCard />
+    </div>
 
- <div class="shop-comp">
-<ShopComp />
- </div>
+    <div class="shop-comp">
+      <ShopComp />
+    </div>
 
- <div class="table-card">
-  <TableCard />
- </div>
+    <div class="table-card">
+      <TableCard />
+    </div>
 
- <div class="minigame-card">
-  <MiniGame />
- </div>
-
-</div>
+    <div class="minigame-card">
+      <MiniGame />
+    </div>
+  </div>
 </template>
 
 <style scoped>
@@ -78,32 +69,29 @@ startdate: 'Oct 13', btntext:'View Events', link:'/event'},
 }
 .shop-card,
 .event-card{
- 
   width:clamp(490px,30%,30%);
 }
-.wilma-container{
-    margin-top:2.8rem;
-    display:flex;
-    flex-wrap:wrap;
-   justify-content:center;
-    gap:2rem;
-    margin-left:auto;
-    margin-right:auto;
-   
-    
+.main-home-container{
+  margin-top:2.8rem;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:2rem;
+  margin-left:auto;
+  margin-right:auto;
 }
 .shop-comp{
   display:none;
   width:clamp(80vw,96%,1000rem);
 }
+
 @media(max-width:1047px){
   .shop-card,
   .event-card,
   .table-card,
   .minigame-card{
- 
-  width:clamp(700px,30%,30%);
-}
+    width:clamp(700px,30%,30%);
+  }
 }
 
 @media(min-width:1550px){
@@ -120,23 +108,12 @@ startdate: 'Oct 13', btntext:'View Events', link:'/event'},
   .table-card{
     width:45%;
   }
- 
-  
 }
 
-
-
-
-
-
 @media(min-width:1700px){
-  .wilma-container{
+  .main-home-container{
     
     width:90vw;
   }
 }
-
-
-
-
 </style>

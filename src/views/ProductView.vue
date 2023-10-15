@@ -1,7 +1,7 @@
 <template>
-    <div class="deez" style="margin-top:20rem">
-    <div class="wut">{{ productName }}</div>
-</div>
+    <div style="margin-top:20rem">
+        <div>{{ productName }}</div>
+    </div>
 </template>
 
 <script setup>

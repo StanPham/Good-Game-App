@@ -37,7 +37,7 @@ const router = createRouter({
    
     {
       path: '/',
-      name: 'anothahome',
+      name: 'home',
       component: () => import('../views/HomeView.vue')
     },
     {
