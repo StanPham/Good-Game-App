@@ -1,3 +1,81 @@
+<script setup>
+import { collection, onSnapshot} from "firebase/firestore"; 
+
+import { db } from "@/firebase"
+
+
+import { useRoute } from 'vue-router';
+import { onMounted, ref, watch, computed} from 'vue';
+import pika from '../images/pikachu.webp'
+import booster from '../images/booster.png'
+const selectedCategory = ref("");
+const searchQuery = ref("");
+
+const setActiveTab = (tabName) => {
+  selectedCategory.value = tabName;
+};
+const myShops = ref([]);
+
+onMounted( () => {
+ onSnapshot(collection(db, 'shop'), (querySnapshot) => {
+   const tmpItems = [];
+   querySnapshot.forEach((doc) => {
+     const item = {
+       id: doc.id,
+       name: doc.data().name,
+       category: doc.data().category,
+       price: doc.data().price,
+       quant: doc.data().quant,
+       desc: doc.data().desc,
+       img: doc.data().img,
+
+       
+     }
+     tmpItems.push(item)
+   });
+   myShops.value = tmpItems;
+ 
+ });
+ 
+})
+
+const categoryMapping = {
+    mtg: 'Magic: The Gathering',
+    yug: 'Yugioh',
+    pok: 'Pokemon',
+    ddd: 'D&D',
+    oth: 'Accessories',
+    '':'All Products'
+};
+
+const filteredShops = computed(() => {
+    let results = myShops.value;
+    
+    if (selectedCategory.value) {
+        const actualCategory = categoryMapping[selectedCategory.value];
+        results = results.filter(shop => shop.category === actualCategory);
+    }
+    
+    if (searchQuery.value) {
+        const query = searchQuery.value.toLowerCase();
+        results = results.filter(shop => 
+            shop.name.toLowerCase().includes(query) || 
+            shop.category.toLowerCase().includes(query)
+        );
+    }
+    
+    return results;
+});
+
+
+const route = useRoute();
+watch(route, (newRoute) => {
+    if (newRoute.query.category) {
+        selectedCategory.value = newRoute.query.category;
+    }
+});
+
+</script>
 <template>
     <div class="body-wrapper">
   
@@ -48,7 +126,7 @@
         <div class="work-wrap" v-for="shop in filteredShops" :key="shop.id">
             <router-link :to="`/product/${shop.name}`" class="link">
         <div class="prac">
-            <img :src="shop.image" alt="" class="pika">
+            <img :src="shop.img" alt="" class="pika">
             <div class="product-name">{{shop.name}}</div>
             <div class="price">{{ shop.price }}</div>
             <p class="quant">Quantity: {{shop.quant}}</p>
@@ -266,117 +344,3 @@ img{
 }
 </style>
 
-<script setup>
-import { watch } from 'vue';
-import { useRoute } from 'vue-router';
-import {ref, computed} from 'vue';
-import pika from '../images/pikachu.webp'
-import booster from '../images/booster.png'
-const selectedCategory = ref("");
-const searchQuery = ref("");
-
-const setActiveTab = (tabName) => {
-  selectedCategory.value = tabName;
-};
-const myShops = ref([
-    {
-        id:1,
-        image: booster,
-        name: 'Wilds of Eldraine Set Boosters',
-        price: '$99.99',
-        quant: 3,
-        category: 'Magic: The Gathering',
-
-    },
-    {
-        id:2,
-        image: booster,
-        name: 'Pokemon Product Number 27',
-        price: '$99.99',
-        quant: 3,
-        category: 'Pokemon',
-
-    },
-    {
-        id:3,
-        image: booster,
-        name: 'Some Yugioh Product',
-        price: '$99.99',
-        quant: 3,
-        category: 'Yugioh',
-
-    },
-    {
-        id:4,
-        image: booster,
-        name: 'Some Yugioh Product',
-        price: '$99.99',
-        quant: 3,
-        category: 'Yugioh',
-
-    },
-    {
-        id:5,
-        image: booster,
-        name: 'Some Yugioh Product',
-        price: '$99.99',
-        quant: 3,
-        category: 'Yugioh',
-
-    },
-    {
-        id:6,
-        image: booster,
-        name: 'Some Yugioh Product',
-        price: '$99.99',
-        quant: 3,
-        category: 'Yugioh',
-
-    },
-    {
-        id:7,
-        image: booster,
-        name: 'pokemon product 3',
-        price: '$99.99',
-        quant: 3,
-        category: 'Pokemon',
-
-    },
-]);
-const categoryMapping = {
-    mtg: 'Magic: The Gathering',
-    yug: 'Yugioh',
-    pok: 'Pokemon',
-    ddd: 'D&D',
-    oth: 'Accessories',
-    '':'All Products'
-};
-
-const filteredShops = computed(() => {
-    let results = myShops.value;
-    
-    if (selectedCategory.value) {
-        const actualCategory = categoryMapping[selectedCategory.value];
-        results = results.filter(shop => shop.category === actualCategory);
-    }
-    
-    if (searchQuery.value) {
-        const query = searchQuery.value.toLowerCase();
-        results = results.filter(shop => 
-            shop.name.toLowerCase().includes(query) || 
-            shop.category.toLowerCase().includes(query)
-        );
-    }
-    
-    return results;
-});
-
-
-const route = useRoute();
-watch(route, (newRoute) => {
-    if (newRoute.query.category) {
-        selectedCategory.value = newRoute.query.category;
-    }
-});
-
-</script>

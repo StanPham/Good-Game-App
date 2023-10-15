@@ -1,6 +1,6 @@
 <script setup>
 import { signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
-import { firebaseAppAuth } from '@/firebase'
+// import { firebaseAppAuth } from '@/firebase'
 import {ref} from 'vue'
 
 import burger from '../images/burger.svg';
@@ -21,14 +21,14 @@ const submitSignOut = async () => {
      router.push('/');
   }
 
-  onAuthStateChanged(firebaseAppAuth, currentUser => {
-    user.value = currentUser
-    if(currentUser) {
-        currentUser.getIdTokenResult().then(idTokenResult => {
-            isAdmin.value = idTokenResult.claims.admin ? true : false
-        })
-    }
-})
+//   onAuthStateChanged(firebaseAppAuth, currentUser => {
+//     user.value = currentUser
+//     if(currentUser) {
+//         currentUser.getIdTokenResult().then(idTokenResult => {
+//             isAdmin.value = idTokenResult.claims.admin ? true : false
+//         })
+//     }
+// })
 const profileClicked = () => userClickedProfile.value = !userClickedProfile.value;
 
 const toggleMobileMenu = () => isMobileMenuOpen.value = !isMobileMenuOpen.value;

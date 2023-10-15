@@ -1,7 +1,10 @@
 
 <script setup>
 import { collection, onSnapshot, addDoc, Timestamp, doc, deleteDoc, updateDoc } from "firebase/firestore"; 
-import { db } from "@/firebase"
+
+
+import { db, storage } from "@/firebase"
+import{ref as storageRef, uploadBytesResumable, getDownloadURL} from 'firebase/storage'
 
 import { onMounted, ref, computed } from 'vue'
 
@@ -22,6 +25,16 @@ const newItem = ref({
 const myItems = ref([])
 
 
+const onImageChange = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        const imageRef = storageRef(storage, 'shop-images/' + file.name);
+        await uploadBytesResumable(imageRef, file);
+        newItem.value.image = await getDownloadURL(imageRef);
+        console.log(newItem.value.image);
+    }
+}
+
 const addItem = async () =>{
    await addDoc(collection(db, "shop"), {
      name: newItem.value.name,
@@ -31,13 +44,14 @@ const addItem = async () =>{
      desc: newItem.value.desc,
      img: newItem.value.image,
     
+    
    
      creationDate: Timestamp.fromDate(new Date())
    });
 
    
 }
- 
+
 
 const deleteItem = async id => {
  if(confirm("you sure buddy?")) await deleteDoc(doc(db, "shop", id));
@@ -54,15 +68,16 @@ onMounted( () => {
        name: doc.data().name,
        category: doc.data().category,
        price: doc.data().price,
-       quant: doc.data().quantity,
+       quant: doc.data().quant,
        desc: doc.data().desc,
-       img: doc.data().image,
+       img: doc.data().img,
 
        
      }
      tmpItems.push(item)
    });
-   myItems.value = tmpItems
+   myItems.value = tmpItems;
+   console.log(myItems.value)
  });
  
 })
@@ -90,6 +105,14 @@ onMounted( () => {
        
        type="text"
        required>
+
+       <label for="itemCat">Category</label>
+     <input
+     v-model="newItem.category" 
+       class="input"
+       
+       type="text"
+       >
      
        <label for="itemPrice">Price</label>
      <input
@@ -97,7 +120,7 @@ onMounted( () => {
        class="input"
        
        type="text"
-       required>
+       >
 
        <label for="itemQuant">Quantity</label>
      <input
@@ -105,7 +128,7 @@ onMounted( () => {
        class="input"
        
        type="text"
-       required>
+       >
     
     
      
@@ -115,8 +138,18 @@ onMounted( () => {
        class="input"
       
        type="textarea"
-       required>
+       >
       </textarea>
+
+      <label for="iamge">Image</label>
+      <input
+     
+       class="input"
+       
+       type="file"
+       @change="onImageChange"
+       required>
+      
       
      
      
@@ -131,6 +164,7 @@ onMounted( () => {
        <th scope="col">Name</th>
        
        <th scope="col">Desc</th>
+       <th scope="col">Cate.</th>
        <th scope="col">Price</th>
        <th scope="col">Quantity</th>
        <th scope="col">Image</th>
@@ -141,22 +175,29 @@ onMounted( () => {
        <tr >
          <td class="name">{{ item.name }}</td>
          <td class="scrollable-cell"><div class="scrollable-content">{{ item.desc }}</div></td>
+         <td>{{ item.category }}</td>
+         <td>{{ item.price }}</td>
+         <td>{{ item.quant }}</td>
+         
+         <td><img :src="item.img" alt="thease" width="100"></td>
+         
         
+        
+
          <td >
            <button class="editBut"
             
            >edit</button>
            <button class="delBut"
-             @click="deleteEvent(item.id)"
+             @click="deleteItem(item.id)"
            >delete</button>
          </td>
          
+
        </tr>
        <tr class="filler-row"></tr>
      </tbody>
    </table>
-
-
 
 </body> 
 </template>

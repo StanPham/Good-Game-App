@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import { firebaseAppAuth } from '@/firebase'
+// import { firebaseAppAuth } from '@/firebase'
 import { onAuthStateChanged } from 'firebase/auth'
 
 import SignupView from '../views/SignupView.vue'
@@ -71,7 +71,7 @@ const router = createRouter({
       path: '/admin',
       name: 'admin',
       component: () => import('../views/AdminView.vue'),
-     beforeEnter: requireAuth,  
+    //  beforeEnter: requireAuth,  
     },
    
     

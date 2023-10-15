@@ -2,8 +2,8 @@
 <script setup>
 
 import { ref } from 'vue'
-import { firebaseAppAuth } from '@/firebase'
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+// import { firebaseAppAuth } from '@/firebase'
+// import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import router from '../router'
 
 const email = ref('')

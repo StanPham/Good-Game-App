@@ -151,7 +151,7 @@
 <script setup>
 
 import { onMounted, ref, watch, computed } from 'vue'
-import { collection, onSnapshot, addDoc, Timestamp, doc, deleteDoc, orderBy, query} from "firebase/firestore"; 
+import { collection, onSnapshot, orderBy, query} from "firebase/firestore"; 
 
 import { db } from "@/firebase"
 import cardback from '../images/cardback.png'

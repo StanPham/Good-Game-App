@@ -1,23 +1,36 @@
 import { initializeApp } from 'firebase/app'
 import { getFirestore } from 'firebase/firestore'
-import { getAuth } from 'firebase/auth'
-import { getFunctions } from 'firebase/functions'
+import {getStorage} from "firebase/storage";
+// import { getAuth } from 'firebase/auth'
+// import { getFunctions } from 'firebase/functions'
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDD0GnAEnDepMZDtBnmpLYfsg2r4ylSgCI",
-  authDomain: "good-game-dev-environment.firebaseapp.com",
-  projectId: "good-game-dev-environment",
-  storageBucket: "good-game-dev-environment.appspot.com",
-  messagingSenderId: "859762729009",
-  appId: "1:859762729009:web:8df37547ed497863c0b510",
-  measurementId: "G-ZS9DMP8HLQ"
+  apiKey: "AIzaSyDoAhH-GgFLV0TcyuP_bv6a1Qg1xGXnzNk",
+
+  authDomain: "wiiiiiiiiiiiiiiiiiiiiiii-67361.firebaseapp.com",
+
+  projectId: "wiiiiiiiiiiiiiiiiiiiiiii-67361",
+
+  storageBucket: "wiiiiiiiiiiiiiiiiiiiiiii-67361.appspot.com",
+
+  messagingSenderId: "1045447905665",
+
+  appId: "1:1045447905665:web:6cdf521d75cba542cb5880",
+
+  measurementId: "G-MLZP7GTNTN"
+
 
 };
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
 
-export const db = getFirestore(firebaseApp);
+const storage = getStorage(firebaseApp);
+const db = getFirestore(firebaseApp);
 
-export const firebaseAppAuth = getAuth(firebaseApp);
+export{storage, db};
 
-export const firebaseFunctions = getFunctions(firebaseApp);
+
+
+// export const firebaseAppAuth = getAuth(firebaseApp);
+
+// export const firebaseFunctions = getFunctions(firebaseApp);
