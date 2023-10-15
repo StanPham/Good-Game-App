@@ -273,6 +273,7 @@ select{
 }
 .price{
     font-weight: bold;
+    font-size:1.15rem;
 }
 .header{
     background-color: grey;
@@ -310,7 +311,7 @@ main{
 }
 img{
     height: clamp(150px, 20vh, 40rem);
-    width:clamp(75%, 75%, 50rem);
+    width:clamp(100%, 75%, 50rem);
 }
 .work-wrap{
     
@@ -327,6 +328,7 @@ img{
 
 .product-name{
     padding-top:.5rem;
+    font-size:1.5rem;
 }
 
 @media(min-width:763px){
