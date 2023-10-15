@@ -100,6 +100,7 @@ button,
   background-color: transparent;
   /* 2 */
   background-image: none;
+  transition: 0.2s;
   /* 2 */
 }
 

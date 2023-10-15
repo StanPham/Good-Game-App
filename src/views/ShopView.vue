@@ -291,7 +291,7 @@ const myShops = ref([
     {
         id:2,
         image: booster,
-        name: 'Pokemon Pack Watch Twenty Seven',
+        name: 'Pokemon Product Number 27',
         price: '$99.99',
         quant: 3,
         category: 'Pokemon',
@@ -300,7 +300,7 @@ const myShops = ref([
     {
         id:3,
         image: booster,
-        name: 'Yugioh Grindin and Shinin',
+        name: 'Some Yugioh Product',
         price: '$99.99',
         quant: 3,
         category: 'Yugioh',
@@ -309,7 +309,7 @@ const myShops = ref([
     {
         id:4,
         image: booster,
-        name: 'Yugioh Grindin and Shinin',
+        name: 'Some Yugioh Product',
         price: '$99.99',
         quant: 3,
         category: 'Yugioh',
@@ -318,7 +318,7 @@ const myShops = ref([
     {
         id:5,
         image: booster,
-        name: 'Yugioh Grindin and Shinin',
+        name: 'Some Yugioh Product',
         price: '$99.99',
         quant: 3,
         category: 'Yugioh',
@@ -327,7 +327,7 @@ const myShops = ref([
     {
         id:6,
         image: booster,
-        name: 'Yugioh Grindin and Shinin',
+        name: 'Some Yugioh Product',
         price: '$99.99',
         quant: 3,
         category: 'Yugioh',
@@ -336,10 +336,10 @@ const myShops = ref([
     {
         id:7,
         image: booster,
-        name: 'idk',
+        name: 'pokemon product 3',
         price: '$99.99',
         quant: 3,
-        category: 'Yugioh',
+        category: 'Pokemon',
 
     },
 ]);
