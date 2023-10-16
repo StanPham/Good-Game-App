@@ -124,7 +124,7 @@ watch(route, (newRoute) => {
     <main class="product-container" >
         
         <div class="work-wrap" v-for="shop in filteredShops" :key="shop.id">
-            <router-link :to="`/product/${shop.name}`" class="link">
+            <router-link :to="`/product/${shop.id}`" class="link">
         <div class="prac">
             <img :src="shop.img" alt="" class="pika">
             <div class="product-name">{{shop.name}}</div>
