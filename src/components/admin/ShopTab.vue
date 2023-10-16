@@ -1,12 +1,13 @@
-
 <script setup>
 import { collection, onSnapshot, addDoc, Timestamp, doc, deleteDoc, updateDoc } from "firebase/firestore"; 
-
-
 import { db, storage } from "@/firebase"
 import{ref as storageRef, uploadBytesResumable, getDownloadURL} from 'firebase/storage'
-
 import { onMounted, ref, computed } from 'vue'
+
+const searchQuery = ref('');
+
+
+
 
 
 const newItem = ref({
@@ -49,7 +50,16 @@ const addItem = async () =>{
      creationDate: Timestamp.fromDate(new Date())
    });
 
-   
+   newItem.value = {
+        name: '',
+        category: '',
+        price: '',
+        quantity: '',
+        desc: '',
+        image: '',
+       
+    };
+    document.querySelector('input[type="file"]').value = null;
 }
 
 
@@ -84,7 +94,13 @@ onMounted( () => {
 
 
 
-
+const filteredItems = computed(() => {
+    return myItems.value.filter(item => 
+        item.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+        item.category.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+        item.desc.toLowerCase().includes(searchQuery.value.toLowerCase())
+    );
+});
 
 
  
@@ -159,7 +175,17 @@ onMounted( () => {
 
    </form>
  </div>
+
+ 
+ <div class="search">
+    <div class="search-container">
+      <img src="../../images/search.svg" alt="deez" class="search-icon">
+      <input type = "text" class="input-box" placeholder="Search" v-model="searchQuery">
+    </div>
+  </div>
+
  <table>
+ 
      <thead>
        <th scope="col">Name</th>
        
@@ -171,8 +197,9 @@ onMounted( () => {
        
        <th scope="col">Actions</th>
      </thead>
-     <tbody v-for="item in myItems" :key="item.id">
-       <tr >
+     
+     <tbody v-for="item in filteredItems" :key="item.id">
+       <tr>
          <td class="name">{{ item.name }}</td>
          <td class="scrollable-cell"><div class="scrollable-content">{{ item.desc }}</div></td>
          <td>{{ item.category }}</td>
@@ -197,12 +224,18 @@ onMounted( () => {
        </tr>
        <tr class="filler-row"></tr>
      </tbody>
+   
    </table>
 
 </body> 
 </template>
 
 <style scoped>
+
+thead{
+  position:sticky;
+  top:0;
+}
 
 input.checkbox{
     transform: scale(1.5);
@@ -214,9 +247,7 @@ input.checkbox{
 body{
   font-family:Arial, Helvetica, sans-serif
 }
-.we{
-  color:black;
-}
+
 h2{
  margin-inline:auto;
 }
@@ -357,7 +388,38 @@ form input[type="datetime-local"]{
 
 
 
+.input-box{
+    width:100%;
+    background-color: rgb(238, 235, 235);
+    border-radius: 20px;
+    border: 1px solid #21272b;
+    padding-left:50px;
+    max-height: 30px;
+    height:30px ;
+    color:black;
+   
+}
+.search-container{
+    position:relative;
+    width:70%;
+    display:flex;
+    justify-content:center;
+}
+.search{
+  width:100vw;
+  padding-top:1rem;
+  display:flex;
+  justify-content: center;
  
+}
+.search-icon{
+    width:20px;
+    height:20px;
+    position:absolute;
+    top: 15%;
+    left: 1rem;
+   
+}
 
 
 
