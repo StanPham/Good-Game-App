@@ -66,10 +66,11 @@ const router = createRouter({
       component: () => import('../views/AdminView.vue'),
      beforeEnter: requireAuth,  
     },
-   
-    
-    
-    
+    {
+      path: '/addadmin',
+      name: 'addadmin',
+      component: () => import('../views/AddAdminView.vue')
+    }    
   ]
 })
 
