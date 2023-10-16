@@ -6,7 +6,7 @@ import { createPinia } from 'pinia'
 
 import App from './App.vue'
 import router from './router'
-import outsideClick from '../functions/outsideClick.js';
+import outsideClick from './helperFunc/outsideClick.js';
 
 const pinia = createPinia()
 const app = createApp(App)
