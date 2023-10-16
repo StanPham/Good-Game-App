@@ -16,7 +16,7 @@ const email = ref('test@test.com')
 
 const submitAdmin = async () => {
     console.log(email.value);
-    const addMessage = httpsCallable(firebaseFunctions, 'addAdminRole');
+    const addMessage = httpsCallable(firebaseFunctions, 'addadminrole');
     await addMessage({ userEmail: email.value })
     .then((result) => {
         console.log(result.data);
