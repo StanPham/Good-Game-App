@@ -6,9 +6,8 @@ import { onMounted, ref, computed } from 'vue'
 
 const searchQuery = ref('');
 
-
-
-
+const showEditModal = ref(false);
+const editingItem = ref({});
 
 const newItem = ref({
  name: '',
@@ -20,9 +19,6 @@ const newItem = ref({
 })
 
 
-
-
-
 const myItems = ref([])
 
 
@@ -31,7 +27,12 @@ const onImageChange = async (event) => {
     if (file) {
         const imageRef = storageRef(storage, 'shop-images/' + file.name);
         await uploadBytesResumable(imageRef, file);
-        newItem.value.image = await getDownloadURL(imageRef);
+        if(showEditModal.value) {
+            editingItem.value.image = await getDownloadURL(imageRef);
+        } else {
+            newItem.value.image = await getDownloadURL(imageRef);
+        }
+
         console.log(newItem.value.image);
     }
 }
@@ -120,6 +121,25 @@ const updateItemQuantity = async (item) => {
     });
 }
 
+
+const startEditing = (item) => {
+   editingItem.value = { ...item };
+   showEditModal.value = true;
+}
+
+const updateItem = async () => {
+   await updateDoc(doc(db, "shop", editingItem.value.id), {
+     name: editingItem.value.name,
+     category: editingItem.value.category,
+     price: editingItem.value.price,
+     quant: editingItem.value.quantity,
+     desc: editingItem.value.desc,
+     img: editingItem.value.img,
+   });
+
+   showEditModal.value = false;
+   editingItem.value = {};
+}
 </script>
 
 <template>
@@ -189,6 +209,66 @@ const updateItemQuantity = async (item) => {
    </form>
  </div>
 
+ <div v-if="showEditModal" class="form-container">
+   <form @submit.prevent="updateItem">
+     <h2>Edit Item</h2>
+     <label for="itemName">Item Name</label>
+     <input
+     v-model="editingItem.name" 
+       class="input"
+       
+       type="text"
+       required>
+
+       <label for="itemCat">Category</label>
+     <input
+     v-model="editingItem.category" 
+       class="input"
+       
+       type="text"
+       >
+     
+       <label for="itemPrice">Price</label>
+     <input
+     v-model="editingItem.price" 
+       class="input"
+       
+       type="text"
+       >
+
+       <label for="itemQuant">Quantity</label>
+     <input
+     v-model="editingItem.quant" 
+       class="input"
+       
+       type="text"
+       >
+    
+    
+     
+       <label for="Description">Description</label>
+     <textarea
+       v-model="editingItem.desc"
+       class="input"
+      
+       type="textarea"
+       >
+      </textarea>
+
+      <label for="iamge">Image</label>
+      <input
+     
+       class="input"
+       
+       type="file"
+       @change="onImageChange"
+       >
+     <button type="submit" class="submit-btn">Save Changes</button>
+     <button @click="showEditModal = false">Cancel</button>
+   </form>
+  </div>
+
+
  
  <div class="search">
     <div class="search-container">
@@ -234,7 +314,7 @@ const updateItemQuantity = async (item) => {
 
          <td >
            <button class="editBut"
-            
+            @click="startEditing(item)"
            >edit</button>
            <button class="delBut"
              @click="deleteItem(item.id)"
