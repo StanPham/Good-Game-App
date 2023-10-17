@@ -102,10 +102,23 @@ const filteredItems = computed(() => {
     );
 });
 
+const minus = (item) => {
+    if (item.quant > 0) { 
+        item.quant--;
+        updateItemQuantity(item); 
+    }
+}
 
- 
+const plus = (item) => {
+    item.quant++;
+    updateItemQuantity(item); 
+}
 
-
+const updateItemQuantity = async (item) => {
+    await updateDoc(doc(db, "shop", item.id), {
+        quant: item.quant
+    });
+}
 
 </script>
 
@@ -204,7 +217,15 @@ const filteredItems = computed(() => {
          <td class="scrollable-cell"><div class="scrollable-content">{{ item.desc }}</div></td>
          <td>{{ item.category }}</td>
          <td>{{ item.price }}</td>
-         <td>{{ item.quant }}</td>
+         <td class="quant-cell">
+          <div class="quantity-wrapper">
+           
+            {{ item.quant }}
+            
+            <button class="basic" @click="plus(item)">+</button> 
+            <button class="basic" @click="minus(item)">-</button>
+          </div>
+        </td>
          
          <td><img :src="item.img" alt="thease" width="100"></td>
          
@@ -232,6 +253,19 @@ const filteredItems = computed(() => {
 
 <style scoped>
 
+.basic:hover{
+
+  color:grey;
+  background:white;
+
+}
+.basic{
+  padding:.1rem .5rem;
+  margin-left:.1rem;
+
+  background:grey;
+
+}
 thead{
   position:sticky;
   top:0;

@@ -17,8 +17,8 @@
             <div class="car-text not-upper">
               
               <h1 class="car-title">{{ currentSlideText.title }}</h1>
-              <div class="start-time">{{currentSlideText.subtitle}}</div>
-              <div class="start-date">{{currentSlideText.subsubtitle}}</div>
+              <div class="subtitle">{{currentSlideText.subtitle}}</div>
+              <div class="subsubtitle">{{currentSlideText.subsubtitle}}</div>
 
             </div>
         </div>
@@ -71,10 +71,10 @@
   position:relative;
   top:-100%;
 }
-.start-date{
+.subsubtitle{
   font-size:1.5rem;
 }
-.start-time{
+.subtitle{
   font-size:1.5rem;
   font-weight:bold;
   color: rgb(255, 251, 255);

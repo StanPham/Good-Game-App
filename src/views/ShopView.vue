@@ -90,12 +90,12 @@ watch(route, (newRoute) => {
     <label for="product-select"></label>
 
     <select name="products" id="product-select" v-model="selectedCategory">
-    <option value="">--Please choose a category--</option>
-    <option value="mtg">Magic: The Gathering</option>
-    <option value="yug">Yugioh</option>
-    <option value="pok">Pokemon</option>
-    <option value="ddd">D&D</option>
-    <option value="oth">Accessories</option>
+        <option value="">--Please choose a category--</option>
+        <option value="mtg">Magic: The Gathering</option>
+        <option value="yug">Yugioh</option>
+        <option value="pok">Pokemon</option>
+        <option value="ddd">D&D</option>
+        <option value="oth">Accessories</option>
     
     </select>
  

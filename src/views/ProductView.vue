@@ -1,9 +1,10 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/firebase';
 
+const amount = ref('1');
 const route = useRoute();
 const productID = route.params.name; 
 
@@ -17,6 +18,11 @@ onMounted(async () => {
   } else {
     console.log("No such product!");
   }
+});
+
+const productQuantityOptions = computed(() => {
+  const quantity = productData.value?.quant || 0;
+  return Array.from({ length: quantity }, (_, i) => i + 1);
 });
 </script>
 
@@ -33,8 +39,10 @@ onMounted(async () => {
       <p class="price">{{ productData.price }}</p>
       <br>
       <div class="quantity-wrap">
-        <select>
-          <option>1</option>
+        <select v-model="amount">
+          <option v-for="num in productQuantityOptions" :key="num" :value="num">
+            {{ num }}
+          </option>
         </select>
         <button class="reserve-btn">Reserve Now</button>
       </div>
@@ -93,10 +101,13 @@ p{
 
 .product-img{
   width:clamp(500px, 50%, 50rem);
-  height: clamp(500px, 50%, 50rem);
+  height: clamp(500px, 20vh, 40rem);
 }
 
 .product-text{
   text-align:left;
+  min-width:22rem;
+  max-width:25rem;
+  padding:.5rem;
 }
 </style>
