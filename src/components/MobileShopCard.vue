@@ -1,27 +1,31 @@
 
+<script setup>
+    function goEvent() {
+    this.$router.push('/shop');
+    }
+</script>
+
 <template>
     <div class="container">
         <div class="card-picture">
-             <img src="../images/booster.png" alt="" class="some-picture"> 
+                <img src="../images/booster.png" alt="" class="shop-card-picture"> 
         </div>
         <div class="event-wrapper">
-            
-           
-                <h1 class="event-day">SHOP</h1>
-              
-                
-                    <h2 class="event-title">Coming soon! </h2>
-                  
-                <br>
-                <button class="allEvents" @click="goEvent">SHOP</button>
-                <br> <br> <br><br> <br> <br>
+            <h1 class="event-day">SHOP</h1>
+            <h2 class="event-title">Coming soon! </h2>
+            <br>
+            <button class="allEvents" @click="goEvent">SHOP</button>
+            <br> <br> <br><br> <br> <br>
         </div>
-
     </div>
-    
-
 </template>        
                 
+            
+            
+
+    
+
+
 <style scoped>
 .card-picture{
     width:45%;
@@ -31,7 +35,7 @@
  
 
 }
-.some-picture{
+.shop-card-picture{
    
     height:100%;
 }
@@ -89,9 +93,6 @@ padding:.8rem 2rem;
 
 </style>
 
-<script setup>
-
-import { onMounted, ref, watch, computed } from 'vue'
 
 
 
@@ -105,12 +106,10 @@ import { onMounted, ref, watch, computed } from 'vue'
 
 
 
-function goEvent() {
-  this.$router.push('/shop');
-}
 
 
-</script>
+
+
 
 
 
