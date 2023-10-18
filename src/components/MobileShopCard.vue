@@ -2,7 +2,7 @@
 <script setup>
 import router from '../router'
 
-const goEvent = () =>  router.push('/shop');
+// const goEvent = () =>  router.push('/shop');
 </script>
 
 <template>
