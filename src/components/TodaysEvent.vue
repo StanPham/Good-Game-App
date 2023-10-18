@@ -97,7 +97,7 @@ const goEvent = () => {
             
           <p class="event-description">{{ todaysEvent.desc }}</p>
           <br>
-          <button class="allEvents" @click="goEvent">All Events</button>
+          <button class="all-events-btn main-btn" @click="goEvent">All Events</button>
       </div>
   </div>
 </template>
@@ -109,17 +109,9 @@ const goEvent = () => {
   text-decoration: underline;
 }
 
-.allEvents:hover{
-  color:#bb76ffa1;
-  background-color: white;
-  border-color: #bb76ffa1;
-}
-
-.allEvents{
-  background: var(--btn-color);
+.all-events-btn{
   font-size:1.1rem;
   font-weight:bold;
-  border-radius: 2rem;
   padding:.8rem 2rem;
 }
 

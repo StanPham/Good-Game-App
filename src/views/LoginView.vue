@@ -56,7 +56,7 @@ onAuthStateChanged(firebaseAppAuth, currentUser => {
                 <input type = "password" v-model="password" placeholder="Password" required>
             </div>
 
-            <button type="submit" class="submit-btn" >Submit</button>
+            <button type="submit" class="submit-btn main-btn" >Submit</button>
            
             <div class="google-container" @click="submitSignInWIthGoogle">
                 <img src="../images/google.png" alt="" class="google-image">
@@ -155,19 +155,9 @@ input:focus{
 }
 
 .submit-btn{
-    background-color: var(--btn-color);
     font-size: 20px;
-    border-radius: 1rem;
     padding:5px;
     border:none;
-    color:white;
-}
-
-.submit-btn:hover{
-    cursor:pointer;
-    background-color: rgb(180, 70, 202);
-    transform: scale(1.01);
-    color:  rgb(255, 255, 255);;
 }
 
 @media(max-width: 750px){

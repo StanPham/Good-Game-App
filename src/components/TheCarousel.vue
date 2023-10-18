@@ -19,7 +19,7 @@
           <div class="start-date">{{currentSlideText.startdate}}</div>
         </div>
       </div>
-      <button class="some-button" @click.stop="navigateToLink">{{currentSlideText.btntext}}</button>
+      <button class="car-btn main-btn" @click.stop="navigateToLink">{{currentSlideText.btntext}}</button>
       
       <button @click="prevImage" class="carousel-nav carousel-nav-left">←</button>
       <button @click="nextImage" class="carousel-nav carousel-nav-right">→</button>
@@ -38,24 +38,22 @@
     
 <style scoped>
 
-.some-button:active{
+.car-btn:active{
   color:black;
   background:rgb(255, 255, 255);
 }
 
-.some-button{
+.car-btn{
   font-size:1.5rem;
   font-weight:bold;
   position:absolute;
   width:200px;
   height:70px;
-  background:var(--btn-color);
   inset:50%;
   translate: -50% 100px;
-  border-radius: .8rem;
+  
 }
 
-  
 .flex-wrapper{
   width:100%;
   display:flex;

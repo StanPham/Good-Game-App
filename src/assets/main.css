@@ -122,19 +122,14 @@ video {
   height: auto;
 }
 
- /* ::-webkit-scrollbar {
-  max-height: 1px;
-  width:10px;
-  background: #000000;
-  
+.main-btn{
+  background: var(--btn-color);
+  border-radius:1rem;
 }
 
-::-webkit-scrollbar-thumb {
-  background: #393812;
-  
-  -webkit-border-radius: 1ex;
-  -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.75);
-}  */
+.main-btn:hover{
+  background-color: rgb(180, 70, 202);
+}
 
 
 

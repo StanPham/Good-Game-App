@@ -59,7 +59,7 @@ const submitSignUpWIthGoogle = () => {
                 <input type = "password" id="passwordC" placeholder="Confirm password" required>
             </div>
             
-            <button type="submit" class="submit-btn">Submit</button>
+            <button type="submit" class="submit-btn main-btn">Submit</button>
             <div class="or">OR</div>
 
             <div class="google-container" @click="submitSignUpWIthGoogle">
@@ -162,19 +162,11 @@ input:focus{
 }
 
 .submit-btn{
-   
-    background-color: var(--btn-color);
-    font-size: 20px;
-    border-radius: 10px;
-    padding:5px;
-    border:none;
-    color:white;
+   font-size: 20px;
+   padding:5px;
+   border:none;
 }
-.submit-btn:hover{
-    cursor:pointer;
-    background-color: rgb(180, 70, 202);
-    transform: scale(1.01);
-}
+  
 
 @media(max-width: 750px){
     .pika-contain{
