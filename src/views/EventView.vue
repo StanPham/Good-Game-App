@@ -8,7 +8,7 @@ import pokeball from '../images/pokeball.png'
 import warhammer from '../images/warhammer.jpg'
 import myhero from '../images/hero.webp'
 import yugioh from '../images/yugioh.png'
-import dnd from '../images/dnd_logo.jpg'
+import dnd from '../images/dnd_logo_2.png'
 
 const selectedMonth = ref(new Date().getMonth());
 const monthNames = [
@@ -145,7 +145,7 @@ const getCurrentMonth = computed(() => {
                     <div class="title-wrapper">
                         <h2 class="event-title">{{ event.name }} </h2>
                         <h3 class="event-format"> {{ event.format }}</h3>
-                        <div class="start-time">{{ dateWithHoursMinutes(event.startDate) }} - 11:00pm</div>
+                        <div class="start-time">{{ dateWithHoursMinutes(event.startDate) }} - {{ dateWithHoursMinutes(event.endDate) }}</div>
                     </div>
                     <p class="event-description">{{ event.desc }}</p>
                     <br>

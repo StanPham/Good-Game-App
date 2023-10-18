@@ -25,7 +25,7 @@ const submitSignInWIthGoogle = () => {
     signInWithPopup(firebaseAppAuth, provider)
         .then((result) => {
             console.log(result.user)
-            router.push('/events')
+            router.push('/')
         }).catch((err) => {
             err
         })

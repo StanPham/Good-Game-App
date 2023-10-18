@@ -115,7 +115,7 @@ onMounted( () => {
      const event = {
        id: doc.id,
        name: doc.data().name,
-       desc: doc.data().desc,
+       desc: doc.data().desc || [],
        game: doc.data().game || "No Game Set In Database",
         format: doc.data().format || [],
        startDate: new Date(doc.data().startDate.seconds*1000),
@@ -204,7 +204,7 @@ function funkyDateNumbaTwo(date) {
       class="input"
 
       type="textarea"
-      required>
+      >
       </textarea>
 
       <label for="game">Game</label>
