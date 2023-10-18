@@ -1,9 +1,21 @@
+<script setup>
+import router from '../router'
+
+const discord = () => router.push('https://discord.com/invite/AmCadcysE4')
+</script>
+
 <template>
     <div class="footer">
         <div class="icon-flex-container">
-            <img src="../images/discord.svg" alt="" class="icon">
-            <img src="../images/facebook.svg" alt="" class="icon">
-            <img src="../images/instagram.svg" alt="" class="icon">
+            <a href='https://discord.com/invite/AmCadcysE4'>
+                <img src="../images/discord.svg" alt="" class="icon">
+            </a>
+            <a href='https://www.facebook.com/GoodGameRsvlAR/'>
+                <img src="../images/facebook.svg" alt="" class="icon">
+            </a>
+            <a href='https://www.instagram.com/goodgamersvl'>
+                <img src="../images/instagram.svg" alt="" class="icon">
+            </a>
         </div>
         <br>
         <div class="copyright">© Good Game 2023</div>

@@ -1,6 +1,6 @@
 <template>
     <div class="main-container">
-        <div class="header">New Products</div>
+        <div class="header">New Products (coming soon)</div>
         <br>
         <main class="product-container" >
           
@@ -82,11 +82,14 @@ import {ref} from 'vue';
 import pika from '../images/pikachu.webp';
 import mtg from '../images/mtg.webp'
 import cardcase from '../images/cardcase.png'
+import gengar from '../images/gengar.png'
+import snorlax from '../images/snorlax.png'
+import bulba from '../images/bulba.png'
 const myShops = ref([
     {
         id:1,
-        image: mtg,
-        name: 'MTG Commander Masters',
+        image: gengar,
+        name: 'Product #1',
         price: '$99.99',
         quant: 3,
         category: 'MTG',
@@ -94,8 +97,8 @@ const myShops = ref([
     },
     {
         id:2,
-        image: cardcase,
-        name: 'I:P Masquerena Card Case',
+        image: snorlax,
+        name: 'Product #2',
         price: '$19.99',
         quant: 3,
         category: 'Pokemon',
@@ -103,8 +106,8 @@ const myShops = ref([
     },
     {
         id:3,
-        image: mtg,
-        name: 'MTG Commander Masters',
+        image: bulba,
+        name: 'Product #3',
         price: '$99.99',
         quant: 3,
         category: 'Yugioh',
@@ -112,8 +115,8 @@ const myShops = ref([
     },
     {
         id:3,
-        image: cardcase,
-        name: 'I:P Masquerena Card Case',
+        image: gengar,
+        name: 'Product #4',
         price: '$19.99',
         quant: 3,
         category: 'Yugioh',
