@@ -51,7 +51,7 @@ const todaysEvent = computed(() => {
   const upcomingEvents = allEvents.value.filter(event => 
     event.startDate >= today.value
   );
-  return upcomingEvents.length ? upcomingEvents[0] : { startDate: new Date(), name: '', desc: '' };
+  return upcomingEvents.length ? upcomingEvents[0] : { startDate: new Date(), endDate: new Date() };
 });
 
 const titleOfCard = computed(() => {
@@ -92,7 +92,7 @@ const goEvent = () => {
           <div class="title-wrapper">
               <h2 class="event-title">{{ todaysEvent.name }} </h2>
               <h2 class="event-title ya"> {{ todaysEvent.format}}</h2>
-              <div class="start-time">{{ funkyDateNumbaTwo(todaysEvent.startDate) }} - 11:00pm</div>
+              <div class="start-time">{{ funkyDateNumbaTwo(todaysEvent.startDate) }} - {{funkyDateNumbaTwo(todaysEvent.endDate) }}</div>
           </div>
             
           <p class="event-description">{{ todaysEvent.desc }}</p>
