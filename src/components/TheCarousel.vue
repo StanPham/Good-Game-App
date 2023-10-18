@@ -51,7 +51,6 @@
   height:70px;
   inset:50%;
   translate: -50% 100px;
-  
 }
 
 .flex-wrapper{
