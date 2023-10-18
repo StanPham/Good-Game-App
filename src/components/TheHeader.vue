@@ -2,11 +2,9 @@
 import { signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import { firebaseAppAuth } from '@/firebase'
 import {ref} from 'vue'
-
 import burger from '../images/burger.svg';
 import person from '../images/person.svg';
 import router from '../router'
-
 
 const user = ref(null)
 const isAdmin = ref(false)
@@ -72,97 +70,85 @@ const outsideClickHandler = () => {
       <div class="menu-icon" @click.stop="toggleMobileMenu">
         <img :src="burger" alt="" class="burger icon-white" >
       </div>
-        <div class="title cool-font" @click="goHome">Good Game</div>
-        <div class="space-wrappa">
+      <div class="title cool-font" @click="goHome">Good Game</div>
+      <div class="space-wrappa">
 <!--         
-            <div class="dropdown">
-                <button class="dropbtn ">SHOP
-                  
-                </button>
-                <div class="dropdown-content">
-                  <a @click="navigateToShop('mtg')">Magic: The Gathering</a>
-                  <a @click="navigateToShop('yug')">YuGiOh</a>
-                  <a @click="navigateToShop('pok')">Pokemon</a>
-                  <a @click="navigateToShop('ddd')">D&D</a>
-                    <a href="#">Board Games</a>
-                    <a href="#">Accessories</a>
-                </div>
-            </div> -->
-            <a @click="goEvent">EVENTS</a>
-            <a style="text-decoration: line-through;">COMING SOON</a>
-            <a style="text-decoration: line-through;">COMING SOON</a>
-            <!-- <a href="#">CONTACT</a>
-            <a href="#">XYZ123</a> -->
+          <div class="dropdown">
+              <button class="dropbtn ">SHOP
+                
+              </button>
+              <div class="dropdown-content">
+                <a @click="navigateToShop('mtg')">Magic: The Gathering</a>
+                <a @click="navigateToShop('yug')">YuGiOh</a>
+                <a @click="navigateToShop('pok')">Pokemon</a>
+                <a @click="navigateToShop('ddd')">D&D</a>
+                  <a href="#">Board Games</a>
+                  <a href="#">Accessories</a>
+              </div>
+          </div> -->
+          <a @click="goEvent">EVENTS</a>
+          <a style="text-decoration: line-through;">COMING SOON</a>
+          <a style="text-decoration: line-through;">COMING SOON</a>
+          <!-- <a href="#">CONTACT</a>
+          <a href="#">XYZ123</a> -->
+        </div>
          
-        
-   
-    </div>
     <div class="login-container">
         <div v-if="user" @click="profileClicked">
-         
-        
           {{ user?.email }}
-        <button type="button" @click="submitSignOut">Sign Out</button>
+          <button type="button" @click="submitSignOut">Sign Out</button>
         </div>
         <div v-else>
           <button class="login click" @click="goSignup">LOGIN</button> 
           <!-- <img :src="person" alt="" class="person icon-white"> -->
         </div>
-      </div>
+    </div>
+
     <div v-if="isMobileMenuOpen" class="mobile-menu" v-click-outside="outsideClickHandler">
       <a class="mobile-login" @click="goSignupTwo" href="#">LOGIN</a>
       <a href="#" @click="goEventTwo">EVENTS</a>
       <a v-if="user" @click="profileClicked">
-         
-        
-         {{ user?.email }}
-       <button type="button" @click="submitSignOut">Sign Out</button>
+        {{ user?.email }}
+        <button type="button" @click="submitSignOut">Sign Out</button>
       </a>
-     
-     
-     
-  </div>
+    </div>
 </div>
-    
-    <!-- <TheSignup v-if="isSignupVisible" @some-event="callback" @close-this="throwback"/> -->
-    <!-- <TheLogin v-if="isLoginVisible" @other-event="callback"/> -->
-    
-   
 </template>
 
 <style scoped>
 .mobile-menu{
   display:none;
 }
+
 .mobile-login{
   background-color: var(--btn-color);
   width:100%;
 }
 
 .icon-white{
- filter: invert(100%) sepia(1%) saturate(7418%) hue-rotate(290deg) brightness(105%) contrast(98%);
+  filter: invert(100%) sepia(1%) saturate(7418%) hue-rotate(290deg) brightness(105%) contrast(98%);
 }
+
 .burger{
   padding-top:5px;
 }
-  .menu-icon{
-    display:none;
-    padding-left:.8rem;
-  }
-    .header-bg{
-        background-color: rgba(88, 85, 88, 0.466);
-        height: 2.8rem;
-        position: fixed;
-        min-width:100vw;
-        display:flex;
-        align-items: center;
-        color:white;
-        top:0;
-        z-index:999;
-      
-        
-    }
-    .header-bg a {
+.menu-icon{
+  display:none;
+  padding-left:.8rem;
+}
+.header-bg{
+  background-color: rgba(88, 85, 88, 0.466);
+  height: 2.8rem;
+  position: fixed;
+  min-width:100vw;
+  display:flex;
+  align-items: center;
+  color:white;
+  top:0;
+  z-index:999;
+}
+
+.header-bg a {
   float: left;
   font-size: 16px;
   color: white;
@@ -171,48 +157,43 @@ const outsideClickHandler = () => {
   text-decoration: none;
   cursor:pointer;
 }
+
 .header-bg a:hover {
- background-color: white;
- color:black;
+  background-color: white;
+  color:black;
 }
+
 .space-wrappa{
-    display:flex;
-    min-width:40%;
-    justify-content: space-between;
-    
-    
+  display:flex;
+  min-width:40%;
+  justify-content: space-between;
 }
 
-    .title{
-        padding-left:2rem;
-        font-size: 1.6rem;
-        width:24%;
-        min-width: max(24%, 180px);
-        cursor:pointer;
-       
-    }
+.title{
+  padding-left:2rem;
+  font-size: 1.6rem;
+  width:24%;
+  min-width: max(24%, 180px);
+  cursor:pointer;
+}
 
-    .dropdown {
-      
-        overflow: hidden;
-        
+.dropdown {
+  overflow: hidden;
+}
 
-    }
-    .dropdown .dropbtn {
-        text-align:center;
-        font-size: 16px;
-        border: none;
-        outline: none;
-        color: white;
-        padding: 14px 16px;
-        background-color: inherit;
-        font-family: inherit; /* Important for vertical align on mobile phones */
-        margin: 0; /* Important for vertical align on mobile phones */
+.dropdown .dropbtn {
+  text-align:center;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit; 
+  margin: 0; 
+}
 
-        
-    }
-
-    .dropdown:hover .dropbtn {
+.dropdown:hover .dropbtn {
   background-color: white;
   color:black;
 }
@@ -221,18 +202,18 @@ const outsideClickHandler = () => {
   display: none;
   position: absolute;
   background-color: black;
- 
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
 }
+
 .dropdown-content a {
   float: none;
-
   padding: 12px 16px;
   display: block;
   text-align: left;
 }
+
 .dropdown:hover .dropdown-content {
   display: block;
 }
@@ -242,13 +223,14 @@ const outsideClickHandler = () => {
 }
 
 .login-container{
-    margin-left: auto;
-    padding-right: 2rem;
-  
+  margin-left: auto;
+  padding-right: 2rem;
 }
+
 .click{
   cursor: pointer;
 }
+
 .profile-clicked{
   height:200px;
   width:200px;
@@ -274,42 +256,31 @@ const outsideClickHandler = () => {
     flex-direction: column;
     position:fixed;
     align-items:center;
-  min-width: 100vw;
-  background-color: rgb(0, 0, 0);
-  height:auto;
-  top: 2.8rem;
-  z-index:999;
-  
-  
-  justify-content: center;
- 
- 
-  
- 
-  
+    min-width: 100vw;
+    background-color: rgb(0, 0, 0);
+    height:auto;
+    top: 2.8rem;
+    z-index:999;
+    justify-content: center;
   }
+  
+  
   .mobile-menu a{
-    
-  font-size: 16px;
-  color: white;
-  text-align: center;
-  text-decoration: none;
-  padding: 14px 16px;
-  }
- 
+    font-size: 16px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    padding: 14px 16px;
+    }
+   
 }
+    
 
 </style>
 
 <script>
 
-
-
-
 export default {
- 
-
-  
   name: 'TheHeader',
   data() {
     return {
@@ -317,17 +288,12 @@ export default {
       isMobileMenuOpen: false,
       userClickedProfile: false,
       person: person,
-      // isSignupVisible: false,
-      // isLoginVisible:false,
       
     };
   },
   
- 
-  
 methods: {
-
-    
+  
     profileClicked(){
       userClickedProfile = !userClickedProfile;
     },
@@ -372,10 +338,5 @@ methods: {
   }
   
 }
-
-  
- 
-  
-
 
 </script>

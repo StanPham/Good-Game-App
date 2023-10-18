@@ -3,8 +3,8 @@
 import {ref} from 'vue'
 import EventTab from '../components/admin/EventTab.vue'
 import AdminTab from '../components/admin/AdminTab.vue'
-
 import ShopTab from '../components/admin/ShopTab.vue'
+
 const activeTab = ref('Events')
 const setActiveTab = (tabName) => {
   activeTab.value = tabName

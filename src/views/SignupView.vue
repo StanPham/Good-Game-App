@@ -17,7 +17,6 @@ const submitRegister = () => {
             console.log(error.code)
             alert(error.message)
         })
-    
 }
 
 const submitSignUpWIthGoogle = () => {
@@ -38,21 +37,23 @@ const submitSignUpWIthGoogle = () => {
         <form>
             <div class="form-header">
                 <h2>Register</h2>
-                
             </div>
             
             <div>
                 <label for = "emaill"></label>
                 <input type = "email" id="emaill" placeholder="Email" required>
             </div>
+
             <div>
                 <label for = "username"></label>
                 <input type = "text" id="username" placeholder="Username" required>
             </div>
+
             <div>
                 <label for = "password"></label>
                 <input type = "password" id="password" placeholder="Password" required>
             </div>
+
             <div>
                 <label for = "passwordC"></label>
                 <input type = "password" id="passwordC" placeholder="Confirm password" required>
@@ -60,10 +61,12 @@ const submitSignUpWIthGoogle = () => {
             
             <button type="submit" class="submit-btn">Submit</button>
             <div class="or">OR</div>
+
             <div class="google-container" @click="submitSignUpWIthGoogle">
                 <img src="../images/google.png" alt="" class="google-image">
             <button type="button"  class="google-button">Sign Up With Google</button>
-        </div>
+            </div>
+
             <button  type="button" class="swap-login" @click="submitToLogin">Have an account? Login.</button>
         </form>
         <div class="pika-contain">
@@ -81,20 +84,24 @@ const submitSignUpWIthGoogle = () => {
     padding:.5rem;
     font-weight:100;
 }
+
 .swap-login{
     font-size:1.1rem;
 }
+
 .google-image{
     width:1.6rem;
-    
 }
+
 .google-button{
     flex-grow:1;
     font-size:1.2rem;
 }
+
 .google-container:hover{
     background-color: rgb(46, 44, 44);
 }
+
 .google-container{
     display:flex;
     border: black 1px solid;
@@ -102,18 +109,19 @@ const submitSignUpWIthGoogle = () => {
     padding:.5rem;
     border-radius:1rem;
 }
+
 .pika-contain{
     display:flex;
     align-items: center;
 }
+
 .pika{
     max-width: 50%;
     display: block;
     margin-left: auto;
     margin-right: auto;
-   
-   
 }
+
 .form-container{
     margin-inline: auto;
     width: clamp(200px, 90vw,50rem);
@@ -130,8 +138,6 @@ form{
     flex-direction: column;
     padding: 1.25em;
     gap:10px;
-    
-    
 }
 
 .form-header{

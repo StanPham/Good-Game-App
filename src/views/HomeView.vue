@@ -2,21 +2,27 @@
 import morecards from '../images/cards.png'
 import cat from '../images/cat.webp'
 import yugioh from '../images/yugioh.jpg'
+import castle from '../images/castle.jpg'
+import flower from '../images/magic_flower.jpg'
+import minis from '../images/minis.webp'
+import warhammer from '../images/holy.jpg'
 import TheCarousel from '../components/TheCarousel.vue'
 import TodaysEvent from '../components/TodaysEvent.vue';
 import ShopCard from '../components/MobileShopCard.vue';
 import ShopComp from '../components/DtopShopComp.vue';
 import TableCard from '../components/TableCard.vue'
 import MiniGame from '../components/MiniGame.vue';
+
 </script>
 
 <template>
   <div class="main-home-container"> 
     <div class="car-card"> 
       <TheCarousel
-          :image-src="[cat,morecards, yugioh]" 
-          :slideTexts="[{title:'Friday Night Magic Commander',
-                        startdate: 'Oct 13', 
+          :image-src="[castle, morecards, yugioh, flower, warhammer]" 
+          :slideTexts="[{title:'D&D',
+                        starttime: 'Every Sunday', 
+                        startdate: '3pm - 6pm', 
                         btntext:'View Events', 
                         link:'/event'},
                         {title:'Looking For Singles?', 
@@ -24,10 +30,20 @@ import MiniGame from '../components/MiniGame.vue';
                         btntext: 'TCGplayer', 
                         link:'https://shop.tcgplayer.com/sellerfeedback/71c2420f'},
                         {title:'Yu-Gi-Oh!',
-                        starttime:'Every Sunday',
-                        startdate: '5pm',
+                        starttime:'Every Saturday',
+                        startdate: '6pm',
                         btntext:'View Events', 
-                        link:'/event'}]" 
+                        link:'/event'},
+                        {title:'Learn to Play MTG',
+                        starttime:'Thursdays',
+                        startdate: '6pm',
+                        btntext:'View Events', 
+                        link:'/event'},
+                        {title:'Warhammer',
+                        starttime:'Every Wednesday',
+                        startdate: '5:30pm',
+                        btntext:'View Events', 
+                        link:'/event'},]" 
       />
     </div>
 
@@ -112,7 +128,6 @@ import MiniGame from '../components/MiniGame.vue';
 
 @media(min-width:1700px){
   .main-home-container{
-    
     width:90vw;
   }
 }
