@@ -13,16 +13,13 @@
           />
         </transition>
         <div class="flex-wrapper">
-        
             <div class="car-text not-upper">
-              
               <h1 class="car-title">{{ currentSlideText.title }}</h1>
               <div class="subtitle">{{currentSlideText.subtitle}}</div>
               <div class="subsubtitle">{{currentSlideText.subsubtitle}}</div>
-
             </div>
         </div>
-
+              
         <button class="carousel-button" @click.stop="navigateToLink">{{currentSlideText.btntxt}}</button>
         
         <button @click="prevImage" class="carousel-nav carousel-nav-left">←</button>
@@ -36,34 +33,28 @@
             @click="setIndex(index)"
           ></span>
         </div>
-    
-  </div>
-    
-    
-
+    </div>
   </div>
 </template>
-
+    
 <style scoped>
 
 .carousel-button:active{
+  color:black;
+  background:rgb(255, 255, 255);
+ }
  
- color:black;
- background:rgb(255, 255, 255);
-
-}
 .carousel-button{
- font-size:1.5rem;
- font-weight:bold;
+  font-size:1.5rem;
+  font-weight:bold;
   position:absolute;
-
   width:200px;
   height:70px;
-  
   background:var(--btn-color);
   inset:50%;
   translate: -50% 100px;
 }
+
 .flex-wrapper{
   width:100%;
   display:flex;
@@ -71,9 +62,11 @@
   position:relative;
   top:-100%;
 }
+
 .subsubtitle{
   font-size:1.5rem;
 }
+
 .subtitle{
   font-size:1.5rem;
   font-weight:bold;
@@ -82,44 +75,34 @@
 }
 .car-title{
   font-size:2rem;
-  
-
 }
+
 .car-text{
   position:absolute;
-  
   text-align:center;
   width:clamp(1px,350px,90%);
- 
-  
- font-family: var(--cool-font);
+  font-family: var(--cool-font);
   display:flex;
   flex-direction: column;
   justify-content: center;
- font-size: 1rem;
-padding-top:3rem;
-padding-bottom:4rem;
+  font-size: 1rem;
+  padding-top:3rem;
+  padding-bottom:4rem;
   z-index:1;
-
-
 }
+
 .car-text::before {
   content: "";
   position: absolute;
-  
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
   background: #0706065d;
-  
-filter: blur(10px);
+  filter: blur(10px);
   z-index: -1;
 }
-.not-upper{
- 
-  
-}
+
 .upper{
   top:60%;
 }
@@ -127,14 +110,8 @@ filter: blur(10px);
 .img-container {
   position: relative;
   height: clamp(50vh, 75vh, 35rem);
- 
- 
-  
- 
-  
-  
-
 }
+
 .carousel-item{
   width:100%;
   min-height:100%;
@@ -149,12 +126,10 @@ filter: blur(10px);
   top: 50%;
   font-size:3rem;
   display:none;
- 
 }
 
 .carousel-nav-left {
   left: 10px;
-  
 }
 
 .carousel-nav-right {
@@ -163,10 +138,9 @@ filter: blur(10px);
 
 .carousel-dots {
   display: flex;
- justify-content: center;
+  justify-content: center;
   position: absolute;
   width:100%;
- 
   top: 95%;
 }
 
@@ -177,14 +151,11 @@ filter: blur(10px);
   background: var(--btn-color);
   border-radius: 50%;
   cursor: pointer;
-  
 }
 
 .carousel-dots span.active {
   background: white;
 }
-
-
 
 .v-enter-active, .v-leave-active {
   transition: opacity 0.5s ease;
@@ -318,8 +289,6 @@ export default {
   beforeUnmount() {
     clearInterval(this.interval);
   },
-
-  
 
 };
 </script>
