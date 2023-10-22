@@ -138,7 +138,6 @@ const outsideClickHandler = () => {
 }
 .header-bg{
   background-color: rgba(88, 85, 88, 0.466);
-  height: 2.8rem;
   position: fixed;
   min-width:100vw;
   display:flex;

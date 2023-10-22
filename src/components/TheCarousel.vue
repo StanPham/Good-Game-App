@@ -1,54 +1,56 @@
 <template>
   <div class="carousel">
     <div class="img-container"  @touchstart="touchStart"
-     @touchmove="touchMove"
-     @touchend="touchEnd">
-     
-      <transition mode="out-in">
-        <img
-          :key="currentImageSrc"
-          class="carousel-item"
-          :src="currentImageSrc"
-        />
-      </transition>
-      <div class="flex-wrapper">
-      
-        <div class="car-text not-upper">
-          <h1 class="car-title">{{ currentSlideText.title }}</h1>
-          <div class="start-time">{{currentSlideText.starttime}}</div>
-          <div class="start-date">{{currentSlideText.startdate}}</div>
+        @touchmove="touchMove"
+        @touchend="touchEnd">
+        
+        <transition mode="out-in">
+          <img
+            :key="currentSlideText"
+            class="carousel-item"
+            :src="currentSlideText.img"
+            
+          />
+        </transition>
+        <div class="flex-wrapper">
+            <div class="car-text not-upper">
+              <h1 class="car-title">{{ currentSlideText.title }}</h1>
+              <div class="subtitle">{{currentSlideText.subtitle}}</div>
+              <div class="subsubtitle">{{currentSlideText.subsubtitle}}</div>
+            </div>
         </div>
-      </div>
-      <button class="car-btn main-btn" @click.stop="navigateToLink">{{currentSlideText.btntext}}</button>
-      
-      <button @click="prevImage" class="carousel-nav carousel-nav-left">←</button>
-      <button @click="nextImage" class="carousel-nav carousel-nav-right">→</button>
+              
+        <button class="carousel-button" @click.stop="navigateToLink">{{currentSlideText.btntxt}}</button>
+        
+        <button @click="prevImage" class="carousel-nav carousel-nav-left">←</button>
+        <button @click="nextImage" class="carousel-nav carousel-nav-right">→</button>
 
-      <div class="carousel-dots">
-        <span
-          v-for="(img, index) in imageSrc"
-          :key="index"
-          :class="{ active: currentImageIndex === index }"
-          @click="setIndex(index)"
-        ></span>
-      </div>
+        <div class="carousel-dots">
+          <span
+            v-for="(img, index) in slideContents"
+            :key="index"
+            :class="{ active: currentImageIndex === index }"
+            @click="setIndex(index)"
+          ></span>
+        </div>
     </div>
-</div>
+  </div>
 </template>
     
 <style scoped>
 
-.car-btn:active{
+.carousel-button:active{
   color:black;
   background:rgb(255, 255, 255);
-}
-
-.car-btn{
+ }
+ 
+.carousel-button{
   font-size:1.5rem;
   font-weight:bold;
   position:absolute;
   width:200px;
   height:70px;
+  background:var(--btn-color);
   inset:50%;
   translate: -50% 100px;
 }
@@ -61,16 +63,16 @@
   top:-100%;
 }
 
-.start-date{
+.subsubtitle{
   font-size:1.5rem;
 }
 
-.start-time{
+.subtitle{
   font-size:1.5rem;
   font-weight:bold;
   color: rgb(255, 251, 255);
- }
-
+ 
+}
 .car-title{
   font-size:2rem;
 }
@@ -88,7 +90,7 @@
   padding-bottom:4rem;
   z-index:1;
 }
-  
+
 .car-text::before {
   content: "";
   position: absolute;
@@ -100,7 +102,7 @@
   filter: blur(10px);
   z-index: -1;
 }
- 
+
 .upper{
   top:60%;
 }
@@ -140,7 +142,6 @@
   position: absolute;
   width:100%;
   top: 95%;
- 
 }
 
 .carousel-dots span {
@@ -150,7 +151,6 @@
   background: var(--btn-color);
   border-radius: 50%;
   cursor: pointer;
-  
 }
 
 .carousel-dots span.active {
@@ -169,37 +169,40 @@
   .carousel-nav{
     display:block;
   }
+ 
 }
 
 
 @media screen and (max-height: 480px) and (orientation: landscape) {
   
+  
   .car-text {
+    
     font-size: 0.9rem;
     padding-top: 2rem;
     padding-bottom: 3rem;
   }
-    
-  .some-button {
+  
+  .carousel-button {
+   
     width: 150px;
     height: 50px;
     inset: 50%;
     translate: -50% 50px;
     font-size: 1.2rem;
   }
-}
+
   
+}
+
 </style>
 
 <script>
 import router from '../router'
 export default {
   props: {
-    imageSrc: {
-      type: Array,
-      required: true,
-    },
-    slideTexts: {
+   
+    slideContents: {
       type: Array,
       
     }
@@ -214,11 +217,11 @@ export default {
   },
 
   computed: {
-    currentImageSrc() {
-      return this.imageSrc[this.currentImageIndex];
-    },
+    // currentImageSrc() {
+    //   return this.slideContents.img[this.currentImageIndex];
+    // },
     currentSlideText() {
-      return this.slideTexts[this.currentImageIndex];
+      return this.slideContents[this.currentImageIndex];
     }
   },
 
@@ -230,13 +233,13 @@ export default {
       this.interval = setInterval(this.nextImage, 4000);
     },
     nextImage() {
-      this.currentImageIndex = (this.currentImageIndex + 1) % this.imageSrc.length;
+      this.currentImageIndex = (this.currentImageIndex + 1) % this.slideContents.length;
       this.startInterval();
       
     },
 
     prevImage() {
-      this.currentImageIndex = (this.currentImageIndex - 1 + this.imageSrc.length) % this.imageSrc.length;
+      this.currentImageIndex = (this.currentImageIndex - 1 + this.slideContents.length) % this.slideContents.length;
       this.startInterval();
     },
 
@@ -287,11 +290,8 @@ export default {
     clearInterval(this.interval);
   },
 
-  
-
 };
 </script>
-
 
 
 

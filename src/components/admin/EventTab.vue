@@ -29,7 +29,7 @@ const addEvent = async () =>{
      startDate: Timestamp.fromDate(new Date(newEvent.value.startTime)),
      endDate: Timestamp.fromDate(new Date(newEvent.value.endTime)),
      game: gameName.value == "" ? null : gameName.value,
-    format: gameFormat.value == "" ? null : gameFormat.value,
+     format: gameFormat.value == "" ? null : gameFormat.value,
      creationDate: Timestamp.fromDate(new Date())
    });
 
@@ -144,7 +144,7 @@ const sortedEvents = computed(() => {
   return myEvents.value.slice().sort((a, b) => a.startDate - b.startDate);
 });
 
-function funkyDate(date) {
+function fullDate(date) {
    let hours = date.getHours();
    hours = hours %12;
    const day = String(date.getDate()).padStart(2, '0');
@@ -154,7 +154,7 @@ function funkyDate(date) {
   
    return `${month}/${day} ${someHours}:${minutes} PM`;
 }
-function funkyDateNumbaTwo(date) {
+function onlyTime(date) {
  let hours = date.getHours();
    hours = hours %12;
  const someHours = String(hours).padStart(2, '0');
@@ -249,13 +249,13 @@ function funkyDateNumbaTwo(date) {
          <td class="scrollable-cell"><div class="scrollable-content">{{ event.desc }}</div></td>
          <td>{{ event.game }}</td>
          <td>{{ event.format }}</td>
-         <td>{{ funkyDate(event.startDate) }}</td>
-         <td>{{ funkyDateNumbaTwo(event.endDate) }}</td>
+         <td>{{ fullDate(event.startDate) }}</td>
+         <td>{{ onlyTime(event.endDate) }}</td>
          <td >
-           <button class="editBut"
+           <button class="edit-btn"
             
            >edit</button>
-           <button class="delBut"
+           <button class="del-btn"
              @click="deleteEvent(event.id)"
            >delete</button>
          </td>
@@ -271,140 +271,8 @@ function funkyDateNumbaTwo(date) {
 </template>
 
 <style scoped>
+@import '@/assets/AdminTabs.css';
 .game-form{
-  color:black;
-}
-
-input.checkbox{
-  transform: scale(1.5);
-}
-.check-wrap{
-  margin-left:auto;
-}
-
-body{
-  font-family:Arial, Helvetica, sans-serif
-}
-
-h2{
-  margin-inline:auto;
-}
-
-th{
-  font-size: 1.8rem;
-  font-family:'Times New Roman', Times, serif;
-  background-color: grey;
-}
-
-.filler-row{
-  border-bottom: rgba(255, 255, 255, 0.356) .2rem solid;
-}
-
-.name{
-  text-align: center;
-  font-weight:bold;
-}
-
-td{
-  font-size:1.3rem;
-  min-height:100%;
-  width:100%;
-  border: grey 1px solid;
-}
-
-.scrollable-cell {
-  position: relative;
-  text-align:left;
-}
-
-.scrollable-content {
-  max-height: 6rem; 
-  overflow-y: auto;
-
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 1rem; 
-}
-.editBut{
-  background-color: rgb(24, 216, 56);
-  padding: .4rem;
-  font-weight:bold;
-  border-radius: 4px;
-}
-.delBut{
-  background-color: rgba(255, 18, 18, 0.678);
-  padding: .4rem;
-  font-weight:bold;
-  border-radius: 4px;
-  margin-left:5px;
-}
-
-th,
-td {
-  width: 150px;
-  text-align: center;
-  padding: 1rem;
- 
-}
-
-table { 
-  table-layout:fixed;
-  width:100%;
-  border-collapse:collapse;
-  border-spacing:0 15px;
-}
-
-tr{
-  padding:10rem;
-}
-
-.submit-btn{
-  background-color: rgb(168, 41, 168);
-  font-size: 20px;
-  border-radius: 10px;
-  padding:5px;
-  border:none;
-  color:white;
-  width:30%;
-  margin-inline:auto;
-}
-  
-.form-container{
-  margin-inline:auto;
-  width: clamp(200px, 90vw,35rem);
-  display:flex;
-  background-color: rgb(66, 60, 63);
-  border-radius: 10px;
-  color:white;
-  margin-top:2rem;
-  margin-bottom:2rem;
-}
-
-form{
-  width:clamp(23rem,100%,5000px);
-  display:flex;
-  flex-direction: column;
-  padding: 1.25em;
-  gap:.5rem;
-}
-
-input{
-  padding-left:1rem;
-  margin-bottom:1rem;
-}
-textarea{
-  color:black;
-  padding-left:1rem;
-  margin-bottom:1rem;
-}
-
-form input[type="text"]{
-  color:black;
-}
-
-form input[type="datetime-local"]{
   color:black;
 }
 
