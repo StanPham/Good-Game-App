@@ -6,7 +6,7 @@ import {getStorage} from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDuEyCu2MaTN19twMKEB-dfnXiRUy_8y8U",
-  authDomain: "good-game-web-app.firebaseapp.com",
+  authDomain: "goodgamersvl.com",
   projectId: "good-game-web-app",
   storageBucket: "good-game-web-app.appspot.com",
   messagingSenderId: "699507515979",

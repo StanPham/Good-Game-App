@@ -1,5 +1,5 @@
 <script setup>
-import { ref} from 'vue'
+import { ref } from 'vue'
 import { firebaseAppAuth } from '@/firebase'
 import { signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import router from '../router'
