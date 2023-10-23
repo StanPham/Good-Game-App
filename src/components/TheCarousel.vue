@@ -20,7 +20,7 @@
             </div>
         </div>
               
-        <button class="carousel-button" @click.stop="navigateToLink">{{currentSlideText.btntxt}}</button>
+        <button class="carousel-button main-btn" @click.stop="navigateToLink">{{currentSlideText.btntxt}}</button>
         
         <button @click="prevImage" class="carousel-nav carousel-nav-left">←</button>
         <button @click="nextImage" class="carousel-nav carousel-nav-right">→</button>
@@ -50,7 +50,6 @@
   position:absolute;
   width:200px;
   height:70px;
-  background:var(--btn-color);
   inset:50%;
   translate: -50% 100px;
 }
