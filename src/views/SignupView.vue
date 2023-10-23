@@ -2,17 +2,24 @@
 <script setup>
 import { ref } from 'vue'
 import { firebaseAppAuth } from '@/firebase'
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendEmailVerification } from 'firebase/auth'
 import router from '../router'
 
 const email = ref('')
 const password = ref('')
+const passwordConfirmation = ref('')
 
 const submitToLogin = () => router.push('/login');
 
 const submitRegister = () => {
+    if(password.value != passwordConfirmation.value) return alert("Passwords Do Not Match!")
     createUserWithEmailAndPassword(firebaseAppAuth, email.value, password.value)
         .then((data) => {
+            sendEmailVerification(data.user)
+                .then((data) => {
+                    console.log("email sent")
+                    router.push('/')
+                })
         }).catch((error) => {
             console.log(error.code)
             alert(error.message)
@@ -34,14 +41,14 @@ const submitSignUpWIthGoogle = () => {
 <template>
     <div class="form-container" id="formContainer">
         
-        <form>
+        <form @submit.prevent="submitRegister">
             <div class="form-header">
                 <h2>Register</h2>
             </div>
             
             <div>
-                <label for = "emaill"></label>
-                <input type = "email" id="emaill" placeholder="Email" required>
+                <label for="emaill"></label>
+                <input type = "email" v-model="email" id="emaill" placeholder="Email" required>
             </div>
 
             <div>
@@ -51,12 +58,12 @@ const submitSignUpWIthGoogle = () => {
 
             <div>
                 <label for = "password"></label>
-                <input type = "password" id="password" placeholder="Password" required>
+                <input type = "password" v-model="password" id="password" placeholder="Password" required>
             </div>
 
             <div>
                 <label for = "passwordC"></label>
-                <input type = "password" id="passwordC" placeholder="Confirm password" required>
+                <input type = "password" v-model="passwordConfirmation" id="passwordC" placeholder="Confirm password" required>
             </div>
             
             <button type="submit" class="submit-btn main-btn">Submit</button>
