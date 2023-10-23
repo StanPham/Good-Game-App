@@ -11,6 +11,7 @@
     </div>
     <div v-if="user">
         {{ user?.email }}
+        EmailVerified: {{ user?.emailVerified }}
         <button type="button" @click="submitSignOut">Sign Out</button>
     <div v-if="isAdmin">
         Is Admin

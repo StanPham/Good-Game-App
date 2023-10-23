@@ -13,15 +13,21 @@
 <script setup>
 import { ref } from 'vue'
 import { firebaseAppAuth } from '@/firebase'
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, sendEmailVerification } from 'firebase/auth'
 import router from '../router'
 
+const user = ref(null)
 const email = ref('')
 const password = ref('')
 
 const submitRegister = () => {
     createUserWithEmailAndPassword(firebaseAppAuth, email.value, password.value)
         .then((data) => {
+            sendEmailVerification(data.user)
+                .then((data) => {
+                    console.log("email sent")
+                })
+            console.log(data)
         }).catch((error) => {
             console.log(error.code)
             alert(error.message)
