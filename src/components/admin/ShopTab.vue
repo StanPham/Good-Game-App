@@ -130,9 +130,9 @@ const updateItem = async () => {
      name: editingItem.value.name,
      category: editingItem.value.category,
      price: editingItem.value.price,
-     quant: editingItem.value.quantity,
+     quant: editingItem.value.quant,
      desc: editingItem.value.desc,
-     img: editingItem.value.img,
+     img: editingItem.value.image,
    });
 
    showEditModal.value = false;
@@ -196,8 +196,9 @@ const updateItem = async () => {
         
       </form>
     </div>
-
-    <div v-if="showEditModal" class="form-container">
+    
+    <div v-if="showEditModal" class="overlay" @click="showEditModal = false"></div>
+    <div v-if="showEditModal" class="form-container editing-container">
       <form @submit.prevent="updateItem">
         <h2>Edit Item</h2>
         
