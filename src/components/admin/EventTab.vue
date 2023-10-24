@@ -1,9 +1,8 @@
-
 <script setup>
 import { collection, onSnapshot, addDoc, Timestamp, doc, deleteDoc, updateDoc } from "firebase/firestore"; 
 import { db } from "@/firebase"
-
 import { onMounted, ref, computed } from 'vue'
+
 const keepData = ref(false);
 
 const newEvent = ref({
@@ -19,6 +18,9 @@ const gameFormat = ref('')
 const selectedGameFormats = ref([])
 var newGame = false
 var newFormat = false
+
+const showEditModal = ref(false);
+const editingEvent = ref({});
 
 const myEvents = ref([])
 
@@ -154,6 +156,7 @@ function fullDate(date) {
   
    return `${month}/${day} ${someHours}:${minutes} PM`;
 }
+
 function onlyTime(date) {
  let hours = date.getHours();
    hours = hours %12;
@@ -162,11 +165,27 @@ function onlyTime(date) {
    return `${someHours}:${minutes} PM`;
 }
 
- 
+const startEditing = (event) => {
+   editingEvent.value = { ...event };
+   gameName.value = event.game || "";
+   gameFormat.value = event.format || "";
+   showEditModal.value = true;
+}
 
+const updateEvent = async () => {
+   await updateDoc(doc(db, "events", editingEvent.value.id), {
+     name: editingEvent.value.name,
+     desc: editingEvent.value.desc,
+     startDate: Timestamp.fromDate(new Date(editingEvent.value.startTime)),
+     endDate: Timestamp.fromDate(new Date(editingEvent.value.endTime)),
+     game: gameName.value == "" ? null : gameName.value,
+     format: gameFormat.value == "" ? null : gameFormat.value,
+   });
 
-
-</script>
+   showEditModal.value = false;
+   editingEvent.value = {};
+}
+ </script>
 
 <template>
 <body>
@@ -232,6 +251,68 @@ function onlyTime(date) {
 
    </form>
  </div>
+  <!-- editing form stuff -->
+  <div v-if="showEditModal" class="overlay" @click="showEditModal = false"></div>
+    <div v-if="showEditModal" class="form-container editing-container">
+      <form @submit.prevent="updateEvent">
+        <h2>Edit Event</h2>
+        
+        <label for="eventName">Event Name</label>
+        <input
+        v-model="editingEvent.name" 
+        class="input"
+
+        type="text"
+        required>
+
+        <label for="startTime">Start Time</label>
+        <input 
+        v-model="editingEvent.startTime"
+        type="datetime-local"
+        id="startTime" 
+        name="startTime"
+        required>
+
+
+        <label for="endTime">End Time</label>
+        <input 
+        v-model="editingEvent.endTime"
+        type="datetime-local"
+        id="endTime" 
+        name="endTime"
+        required>
+
+        <label for="Description">Description</label>
+        <textarea
+        v-model="editingEvent.desc"
+        class="input"
+
+        type="textarea"
+        >
+        </textarea>
+
+        <label for="game">Game</label>
+        <input type="text" name="product" list="productName" v-model="gameName" @change="gameChange()" />
+        <datalist  id="productName">
+        <option v-for="game in myGames" :key="game.id">{{ game.name }}</option>
+        </datalist>
+
+        <label for="Format">Format (optional)</label>
+        <input
+        v-model="gameFormat"
+        class="game-form"
+
+        list="formatName"
+        @change="formatChange()">
+        <datalist  id="formatName">
+        <option v-for="format in selectedGameFormats" >{{ format }}</option>
+        </datalist>
+          
+        <button type="submit" class="submit-btn">Save Changes</button>
+        <button @click="showEditModal = false">Cancel</button>
+      </form>
+    </div>
+     <!-- end editing form -->
  <table>
      <thead>
        <th scope="col">Name</th>
@@ -253,7 +334,7 @@ function onlyTime(date) {
          <td>{{ onlyTime(event.endDate) }}</td>
          <td >
            <button class="edit-btn"
-            
+             @click="startEditing(event)"
            >edit</button>
            <button class="del-btn"
              @click="deleteEvent(event.id)"
@@ -264,9 +345,6 @@ function onlyTime(date) {
        <tr class="filler-row"></tr>
      </tbody>
   </table>
-
-
-
 </body> 
 </template>
 

@@ -196,7 +196,8 @@ const updateItem = async () => {
         
       </form>
     </div>
-    
+
+    <!-- editing form stuff -->
     <div v-if="showEditModal" class="overlay" @click="showEditModal = false"></div>
     <div v-if="showEditModal" class="form-container editing-container">
       <form @submit.prevent="updateItem">
@@ -252,7 +253,7 @@ const updateItem = async () => {
         <button @click="showEditModal = false">Cancel</button>
       </form>
     </div>
-
+     <!-- end editing form -->
 
   
     <div class="search">

@@ -7,12 +7,6 @@ import { db } from "@/firebase"
 
 import router from '../router'
 
-import morecards from '../images/cards.png'
-import cat from '../images/cat.webp'
-import cards from '../images/cards.jpg'
-import yugioh from '../images/yugioh.jpg'
-import store from '../images/store.jpg'
-import dragon from '../images/dragon.jpg'
 import TheCarousel from '../components/TheCarousel.vue'
 import TodaysEvent from '../components/TodaysEvent.vue';
 import ShopCard from '../components/MobileShopCard.vue';
