@@ -115,13 +115,13 @@ onMounted( () => {
    const tmpEvents = [];
    querySnapshot.forEach((doc) => {
      const event = {
-       id: doc.id,
-       name: doc.data().name,
-       desc: doc.data().desc || [],
-       game: doc.data().game || "No Game Set In Database",
+        id: doc.id,
+        name: doc.data().name,
+        desc: doc.data().desc || [],
+        game: doc.data().game || "No Game Set In Database",
         format: doc.data().format || [],
-       startDate: new Date(doc.data().startDate.seconds*1000),
-       endDate: new Date(doc.data().endDate.seconds*1000)
+        startDateObj: new Date(doc.data().startDate.seconds*1000),
+        endDateObj: new Date(doc.data().endDate.seconds*1000),
      }
      tmpEvents.push(event)
    });
@@ -143,30 +143,33 @@ onMounted( () => {
 
 
 const sortedEvents = computed(() => {
-  return myEvents.value.slice().sort((a, b) => a.startDate - b.startDate);
+  return myEvents.value.slice().sort((a, b) => a.startDateObj - b.startDateObj);
 });
 
-function fullDate(date) {
-   let hours = date.getHours();
+function fullDate(dateObj) {
+   let hours = dateObj.getHours();
    hours = hours %12;
-   const day = String(date.getDate()).padStart(2, '0');
-   const month = String(date.getMonth() + 1).padStart(2, '0');
+   const day = String(dateObj.getDate()).padStart(2, '0');
+   const month = String(dateObj.getMonth() + 1).padStart(2, '0');
    const someHours = String(hours).padStart(2, '0');
-   const minutes = String(date.getMinutes()).padStart(2, '0'); // January is 0!
+   const minutes = String(dateObj.getMinutes()).padStart(2, '0'); // January is 0!
   
    return `${month}/${day} ${someHours}:${minutes} PM`;
 }
 
-function onlyTime(date) {
- let hours = date.getHours();
+function onlyTime(dateObj) {
+ let hours = dateObj.getHours();
    hours = hours %12;
  const someHours = String(hours).padStart(2, '0');
-   const minutes = String(date.getMinutes()).padStart(2, '0');
+   const minutes = String(dateObj.getMinutes()).padStart(2, '0');
    return `${someHours}:${minutes} PM`;
 }
 
 const startEditing = (event) => {
    editingEvent.value = { ...event };
+   editingEvent.value.startTime = `${event.startDateObj.getFullYear()}-${String(event.startDateObj.getMonth() + 1).padStart(2, '0')}-${String(event.startDateObj.getDate()).padStart(2, '0')}T${String(event.startDateObj.getHours()).padStart(2, '0')}:${String(event.startDateObj.getMinutes()).padStart(2, '0')}`;
+editingEvent.value.endTime = `${event.endDateObj.getFullYear()}-${String(event.endDateObj.getMonth() + 1).padStart(2, '0')}-${String(event.endDateObj.getDate()).padStart(2, '0')}T${String(event.endDateObj.getHours()).padStart(2, '0')}:${String(event.endDateObj.getMinutes()).padStart(2, '0')}`;
+
    gameName.value = event.game || "";
    gameFormat.value = event.format || "";
    showEditModal.value = true;
@@ -330,8 +333,8 @@ const updateEvent = async () => {
          <td class="scrollable-cell"><div class="scrollable-content">{{ event.desc }}</div></td>
          <td>{{ event.game }}</td>
          <td>{{ event.format }}</td>
-         <td>{{ fullDate(event.startDate) }}</td>
-         <td>{{ onlyTime(event.endDate) }}</td>
+         <td>{{ fullDate(event.startDateObj) }}</td>
+         <td>{{ onlyTime(event.endDateObj) }}</td>
          <td >
            <button class="edit-btn"
              @click="startEditing(event)"
