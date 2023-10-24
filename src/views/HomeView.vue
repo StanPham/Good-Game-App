@@ -18,6 +18,13 @@ import MiniGame from '../components/MiniGame.vue';
 
 const mySlides = ref([]);
 
+function preloadImages(arrayOfImages) {
+  arrayOfImages.forEach(imageUrl => {
+    const img = new Image();
+    img.src = imageUrl;
+  });
+}
+
 onMounted( () => {
  onSnapshot(collection(db, 'carousel'), (querySnapshot) => {
    const tmpSlides = [];
@@ -29,6 +36,7 @@ onMounted( () => {
        subsubtitle: doc.data().subsubtitle,
        btntxt: doc.data().btntxt,
        link: doc.data().link,
+       order: doc.data().order,
        img: doc.data().img,
 
        
@@ -36,13 +44,18 @@ onMounted( () => {
      tmpSlides.push(slide)
    });
    mySlides.value = tmpSlides;
-   
+   const imageUrls = mySlides.value.map(slide => slide.img);
+    preloadImages(imageUrls);
  });
  
 })
 
+const sortedSlides = computed(() => {
+  return mySlides.value.slice().sort((a, b) => a.order - b.order);
+});
+
 const slideContents = computed(() => {
-    return mySlides.value.map(slide => {
+    return sortedSlides.value.map(slide => {
         return {
             title: slide.title,
             subtitle: slide.subtitle,

@@ -168,7 +168,7 @@ function onlyTime(dateObj) {
 const startEditing = (event) => {
    editingEvent.value = { ...event };
    editingEvent.value.startTime = `${event.startDateObj.getFullYear()}-${String(event.startDateObj.getMonth() + 1).padStart(2, '0')}-${String(event.startDateObj.getDate()).padStart(2, '0')}T${String(event.startDateObj.getHours()).padStart(2, '0')}:${String(event.startDateObj.getMinutes()).padStart(2, '0')}`;
-editingEvent.value.endTime = `${event.endDateObj.getFullYear()}-${String(event.endDateObj.getMonth() + 1).padStart(2, '0')}-${String(event.endDateObj.getDate()).padStart(2, '0')}T${String(event.endDateObj.getHours()).padStart(2, '0')}:${String(event.endDateObj.getMinutes()).padStart(2, '0')}`;
+   editingEvent.value.endTime = `${event.endDateObj.getFullYear()}-${String(event.endDateObj.getMonth() + 1).padStart(2, '0')}-${String(event.endDateObj.getDate()).padStart(2, '0')}T${String(event.endDateObj.getHours()).padStart(2, '0')}:${String(event.endDateObj.getMinutes()).padStart(2, '0')}`;
 
    gameName.value = event.game || "";
    gameFormat.value = event.format || "";

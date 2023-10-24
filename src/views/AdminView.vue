@@ -45,8 +45,10 @@ const setActiveTab = (tabName) => {
   padding: 14px 16px;
   transition: 0.3s;
 }
-.tab button:hover {
+.tab button:hover,
+.tab button:focus {
   background-color: #ddd;
+  color:black;
 }
 .tabcontent {
   padding: 6px 12px;

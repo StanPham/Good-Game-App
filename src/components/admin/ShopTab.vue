@@ -28,12 +28,13 @@ const onImageChange = async (event) => {
         const imageRef = storageRef(storage, 'shop-images/' + file.name);
         await uploadBytesResumable(imageRef, file);
         if(showEditModal.value) {
-            editingItem.value.image = await getDownloadURL(imageRef);
+            editingItem.value.img = await getDownloadURL(imageRef);
         } else {
             newItem.value.image = await getDownloadURL(imageRef);
         }
 
         console.log(newItem.value.image);
+    
     }
 }
 
@@ -132,7 +133,7 @@ const updateItem = async () => {
      price: editingItem.value.price,
      quant: editingItem.value.quant,
      desc: editingItem.value.desc,
-     img: editingItem.value.image,
+     img: editingItem.value.img,
    });
 
    showEditModal.value = false;
