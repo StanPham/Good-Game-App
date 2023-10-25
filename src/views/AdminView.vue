@@ -37,21 +37,16 @@ const setActiveTab = (tabName) => {
   background-color: #000000;
 }
 .tab button {
-  background-color: inherit;
-  float: left;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  padding: 14px 16px;
-  transition: 0.3s;
+  padding: 1rem;
 }
+
 .tab button:hover,
 .tab button:focus {
   background-color: #ddd;
   color:black;
 }
 .tabcontent {
-  padding: 6px 12px;
+  padding: .3rem .8rem;
   border: 1px solid #ccc;
   background-color: #312d2d;
   border-top: none;
