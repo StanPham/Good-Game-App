@@ -104,13 +104,13 @@ td{
   
 .scrollable-cell {
     position: relative;
-    text-align:left;
 }
   
 .scrollable-content {
     max-height: 6rem; 
     overflow-y: auto;
-  
+    overflow-x: hidden;
+    word-wrap: break-word;
     top: 0;
     left: 0;
     right: 0;

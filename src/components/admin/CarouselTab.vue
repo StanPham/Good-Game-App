@@ -241,9 +241,9 @@ const sortedSlides = computed(() => {
       <thead>
         <th scope="col">Title</th>
         <th scope="col">Subtitle</th>
-        <th scope="col">Subsubtitle</th>
-        <th scope="col">BTN Text</th>
-        <th scope="col">BTN Link</th>
+        <th scope="col">Subtext</th>
+        <th scope="col">Button Text</th>
+        <th scope="col">Button Link</th>
         <th scope="col">Background</th>
         <th scope="col">Order</th>
         <th scope="col">Actions</th>
@@ -251,10 +251,10 @@ const sortedSlides = computed(() => {
       <tbody v-for="slide in sortedSlides" :key="slide.id">
         <tr>
           <td class="name">{{ slide.title }}</td>
-          <td class="scrollable-cell"><div class="scrollable-content">{{ slide.subtitle }}</div></td>
-          <td>{{ slide.subsubtitle }}</td>
+          <td><div class="scrollable-content">{{ slide.subtitle }}</div></td>
+          <td><div class="scrollable-content">{{ slide.subsubtitle }}</div></td>
           <td>{{ slide.btntxt }}</td>
-          <td>{{ slide.link }}</td>
+          <td><div class="scrollable-content">{{ slide.link }}</div></td>
           <td><img :src="slide.img" alt="rip" width="100"></td>
           <td>{{ slide.order }}</td>
           <td>
