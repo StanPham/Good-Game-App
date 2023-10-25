@@ -25,6 +25,7 @@
   --btn-color: rgb(140, 36, 167);
   --text-color: white;
   --cool-font: 'Jacques Francois';
+  --header-height: 2.8rem;
 }
 .cool-font{
   font-family: var(--cool-font);
@@ -132,4 +133,14 @@ video {
 }
 
 
+
+
+/*header and page margin consistency*/
+
+.header-bg{
+  height: var(--header-height);
+}
+.view-top-margin{
+  margin-top: var(--header-height);
+}
 

@@ -4,6 +4,7 @@ import {ref} from 'vue'
 import EventTab from '../components/admin/EventTab.vue'
 import AdminTab from '../components/admin/AdminTab.vue'
 import ShopTab from '../components/admin/ShopTab.vue'
+import CarouselTab from '../components/admin/CarouselTab.vue'
 
 const activeTab = ref('Events')
 const setActiveTab = (tabName) => {
@@ -23,6 +24,8 @@ const setActiveTab = (tabName) => {
     </div>
   <!-- Tab content -->
     <EventTab v-if="activeTab === 'Events'" class="tabcontent" />
+    <ShopTab v-if="activeTab === 'Shop'" class="tabcontent" />
+    <CarouselTab v-if="activeTab === 'Carousel'" class="tabcontent" />
     <AdminTab v-if="activeTab === 'Admin'" class="tabcontent" />
   </body>
 </template>
@@ -42,8 +45,10 @@ const setActiveTab = (tabName) => {
   padding: 14px 16px;
   transition: 0.3s;
 }
-.tab button:hover {
+.tab button:hover,
+.tab button:focus {
   background-color: #ddd;
+  color:black;
 }
 .tabcontent {
   padding: 6px 12px;

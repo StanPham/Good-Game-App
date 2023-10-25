@@ -36,46 +36,6 @@ const submitAdmin = async () => {
 </template>
 
 <style scoped>
-.submit-btn{
-    background-color: rgb(168, 41, 168);
-    font-size: 20px;
-    border-radius: 10px;
-    padding:5px;
-    border:none;
-    color:white;
-    width:30%;
-    margin-inline:auto;
-}
-.form-container{
-    margin-inline:auto;
-    width: clamp(200px, 90vw,35rem);
-    display:flex; 
-    background-color: rgb(66, 60, 63);
-    border-radius: 10px;
-    color:white;
-    margin-top:2rem;
-    margin-bottom:2rem;
-}
-form{
-    width:clamp(23rem,100%,5000px);
-    display:flex;
-    flex-direction: column;
-    padding: 1.25em;
-    gap:.5rem;
-}
-input{
-    padding-left:1rem;
-    margin-bottom:1rem;
-}
-textarea{
-    color:black;
-    padding-left:1rem;
-    margin-bottom:1rem;
-}
-form input[type="text"]{
-    color:black;
-}
-form input[type="datetime-local"]{
-    color:black;
-}
+@import '@/assets/AdminTabs.css';
+
 </style>

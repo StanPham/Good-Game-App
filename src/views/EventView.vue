@@ -128,7 +128,7 @@ const getCurrentMonth = computed(() => {
 </script>
 
 <template>
-    <div class="container">
+    <div class="view-top-margin">
         <div class="header-container">
             <img v-if="getNextMonth" src="../images/arrow.svg" @click="selectedMonth--" alt="" class="arrow-left">
             <div class="header">{{ currentMonthName }}</div>
@@ -205,10 +205,6 @@ const getCurrentMonth = computed(() => {
 
 .event-format{
     color:rgb(214, 110, 214);
-}
-
-.container{
-    margin-top:2.8rem;
 }
 
 .title-wrapper{

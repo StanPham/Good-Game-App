@@ -66,103 +66,12 @@ onAuthStateChanged(firebaseAppAuth, currentUser => {
             <button  type="button" class="swap-signup" @click="submitToSignUp">No account? Signup.</button>
         </form>
         
-        <div class="pikachu-image-container">
-            <img src="../images/pikachu.webp" alt="" class="pikachu-image">
+        <div class="pika-contain">
+            <img src="../images/pikachu.webp" alt="" class="pika">
         </div> 
     </div>
 </template>
 
 <style scoped>
-.google-container:hover{
-    background-color: rgb(46, 44, 44);
-}
-
-.or{
-    flex-grow:1;
-    margin:auto;
-    padding:.5rem;
-    font-weight:100;
-}
-
-.swap-signup{
-    font-size:1.1rem;
-}
-
-.google-image{
-    width:1.6rem;
-}
-
-.google-button{
-    flex-grow:1;
-    font-size:1.2rem;
-}
-
-.google-container{
-    display:flex;
-    border: black 1px solid;
-    background: rgb(37, 37, 37);
-    padding:.5rem;
-    border-radius:1rem;
-}
- 
-.pikachu-image{
-    max-width: 50%;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.form-container{
-    margin-inline: auto;
-    width: clamp(200px, 90vw,50rem);
-    display:flex;
-    background-color: rgb(66, 60, 63);
-    border-radius: 10px;
-    color:white;
-    margin-top:4rem;
-}
-   
-h2{
-    margin-bottom:1.3rem;
-}
-
-form{
-    width:clamp(23rem,50%,5000px);
-    display:flex;
-    flex-direction: column;
-    padding: 1.25em;
-    gap:15px;
-}
-
-.form-header{
-    display:flex;
-    justify-content: space-between;
-}
-
-input{
-    border-radius: 5px;
-    border: 1px solid rgb(24, 23, 22);
-    width:100%;
-    height: 2rem;
-    margin-bottom: 10px;
-    padding-left:1.25rem;
-    background-color: rgb(53, 55, 56);
-    color:white;
-}
-
-input:focus{
-    outline:none;   
-}
-
-.submit-btn{
-    font-size: 20px;
-    padding:5px;
-    border:none;
-}
-
-@media(max-width: 750px){
-    .pikachu-image-container{
-        display:none;
-    }
-}
+@import '@/assets/LoginSignup.css';
 </style>

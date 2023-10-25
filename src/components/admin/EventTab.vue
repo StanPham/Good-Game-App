@@ -1,9 +1,8 @@
-
 <script setup>
 import { collection, onSnapshot, addDoc, Timestamp, doc, deleteDoc, updateDoc } from "firebase/firestore"; 
 import { db } from "@/firebase"
-
 import { onMounted, ref, computed } from 'vue'
+
 const keepData = ref(false);
 
 const newEvent = ref({
@@ -20,6 +19,9 @@ const selectedGameFormats = ref([])
 var newGame = false
 var newFormat = false
 
+const showEditModal = ref(false);
+const editingEvent = ref({});
+
 const myEvents = ref([])
 
 const addEvent = async () =>{
@@ -29,7 +31,7 @@ const addEvent = async () =>{
      startDate: Timestamp.fromDate(new Date(newEvent.value.startTime)),
      endDate: Timestamp.fromDate(new Date(newEvent.value.endTime)),
      game: gameName.value == "" ? null : gameName.value,
-    format: gameFormat.value == "" ? null : gameFormat.value,
+     format: gameFormat.value == "" ? null : gameFormat.value,
      creationDate: Timestamp.fromDate(new Date())
    });
 
@@ -113,13 +115,13 @@ onMounted( () => {
    const tmpEvents = [];
    querySnapshot.forEach((doc) => {
      const event = {
-       id: doc.id,
-       name: doc.data().name,
-       desc: doc.data().desc || [],
-       game: doc.data().game || "No Game Set In Database",
+        id: doc.id,
+        name: doc.data().name,
+        desc: doc.data().desc || [],
+        game: doc.data().game || "No Game Set In Database",
         format: doc.data().format || [],
-       startDate: new Date(doc.data().startDate.seconds*1000),
-       endDate: new Date(doc.data().endDate.seconds*1000)
+        startDateObj: new Date(doc.data().startDate.seconds*1000),
+        endDateObj: new Date(doc.data().endDate.seconds*1000),
      }
      tmpEvents.push(event)
    });
@@ -141,32 +143,52 @@ onMounted( () => {
 
 
 const sortedEvents = computed(() => {
-  return myEvents.value.slice().sort((a, b) => a.startDate - b.startDate);
+  return myEvents.value.slice().sort((a, b) => a.startDateObj - b.startDateObj);
 });
 
-function funkyDate(date) {
-   let hours = date.getHours();
+function fullDate(dateObj) {
+   let hours = dateObj.getHours();
    hours = hours %12;
-   const day = String(date.getDate()).padStart(2, '0');
-   const month = String(date.getMonth() + 1).padStart(2, '0');
+   const day = String(dateObj.getDate()).padStart(2, '0');
+   const month = String(dateObj.getMonth() + 1).padStart(2, '0');
    const someHours = String(hours).padStart(2, '0');
-   const minutes = String(date.getMinutes()).padStart(2, '0'); // January is 0!
+   const minutes = String(dateObj.getMinutes()).padStart(2, '0'); // January is 0!
   
    return `${month}/${day} ${someHours}:${minutes} PM`;
 }
-function funkyDateNumbaTwo(date) {
- let hours = date.getHours();
+
+function onlyTime(dateObj) {
+ let hours = dateObj.getHours();
    hours = hours %12;
  const someHours = String(hours).padStart(2, '0');
-   const minutes = String(date.getMinutes()).padStart(2, '0');
+   const minutes = String(dateObj.getMinutes()).padStart(2, '0');
    return `${someHours}:${minutes} PM`;
 }
 
- 
+const startEditing = (event) => {
+   editingEvent.value = { ...event };
+   editingEvent.value.startTime = `${event.startDateObj.getFullYear()}-${String(event.startDateObj.getMonth() + 1).padStart(2, '0')}-${String(event.startDateObj.getDate()).padStart(2, '0')}T${String(event.startDateObj.getHours()).padStart(2, '0')}:${String(event.startDateObj.getMinutes()).padStart(2, '0')}`;
+   editingEvent.value.endTime = `${event.endDateObj.getFullYear()}-${String(event.endDateObj.getMonth() + 1).padStart(2, '0')}-${String(event.endDateObj.getDate()).padStart(2, '0')}T${String(event.endDateObj.getHours()).padStart(2, '0')}:${String(event.endDateObj.getMinutes()).padStart(2, '0')}`;
 
+   gameName.value = event.game || "";
+   gameFormat.value = event.format || "";
+   showEditModal.value = true;
+}
 
+const updateEvent = async () => {
+   await updateDoc(doc(db, "events", editingEvent.value.id), {
+     name: editingEvent.value.name,
+     desc: editingEvent.value.desc,
+     startDate: Timestamp.fromDate(new Date(editingEvent.value.startTime)),
+     endDate: Timestamp.fromDate(new Date(editingEvent.value.endTime)),
+     game: gameName.value == "" ? null : gameName.value,
+     format: gameFormat.value == "" ? null : gameFormat.value,
+   });
 
-</script>
+   showEditModal.value = false;
+   editingEvent.value = {};
+}
+ </script>
 
 <template>
 <body>
@@ -232,6 +254,68 @@ function funkyDateNumbaTwo(date) {
 
    </form>
  </div>
+  <!-- editing form stuff -->
+  <div v-if="showEditModal" class="overlay" @click="showEditModal = false"></div>
+    <div v-if="showEditModal" class="form-container editing-container">
+      <form @submit.prevent="updateEvent">
+        <h2>Edit Event</h2>
+        
+        <label for="eventName">Event Name</label>
+        <input
+        v-model="editingEvent.name" 
+        class="input"
+
+        type="text"
+        required>
+
+        <label for="startTime">Start Time</label>
+        <input 
+        v-model="editingEvent.startTime"
+        type="datetime-local"
+        id="startTime" 
+        name="startTime"
+        required>
+
+
+        <label for="endTime">End Time</label>
+        <input 
+        v-model="editingEvent.endTime"
+        type="datetime-local"
+        id="endTime" 
+        name="endTime"
+        required>
+
+        <label for="Description">Description</label>
+        <textarea
+        v-model="editingEvent.desc"
+        class="input"
+
+        type="textarea"
+        >
+        </textarea>
+
+        <label for="game">Game</label>
+        <input type="text" name="product" list="productName" v-model="gameName" @change="gameChange()" />
+        <datalist  id="productName">
+        <option v-for="game in myGames" :key="game.id">{{ game.name }}</option>
+        </datalist>
+
+        <label for="Format">Format (optional)</label>
+        <input
+        v-model="gameFormat"
+        class="game-form"
+
+        list="formatName"
+        @change="formatChange()">
+        <datalist  id="formatName">
+        <option v-for="format in selectedGameFormats" >{{ format }}</option>
+        </datalist>
+          
+        <button type="submit" class="submit-btn">Save Changes</button>
+        <button @click="showEditModal = false">Cancel</button>
+      </form>
+    </div>
+     <!-- end editing form -->
  <table>
      <thead>
        <th scope="col">Name</th>
@@ -249,13 +333,13 @@ function funkyDateNumbaTwo(date) {
          <td class="scrollable-cell"><div class="scrollable-content">{{ event.desc }}</div></td>
          <td>{{ event.game }}</td>
          <td>{{ event.format }}</td>
-         <td>{{ funkyDate(event.startDate) }}</td>
-         <td>{{ funkyDateNumbaTwo(event.endDate) }}</td>
+         <td>{{ fullDate(event.startDateObj) }}</td>
+         <td>{{ onlyTime(event.endDateObj) }}</td>
          <td >
-           <button class="editBut"
-            
+           <button class="edit-btn"
+             @click="startEditing(event)"
            >edit</button>
-           <button class="delBut"
+           <button class="del-btn"
              @click="deleteEvent(event.id)"
            >delete</button>
          </td>
@@ -264,147 +348,12 @@ function funkyDateNumbaTwo(date) {
        <tr class="filler-row"></tr>
      </tbody>
   </table>
-
-
-
 </body> 
 </template>
 
 <style scoped>
+@import '@/assets/AdminTabs.css';
 .game-form{
-  color:black;
-}
-
-input.checkbox{
-  transform: scale(1.5);
-}
-.check-wrap{
-  margin-left:auto;
-}
-
-body{
-  font-family:Arial, Helvetica, sans-serif
-}
-
-h2{
-  margin-inline:auto;
-}
-
-th{
-  font-size: 1.8rem;
-  font-family:'Times New Roman', Times, serif;
-  background-color: grey;
-}
-
-.filler-row{
-  border-bottom: rgba(255, 255, 255, 0.356) .2rem solid;
-}
-
-.name{
-  text-align: center;
-  font-weight:bold;
-}
-
-td{
-  font-size:1.3rem;
-  min-height:100%;
-  width:100%;
-  border: grey 1px solid;
-}
-
-.scrollable-cell {
-  position: relative;
-  text-align:left;
-}
-
-.scrollable-content {
-  max-height: 6rem; 
-  overflow-y: auto;
-
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 1rem; 
-}
-.editBut{
-  background-color: rgb(24, 216, 56);
-  padding: .4rem;
-  font-weight:bold;
-  border-radius: 4px;
-}
-.delBut{
-  background-color: rgba(255, 18, 18, 0.678);
-  padding: .4rem;
-  font-weight:bold;
-  border-radius: 4px;
-  margin-left:5px;
-}
-
-th,
-td {
-  width: 150px;
-  text-align: center;
-  padding: 1rem;
- 
-}
-
-table { 
-  table-layout:fixed;
-  width:100%;
-  border-collapse:collapse;
-  border-spacing:0 15px;
-}
-
-tr{
-  padding:10rem;
-}
-
-.submit-btn{
-  background-color: rgb(168, 41, 168);
-  font-size: 20px;
-  border-radius: 10px;
-  padding:5px;
-  border:none;
-  color:white;
-  width:30%;
-  margin-inline:auto;
-}
-  
-.form-container{
-  margin-inline:auto;
-  width: clamp(200px, 90vw,35rem);
-  display:flex;
-  background-color: rgb(66, 60, 63);
-  border-radius: 10px;
-  color:white;
-  margin-top:2rem;
-  margin-bottom:2rem;
-}
-
-form{
-  width:clamp(23rem,100%,5000px);
-  display:flex;
-  flex-direction: column;
-  padding: 1.25em;
-  gap:.5rem;
-}
-
-input{
-  padding-left:1rem;
-  margin-bottom:1rem;
-}
-textarea{
-  color:black;
-  padding-left:1rem;
-  margin-bottom:1rem;
-}
-
-form input[type="text"]{
-  color:black;
-}
-
-form input[type="datetime-local"]{
   color:black;
 }
 

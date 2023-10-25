@@ -1,50 +1,81 @@
 <script setup>
-import morecards from '../images/cards.png'
-import cat from '../images/cat.webp'
-import yugioh from '../images/yugioh.jpg'
-import castle from '../images/castle.jpg'
-import flower from '../images/magic_flower.jpg'
-import minis from '../images/minis.webp'
-import warhammer from '../images/holy.jpg'
+import { onMounted, ref, watch, computed } from 'vue'
+
+import { collection, onSnapshot} from "firebase/firestore"; 
+
+import { db } from "@/firebase"
+
+import router from '../router'
+
 import TheCarousel from '../components/TheCarousel.vue'
 import TodaysEvent from '../components/TodaysEvent.vue';
 import ShopCard from '../components/MobileShopCard.vue';
+import AnothaCard from '../components/UnusedShopCard.vue';
 import ShopComp from '../components/DtopShopComp.vue';
 import TableCard from '../components/TableCard.vue'
 import MiniGame from '../components/MiniGame.vue';
 
+
+const mySlides = ref([]);
+
+function preloadImages(arrayOfImages) {
+  arrayOfImages.forEach(imageUrl => {
+    const img = new Image();
+    img.src = imageUrl;
+  });
+}
+
+onMounted( () => {
+ onSnapshot(collection(db, 'carousel'), (querySnapshot) => {
+   const tmpSlides = [];
+   querySnapshot.forEach((doc) => {
+     const slide = {
+       id: doc.id,
+       title: doc.data().title,
+       subtitle: doc.data().subtitle,
+       subsubtitle: doc.data().subsubtitle,
+       btntxt: doc.data().btntxt,
+       link: doc.data().link,
+       order: doc.data().order,
+       img: doc.data().img,
+
+       
+     }
+     tmpSlides.push(slide)
+   });
+   mySlides.value = tmpSlides;
+   const imageUrls = mySlides.value.map(slide => slide.img);
+    preloadImages(imageUrls);
+ });
+ 
+})
+
+const sortedSlides = computed(() => {
+  return mySlides.value.slice().sort((a, b) => a.order - b.order);
+});
+
+const slideContents = computed(() => {
+    return sortedSlides.value.map(slide => {
+        return {
+            title: slide.title,
+            subtitle: slide.subtitle,
+            subsubtitle: slide.subsubtitle,
+           
+            btntxt: slide.btntxt,
+            link: slide.link,
+            img: slide.img,
+            
+        }
+    });
+});
+
 </script>
 
 <template>
-  <div class="main-home-container"> 
+  <div class="main-home-container view-top-margin"> 
     <div class="car-card"> 
-      <TheCarousel
-          :image-src="[castle, morecards, yugioh, flower, warhammer]" 
-          :slideTexts="[{title:'D&D',
-                        starttime: 'Every Sunday', 
-                        startdate: '3pm - 6pm', 
-                        btntext:'View Events', 
-                        link:'/event'},
-                        {title:'Looking For Singles?', 
-                        startdate:'Check out our TCGplayer',
-                        btntext: 'TCGplayer', 
-                        link:'https://shop.tcgplayer.com/sellerfeedback/71c2420f'},
-                        {title:'Yu-Gi-Oh!',
-                        starttime:'Every Saturday',
-                        startdate: '6pm',
-                        btntext:'View Events', 
-                        link:'/event'},
-                        {title:'Learn to Play MTG',
-                        starttime:'Thursdays',
-                        startdate: '6pm',
-                        btntext:'View Events', 
-                        link:'/event'},
-                        {title:'Warhammer',
-                        starttime:'Every Wednesday',
-                        startdate: '5:30pm',
-                        btntext:'View Events', 
-                        link:'/event'},]" 
-      />
+      <TheCarousel v-if="slideContents.length" :slideContents="slideContents"/>
+         
     </div>
 
     <div class="event-card">

@@ -1,0 +1,157 @@
+/*admin form stuff*/
+
+body{
+    font-family:Arial, Helvetica, sans-serif
+}
+  
+h2{
+   margin-inline:auto;
+}
+
+input.checkbox{
+    transform: scale(1.5);
+}
+
+.check-wrap{
+    margin-left:auto;
+}
+  
+.submit-btn{
+    background-color: rgb(168, 41, 168);
+    font-size: 20px;
+    border-radius: 10px;
+    padding:5px;
+    border:none;
+    color:white;
+    width:30%;
+    margin-inline:auto;
+}
+    
+.form-container{
+    margin-inline:auto;
+    width: clamp(200px, 90vw,35rem);
+    display:flex;
+    background-color: rgb(66, 60, 63);
+    border-radius: 10px;
+    color:white;
+    margin-top:2rem;
+    margin-bottom:2rem;
+}
+    
+form{
+    width:clamp(23rem,100%,5000px);
+    display:flex;
+    flex-direction: column;
+    padding: 1.25em;
+    gap:.5rem;
+}
+  
+input{
+    padding-left:1rem;
+    margin-bottom:1rem;
+}
+  
+textarea{
+    color:black;
+    padding-left:1rem;
+    margin-bottom:1rem;
+}
+  
+form input[type="text"]{
+    color:black;
+}
+  
+form input[type="datetime-local"]{
+    color:black;
+}
+
+.edit-btn{
+    background-color: rgb(24, 216, 56);
+    padding: .4rem;
+    font-weight:bold;
+    border-radius: 4px;
+}
+  
+.del-btn{
+    background-color: rgba(255, 18, 18, 0.678);
+    padding: .4rem;
+    font-weight:bold;
+    border-radius: 4px;
+    margin-left:5px;
+}
+  
+th{
+    font-size: 1.8rem;
+    font-family:'Times New Roman', Times, serif;
+    background-color: grey;
+}
+  
+.filler-row{
+    border-bottom: rgba(255, 255, 255, 0.356) .2rem solid;
+}
+  
+.name{
+    text-align: center;
+    font-weight:bold;
+}
+  
+td{
+    font-size:1.3rem;
+    min-height:100%;
+    width:100%;
+    border: grey 1px solid;
+}
+  
+.scrollable-cell {
+    position: relative;
+}
+  
+.scrollable-content {
+    max-height: 6rem; 
+    overflow-y: auto;
+    overflow-x: hidden;
+    word-wrap: break-word;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 1rem; 
+}
+  
+th,
+td {
+    width: 150px;
+    text-align: center;
+    padding: 1rem;
+   
+}
+  
+table{ 
+    table-layout:fixed;
+    width:100%;
+    border-collapse:collapse;
+    border-spacing:0 15px;
+}
+  
+tr{
+    padding:10rem;
+}
+
+.editing-container{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+}
+
+.overlay {
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7); 
+    z-index: 998; 
+}
+  /*end form stuff*/
