@@ -157,14 +157,11 @@ const getCurrentMonth = computed(() => {
 
 <style scoped>
 .arrow-left{
-    width:50px;
-    filter: invert(100%) sepia(1%) saturate(7418%) hue-rotate(290deg) brightness(105%) contrast(98%);
-    cursor: pointer;
-    padding-left:1rem;
     rotate:180deg;
 }
 
-.arrow{
+.arrow,
+.arrow-left{
     width:50px;
     filter: invert(100%) sepia(1%) saturate(7418%) hue-rotate(290deg) brightness(105%) contrast(98%);
     cursor: pointer;
@@ -218,18 +215,18 @@ const getCurrentMonth = computed(() => {
 }
 
 .event-list{
-    padding:10px;
+    padding:.6rem;
 }
 
 .start-time{
     font-size:1.4rem;
     font-weight:800;
-    padding-top:5px;
+    padding-top:.3rem;
 }
 
 .title-wrapper{
     align-items: center;
-    padding-top: 8px;
+    padding-top: .5rem;
 }
 
 .event-title{
@@ -239,7 +236,7 @@ const getCurrentMonth = computed(() => {
 }
     
 .event-description{
-    padding-top: 5px;
+    padding-top: .3rem;
     font-size:1.2rem;
 }
 
