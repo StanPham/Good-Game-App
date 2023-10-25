@@ -13,7 +13,7 @@ const setActiveTab = (tabName) => {
 </script>
 
 <template>
-  <body class="work">
+  <body class="admin-container">
     <div class="tab">
       <button class="tablinks" @click="setActiveTab('Events')">Events</button>
       <button class="tablinks" @click="setActiveTab('Shop')">Shop</button>
@@ -51,7 +51,7 @@ const setActiveTab = (tabName) => {
   background-color: #312d2d;
   border-top: none;
 }
-.work{
-  margin-top:5rem;
+.admin-container{
+  margin-top:calc(var(--header-height) + 2rem);
 }
 </style>
