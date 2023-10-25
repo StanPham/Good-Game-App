@@ -7,7 +7,7 @@
  <router-view></router-view>
  
 </main>
-<div class="wrap">
+<div class="footer-wrap">
 <TheFooter />
 </div>
 </div>
@@ -22,12 +22,12 @@
   display: flex;
   flex-direction: column;
 }
-.wrap{
+.footer-wrap{
   padding-top:2.8rem;
   display:block;
  
   flex-shrink: 0;
-  width:100vw;
+ 
 }
   html{
     background: rgb(34, 0, 73);
