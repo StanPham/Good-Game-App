@@ -186,7 +186,15 @@ const updateEvent = async () => {
    });
 
    showEditModal.value = false;
+   gameName.value = '';
+   gameFormat.value = '';
    editingEvent.value = {};
+}
+
+const closeEditModal = () => {
+  showEditModal.value = false;
+  gameName.value = '';
+  gameFormat.value = '';
 }
  </script>
 
@@ -312,7 +320,7 @@ const updateEvent = async () => {
         </datalist>
           
         <button type="submit" class="submit-btn">Save Changes</button>
-        <button @click="showEditModal = false">Cancel</button>
+        <button @click="closeEditModal">Cancel</button>
       </form>
     </div>
      <!-- end editing form -->
