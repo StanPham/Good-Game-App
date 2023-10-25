@@ -137,7 +137,9 @@ video {
   cursor: pointer;
 }
 
-
+.hover-animation{
+  transition: background-color 200ms ease-in-out;
+}
 /*header and page margin consistency*/
 
 .header-bg{

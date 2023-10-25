@@ -22,8 +22,8 @@
               
         <button class="carousel-button main-btn" @click.stop="navigateToLink">{{currentSlideText.btntxt}}</button>
         
-        <button @click="prevImage" class="carousel-nav carousel-nav-left">←</button>
-        <button @click="nextImage" class="carousel-nav carousel-nav-right">→</button>
+        <button @click="prevImage" class="carousel-nav hover-animation carousel-nav-left">←</button>
+        <button @click="nextImage" class="carousel-nav hover-animation carousel-nav-right">→</button>
 
         <div class="carousel-dots">
           <span
@@ -122,9 +122,14 @@
 
 .carousel-nav {
   position: absolute;
-  top: 50%;
+  top: 0;
+  bottom: 0;
   font-size:3rem;
   display:none;
+}
+
+.carousel-nav:hover {
+  background: rgba(0, 0, 0, 0.13);
 }
 
 .carousel-nav-left {
