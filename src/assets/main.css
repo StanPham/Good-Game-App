@@ -2,33 +2,40 @@
 @font-face {
   font-family: 'Jacques Francois';
   src: url('./JacquesFrancois-Regular.ttf') format('truetype'); 
- 
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: 'Roboto';
   src: url('./Roboto-Regular.ttf') format('truetype'); 
- 
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: 'Quattrocento';
   src: url('./Quattrocento-Regular.ttf') format('truetype'); 
- 
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: 'JockeyOne';
+  src: url('./JockeyOne-Regular.ttf') format('truetype'); 
+  font-weight: normal;
+  font-style: normal;
+}
+
 :root{
   --main-bg: #150026;
   --btn-color: rgb(140, 36, 167);
   --text-color: white;
   --cool-font: 'Jacques Francois';
-  --header-height: 2.8rem;
+  --header-height: 3.5rem;
 }
 .cool-font{
   font-family: var(--cool-font);
+}
+.jockey{
+  font-family: 'JockeyOne';
 }
 
 *,

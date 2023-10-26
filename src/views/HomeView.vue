@@ -72,7 +72,7 @@ const slideContents = computed(() => {
 </script>
 
 <template>
-  <div class="main-home-container view-top-margin"> 
+  <div class="main-home-container"> 
     <div class="car-card"> 
       <TheCarousel v-if="slideContents.length" :slideContents="slideContents"/>
          
@@ -125,6 +125,7 @@ const slideContents = computed(() => {
   gap:2rem;
   margin-left:auto;
   margin-right:auto;
+  margin-top: calc(var(--header-height) + 1rem)
 }
 .shop-comp{
   display:none;

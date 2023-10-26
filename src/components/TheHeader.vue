@@ -70,8 +70,11 @@ const outsideClickHandler = () => {
       <div class="menu-icon" @click.stop="toggleMobileMenu">
         <img :src="burger" alt="" class="burger icon-white" >
       </div>
+
+      <img src="../images/GG_Logo.png" alt="" class="logo-med click" @click="goHome">
+
       <div class="title-container" >
-        <div class="cool-font title" @click="goHome">Good Game</div>
+        <div class=" title" @click="goHome">Good Game</div>
       </div>
        
       <div class="links-wrappa">
@@ -100,7 +103,7 @@ const outsideClickHandler = () => {
           <button type="button" @click="submitSignOut">Sign Out</button>
         </div>
         <div v-else>
-          <button class="login click" @click="goSignup">LOGIN</button> 
+          <button class="login click cool-font" @click="goSignup">LOGIN</button> 
         </div>
     </div>
 
@@ -116,6 +119,12 @@ const outsideClickHandler = () => {
 </template>
 
 <style scoped>
+
+.logo-med{
+  width:50px;
+  height:50px;
+  margin-left:2rem;
+}
 .mobile-menu{
   display:none;
 }
@@ -132,7 +141,7 @@ const outsideClickHandler = () => {
   padding-left:.8rem;
 }
 .header-bg{
-  background-color: rgba(88, 85, 88, 0.466);
+  background-color: rgb(17, 17, 17);
   position: fixed;
   min-width:100vw;
   display:flex;
@@ -143,18 +152,35 @@ const outsideClickHandler = () => {
 
 .header-bg a {
   float: left;
-  font-size: 1rem;
   text-decoration: none;
   cursor:pointer;
   display: flex;
   align-items: center;
-  height:100%;
   padding: 0 1rem;
+  font-size:1.2rem;
+  font-family: 'JockeyOne';
+  letter-spacing: 2px;
+  position:relative;
 }
 
-.header-bg a:hover {
-  background-color: white;
-  color:black;
+.header-bg a:hover,
+.login:hover {
+  text-shadow: 0 0 5px rgb(255, 255, 255), 0 0 12px rgb(255, 255, 255), 0 0 20px rgb(255, 255, 255), 0 0 30px rgb(255, 255, 255);
+}
+
+.header-bg a:after{
+  content: "";
+  position: absolute;
+  background: var(--btn-color);
+  height: 2px;
+  width: 0%;
+  left: 0;
+  bottom: 2%;
+  transition: 0.3s;
+}
+
+.header-bg a:hover:after{
+  width:100%;
 }
 
 .links-wrappa{
@@ -163,19 +189,19 @@ const outsideClickHandler = () => {
   justify-content: flex-start;
   gap:1.5rem;
   flex-grow:1;
- 
 }
 
 .title-container{
-  padding-left:2rem;
+  padding-left:.8rem;
   font-size: 1.6rem;
-  width:24%;
-  min-width: max(24%, 180px);
+  width:18%;
+  min-width: max(18%, 180px);
 }
 
 .title{
   display:inline-block;
   cursor:pointer;
+  letter-spacing: -2px;
 }
 
 /*start shop button css*/
