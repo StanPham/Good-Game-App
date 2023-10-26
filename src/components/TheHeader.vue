@@ -121,9 +121,10 @@ const outsideClickHandler = () => {
 <style scoped>
 
 .logo-med{
-  width:50px;
-  height:50px;
+  width:55px;
+  height:55px;
   margin-left:2rem;
+  margin-bottom:5px;
 }
 .mobile-menu{
   display:none;
