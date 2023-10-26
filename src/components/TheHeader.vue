@@ -70,22 +70,23 @@ const outsideClickHandler = () => {
       <div class="menu-icon" @click.stop="toggleMobileMenu">
         <img :src="burger" alt="" class="burger icon-white" >
       </div>
-      <div class="title cool-font" @click="goHome">Good Game</div>
-      <div class="space-wrappa">
-<!--         
+      <div class="title-container" >
+        <div class="cool-font title" @click="goHome">Good Game</div>
+      </div>
+       
+      <div class="links-wrappa">
+        <!--
           <div class="dropdown">
-              <button class="dropbtn ">SHOP
-                
-              </button>
+              <button class="dropbtn ">SHOP</button>
               <div class="dropdown-content">
                 <a @click="navigateToShop('mtg')">Magic: The Gathering</a>
                 <a @click="navigateToShop('yug')">YuGiOh</a>
                 <a @click="navigateToShop('pok')">Pokemon</a>
                 <a @click="navigateToShop('ddd')">D&D</a>
-                  <a href="#">Board Games</a>
-                  <a href="#">Accessories</a>
+                <a href="#">Board Games</a>
+                <a href="#">Accessories</a>
               </div>
-          </div> -->
+            </div> -->
           <a @click="goEvent">EVENTS</a>
           <a style="text-decoration: line-through;">COMING SOON</a>
           <a style="text-decoration: line-through;">COMING SOON</a>
@@ -100,7 +101,6 @@ const outsideClickHandler = () => {
         </div>
         <div v-else>
           <button class="login click" @click="goSignup">LOGIN</button> 
-          <!-- <img :src="person" alt="" class="person icon-white"> -->
         </div>
     </div>
 
@@ -120,17 +120,12 @@ const outsideClickHandler = () => {
   display:none;
 }
 
-.mobile-login{
-  background-color: var(--btn-color);
-  width:100%;
-}
-
 .icon-white{
   filter: invert(100%) sepia(1%) saturate(7418%) hue-rotate(290deg) brightness(105%) contrast(98%);
 }
 
 .burger{
-  padding-top:5px;
+  padding-top:.3rem;
 }
 .menu-icon{
   display:none;
@@ -142,19 +137,19 @@ const outsideClickHandler = () => {
   min-width:100vw;
   display:flex;
   align-items: center;
-  color:white;
   top:0;
   z-index:999;
 }
 
 .header-bg a {
   float: left;
-  font-size: 16px;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
+  font-size: 1rem;
   text-decoration: none;
   cursor:pointer;
+  display: flex;
+  align-items: center;
+  height:100%;
+  padding: 0 1rem;
 }
 
 .header-bg a:hover {
@@ -162,37 +157,45 @@ const outsideClickHandler = () => {
   color:black;
 }
 
-.space-wrappa{
+.links-wrappa{
   display:flex;
-  min-width:40%;
-  justify-content: space-between;
+  height:100%;
+  justify-content: flex-start;
+  gap:1.5rem;
+  flex-grow:1;
+ 
 }
 
-.title{
+.title-container{
   padding-left:2rem;
   font-size: 1.6rem;
   width:24%;
   min-width: max(24%, 180px);
+}
+
+.title{
+  display:inline-block;
   cursor:pointer;
 }
 
+/*start shop button css*/
 .dropdown {
   overflow: hidden;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .dropdown .dropbtn {
   text-align:center;
-  font-size: 16px;
+  font-size: 1rem;
   border: none;
   outline: none;
-  color: white;
-  padding: 14px 16px;
-  background-color: inherit;
-  font-family: inherit; 
-  margin: 0; 
+  padding: 1rem;
 }
 
-.dropdown:hover .dropbtn {
+.dropdown:hover .dropbtn,
+.dropdown-content a:hover {
   background-color: white;
   color:black;
 }
@@ -201,39 +204,31 @@ const outsideClickHandler = () => {
   display: none;
   position: absolute;
   background-color: black;
-  min-width: 160px;
+  min-width: 10rem;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
+  top:var(--header-height);
 }
 
 .dropdown-content a {
-  float: none;
-  padding: 12px 16px;
+  padding: .8rem 1rem;
   display: block;
   text-align: left;
 }
 
 .dropdown:hover .dropdown-content {
-  display: block;
+  display:flex;
+  flex-direction: column;
 }
-.dropdown-content a:hover {
-  background-color: white;
-  color: black;
-}
+/*end shop button css*/
 
 .login-container{
   margin-left: auto;
-  padding-right: 2rem;
+  padding-right:2rem;
 }
 
-.click{
-  cursor: pointer;
-}
-
-.profile-clicked{
-  height:200px;
-  width:200px;
-  background-color: red;
+.mobile-login{
+  background:var(--btn-color);
 }
 
 @media (max-width: 767px) {
@@ -246,7 +241,7 @@ const outsideClickHandler = () => {
    
   }
 
-  .space-wrappa {
+  .links-wrappa {
     display: none;
   }
 
@@ -258,18 +253,20 @@ const outsideClickHandler = () => {
     min-width: 100vw;
     background-color: rgb(0, 0, 0);
     height:auto;
-    top: 2.8rem;
+    top: var(--header-height);
     z-index:999;
     justify-content: center;
   }
   
   
   .mobile-menu a{
-    font-size: 16px;
-    color: white;
+    font-size: 1rem;
     text-align: center;
+    display:flex;
+    justify-content: center;
     text-decoration: none;
-    padding: 14px 16px;
+    padding: 1rem;
+    width:100%;
     }
    
 }

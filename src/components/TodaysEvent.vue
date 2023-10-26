@@ -62,14 +62,14 @@ const titleOfCard = computed(() => {
   }
 });
 
-function funkyDate(date) {
+function dayMonthDay(date) {
   const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
   const day = String(date.getDate()).padStart(2, '0');
   const month = date.toLocaleDateString('en-US', { month: 'short' });
   return `${dayName}, ${month} ${day}`;
 }
    
-function funkyDateNumbaTwo(date) {
+function hoursMinutes(date) {
     let hours = date.getHours();
     hours = hours %12;
     const someHours = String(hours);
@@ -88,11 +88,11 @@ const goEvent = () => {
   <div class="container">
       <h1 class="header">{{titleOfCard}}</h1>
       <div class="event-wrapper">
-        <h1 class="event-day">{{ funkyDate(todaysEvent.startDate) }}</h1>
+        <h1 class="event-day">{{ dayMonthDay(todaysEvent.startDate) }}</h1>
           <div class="title-wrapper">
               <h2 class="event-title">{{ todaysEvent.name }} </h2>
               <h2 class="event-title ya"> {{ todaysEvent.format}}</h2>
-              <div class="start-time">{{ funkyDateNumbaTwo(todaysEvent.startDate) }} - {{funkyDateNumbaTwo(todaysEvent.endDate) }}</div>
+              <div class="start-time">{{ hoursMinutes(todaysEvent.startDate) }} - {{hoursMinutes(todaysEvent.endDate) }}</div>
           </div>
             
           <p class="event-description">{{ todaysEvent.desc }}</p>
@@ -105,7 +105,7 @@ const goEvent = () => {
 <style scoped>
 .header{
   text-align: center;
-  padding-top:10px;
+  padding-top:.7rem;
   text-decoration: underline;
 }
 
@@ -134,7 +134,7 @@ const goEvent = () => {
 
 .title-wrapper{
   align-items: center;
-  padding-top: 8px;
+  padding-top: .5rem;
 }
 
 .event-title{

@@ -119,7 +119,6 @@ const slideContents = computed(() => {
   width:clamp(490px,30%,30%);
 }
 .main-home-container{
-  margin-top:2.8rem;
   display:flex;
   flex-wrap:wrap;
   justify-content:center;
