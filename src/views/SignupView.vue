@@ -32,8 +32,15 @@ const submitRegister = () => {
                     router.push('/')
                 })
         }).catch((error) => {
-            if(error.code == "auth/email-already-in-use"){
-                errorMessage.value = "Email is already in use"
+            switch(error.code) {
+                case "auth/email-already-in-use":
+                    errorMessage.value = "Email is already in use"  
+                    break
+                case "auth/weak-password":
+                    errorMessage.value = "Password is too weak"
+                    break
+                default:
+                    errorMessage.value = "An error occured, please try again later"
             }
             console.log(error.code)
         })
@@ -43,8 +50,7 @@ const submitSignUpWIthGoogle = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(firebaseAppAuth, provider)
         .then((result) => {
-            console.log(result.user)
-            
+            console.log(result.user)   
         }).catch((err) => {
             err
         })
