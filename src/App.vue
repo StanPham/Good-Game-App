@@ -31,10 +31,8 @@
 }
   html{
     background: rgb(34, 0, 73);
-    /* background: linear-gradient(to top, rgba(46,0,102,1) 0%, rgba(142,100,192,1) 100%, rgba(107,10,133,1) 100%); */
     height:100%;
-
-  }
+}
 
   button, input[type="button"], input[type="submit"] {
     margin: 0;
