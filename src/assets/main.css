@@ -181,19 +181,39 @@ a,
   display:flex;
 }
 
-.flex-center{
+.column{
+  flex-direction:column;
+}
+
+.flex-c{
   display:flex;
   justify-content: center;
 }
 
-.flex-center-center{
+.flex-c-c{
   display:flex;
   justify-content: center;
   align-items: center;
 }
 
+.grow{
+  flex-grow:1;
+}
 /* layout end */
+
+/* position start */
+.abs{
+  position:absolute;
+}
+
+.rel{
+  position:relative;
+}
+
+/* position end */
+
 button,
+a,
 [role="button"] {
   cursor: pointer;
 }
