@@ -12,11 +12,11 @@
             
           />
         </transition>
-        <div class="flex-wrapper">
-            <div class="car-text not-upper">
-              <h1 class="car-title">{{ currentSlideText.title }}</h1>
-              <div class="subtitle">{{currentSlideText.subtitle}}</div>
-              <div class="subsubtitle">{{currentSlideText.subsubtitle}}</div>
+        <div class="flex-wrapper flex-center">
+            <div class="car-text">
+              <h1 class="title-big">{{ currentSlideText.title }}</h1>
+              <div class="subtitle title bold">{{currentSlideText.subtitle}}</div>
+              <div class="title">{{currentSlideText.subsubtitle}}</div>
             </div>
         </div>
               
@@ -25,7 +25,7 @@
         <button @click="prevImage" class="carousel-nav hover-animation carousel-nav-left">←</button>
         <button @click="nextImage" class="carousel-nav hover-animation carousel-nav-right">→</button>
 
-        <div class="carousel-dots">
+        <div class="carousel-dots flex-center">
           <span
             v-for="(img, index) in slideContents"
             :key="index"
@@ -56,35 +56,17 @@
 
 .flex-wrapper{
   width:100%;
-  display:flex;
-  justify-content: center;
   position:relative;
   top:-100%;
-}
-
-.subsubtitle{
-  font-size:1.5rem;
-}
-
-.subtitle{
-  font-size:1.5rem;
-  font-weight:bold;
-  color: rgb(255, 251, 255);
- 
-}
-.car-title{
-  font-size:2rem;
 }
 
 .car-text{
   position:absolute;
   text-align:center;
   width:clamp(1px,350px,90%);
-  font-family: var(--cool-font);
   display:flex;
   flex-direction: column;
   justify-content: center;
-  font-size: 1rem;
   padding-top:3rem;
   padding-bottom:4rem;
   z-index:1;
@@ -102,10 +84,6 @@
   z-index: -1;
 }
 
-.upper{
-  top:60%;
-}
-
 .img-container {
   position: relative;
   height: clamp(50vh, 75vh, 35rem);
@@ -113,7 +91,6 @@
 
 .carousel-item{
   width:100%;
-  min-height:100%;
   max-height:100%;
   object-fit: cover;
   border-radius: 1rem;
@@ -141,8 +118,6 @@
 }
 
 .carousel-dots {
-  display: flex;
-  justify-content: center;
   position: absolute;
   width:100%;
   top: 95%;
