@@ -8,11 +8,14 @@ import router from '../router'
 const email = ref('')
 const password = ref('')
 const passwordConfirmation = ref('')
+const errorMessage = ref('')
 
 const submitToLogin = () => router.push('/login');
 
 const submitRegister = () => {
-    if(password.value != passwordConfirmation.value) return alert("Passwords Do Not Match!")
+    if(password.value != passwordConfirmation.value) {
+        return errorMessage.value = "Passwords do not match"
+    }
     createUserWithEmailAndPassword(firebaseAppAuth, email.value, password.value)
         .then((data) => {
             sendEmailVerification(data.user)
@@ -21,8 +24,10 @@ const submitRegister = () => {
                     router.push('/')
                 })
         }).catch((error) => {
+            if(error.code == "auth/email-already-in-use"){
+                errorMessage.value = "Email is already in use"
+            }
             console.log(error.code)
-            alert(error.message)
         })
 }
 
@@ -46,6 +51,10 @@ const submitSignUpWIthGoogle = () => {
                 <h2>Register</h2>
             </div>
             
+            <div class="error-text" v-if="errorMessage">
+                ⓘ {{ errorMessage }}
+            </div>
+
             <div>
                 <label for="emaill"></label>
                 <input type = "email" v-model="email" id="emaill" placeholder="Email" required>

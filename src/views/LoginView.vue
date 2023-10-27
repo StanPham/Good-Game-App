@@ -8,17 +8,18 @@ const user = ref(null)
 const isAdmin = ref(false)
 const email = ref('')
 const password = ref('')
-var failedLogin = false
+const errorMessage = ref('')
 
 const submitToSignUp = () => router.push('/signup');
 const submitLogin = async () => {
+    email.value = email.value.trim()
     await signInWithEmailAndPassword(firebaseAppAuth, email.value, password.value)
         .then((data) => {
             console.log("Login Successful")
             router.push('/')
         }).catch((error) => {
             if(error.code == "auth/invalid-login-credentials") {
-                failedLogin = true;
+                errorMessage.value = "Wrong Email or Password";
                 password.value = "";
             }
             console.log(error.code)
@@ -52,8 +53,8 @@ onAuthStateChanged(firebaseAppAuth, currentUser => {
                 <h2>Login</h2>  
             </div>
 
-            <div class="error-text" v-show="failedLogin">
-                ⓘ  Wrong Email or Password
+            <div class="error-text" v-if="errorMessage">
+                ⓘ  {{ errorMessage }}
             </div>
             
             <div>
