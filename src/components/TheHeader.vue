@@ -1,5 +1,5 @@
 <script setup>
-import { signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import { signOut, onAuthStateChanged } from 'firebase/auth'
 import { firebaseAppAuth } from '@/firebase'
 import {ref} from 'vue'
 import burger from '../images/burger.svg';
