@@ -31,12 +31,7 @@
   --cool-font: 'Jacques Francois';
   --header-height: 3.5rem;
 }
-.cool-font{
-  font-family: var(--cool-font);
-}
-.jockey{
-  font-family: 'JockeyOne';
-}
+
 
 *,
 *::before,
@@ -67,9 +62,9 @@ html {
   }
   body{
     line-height: inherit;
-  }
+}
 
-  button,
+button,
 input,
 optgroup,
 select,
@@ -121,6 +116,14 @@ a,
 }
 
 /* font  */
+.cool-font{
+  font-family: var(--cool-font);
+}
+
+.jockey{
+  font-family: 'JockeyOne';
+}
+
 .title-big{
   font-size:2rem;
 }
@@ -173,6 +176,23 @@ a,
 
 /* font end */
 
+/* layout start */
+.flex{
+  display:flex;
+}
+
+.flex-center{
+  display:flex;
+  justify-content: center;
+}
+
+.flex-center-center{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* layout end */
 button,
 [role="button"] {
   cursor: pointer;
