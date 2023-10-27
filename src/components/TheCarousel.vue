@@ -1,6 +1,6 @@
 <template>
   <div class="carousel">
-    <div class="img-container"  @touchstart="touchStart"
+    <div class="img-container rel"  @touchstart="touchStart"
         @touchmove="touchMove"
         @touchend="touchEnd">
         
@@ -12,20 +12,20 @@
             
           />
         </transition>
-        <div class="flex-wrapper flex-center">
-            <div class="car-text">
+        <div class="flex-wrapper flex-c rel">
+            <div class="car-text abs flex-c column">
               <h1 class="title-big">{{ currentSlideText.title }}</h1>
-              <div class="subtitle title bold">{{currentSlideText.subtitle}}</div>
+              <div class="title bold">{{currentSlideText.subtitle}}</div>
               <div class="title">{{currentSlideText.subsubtitle}}</div>
             </div>
         </div>
               
-        <button class="carousel-button main-btn" @click.stop="navigateToLink">{{currentSlideText.btntxt}}</button>
+        <button class="carousel-button main-btn abs" @click.stop="navigateToLink">{{currentSlideText.btntxt}}</button>
         
-        <button @click="prevImage" class="carousel-nav hover-animation carousel-nav-left">←</button>
-        <button @click="nextImage" class="carousel-nav hover-animation carousel-nav-right">→</button>
+        <button @click="prevImage" class="carousel-nav hover-animation carousel-nav-left abs">←</button>
+        <button @click="nextImage" class="carousel-nav hover-animation carousel-nav-right abs">→</button>
 
-        <div class="carousel-dots flex-center">
+        <div class="carousel-dots flex-c abs">
           <span
             v-for="(img, index) in slideContents"
             :key="index"
@@ -47,7 +47,6 @@
 .carousel-button{
   font-size:1.5rem;
   font-weight:bold;
-  position:absolute;
   width:200px;
   height:70px;
   inset:50%;
@@ -56,17 +55,12 @@
 
 .flex-wrapper{
   width:100%;
-  position:relative;
   top:-100%;
 }
 
 .car-text{
-  position:absolute;
   text-align:center;
   width:clamp(1px,350px,90%);
-  display:flex;
-  flex-direction: column;
-  justify-content: center;
   padding-top:3rem;
   padding-bottom:4rem;
   z-index:1;
@@ -85,7 +79,6 @@
 }
 
 .img-container {
-  position: relative;
   height: clamp(50vh, 75vh, 35rem);
 }
 
@@ -98,7 +91,6 @@
 }
 
 .carousel-nav {
-  position: absolute;
   top: 0;
   bottom: 0;
   font-size:3rem;
@@ -118,7 +110,6 @@
 }
 
 .carousel-dots {
-  position: absolute;
   width:100%;
   top: 95%;
 }
