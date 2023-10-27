@@ -118,7 +118,60 @@ a,
     /* 1 */
     outline-offset: -2px;
     /* 2 */
-  }
+}
+
+/* font  */
+.title-big{
+  font-size:2rem;
+}
+
+.title{
+  font-size:1.5rem;
+}
+
+.title-big-scale{
+  font-size: calc(1.1rem + 5vmin);
+}
+.title-scale{
+  font-size: calc(1.1rem + 1.5vmin);
+}
+
+.font-normal{
+  font-size:1rem;
+}
+
+.font-small{
+  font-size:.6rem;
+}
+
+.bold{
+  font-weight:bold;
+}
+
+.light{
+  font-weight: 200;
+}
+
+.white-blur{
+  text-shadow: 0 0 5px rgb(255, 255, 255), 0 0 12px rgb(255, 255, 255), 0 0 20px rgb(255, 255, 255), 0 0 30px rgb(255, 255, 255);
+}
+
+.slider:after{
+  content: "";
+  position: absolute;
+  background: var(--btn-color);
+  height: 2px;
+  width: 0%;
+  left: 0;
+  bottom: 2%;
+  transition: 0.3s;
+}
+
+.slider:after:hover{
+  width:100%;
+}
+
+/* font end */
 
 button,
 [role="button"] {
