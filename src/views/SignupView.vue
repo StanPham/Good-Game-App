@@ -22,13 +22,10 @@ const submitRegister = () => {
             if(username.value != '') {
                 updateProfile(data.user,{
                     displayName:username.value
-                }).then(() => {
-                    console.log("profile updated successfully")
                 })
             }
             sendEmailVerification(data.user)
                 .then((data) => {
-                    console.log("email sent")
                     router.push('/')
                 })
         }).catch((error) => {
@@ -76,7 +73,7 @@ const submitSignUpWIthGoogle = () => {
 
             <div>
                 <label for = "username"></label>
-                <input type = "text" v-model="username" id="username" placeholder="Username(Optional)">
+                <input type = "text" v-model="username" id="username" placeholder="Display Name(Optional)">
             </div>
 
             <div>
