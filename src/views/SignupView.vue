@@ -2,10 +2,11 @@
 <script setup>
 import { ref } from 'vue'
 import { firebaseAppAuth } from '@/firebase'
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendEmailVerification } from 'firebase/auth'
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendEmailVerification, updateProfile } from 'firebase/auth'
 import router from '../router'
 
 const email = ref('')
+const username = ref('')
 const password = ref('')
 const passwordConfirmation = ref('')
 const errorMessage = ref('')
@@ -18,6 +19,13 @@ const submitRegister = () => {
     }
     createUserWithEmailAndPassword(firebaseAppAuth, email.value, password.value)
         .then((data) => {
+            if(username.value != '') {
+                updateProfile(data.user,{
+                    displayName:username.value
+                }).then(() => {
+                    console.log("profile updated successfully")
+                })
+            }
             sendEmailVerification(data.user)
                 .then((data) => {
                     console.log("email sent")
@@ -62,7 +70,7 @@ const submitSignUpWIthGoogle = () => {
 
             <div>
                 <label for = "username"></label>
-                <input type = "text" id="username" placeholder="Username" required>
+                <input type = "text" v-model="username" id="username" placeholder="Username(Optional)">
             </div>
 
             <div>

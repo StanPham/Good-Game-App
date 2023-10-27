@@ -77,7 +77,7 @@ const outsideClickHandler = () => {
         <div class=" title" @click="goHome">Good Game</div>
       </div>
        
-      <div class="links-wrappa">
+      <div class="links-wrapper">
         <!--
           <div class="dropdown">
               <button class="dropbtn ">SHOP</button>
@@ -99,7 +99,12 @@ const outsideClickHandler = () => {
          
     <div class="login-container">
         <div v-if="user" @click="profileClicked">
-          {{ user?.email }}
+          <div v-if="user.displayName">
+            {{ user?.displayName }}
+          </div>
+          <div v-else>
+            {{ user?.email }}
+          </div>
           <button type="button" @click="submitSignOut">Sign Out</button>
         </div>
         <div v-else>
@@ -184,7 +189,7 @@ const outsideClickHandler = () => {
   width:100%;
 }
 
-.links-wrappa{
+.links-wrapper{
   display:flex;
   height:100%;
   justify-content: flex-start;
