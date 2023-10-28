@@ -55,6 +55,7 @@ textarea{
     color:black;
     padding-left:1rem;
     margin-bottom:1rem;
+    flex-shrink:0;
 }
   
 form input[type="text"]{
@@ -63,6 +64,11 @@ form input[type="text"]{
   
 form input[type="datetime-local"]{
     color:black;
+    flex-shrink:0;
+}
+
+form input[type="file"]{
+    flex-shrink:0;
 }
 
 .edit-btn{
@@ -139,7 +145,9 @@ tr{
 
 .editing-container{
     position: fixed;
-    top: 50%;
+    max-height:100vh;
+    overflow-y: auto;
+    top: 45%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 999;

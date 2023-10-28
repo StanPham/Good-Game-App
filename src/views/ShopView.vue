@@ -76,14 +76,14 @@ watch(route, (newRoute) => {
 
 <template>
   <div class="view-top-margin">
-      <div class="search">
-        <div class="search-container">
+      <div class="search flex-c pad-top">
+        <div class="search-container flex-c rel">
           <img src="../images/search.svg" alt="deez" class="search-icon">
           <input type = "text" class="input-box" placeholder="Search" v-model="searchQuery">
         </div>
       </div>
 
-      <div class="cat-wrap">
+      <div class="cat-wrap flex-c pad-top">
         <label for="product-select"></label>
         <select name="products" id="product-select" v-model="selectedCategory">
             <option value="">--Please choose a category--</option>
@@ -99,9 +99,9 @@ watch(route, (newRoute) => {
         <button class="filter-button">Filter By</button>
     </div> -->
     
-      <div class="main-container">
-        <div class="desktop-categories">
-            <div class="button-wrapper">
+      <div class="main-container flex-c">
+        <div class="desktop-categories rc">
+            <div class="button-wrapper pad flex column">
               <button @click="setActiveTab('')" class="cat-btn">All Products</button>
               <button @click="setActiveTab('mtg')" class="cat-btn">Magic: The Gathering</button> 
               <button @click="setActiveTab('yug')" class="cat-btn">YuGiOh</button> 
@@ -116,7 +116,7 @@ watch(route, (newRoute) => {
           <main class="product-container" >
             <div class="work-wrap" v-for="shop in filteredShops" :key="shop.id">
               <router-link :to="`/product/${shop.id}`" class="link">
-                  <div class="prac">
+                  <div class="pad flex column">
                       <img :src="shop.img" alt="" class="pika">
                       <div class="product-name">{{shop.name}}</div>
                       <div class="price">{{ shop.price }}</div>
@@ -151,16 +151,7 @@ watch(route, (newRoute) => {
   padding:.5rem;
 }
    
-.cat-btn{
-  border-radius:1rem;
-  width:100%;
-  padding:.5rem;
-}
-   
 .button-wrapper{
-  padding:1rem;
-  display:flex;
-  flex-direction: column;
   gap:1rem;
   font-size:1.3rem;
 }
@@ -169,14 +160,11 @@ watch(route, (newRoute) => {
   display:none;
   width:20%;
   background: black;
-  border-radius: 1rem;
   margin-top:1.4rem;
 }
 
 .main-container{
   margin-top:1rem;
-  display:flex;
-  justify-content: center;
   gap:1rem;
 }
 
@@ -225,28 +213,16 @@ watch(route, (newRoute) => {
 }
 
 .search-container{
-  position:relative;
   width:70%;
-  display:flex;
-  justify-content:center;
 }
 
 .search{
   width:100vw;
-  padding-top:1rem;
-  display:flex;
-  justify-content: center;
 }
 
 select{
   background-color: rgb(0, 0, 0);
   font-size:1.5rem;
-}
-
-.cat-wrap{
-  display:flex;
-  justify-content: center;
-  padding-top:1rem;
 }
 
 .quant{
@@ -277,17 +253,12 @@ main{
 .title-wrap{
   width:clamp(100px, 100%,70rem) ;
 }
-.prac{
-  padding:1rem;
-  display:flex;
-  justify-content: flex-start;
-  flex-direction: column;
-}
   
 img{
   height: clamp(150px, 20vh, 40rem);
   width:clamp(100%, 75%, 50rem);
 }
+
 .work-wrap{
   background:rgb(29, 28, 28);
   border:rgb(73, 69, 69) 1px solid;

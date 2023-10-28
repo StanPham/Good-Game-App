@@ -20,7 +20,7 @@
             </div>
         </div>
               
-        <button class="carousel-button main-btn abs" @click.stop="navigateToLink">{{currentSlideText.btntxt}}</button>
+        <button class="carousel-button main-btn-full big-btn abs" @click.stop="navigateToLink">{{currentSlideText.btntxt}}</button>
         
         <button @click="prevImage" class="carousel-nav hover-animation carousel-nav-left abs">←</button>
         <button @click="nextImage" class="carousel-nav hover-animation carousel-nav-right abs">→</button>
@@ -45,12 +45,10 @@
  }
  
 .carousel-button{
-  font-size:1.5rem;
-  font-weight:bold;
-  width:200px;
-  height:70px;
-  inset:50%;
-  translate: -50% 100px;
+  left:50%;
+  bottom:20%;
+  transform: translate(-50%);
+  z-index:99;
 }
 
 .flex-wrapper{
@@ -62,7 +60,7 @@
   text-align:center;
   width:clamp(1px,350px,90%);
   padding-top:3rem;
-  padding-bottom:4rem;
+  padding-bottom:3rem;
   z-index:1;
 }
 
@@ -148,19 +146,14 @@
   
   
   .car-text {
-    
     font-size: 0.9rem;
     padding-top: 2rem;
     padding-bottom: 3rem;
   }
   
   .carousel-button {
-   
-    width: 150px;
-    height: 50px;
-    inset: 50%;
-    translate: -50% 50px;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    bottom:15%;
   }
 
   
@@ -183,7 +176,8 @@ export default {
     return {
       currentImageIndex: 0,
       startX: 0, 
-      currentX: 0
+      currentX: 0,
+      touchStartOnButton: false
     };
   },
 
@@ -220,6 +214,7 @@ export default {
     },
     touchStart(event) {
       this.startX = event.touches[0].clientX;
+      this.touchStartOnButton = event.target.tagName === 'BUTTON';
     },
 
     touchMove(event) {
@@ -227,18 +222,23 @@ export default {
     },
 
     touchEnd() {
+      if (this.touchStartOnButton) {
+        this.touchStartOnButton = false; 
+        return; 
+      }
       let difference = this.currentX - this.startX;
 
       if (difference > 50) { 
         this.prevImage();
       } else if (difference < -50) { 
         this.nextImage();
+      } else{
+        return;
       }
     },
 
     navigateToLink() {
     const link = this.currentSlideText.link;
-    console.log('xd');
     if (link) {
         
         if (link.startsWith('http://') || link.startsWith('https://')) {

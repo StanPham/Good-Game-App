@@ -14,11 +14,6 @@
     width:1.6rem;
 }
 
-.google-button{
-    flex-grow:1;
-    font-size:1.2rem;
-}
-
 .google-container:hover{
     background-color: rgb(46, 44, 44);
 }
@@ -29,6 +24,7 @@
     background: rgb(37, 37, 37);
     padding:.5rem;
     border-radius:1rem;
+    transition: 0.2s;
 }
 
 .pika-contain{
@@ -49,7 +45,6 @@
     display:flex;
     background-color: rgb(66, 60, 63);
     border-radius: 10px;
-    color:white;
     margin-top: calc(var(--header-height) + 1.2rem);
 }
 
@@ -84,8 +79,8 @@ input:focus{
 
 .submit-btn{
    font-size: 20px;
-   padding:5px;
-   border:none;
+   padding:.35rem;
+  
 }
   
 
