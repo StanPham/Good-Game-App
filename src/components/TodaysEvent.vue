@@ -97,7 +97,7 @@ const goEvent = () => {
             
           <p class="event-description font-med">{{ todaysEvent.desc }}</p>
           <br>
-          <button class="all-events-btn main-btn bold" @click="goEvent">All Events</button>
+          <button class="all-events-btn main-btn-full bold" @click="goEvent">All Events</button>
       </div>
   </div>
 </template>
@@ -109,10 +109,7 @@ const goEvent = () => {
   text-decoration: underline;
 }
 
-.all-events-btn{
-  font-size:1.1rem;
-  padding:.8rem 2rem;
-}
+
 
 .event-wrapper{
   padding: 1rem;

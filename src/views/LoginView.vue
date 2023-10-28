@@ -69,7 +69,7 @@ onAuthStateChanged(firebaseAppAuth, currentUser => {
            
             <div class="google-container" @click="submitSignInWIthGoogle">
                 <img src="../images/google.png" alt="" class="google-image">
-                <button type="button"  class="google-button">Sign In With Google</button>
+                <button type="button"  class="font-med grow">Sign In With Google</button>
             </div>
 
             <button  type="button" class="swap-signup" @click="submitToSignUp">No account? Signup.</button>

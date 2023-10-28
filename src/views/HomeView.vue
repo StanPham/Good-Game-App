@@ -1,16 +1,11 @@
 <script setup>
 import { onMounted, ref, watch, computed } from 'vue'
-
 import { collection, onSnapshot} from "firebase/firestore"; 
-
 import { db } from "@/firebase"
-
-import router from '../router'
 
 import TheCarousel from '../components/TheCarousel.vue'
 import TodaysEvent from '../components/TodaysEvent.vue';
 import ShopCard from '../components/MobileShopCard.vue';
-import AnothaCard from '../components/UnusedShopCard.vue';
 import ShopComp from '../components/DtopShopComp.vue';
 import TableCard from '../components/TableCard.vue'
 import MiniGame from '../components/MiniGame.vue';
@@ -72,10 +67,9 @@ const slideContents = computed(() => {
 </script>
 
 <template>
-  <div class="main-home-container"> 
+  <div class="main-home-container flex-c wrap"> 
     <div class="car-card"> 
       <TheCarousel v-if="slideContents.length" :slideContents="slideContents"/>
-         
     </div>
 
     <div class="event-card">
@@ -101,15 +95,12 @@ const slideContents = computed(() => {
 </template>
 
 <style scoped>
-.shop-card{
-  max-height:400px;
-}
 .minigame-card{
   min-height:300px;
 }
 .minigame-card,
 .table-card{
-   width:clamp(1000px,80vw,80vw);
+  width:clamp(1000px,80vw,80vw);
 }
 .car-card{
   width: 100vw;
@@ -119,9 +110,6 @@ const slideContents = computed(() => {
   width:clamp(490px,30%,30%);
 }
 .main-home-container{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
   gap:2rem;
   margin-left:auto;
   margin-right:auto;
@@ -141,9 +129,9 @@ const slideContents = computed(() => {
   }
 }
 
-@media(min-width:1550px){
+@media(min-width:1450px){
    .car-card{
-    width: 65%;
+    width: calc(80% - 15rem);
   }
   .shop-comp{
     display:block;

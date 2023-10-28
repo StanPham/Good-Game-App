@@ -91,7 +91,7 @@ const submitSignUpWIthGoogle = () => {
 
             <div class="google-container" @click="submitSignUpWIthGoogle">
                 <img src="../images/google.png" alt="" class="google-image">
-            <button type="button"  class="google-button">Sign Up With Google</button>
+            <button type="button"  class="font-med grow">Sign Up With Google</button>
             </div>
 
             <button  type="button" class="swap-login" @click="submitToLogin">Have an account? Login.</button>

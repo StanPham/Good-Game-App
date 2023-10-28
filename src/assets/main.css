@@ -233,6 +233,32 @@ h2 {
 
 /* position end */
 
+/* padding start */
+.pad{
+  padding:1rem;
+}
+
+.pad-left{
+  padding-left:1rem;
+}
+
+.pad-right{
+  padding-right:1rem;
+}
+
+.pad-top{
+  padding-top:1rem;
+}
+
+.pad-bot{
+  padding-bottom:1rem;
+}
+/* padding end */
+
+.rc{
+  border-radius:1rem;
+}
+
 button,
 a,
 [role="button"] {
@@ -245,14 +271,28 @@ video {
   height: auto;
 }
 
-.main-btn{
+/* buttons start */
+.main-btn,
+.main-btn-full{
   background: var(--btn-color);
   border-radius:1rem;
 }
 
-.main-btn:hover{
+.main-btn:hover,
+.main-btn-full:hover{
   background-color: rgb(180, 70, 202);
 }
+
+.main-btn-full{
+  font-size:1.2rem;
+  padding: .8em 2.2em;
+  font-weight:bold;
+}
+
+.main-btn-full.big-btn{
+  font-size:1.5rem;
+}
+/* buttons end */
 
 .click{
   cursor: pointer;

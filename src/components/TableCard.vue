@@ -11,7 +11,7 @@
                     <h2 class="event-title"> </h2>
            </div>
                 <br><br><br>
-                <button class="allEvents" @click="goEvent">coming soon</button>
+                <button class="main-btn-full" @click="goEvent">coming soon</button>
                 <br> <br> <br><br> <br> <br>
         </div>
        
@@ -40,19 +40,7 @@ filter: blur(10px);
   z-index: -1;
 }
 
-.allEvents:hover{
-  color:#bb76ffa1;
-  background-color: white;
-  border-color: #bb76ffa1;
-}
-.allEvents{
-  background: var(--btn-color);
-font-size:1.1rem;
-font-weight:bold;
-border-radius: 2rem;
-padding:.8rem 2rem;
 
-}
 .event-wrapper{
     padding-top: 1rem;
     font-size: clamp(1.3vw,1rem, 10vw);
