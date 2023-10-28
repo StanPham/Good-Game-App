@@ -171,7 +171,7 @@ const outsideClickHandler = () => {
 
 .header-bg a:hover,
 .login:hover {
-  text-shadow: 0 0 5px rgb(255, 255, 255), 0 0 12px rgb(255, 255, 255), 0 0 20px rgb(255, 255, 255), 0 0 30px rgb(255, 255, 255);
+  text-shadow: 0 0 5px rgb(236, 5, 236), 0 0 12px rgb(236, 5, 236), 0 0 20px rgb(236, 5, 236), 0 0 30px rgb(236, 5, 236);
 }
 
 .header-bg a:after{

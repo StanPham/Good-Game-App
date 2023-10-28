@@ -84,6 +84,7 @@
 
 .carousel-item{
   width:100%;
+  min-height:100%;
   max-height:100%;
   object-fit: cover;
   border-radius: 1rem;
