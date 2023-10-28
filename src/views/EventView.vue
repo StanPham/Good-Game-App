@@ -129,7 +129,7 @@ const getCurrentMonth = computed(() => {
 
 <template>
     <div class="view-top-margin">
-        <div class="header-container">
+        <div class="header-container flex-c">
             <img v-if="getNextMonth" src="../images/arrow.svg" @click="selectedMonth--" alt="" class="arrow-left">
             <div class="header">{{ currentMonthName }}</div>
             <img v-if="getCurrentMonth" src="../images/arrow.svg" @click="selectedMonth++" alt="" class="arrow">
@@ -141,13 +141,12 @@ const getCurrentMonth = computed(() => {
 
                 <img :src="getImageForGame(event.game)" alt="" class="logo">
                 <div class="stop-flex">
-                    <h1 class="event-day-copy">{{ dateWithNameDay(event.startDate) }}</h1>
-                    <div class="title-wrapper">
-                        <h2 class="event-title">{{ event.name }} </h2>
-                        <h3 class="event-format"> {{ event.format }}</h3>
-                        <div class="start-time">{{ dateWithHoursMinutes(event.startDate) }} - {{ dateWithHoursMinutes(event.endDate) }}</div>
+                    <div class="title">
+                        <h2 class="pink-italic">{{ event.name }} </h2>
+                        <h3 class="pink"> {{ event.format }}</h3>
+                        <div class="start-time bold">{{ dateWithHoursMinutes(event.startDate) }} - {{ dateWithHoursMinutes(event.endDate) }}</div>
                     </div>
-                    <p class="event-description">{{ event.desc }}</p>
+                    <p class="event-description font-med">{{ event.desc }}</p>
                     <br>
                 </div>
             </div>
@@ -183,29 +182,8 @@ const getCurrentMonth = computed(() => {
     margin-right:auto;
 }
 
-.event-day-copy{
-    display:none;
-}
-
 .header-container{
-    display:flex;
     background-color: rgb(91, 19, 133);
-    justify-content: center;
-}
-
-.day-title{
-    text-align: right;
-    font-size: 1.5rem;
-    margin-right:.5rem;
-    display:none;
-}
-
-.event-format{
-    color:rgb(214, 110, 214);
-}
-
-.title-wrapper{
-    font-size:1.5rem;
 }
 
 .header{
@@ -220,24 +198,15 @@ const getCurrentMonth = computed(() => {
 
 .start-time{
     font-size:1.4rem;
-    font-weight:800;
     padding-top:.3rem;
 }
 
 .title-wrapper{
-    align-items: center;
     padding-top: .5rem;
-}
-
-.event-title{
-    font-weight:inherit;
-    font-style: italic;
-    color:rgb(214, 110, 214);
 }
     
 .event-description{
     padding-top: .3rem;
-    font-size:1.2rem;
 }
 
 @media(min-width:768px){

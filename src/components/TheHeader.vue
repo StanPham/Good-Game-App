@@ -77,9 +77,9 @@ const outsideClickHandler = () => {
         <div class=" title" @click="goHome">Good Game</div>
       </div>
        
-      <div class="links-wrappa">
+      <div class="links-wrappa flex grow">
         <!--
-          <div class="dropdown">
+          <div class="dropdown flex-c column">
               <button class="dropbtn ">SHOP</button>
               <div class="dropdown-content">
                 <a @click="navigateToShop('mtg')">Magic: The Gathering</a>
@@ -154,7 +154,6 @@ const outsideClickHandler = () => {
 .header-bg a {
   float: left;
   text-decoration: none;
-  cursor:pointer;
   display: flex;
   align-items: center;
   padding: 0 1rem;
@@ -166,7 +165,7 @@ const outsideClickHandler = () => {
 
 .header-bg a:hover,
 .login:hover {
-  text-shadow: 0 0 5px rgb(255, 255, 255), 0 0 12px rgb(255, 255, 255), 0 0 20px rgb(255, 255, 255), 0 0 30px rgb(255, 255, 255);
+  text-shadow: 0 0 5px rgb(236, 5, 236), 0 0 12px rgb(236, 5, 236), 0 0 20px rgb(236, 5, 236), 0 0 30px rgb(236, 5, 236);
 }
 
 .header-bg a:after{
@@ -185,11 +184,8 @@ const outsideClickHandler = () => {
 }
 
 .links-wrappa{
-  display:flex;
   height:100%;
-  justify-content: flex-start;
   gap:1.5rem;
-  flex-grow:1;
 }
 
 .title-container{
@@ -208,9 +204,6 @@ const outsideClickHandler = () => {
 /*start shop button css*/
 .dropdown {
   overflow: hidden;
-  display:flex;
-  flex-direction: column;
-  justify-content: center;
 }
 
 .dropdown .dropbtn {

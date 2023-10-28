@@ -31,12 +31,7 @@
   --cool-font: 'Jacques Francois';
   --header-height: 3.5rem;
 }
-.cool-font{
-  font-family: var(--cool-font);
-}
-.jockey{
-  font-family: 'JockeyOne';
-}
+
 
 *,
 *::before,
@@ -67,9 +62,9 @@ html {
   }
   body{
     line-height: inherit;
-  }
+}
 
-  button,
+button,
 input,
 optgroup,
 select,
@@ -118,9 +113,154 @@ a,
     /* 1 */
     outline-offset: -2px;
     /* 2 */
-  }
+}
+
+/* font  */
+h2 {
+  margin: 0;  
+}
+.cool-font{
+  font-family: var(--cool-font);
+}
+
+.jockey{
+  font-family: 'JockeyOne';
+}
+
+.title-big{
+  font-size:2rem;
+}
+
+.title{
+  font-size:1.5rem;
+}
+
+.title-big-scale{
+  font-size: calc(1.1rem + 4vmin);
+}
+.title-scale{
+  font-size: calc(1.1rem + 1.5vmin);
+}
+
+.font-normal{
+  font-size:1rem;
+}
+
+.font-med{
+  font-size:1.2rem;
+}
+
+.font-small{
+  font-size:.6rem;
+}
+
+.bold{
+  font-weight:800;
+}
+
+.light{
+  font-weight: 200;
+}
+
+.white-blur{
+  text-shadow: 0 0 5px rgb(255, 255, 255), 0 0 12px rgb(255, 255, 255), 0 0 20px rgb(255, 255, 255), 0 0 30px rgb(255, 255, 255);
+}
+
+.pink{
+  color:rgb(214, 110, 214);
+}
+
+.pink-italic{
+  font-weight:inherit;
+  font-style: italic;
+  color:rgb(214, 110, 214);
+}
+
+.slider:after{
+  content: "";
+  position: absolute;
+  background: var(--btn-color);
+  height: 2px;
+  width: 0%;
+  left: 0;
+  bottom: 2%;
+  transition: 0.3s;
+}
+
+.slider:after:hover{
+  width:100%;
+}
+
+/* font end */
+
+/* layout start */
+.flex{
+  display:flex;
+}
+
+.column{
+  flex-direction:column;
+}
+
+.flex-c{
+  display:flex;
+  justify-content: center;
+}
+
+.flex-c-c{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.grow{
+  flex-grow:1;
+}
+
+.wrap{
+  flex-wrap:wrap;
+}
+/* layout end */
+
+/* position start */
+.abs{
+  position:absolute;
+}
+
+.rel{
+  position:relative;
+}
+
+/* position end */
+
+/* padding start */
+.pad{
+  padding:1rem;
+}
+
+.pad-left{
+  padding-left:1rem;
+}
+
+.pad-right{
+  padding-right:1rem;
+}
+
+.pad-top{
+  padding-top:1rem;
+}
+
+.pad-bot{
+  padding-bottom:1rem;
+}
+/* padding end */
+
+.rc{
+  border-radius:1rem;
+}
 
 button,
+a,
 [role="button"] {
   cursor: pointer;
 }
@@ -131,14 +271,28 @@ video {
   height: auto;
 }
 
-.main-btn{
+/* buttons start */
+.main-btn,
+.main-btn-full{
   background: var(--btn-color);
   border-radius:1rem;
 }
 
-.main-btn:hover{
+.main-btn:hover,
+.main-btn-full:hover{
   background-color: rgb(180, 70, 202);
 }
+
+.main-btn-full{
+  font-size:1.2rem;
+  padding: .8em 2.2em;
+  font-weight:bold;
+}
+
+.main-btn-full.big-btn{
+  font-size:1.5rem;
+}
+/* buttons end */
 
 .click{
   cursor: pointer;

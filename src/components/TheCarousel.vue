@@ -1,6 +1,6 @@
 <template>
   <div class="carousel">
-    <div class="img-container"  @touchstart="touchStart"
+    <div class="img-container rel"  @touchstart="touchStart"
         @touchmove="touchMove"
         @touchend="touchEnd">
         
@@ -12,20 +12,20 @@
             
           />
         </transition>
-        <div class="flex-wrapper">
-            <div class="car-text not-upper">
-              <h1 class="car-title">{{ currentSlideText.title }}</h1>
-              <div class="subtitle">{{currentSlideText.subtitle}}</div>
-              <div class="subsubtitle">{{currentSlideText.subsubtitle}}</div>
+        <div class="flex-wrapper flex-c rel">
+            <div class="car-text abs flex-c column">
+              <h1 class="title-big">{{ currentSlideText.title }}</h1>
+              <div class="title bold">{{currentSlideText.subtitle}}</div>
+              <div class="title">{{currentSlideText.subsubtitle}}</div>
             </div>
         </div>
               
-        <button class="carousel-button main-btn" @click.stop="navigateToLink">{{currentSlideText.btntxt}}</button>
+        <button class="carousel-button main-btn-full big-btn abs" @click.stop="navigateToLink">{{currentSlideText.btntxt}}</button>
         
-        <button @click="prevImage" class="carousel-nav hover-animation carousel-nav-left">←</button>
-        <button @click="nextImage" class="carousel-nav hover-animation carousel-nav-right">→</button>
+        <button @click="prevImage" class="carousel-nav hover-animation carousel-nav-left abs">←</button>
+        <button @click="nextImage" class="carousel-nav hover-animation carousel-nav-right abs">→</button>
 
-        <div class="carousel-dots">
+        <div class="carousel-dots flex-c abs">
           <span
             v-for="(img, index) in slideContents"
             :key="index"
@@ -45,48 +45,23 @@
  }
  
 .carousel-button{
-  font-size:1.5rem;
-  font-weight:bold;
-  position:absolute;
-  width:200px;
-  height:70px;
-  inset:50%;
-  translate: -50% 100px;
+  white-space:nowrap;
+  left:50%;
+  bottom:20%;
+  transform: translate(-50%);
+  z-index:99;
 }
 
 .flex-wrapper{
   width:100%;
-  display:flex;
-  justify-content: center;
-  position:relative;
   top:-100%;
 }
 
-.subsubtitle{
-  font-size:1.5rem;
-}
-
-.subtitle{
-  font-size:1.5rem;
-  font-weight:bold;
-  color: rgb(255, 251, 255);
- 
-}
-.car-title{
-  font-size:2rem;
-}
-
 .car-text{
-  position:absolute;
   text-align:center;
   width:clamp(1px,350px,90%);
-  font-family: var(--cool-font);
-  display:flex;
-  flex-direction: column;
-  justify-content: center;
-  font-size: 1rem;
   padding-top:3rem;
-  padding-bottom:4rem;
+  padding-bottom:3rem;
   z-index:1;
 }
 
@@ -102,12 +77,7 @@
   z-index: -1;
 }
 
-.upper{
-  top:60%;
-}
-
 .img-container {
-  position: relative;
   height: clamp(50vh, 75vh, 35rem);
 }
 
@@ -121,7 +91,6 @@
 }
 
 .carousel-nav {
-  position: absolute;
   top: 0;
   bottom: 0;
   font-size:3rem;
@@ -141,9 +110,6 @@
 }
 
 .carousel-dots {
-  display: flex;
-  justify-content: center;
-  position: absolute;
   width:100%;
   top: 95%;
 }
@@ -181,19 +147,14 @@
   
   
   .car-text {
-    
     font-size: 0.9rem;
     padding-top: 2rem;
     padding-bottom: 3rem;
   }
   
   .carousel-button {
-   
-    width: 150px;
-    height: 50px;
-    inset: 50%;
-    translate: -50% 50px;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    bottom:15%;
   }
 
   
@@ -216,7 +177,8 @@ export default {
     return {
       currentImageIndex: 0,
       startX: 0, 
-      currentX: 0
+      currentX: 0,
+      touchStartOnButton: false
     };
   },
 
@@ -253,6 +215,7 @@ export default {
     },
     touchStart(event) {
       this.startX = event.touches[0].clientX;
+      this.touchStartOnButton = event.target.tagName === 'BUTTON';
     },
 
     touchMove(event) {
@@ -260,18 +223,23 @@ export default {
     },
 
     touchEnd() {
+      if (this.touchStartOnButton) {
+        this.touchStartOnButton = false; 
+        return; 
+      }
       let difference = this.currentX - this.startX;
 
       if (difference > 50) { 
         this.prevImage();
       } else if (difference < -50) { 
         this.nextImage();
+      } else{
+        return;
       }
     },
 
     navigateToLink() {
     const link = this.currentSlideText.link;
-    console.log('xd');
     if (link) {
         
         if (link.startsWith('http://') || link.startsWith('https://')) {

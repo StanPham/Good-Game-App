@@ -89,15 +89,15 @@ const goEvent = () => {
       <h1 class="header">{{titleOfCard}}</h1>
       <div class="event-wrapper">
         <h1 class="event-day">{{ dayMonthDay(todaysEvent.startDate) }}</h1>
-          <div class="title-wrapper">
-              <h2 class="event-title">{{ todaysEvent.name }} </h2>
-              <h2 class="event-title ya"> {{ todaysEvent.format}}</h2>
-              <div class="start-time">{{ hoursMinutes(todaysEvent.startDate) }} - {{hoursMinutes(todaysEvent.endDate) }}</div>
+          <div class="title-wrapper title">
+              <h2 class="pink-italic">{{ todaysEvent.name }} </h2>
+              <h3 class="pink"> {{ todaysEvent.format}}</h3>
+              <div class="start-time bold title-scale">{{ hoursMinutes(todaysEvent.startDate) }} - {{hoursMinutes(todaysEvent.endDate) }}</div>
           </div>
             
-          <p class="event-description">{{ todaysEvent.desc }}</p>
+          <p class="event-description font-med">{{ todaysEvent.desc }}</p>
           <br>
-          <button class="all-events-btn main-btn" @click="goEvent">All Events</button>
+          <button class="all-events-btn main-btn-full bold" @click="goEvent">All Events</button>
       </div>
   </div>
 </template>
@@ -109,15 +109,10 @@ const goEvent = () => {
   text-decoration: underline;
 }
 
-.all-events-btn{
-  font-size:1.1rem;
-  font-weight:bold;
-  padding:.8rem 2rem;
-}
+
 
 .event-wrapper{
   padding: 1rem;
-  font-size: clamp(1.3vw,1.2rem, 10vw);
   text-align: center;
 }
 
@@ -125,22 +120,10 @@ const goEvent = () => {
   background: linear-gradient(98.79deg, #a45aee -8.25%, #180030 30.07%); 
   border-radius: 1rem;
   height:100%;
-  position:relative;
 }
     
-.start-time{
-  font-weight:800;
-}
-
 .title-wrapper{
-  align-items: center;
   padding-top: .5rem;
-}
-
-.event-title{
-  font-weight:inherit;
-  font-style: italic;
-  color:rgb(214, 110, 214);
 }
 
 .event-description{
