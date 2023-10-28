@@ -116,6 +116,9 @@ a,
 }
 
 /* font  */
+h2 {
+  margin: 0;  
+}
 .cool-font{
   font-family: var(--cool-font);
 }
@@ -133,7 +136,7 @@ a,
 }
 
 .title-big-scale{
-  font-size: calc(1.1rem + 5vmin);
+  font-size: calc(1.1rem + 4vmin);
 }
 .title-scale{
   font-size: calc(1.1rem + 1.5vmin);
@@ -143,12 +146,16 @@ a,
   font-size:1rem;
 }
 
+.font-med{
+  font-size:1.2rem;
+}
+
 .font-small{
   font-size:.6rem;
 }
 
 .bold{
-  font-weight:bold;
+  font-weight:800;
 }
 
 .light{
@@ -157,6 +164,16 @@ a,
 
 .white-blur{
   text-shadow: 0 0 5px rgb(255, 255, 255), 0 0 12px rgb(255, 255, 255), 0 0 20px rgb(255, 255, 255), 0 0 30px rgb(255, 255, 255);
+}
+
+.pink{
+  color:rgb(214, 110, 214);
+}
+
+.pink-italic{
+  font-weight:inherit;
+  font-style: italic;
+  color:rgb(214, 110, 214);
 }
 
 .slider:after{
@@ -198,6 +215,10 @@ a,
 
 .grow{
   flex-grow:1;
+}
+
+.wrap{
+  flex-wrap:wrap;
 }
 /* layout end */
 

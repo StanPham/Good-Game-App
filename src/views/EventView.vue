@@ -129,7 +129,7 @@ const getCurrentMonth = computed(() => {
 
 <template>
     <div class="view-top-margin">
-        <div class="header-container">
+        <div class="header-container flex-c">
             <img v-if="getNextMonth" src="../images/arrow.svg" @click="selectedMonth--" alt="" class="arrow-left">
             <div class="header">{{ currentMonthName }}</div>
             <img v-if="getCurrentMonth" src="../images/arrow.svg" @click="selectedMonth++" alt="" class="arrow">
@@ -143,7 +143,7 @@ const getCurrentMonth = computed(() => {
                 <div class="stop-flex">
                     <h1 class="event-day-copy">{{ dateWithNameDay(event.startDate) }}</h1>
                     <div class="title-wrapper">
-                        <h2 class="event-title">{{ event.name }} </h2>
+                        <h2 class="pink-italic">{{ event.name }} </h2>
                         <h3 class="event-format"> {{ event.format }}</h3>
                         <div class="start-time">{{ dateWithHoursMinutes(event.startDate) }} - {{ dateWithHoursMinutes(event.endDate) }}</div>
                     </div>
@@ -188,9 +188,7 @@ const getCurrentMonth = computed(() => {
 }
 
 .header-container{
-    display:flex;
     background-color: rgb(91, 19, 133);
-    justify-content: center;
 }
 
 .day-title{
@@ -225,14 +223,7 @@ const getCurrentMonth = computed(() => {
 }
 
 .title-wrapper{
-    align-items: center;
     padding-top: .5rem;
-}
-
-.event-title{
-    font-weight:inherit;
-    font-style: italic;
-    color:rgb(214, 110, 214);
 }
     
 .event-description{
