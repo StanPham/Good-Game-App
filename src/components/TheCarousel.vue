@@ -49,6 +49,7 @@
   bottom:20%;
   transform: translate(-50%);
   z-index:99;
+  text-wrap:nowrap;
 }
 
 .flex-wrapper{
