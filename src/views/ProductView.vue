@@ -4,7 +4,6 @@ import { useRoute } from 'vue-router';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/firebase';
 import router from '../router'
-import PhoneNumber from '../components/modals/PhoneNumber.vue';
 
 const amount = ref('1');
 const route = useRoute();
@@ -34,7 +33,6 @@ let phoneModal = () => verifiedPhoneNumber.value = true;
 </script>
 
 <template>
-  <PhoneNumber v-if="verifiedPhoneNumber"/>
   <div class="view-top-margin flex-c-c">
     <div class="product-container flex-c-c wrap rc rel" v-if="productData">
       <nav class="breadcrumbs flex pad abs">
