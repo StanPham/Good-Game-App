@@ -22,11 +22,8 @@ const submitRegister = () => {
             if(username.value != '') {
                 updateProfile(data.user,{
                     displayName:username.value
-<<<<<<< HEAD
-=======
                 }).then(() => {
                     console.log("profile updated successfully")
->>>>>>> 84d3296 (Rebase From Main)
                 })
             }
             sendEmailVerification(data.user)
