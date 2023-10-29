@@ -75,11 +75,7 @@ const submitSignUpWIthGoogle = () => {
 
             <div>
                 <label for = "username"></label>
-<<<<<<< HEAD
                 <input type = "text" v-model="username" id="username" placeholder="Display Name(Optional)">
-=======
-                <input type = "text" v-model="username" id="username" placeholder="Username(Optional)">
->>>>>>> 84d3296 (Rebase From Main)
             </div>
 
             <div>
