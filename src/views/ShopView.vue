@@ -40,7 +40,7 @@ const categoryMapping = {
     mtg: 'Magic: The Gathering',
     yug: 'Yugioh',
     pok: 'Pokemon',
-    ddd: 'D&D',
+    rpg: 'RPG',
     oth: 'Accessories',
     '':'All Products'
 };
@@ -90,7 +90,7 @@ watch(route, (newRoute) => {
             <option value="mtg">Magic: The Gathering</option>
             <option value="yug">Yugioh</option>
             <option value="pok">Pokemon</option>
-            <option value="ddd">D&D</option>
+            <option value="rpg">RPG</option>
             <option value="oth">Accessories</option>
         </select>
       </div>
@@ -105,7 +105,8 @@ watch(route, (newRoute) => {
               <button @click="setActiveTab('')" class="cat-btn">All Products</button>
               <button @click="setActiveTab('mtg')" class="cat-btn">Magic: The Gathering</button> 
               <button @click="setActiveTab('yug')" class="cat-btn">YuGiOh</button> 
-              <button @click="setActiveTab('pok')" class="cat-btn">Pokemon</button> 
+              <button @click="setActiveTab('pok')" class="cat-btn">Pokemon</button>
+              <button @click="setActiveTab('rpg')" class="cat-btn">RPG</button>  
               <button @click="setActiveTab('oth')" class="cat-btn">Accessories</button> 
             </div>
         </div>
@@ -119,8 +120,8 @@ watch(route, (newRoute) => {
                   <div class="pad flex column">
                       <img :src="shop.img" alt="" class="pika">
                       <div class="product-name">{{shop.name}}</div>
-                      <div class="price">{{ shop.price }}</div>
-                      <p class="quant">Quantity: {{shop.quant}}</p>
+                      <div class="title letter-space bold">{{ shop.price }}</div>
+                      <p v-if="shop.quant==='0'" class="quant">Sold Out</p>
                       <br>
                   </div>
               </router-link>
@@ -226,13 +227,9 @@ select{
 }
 
 .quant{
-  font-size: .8rem;
+  font-size: 1rem;
   padding-top:.2rem;
-}
-
-.price{
-  font-weight: bold;
-  font-size:1.15rem;
+  font-style:italic;
 }
 
 .header{
@@ -264,6 +261,12 @@ img{
   border:rgb(73, 69, 69) 1px solid;
   border-radius:.5rem;
   max-width:250px;
+  transition: 0.2s ease-in-out;
+}
+
+.work-wrap:hover{
+  background:rgb(44, 43, 43);
+  
 }
  
 .product-name{

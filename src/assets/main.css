@@ -127,6 +127,10 @@ h2 {
   font-family: 'JockeyOne';
 }
 
+.roboto{
+  font-family: 'Roboto';
+}
+
 .title-big{
   font-size:2rem;
 }
@@ -162,6 +166,9 @@ h2 {
   font-weight: 200;
 }
 
+.letter-space{
+  letter-spacing:3px;
+}
 .white-blur{
   text-shadow: 0 0 5px rgb(255, 255, 255), 0 0 12px rgb(255, 255, 255), 0 0 20px rgb(255, 255, 255), 0 0 30px rgb(255, 255, 255);
 }
@@ -179,7 +186,7 @@ h2 {
 .slider:after{
   content: "";
   position: absolute;
-  background: var(--btn-color);
+  background: purple;
   height: 2px;
   width: 0%;
   left: 0;
@@ -187,7 +194,7 @@ h2 {
   transition: 0.3s;
 }
 
-.slider:after:hover{
+.slider:hover:after{
   width:100%;
 }
 
