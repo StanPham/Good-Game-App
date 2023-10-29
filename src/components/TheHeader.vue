@@ -100,22 +100,12 @@ const outsideClickHandler = () => {
     <div class="login-container">
         <div v-if="user" @click="profileClicked">
           <div v-if="user.displayName">
-<<<<<<< HEAD
-            Welcome, {{ user?.displayName }}!
-            <button type="button" @click="submitSignOut">Sign Out</button>
-          </div>
-          <div v-else>
-            {{ user?.email }}
-            <button type="button" @click="submitSignOut">Sign Out</button>
-          </div>
-=======
             {{ user?.displayName }}
           </div>
           <div v-else>
             {{ user?.email }}
           </div>
           <button type="button" @click="submitSignOut">Sign Out</button>
->>>>>>> 84d3296 (Rebase From Main)
         </div>
         <div v-else>
           <button class="login click cool-font" @click="goSignup">LOGIN</button> 
