@@ -27,22 +27,23 @@ const productQuantityOptions = computed(() => {
 </script>
 
 <template>
-  <div class="view-top-margin">
-    <div class="product-container" v-if="productData">
+  <div class="view-top-margin outermost-container flex-c-c">
+    <div class="product-container flex-c-c wrap rc" v-if="productData">
       <img :src="productData.img" alt="Product Image" class="product-img">
       <div class="product-text">
         <h1>{{ productData.name }}</h1>
         <p>{{ productData.desc }}</p>
         <p class="price">{{ productData.price }}</p>
         <br>
-        <div class="quantity-wrap">
+        <div v-if="productData.quant!=0" class="quantity-wrap">
           <select v-model="amount">
             <option v-for="num in productQuantityOptions" :key="num" :value="num">
               {{ num }}
             </option>
           </select>
-          <button class="reserve-btn">Reserve Now</button>
+          <button class="btn-even-pad">Reserve Now</button>
         </div>
+        <div v-else class="title-scale" style="font-style:italic">Sold Out</div>
       </div>
     </div>
     
@@ -53,19 +54,15 @@ const productQuantityOptions = computed(() => {
 </template>
 
 <style scoped>
+.outermost-container{
+  height:100%;
+}
 select{
   width:20%;
   border-radius:1rem;
   background-color: rgb(0, 0, 0);
   font-size:1.5rem;
   text-align: center;
-}
-
-.reserve-btn{
-  font-size:1.5rem;
-  background:var(--btn-color);
-  padding:1rem;
-  border-radius:1rem;
 }
 
 .quantity-wrap{
@@ -85,17 +82,14 @@ p{
 }
 
 .product-container{
-  display:flex;
-  justify-content: center;
-  align-items:center;
-  flex-wrap:wrap;
   background:black;
   gap:2rem;
+  width:clamp(350px, 80rem, 100%);
 }
 
 .product-img{
   width:clamp(500px, 50%, 50rem);
-  height: clamp(500px, 20vh, 40rem);
+  height: clamp(50%, 20vh, 40rem);
 }
 
 .product-text{

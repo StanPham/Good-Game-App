@@ -280,13 +280,15 @@ video {
 
 /* buttons start */
 .main-btn,
-.main-btn-full{
+.main-btn-full,
+.btn-even-pad{
   background: var(--btn-color);
   border-radius:1rem;
 }
 
 .main-btn:hover,
-.main-btn-full:hover{
+.main-btn-full:hover,
+.btn-even-pad:hover{
   background-color: rgb(180, 70, 202);
 }
 
@@ -297,6 +299,11 @@ video {
 }
 
 .main-btn-full.big-btn{
+  font-size:1.5rem;
+}
+
+.btn-even-pad{
+  padding:1rem;
   font-size:1.5rem;
 }
 /* buttons end */
