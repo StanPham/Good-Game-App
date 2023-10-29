@@ -120,7 +120,7 @@ watch(route, (newRoute) => {
                   <div class="pad flex column">
                       <img :src="shop.img" alt="" class="pika">
                       <div class="product-name">{{shop.name}}</div>
-                      <div class="title letter-space bold">{{ shop.price }}</div>
+                      <div class="title bold ">{{ shop.price }}</div>
                       <p v-if="shop.quant==='0'" class="quant">Sold Out</p>
                       <br>
                   </div>

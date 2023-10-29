@@ -16,6 +16,7 @@
 <style>
 .global-main{
   flex: 1 0 auto; 
+  height:100%;
 }
 .wrappity-wrap{
   min-height: 100vh;
