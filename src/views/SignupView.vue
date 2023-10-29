@@ -67,7 +67,7 @@ const submitSignUpWIthGoogle = () => {
                 <h2>Register</h2>
             </div>
             
-            <div class="error-text" v-if="errorMessage">
+            <div class="error-text blink-bg" v-if="errorMessage">
                 ⓘ {{ errorMessage }}
             </div>
 
@@ -115,5 +115,4 @@ const submitSignUpWIthGoogle = () => {
 
 <style scoped>
 @import '@/assets/LoginSignup.css';
-
 </style>
