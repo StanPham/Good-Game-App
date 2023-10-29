@@ -100,7 +100,7 @@ const outsideClickHandler = () => {
     <div class="login-container">
         <div v-if="user" @click="profileClicked">
           <div v-if="user.displayName">
-            {{ user?.displayName }}
+            Welcome, {{ user?.displayName }}!
             <button type="button" @click="submitSignOut">Sign Out</button>
           </div>
           <div v-else>
