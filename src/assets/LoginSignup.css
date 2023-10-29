@@ -61,6 +61,20 @@ form{
     justify-content: space-between;
 }
 
+.error-text{
+    background-color: #D0312D;
+    border-radius: 5px;
+    padding: 2px 5px;
+}
+
+.blink-bg{
+    animation: blinkingBackground 1s 2;
+}
+@keyframes blinkingBackground{
+    0%   {background-color: #D0312D;}
+    50% {background-color: rgb(255, 104, 104);}
+}
+
 input{
     border-radius: 5px;
     border: 1px solid rgb(24, 23, 22);

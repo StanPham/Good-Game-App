@@ -1,5 +1,5 @@
 <script setup>
-import { signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import { signOut, onAuthStateChanged } from 'firebase/auth'
 import { firebaseAppAuth } from '@/firebase'
 import {ref} from 'vue'
 import burger from '../images/burger.svg';
@@ -99,8 +99,14 @@ const outsideClickHandler = () => {
          
     <div class="login-container">
         <div v-if="user" @click="profileClicked">
-          {{ user?.email }}
-          <button type="button" @click="submitSignOut">Sign Out</button>
+          <div v-if="user.displayName">
+            Welcome, {{ user?.displayName }}!
+            <button type="button" @click="submitSignOut">Sign Out</button>
+          </div>
+          <div v-else>
+            {{ user?.email }}
+            <button type="button" @click="submitSignOut">Sign Out</button>
+          </div>
         </div>
         <div v-else>
           <button class="login click cool-font" @click="goSignup">LOGIN</button> 

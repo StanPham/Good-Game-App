@@ -2,27 +2,46 @@
 <script setup>
 import { ref } from 'vue'
 import { firebaseAppAuth } from '@/firebase'
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendEmailVerification } from 'firebase/auth'
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendEmailVerification, updateProfile } from 'firebase/auth'
 import router from '../router'
 
 const email = ref('')
+const username = ref('')
 const password = ref('')
 const passwordConfirmation = ref('')
+const errorMessage = ref('')
 
 const submitToLogin = () => router.push('/login');
 
 const submitRegister = () => {
-    if(password.value != passwordConfirmation.value) return alert("Passwords Do Not Match!")
+    if(password.value != passwordConfirmation.value) {
+        return errorMessage.value = "Passwords do not match"
+    }
     createUserWithEmailAndPassword(firebaseAppAuth, email.value, password.value)
         .then((data) => {
+            if(username.value != '') {
+                updateProfile(data.user,{
+                    displayName:username.value
+                }).then(() => {
+                    console.log("profile updated successfully")
+                })
+            }
             sendEmailVerification(data.user)
                 .then((data) => {
-                    console.log("email sent")
                     router.push('/')
                 })
         }).catch((error) => {
+            switch(error.code) {
+                case "auth/email-already-in-use":
+                    errorMessage.value = "Email is already in use"  
+                    break
+                case "auth/weak-password":
+                    errorMessage.value = "Password is too weak"
+                    break
+                default:
+                    errorMessage.value = "An error occured, please try again later"
+            }
             console.log(error.code)
-            alert(error.message)
         })
 }
 
@@ -30,8 +49,7 @@ const submitSignUpWIthGoogle = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(firebaseAppAuth, provider)
         .then((result) => {
-            console.log(result.user)
-            
+            console.log(result.user)   
         }).catch((err) => {
             err
         })
@@ -46,6 +64,10 @@ const submitSignUpWIthGoogle = () => {
                 <h2>Register</h2>
             </div>
             
+            <div class="error-text blink-bg" v-if="errorMessage">
+                ⓘ {{ errorMessage }}
+            </div>
+
             <div>
                 <label for="emaill"></label>
                 <input type = "email" v-model="email" id="emaill" placeholder="Email" required>
@@ -53,7 +75,7 @@ const submitSignUpWIthGoogle = () => {
 
             <div>
                 <label for = "username"></label>
-                <input type = "text" id="username" placeholder="Username" required>
+                <input type = "text" v-model="username" id="username" placeholder="Display Name(Optional)">
             </div>
 
             <div>
@@ -86,5 +108,4 @@ const submitSignUpWIthGoogle = () => {
 
 <style scoped>
 @import '@/assets/LoginSignup.css';
-
 </style>
