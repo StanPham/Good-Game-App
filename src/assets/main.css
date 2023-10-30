@@ -127,6 +127,10 @@ h2 {
   font-family: 'JockeyOne';
 }
 
+.roboto{
+  font-family: 'Roboto';
+}
+
 .title-big{
   font-size:2rem;
 }
@@ -162,6 +166,17 @@ h2 {
   font-weight: 200;
 }
 
+.underline{
+  text-decoration: underline;
+}
+
+.italic{
+  font-style:italic;
+}
+
+.letter-space{
+  letter-spacing:3px;
+}
 .white-blur{
   text-shadow: 0 0 5px rgb(255, 255, 255), 0 0 12px rgb(255, 255, 255), 0 0 20px rgb(255, 255, 255), 0 0 30px rgb(255, 255, 255);
 }
@@ -179,7 +194,7 @@ h2 {
 .slider:after{
   content: "";
   position: absolute;
-  background: var(--btn-color);
+  background: purple;
   height: 2px;
   width: 0%;
   left: 0;
@@ -187,7 +202,7 @@ h2 {
   transition: 0.3s;
 }
 
-.slider:after:hover{
+.slider:hover:after{
   width:100%;
 }
 
@@ -219,6 +234,10 @@ h2 {
 
 .wrap{
   flex-wrap:wrap;
+}
+
+.gap{
+  gap: 1rem;
 }
 /* layout end */
 
@@ -255,8 +274,21 @@ h2 {
 }
 /* padding end */
 
+/* background start */
+.grey{
+  background: rgb(37, 37, 37);
+}
+
+.black{
+  background:black;
+}
+
 .rc{
   border-radius:1rem;
+}
+
+.icon-white{
+  filter: invert(100%) sepia(1%) saturate(7418%) hue-rotate(290deg) brightness(105%) contrast(98%);
 }
 
 button,
@@ -273,13 +305,15 @@ video {
 
 /* buttons start */
 .main-btn,
-.main-btn-full{
+.main-btn-full,
+.btn-even-pad{
   background: var(--btn-color);
   border-radius:1rem;
 }
 
 .main-btn:hover,
-.main-btn-full:hover{
+.main-btn-full:hover,
+.btn-even-pad:hover{
   background-color: rgb(180, 70, 202);
 }
 
@@ -290,6 +324,11 @@ video {
 }
 
 .main-btn-full.big-btn{
+  font-size:1.5rem;
+}
+
+.btn-even-pad{
+  padding:1rem;
   font-size:1.5rem;
 }
 /* buttons end */
