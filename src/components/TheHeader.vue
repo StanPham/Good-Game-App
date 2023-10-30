@@ -110,7 +110,7 @@ const outsideClickHandler = () => {
           </div>
         </div>
         <div v-else>
-          <button class="login click cool-font" @click="goSignup">LOGIN</button> 
+          <button class="login cool-font" @click="goSignup">LOGIN</button> 
         </div>
     </div>
     <div v-if="isMobileMenuOpen" class="overlay">
@@ -147,11 +147,18 @@ const outsideClickHandler = () => {
 .burger{
   padding-top:.3rem;
   z-index:999;
+  transition:0.2s;
 }
+
+.burger:active{
+  transform:scale(1.1);
+}
+
 .menu-icon{
   display:none;
   padding-left:.8rem;
 }
+
 .header-bg{
   background-color: rgb(17, 17, 17);
   position: fixed;
