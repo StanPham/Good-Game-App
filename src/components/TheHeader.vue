@@ -115,8 +115,8 @@ const outsideClickHandler = () => {
     </div>
     <div v-if="isMobileMenuOpen" class="overlay">
       <div v-if="isMobileMenuOpen" class="mobile-menu" v-click-outside="outsideClickHandler">
-        <a class="mobile-login" @click="goSignupTwo" href="#">LOGIN</a>
-        <a href="#" @click="goEventTwo">EVENTS</a>
+        <a class="mobile-login" @click="goSignupTwo">LOGIN</a>
+        <a @click="goEventTwo">EVENTS</a>
         <a href="#" style="text-decoration: line-through;">COMING SOON</a>
         <a href="#" style="text-decoration: line-through;">COMING SOON</a>
         <a v-if="user">
