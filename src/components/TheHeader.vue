@@ -42,6 +42,7 @@ const goEvent = () => {
 const goEventTwo = () => {
     router.push('/event');
     isMobileMenuOpen.value = !isMobileMenuOpen.value;
+    console.log('xd');
 };
 
 const goSignup = () => {
@@ -112,14 +113,17 @@ const outsideClickHandler = () => {
           <button class="login click cool-font" @click="goSignup">LOGIN</button> 
         </div>
     </div>
-
-    <div v-if="isMobileMenuOpen" class="mobile-menu" v-click-outside="outsideClickHandler">
-      <a class="mobile-login" @click="goSignupTwo" href="#">LOGIN</a>
-      <a href="#" @click="goEventTwo">EVENTS</a>
-      <a v-if="user" @click="profileClicked">
-        {{ user?.email }}
-        <button type="button" @click="submitSignOut">Sign Out</button>
-      </a>
+    <div v-if="isMobileMenuOpen" class="overlay">
+      <div v-if="isMobileMenuOpen" class="mobile-menu" v-click-outside="outsideClickHandler">
+        <a class="mobile-login" @click.stop="goSignupTwo" href="#">LOGIN</a>
+        <a href="#" @click.stop="goEventTwo">EVENTS</a>
+        <a href="#" style="text-decoration: line-through;">COMING SOON</a>
+        <a href="#" style="text-decoration: line-through;">COMING SOON</a>
+        <a v-if="user" @click="profileClicked">
+          {{ user?.email }}
+          <button type="button" @click="submitSignOut">Sign Out</button>
+        </a>
+      </div>
     </div>
 </div>
 </template>
@@ -307,7 +311,6 @@ export default {
   data() {
     return {
       burger: burger,
-      isMobileMenuOpen: false,
       userClickedProfile: false,
       person: person,
       
@@ -320,42 +323,13 @@ methods: {
       userClickedProfile = !userClickedProfile;
     },
     
-    toggleMobileMenu() {
-      console.log('Toggling mobile menu');
-      
-      this.isMobileMenuOpen = !this.isMobileMenuOpen;
-      console.log(this.isMobileMenuOpen);
-    },
     goHome(){
       this.$router.push('/');
     },
-    goEvent(){
-      this.$router.push('/event');
-     
-    },
-    goEventTwo(){
-      this.$router.push('/event');
-      this.isMobileMenuOpen = !this.isMobileMenuOpen;
-    },
-    goSignup(){
-      this.$router.push('/login');
-     
-      
-    },
-    goSignupTwo(){
-      this.$router.push('/login');
-      this.isMobileMenuOpen = !this.isMobileMenuOpen;
-      
-    },
+   
     navigateToShop(category) {
         this.$router.push({ name: 'shop', query: { category } });
     },
-
-    outsideClickHandler() {
-        if (this.isMobileMenuOpen) {
-            this.isMobileMenuOpen = false;
-        }
-    }
     
   }
   
