@@ -59,7 +59,6 @@ const navigateToShop = (category) => {
 };
 
 const outsideClickHandler = () => {
-  console.log('no')
     if (isMobileMenuOpen.value) {
         isMobileMenuOpen.value = false;
     }
@@ -69,8 +68,8 @@ const outsideClickHandler = () => {
 
 <template>
     <div class="header-bg">
-      <div class="menu-icon" @click.stop="toggleMobileMenu">
-        <img :src="burger" alt="" class="burger icon-white" >
+      <div class="menu-icon" @click="toggleMobileMenu">
+        <img :src="burger" alt="" class="burger icon-white rel" >
       </div>
 
       <img src="../images/GG_Logo.png" alt="" class="logo-med click" @click="goHome">
@@ -100,7 +99,7 @@ const outsideClickHandler = () => {
         </div>
          
     <div class="login-container">
-        <div v-if="user" @click="profileClicked">
+        <div v-if="user">
           <div v-if="user.displayName">
             Welcome, {{ user?.displayName }}!
             <button type="button" @click="submitSignOut">Sign Out</button>
@@ -116,11 +115,11 @@ const outsideClickHandler = () => {
     </div>
     <div v-if="isMobileMenuOpen" class="overlay">
       <div v-if="isMobileMenuOpen" class="mobile-menu" v-click-outside="outsideClickHandler">
-        <a class="mobile-login" @click.stop="goSignupTwo" href="#">LOGIN</a>
-        <a href="#" @click.stop="goEventTwo">EVENTS</a>
+        <a class="mobile-login" @click="goSignupTwo" href="#">LOGIN</a>
+        <a href="#" @click="goEventTwo">EVENTS</a>
         <a href="#" style="text-decoration: line-through;">COMING SOON</a>
         <a href="#" style="text-decoration: line-through;">COMING SOON</a>
-        <a v-if="user" @click="profileClicked">
+        <a v-if="user">
           {{ user?.email }}
           <button type="button" @click="submitSignOut">Sign Out</button>
         </a>
@@ -147,6 +146,7 @@ const outsideClickHandler = () => {
 
 .burger{
   padding-top:.3rem;
+  z-index:999;
 }
 .menu-icon{
   display:none;
