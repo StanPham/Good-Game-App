@@ -170,6 +170,10 @@ h2 {
   text-decoration: underline;
 }
 
+.italic{
+  font-style:italic;
+}
+
 .letter-space{
   letter-spacing:3px;
 }
@@ -269,6 +273,15 @@ h2 {
   padding-bottom:1rem;
 }
 /* padding end */
+
+/* background start */
+.grey{
+  background: rgb(37, 37, 37);
+}
+
+.black{
+  background:black;
+}
 
 .rc{
   border-radius:1rem;

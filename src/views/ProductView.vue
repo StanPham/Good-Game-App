@@ -2,14 +2,19 @@
 import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { doc, getDoc } from 'firebase/firestore';
-import { db } from '@/firebase';
+import { db, firebaseAppAuth  } from '@/firebase';
+import { onAuthStateChanged } from 'firebase/auth'
 import router from '../router'
 
 const amount = ref('1');
 const route = useRoute();
 const productID = route.params.name; 
 const productData = ref(null);
-let verifiedPhoneNumber = ref(false);
+
+const user = ref(null)
+const phoneNumber = ref('')
+
+let badReserve = ref(false)
 
 onMounted(async () => {
   const productDoc = doc(db, 'shop', productID); 
@@ -29,7 +34,19 @@ const productQuantityOptions = computed(() => {
 const goHome = () => router.push('/');
 const goShop = () => router.push('/shop');
 
-let phoneModal = () => verifiedPhoneNumber.value = true;
+onAuthStateChanged(firebaseAppAuth, currentUser => {
+    user.value = currentUser
+    if(currentUser) {
+        currentUser.getIdTokenResult().then(idTokenResult => {
+            isAdmin.value = idTokenResult.claims.admin ? true : false
+        })
+    }
+})
+
+const makeReservation = () => {
+   badReserve.value = true;
+   console.log('xd');
+}
 </script>
 
 <template>
@@ -45,7 +62,7 @@ let phoneModal = () => verifiedPhoneNumber.value = true;
       <img :src="productData.img" alt="Product Image" class="product-img">
       <div class="product-text">
         <h1>{{ productData.name }}</h1>
-        <p>{{ productData.desc }}</p>
+        <p class="font-med">{{ productData.desc }}</p>
         <p class="price pad-top bold">{{ productData.price }}</p>
         <br>
         <div v-if="productData.quant!=0" class="flex gap pad-bot">
@@ -54,9 +71,23 @@ let phoneModal = () => verifiedPhoneNumber.value = true;
               {{ num }}
             </option>
           </select>
-          <button class="btn-even-pad" @click="phoneModal">Reserve Now</button>
+          <button class="btn-even-pad" @click="makeReservation">Reserve Now</button>
         </div>
         <div v-else class="title-scale" style="font-style:italic">Sold Out</div>
+
+        <div v-if="badReserve" class="grey rc">
+          <div v-if="!user && !user?.phoneNumber" class="pad font-med">You must be logged in and have
+           a verified phone number to make reservations. <a class="italic underline pink">Signup here.</a>
+          </div>
+
+          <div v-else-if="!user" class="pad font-med">You must be logged in to make reservations.</div>
+
+          <div v-else="user && !user?.phoneNumber" class="pad font-med">You must have a verified phone 
+           number to make reservations. Verify your phone number <a class="italic underline pink">here</a>
+          </div> 
+        </div>
+
+        <p class="italic light pad-top">Reserved items must be paid for and picked up in store. </p>
       </div>
       
     </div>
@@ -84,10 +115,6 @@ select{
 
 .price{
   font-size:1.8rem;
-}
-
-p{
-  font-size:1.4rem;
 }
 
 .product-container{
