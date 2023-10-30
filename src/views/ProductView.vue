@@ -12,6 +12,7 @@ const productID = route.params.name;
 const productData = ref(null);
 
 const user = ref(null)
+const isAdmin = ref(false)
 const phoneNumber = ref('')
 
 let badReserve = ref(false)
@@ -45,7 +46,6 @@ onAuthStateChanged(firebaseAppAuth, currentUser => {
 
 const makeReservation = () => {
    badReserve.value = true;
-   console.log('xd');
 }
 </script>
 
