@@ -59,6 +59,7 @@ const navigateToShop = (category) => {
 };
 
 const outsideClickHandler = () => {
+  console.log('no')
     if (isMobileMenuOpen.value) {
         isMobileMenuOpen.value = false;
     }
@@ -304,35 +305,3 @@ const outsideClickHandler = () => {
 
 </style>
 
-<script>
-
-export default {
-  name: 'TheHeader',
-  data() {
-    return {
-      burger: burger,
-      userClickedProfile: false,
-      person: person,
-      
-    };
-  },
-  
-methods: {
-  
-    profileClicked(){
-      userClickedProfile = !userClickedProfile;
-    },
-    
-    goHome(){
-      this.$router.push('/');
-    },
-   
-    navigateToShop(category) {
-        this.$router.push({ name: 'shop', query: { category } });
-    },
-    
-  }
-  
-}
-
-</script>
