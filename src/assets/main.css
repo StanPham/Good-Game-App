@@ -291,6 +291,7 @@ h2 {
   background:black;
 }
 
+<<<<<<< HEAD
 .gradient{
   background: linear-gradient(-98.79deg, #BA76FF -8.25%, #180030 73.07%);
 }
@@ -299,6 +300,8 @@ h2 {
   background: linear-gradient(98.79deg, #BA76FF -8.25%, #180030 73.07%);
 }
 
+=======
+>>>>>>> f8c0b39 (product messages)
 .rc{
   border-radius:1rem;
 }
