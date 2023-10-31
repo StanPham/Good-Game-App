@@ -25,8 +25,8 @@ const myShops = defineProps({
             <div class="pad-left click">
               <img :src="item.img" :alt="`Image of ${item.name}`" class="product-image">
               <br><br>
-              <div class="product-name">{{ item.name }}</div>
-              <div class="price">{{ item.price }}</div>
+              <div class="font-med">{{ item.name }}</div>
+              <div class="price font-med bold">{{ item.price }}</div>
               <br>
             </div>
           </router-link>
@@ -54,10 +54,7 @@ const myShops = defineProps({
 .quant{
     font-size: .8rem;
 }
-.product-name,
-.price{
-    font-size:1.1rem;
-}
+
 .price{
   padding-top:5px;
 }
