@@ -1,11 +1,6 @@
 <script setup>
 import {ref, defineProps} from 'vue';
-import pika from '../images/pikachu.webp';
-import mtg from '../images/mtg.webp'
-import cardcase from '../images/cardcase.png'
-import gengar from '../images/gengar.png'
-import snorlax from '../images/snorlax.png'
-import bulba from '../images/bulba.png'
+import router from '../router'
 
 const myShops = defineProps({
   items: {
@@ -17,24 +12,29 @@ const myShops = defineProps({
 </script>
 
 <template>
-    <div class="main-container">
-      <div class="header pad-top title-big-scale cool-font">New Products (coming soon)</div>
+    <div class="main-container rc">
+      <div class="header pad-top title-big-scale cool-font rc">New Products (coming soon)</div>
       <br>
-      <main class="product-container">
+      <main class="product-container pad">
         <div class="work-wrap" v-for="item in myShops.items" :key="item.id">
-          <div class="pad-left click">
-            <img :src="item.img" :alt="`Image of ${item.name}`" class="product-image">
-            <br><br>
-            <div class="product-name">{{ item.name }}</div>
-            <div class="price">{{ item.price }}</div>
-            <br>
-          </div>
+          <router-link :to="`/product/${item.id}`" class="link">
+            <div class="pad-left click">
+              <img :src="item.img" :alt="`Image of ${item.name}`" class="product-image">
+              <br><br>
+              <div class="product-name">{{ item.name }}</div>
+              <div class="price">{{ item.price }}</div>
+              <br>
+            </div>
+          </router-link>
         </div>
       </main>
     </div>
   </template>
 
 <style scoped>
+.link{
+  text-decoration:none;
+}
 .arrow{
     width:50px;
     filter: invert(100%) sepia(1%) saturate(7418%) hue-rotate(290deg) brightness(105%) contrast(98%);
@@ -64,11 +64,9 @@ const myShops = defineProps({
 }
 
 main{
-    display:flex;
-    align-items: center;
-    justify-content:space-evenly;
-    margin:1rem;
-    gap: 1.5rem;
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
     max-width:100%;
 }
 

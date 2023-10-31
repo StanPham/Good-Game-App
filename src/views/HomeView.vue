@@ -91,6 +91,7 @@ const slideContents = computed(() => {
 const myShops = computed(() => {
   return shopItems.value.map(item => {
     return {
+      id: item.id,
       name: item.name,
       price: item.price,
       img: item.img
