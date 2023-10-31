@@ -67,36 +67,34 @@ const outsideClickHandler = () => {
 </script>
 
 <template>
-    <div class="header-bg">
-      <div class="menu-icon" @click="toggleMobileMenu">
-        <img :src="burger" alt="" class="burger icon-white rel" >
-      </div>
+  <div class="header-bg">
+    <div class="menu-icon" @click="toggleMobileMenu">
+      <img :src="burger" alt="" class="burger icon-white rel" >
+    </div>
 
-      <img src="../images/GG_Logo.png" alt="" class="logo-med click" @click="goHome">
+    <img src="../images/GG_Logo.png" alt="" class="logo-med click" @click="goHome">
 
-      <div class="title-container" >
-        <div class=" title" @click="goHome">Good Game</div>
-      </div>
-       
-      <div class="links-wrappa flex grow">
-        <!--
-          <div class="dropdown flex-c column">
-              <button class="dropbtn ">SHOP</button>
-              <div class="dropdown-content">
-                <a @click="navigateToShop('mtg')">Magic: The Gathering</a>
-                <a @click="navigateToShop('yug')">YuGiOh</a>
-                <a @click="navigateToShop('pok')">Pokemon</a>
-                <a @click="navigateToShop('ddd')">D&D</a>
-                <a href="#">Board Games</a>
-                <a href="#">Accessories</a>
-              </div>
-            </div> -->
-          <a @click="goEvent">EVENTS</a>
-          <a style="text-decoration: line-through;">COMING SOON</a>
-          <a style="text-decoration: line-through;">COMING SOON</a>
-          <!-- <a href="#">CONTACT</a>
-          <a href="#">XYZ123</a> -->
-        </div>
+    <div class="title-container" >
+      <div class=" title" @click="goHome">Good Game</div>
+    </div>
+      
+    <div class="links-wrappa flex grow">
+      <!--
+        <div class="dropdown flex-c column">
+            <button class="dropbtn ">SHOP</button>
+            <div class="dropdown-content">
+              <a @click="navigateToShop('mtg')">Magic: The Gathering</a>
+              <a @click="navigateToShop('yug')">YuGiOh</a>
+              <a @click="navigateToShop('pok')">Pokemon</a>
+              <a @click="navigateToShop('ddd')">D&D</a>
+              <a href="#">Board Games</a>
+              <a href="#">Accessories</a>
+            </div>
+          </div> -->
+        <a @click="goEvent">EVENTS</a>
+        <a style="text-decoration: line-through;">COMING SOON</a>
+        <a style="text-decoration: line-through;">COMING SOON</a>
+    </div>
          
     <div class="login-container">
         <div v-if="user">
@@ -115,17 +113,14 @@ const outsideClickHandler = () => {
     </div>
     <div v-if="isMobileMenuOpen" class="overlay">
       <div v-if="isMobileMenuOpen" class="mobile-menu" v-click-outside="outsideClickHandler">
-        <a class="mobile-login" @click="goSignupTwo">LOGIN</a>
+        <a v-if="user" class="mobile-login" @click="submitSignOut"> SIGNOUT</a>
+        <a v-else class="mobile-login" @click="goSignupTwo">LOGIN</a>
         <a @click="goEventTwo">EVENTS</a>
         <a href="#" style="text-decoration: line-through;">COMING SOON</a>
         <a href="#" style="text-decoration: line-through;">COMING SOON</a>
-        <a v-if="user">
-          {{ user?.email }}
-          <button type="button" @click="submitSignOut">Sign Out</button>
-        </a>
       </div>
     </div>
-</div>
+  </div>
 </template>
 
 <style scoped>
