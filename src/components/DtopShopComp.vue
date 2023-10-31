@@ -13,7 +13,7 @@ const myShops = defineProps({
 
 <template>
     <div class="main-container rc">
-      <div class="header-container flex">
+      <div class="header-container flex rc">
         <div class="header flex pad-top pad-bot title-big-scale cool-font rc">New Products
           <button class="main-btn-full margin-right" style="text-decoration: line-through;">Coming Soon</button>
         </div>
