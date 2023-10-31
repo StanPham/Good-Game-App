@@ -1,74 +1,38 @@
 <script setup>
-import {ref} from 'vue';
+import {ref, defineProps} from 'vue';
 import pika from '../images/pikachu.webp';
 import mtg from '../images/mtg.webp'
 import cardcase from '../images/cardcase.png'
 import gengar from '../images/gengar.png'
 import snorlax from '../images/snorlax.png'
 import bulba from '../images/bulba.png'
-const myShops = ref([
-    {
-        id:1,
-        image: gengar,
-        name: 'Product #1',
-        price: '$99.99',
-        quant: 3,
-        category: 'MTG',
 
-    },
-    {
-        id:2,
-        image: snorlax,
-        name: 'Product #2',
-        price: '$19.99',
-        quant: 3,
-        category: 'Pokemon',
+const myShops = defineProps({
+  items: {
+    type: Array,
+    default: () => []
+  }
+});
 
-    },
-    {
-        id:3,
-        image: bulba,
-        name: 'Product #3',
-        price: '$99.99',
-        quant: 3,
-        category: 'Yugioh',
-
-    },
-    {
-        id:3,
-        image: gengar,
-        name: 'Product #4',
-        price: '$19.99',
-        quant: 3,
-        category: 'Yugioh',
-
-    },
-]);
 </script>
 
 <template>
     <div class="main-container">
-        <div class="header pad-top title-big-scale cool-font">New Products (coming soon)</div>
-        <br>
-        <main class="product-container" >
-          
-        <div class="work-wrap" v-for="shop in myShops" :key="shop.id">
-            
-        <div class="pad-left click">
-            <img :src="shop.image" alt="" class="pika">
+      <div class="header pad-top title-big-scale cool-font">New Products (coming soon)</div>
+      <br>
+      <main class="product-container">
+        <div class="work-wrap" v-for="item in myShops.items" :key="item.id">
+          <div class="pad-left click">
+            <img :src="item.img" :alt="`Image of ${item.name}`" class="product-image">
             <br><br>
-            <div class="product-name">{{shop.name}}</div>
-            
-            <div class="price">{{ shop.price }}</div>
-            
+            <div class="product-name">{{ item.name }}</div>
+            <div class="price">{{ item.price }}</div>
             <br>
+          </div>
         </div>
-  
-        </div>
-       
-    </main>
+      </main>
     </div>
-</template>
+  </template>
 
 <style scoped>
 .arrow{
