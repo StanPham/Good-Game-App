@@ -16,6 +16,7 @@ const submitSignOut = async () => {
         console.log(error.code)
         alert(error.message)
      })
+     isAdmin.value = false;
      router.push('/');
   }
 
@@ -52,6 +53,10 @@ const goSignup = () => {
 const goSignupTwo = () => {
     router.push('/login');
     isMobileMenuOpen.value = !isMobileMenuOpen.value;
+};
+
+const goAdmin = () => {
+    router.push('/admin');
 };
 
 const navigateToShop = (category) => {
@@ -94,19 +99,20 @@ const outsideClickHandler = () => {
         <a @click="goEvent">EVENTS</a>
         <a style="text-decoration: line-through;">COMING SOON</a>
         <a style="text-decoration: line-through;">COMING SOON</a>
+        <a v-if="isAdmin" @click="goAdmin">ADMIN</a>
     </div>
          
     <div class="login-container">
-        <div v-if="user">
+        <div class="flex-c-c" v-if="user">
           <div v-if="user.displayName">
             Welcome, {{ user?.displayName }}!
-            <button type="button" @click="submitSignOut">Sign Out</button>
           </div>
           <div v-else>
             {{ user?.email }}
-            <button type="button" @click="submitSignOut">Sign Out</button>
           </div>
+          <button type="button" @click="submitSignOut">Sign Out</button>
         </div>
+
         <div v-else>
           <button class="login cool-font" @click="goSignup">LOGIN</button> 
         </div>
@@ -131,6 +137,7 @@ const outsideClickHandler = () => {
   margin-left:2rem;
   margin-bottom:5px;
 }
+
 .mobile-menu{
   display:none;
 }
