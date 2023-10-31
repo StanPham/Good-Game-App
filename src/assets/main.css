@@ -287,8 +287,20 @@ h2 {
   background:black;
 }
 
+.gradient{
+  background: linear-gradient(-98.79deg, #BA76FF -8.25%, #180030 73.07%);
+}
+
+.reverse-gradient{
+  background: linear-gradient(98.79deg, #BA76FF -8.25%, #180030 73.07%);
+}
+
 .rc{
   border-radius:1rem;
+}
+
+.rc-top-top{
+  border-radius: 1rem 1rem 0 0;
 }
 
 .icon-white{
