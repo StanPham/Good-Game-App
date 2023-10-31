@@ -12,6 +12,7 @@ import MiniGame from '../components/MiniGame.vue';
 
 
 const mySlides = ref([]);
+const shopItems = ref([]);
 
 function preloadImages(arrayOfImages) {
   arrayOfImages.forEach(imageUrl => {
@@ -42,6 +43,29 @@ onMounted( () => {
    const imageUrls = mySlides.value.map(slide => slide.img);
     preloadImages(imageUrls);
  });
+
+ onSnapshot(collection(db, 'shop'), (querySnapshot) => {
+   const tmpItems = [];
+   querySnapshot.forEach((doc) => {
+     const item = {
+       id: doc.id,
+       name: doc.data().name,
+       category: doc.data().category,
+       price: doc.data().price,
+       quant: doc.data().quant,
+       desc: doc.data().desc,
+       img: doc.data().img,
+       creationDate: doc.data().creationDate
+
+       
+     }
+     
+     tmpItems.push(item)
+   });
+   tmpItems.sort((a, b) => b.creationDate - a.creationDate);
+   shopItems.value = tmpItems.slice(0, 4);
+ 
+ });
  
 })
 
@@ -64,6 +88,17 @@ const slideContents = computed(() => {
     });
 });
 
+const myShops = computed(() => {
+  return shopItems.value.map(item => {
+    return {
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      img: item.img
+    }
+  });
+});
+
 </script>
 
 <template>
@@ -81,7 +116,7 @@ const slideContents = computed(() => {
     </div>
 
     <div class="shop-comp">
-      <ShopComp />
+      <ShopComp v-if="myShops.length" :items="myShops" />
     </div>
 
     <div class="table-card">

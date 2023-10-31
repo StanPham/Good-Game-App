@@ -181,6 +181,10 @@ h2 {
   text-shadow: 0 0 5px rgb(255, 255, 255), 0 0 12px rgb(255, 255, 255), 0 0 20px rgb(255, 255, 255), 0 0 30px rgb(255, 255, 255);
 }
 
+.pink-blur:hover{
+  text-shadow: 0 0 5px rgb(236, 5, 236), 0 0 12px rgb(236, 5, 236), 0 0 20px rgb(236, 5, 236), 0 0 30px rgb(236, 5, 236);
+}
+
 .pink{
   color:rgb(214, 110, 214);
 }
@@ -272,6 +276,10 @@ h2 {
 .pad-bot{
   padding-bottom:1rem;
 }
+
+.margin-right{
+  margin-right:1rem;
+}
 /* padding end */
 
 /* background start */
@@ -331,6 +339,7 @@ video {
   padding:1rem;
   font-size:1.5rem;
 }
+
 /* buttons end */
 
 .click{
@@ -349,3 +358,13 @@ video {
   margin-top: var(--header-height);
 }
 
+/*modal background*/
+.overlay {
+  position: fixed; 
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7); 
+  z-index: 998; 
+}

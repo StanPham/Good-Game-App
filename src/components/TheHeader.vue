@@ -16,6 +16,7 @@ const submitSignOut = async () => {
         console.log(error.code)
         alert(error.message)
      })
+     isAdmin.value = false;
      router.push('/');
   }
 
@@ -42,6 +43,7 @@ const goEvent = () => {
 const goEventTwo = () => {
     router.push('/event');
     isMobileMenuOpen.value = !isMobileMenuOpen.value;
+    console.log('xd');
 };
 
 const goSignup = () => {
@@ -51,6 +53,10 @@ const goSignup = () => {
 const goSignupTwo = () => {
     router.push('/login');
     isMobileMenuOpen.value = !isMobileMenuOpen.value;
+};
+
+const goAdmin = () => {
+    router.push('/admin');
 };
 
 const navigateToShop = (category) => {
@@ -66,62 +72,61 @@ const outsideClickHandler = () => {
 </script>
 
 <template>
-    <div class="header-bg">
-      <div class="menu-icon" @click.stop="toggleMobileMenu">
-        <img :src="burger" alt="" class="burger icon-white" >
-      </div>
+  <div class="header-bg">
+    <div class="menu-icon" @click="toggleMobileMenu">
+      <img :src="burger" alt="" class="burger icon-white rel" >
+    </div>
 
-      <img src="../images/GG_Logo.png" alt="" class="logo-med click" @click="goHome">
+    <img src="../images/GG_Logo.png" alt="" class="logo-med click" @click="goHome">
 
-      <div class="title-container" >
-        <div class=" title" @click="goHome">Good Game</div>
-      </div>
-       
-      <div class="links-wrappa flex grow">
-        <!--
-          <div class="dropdown flex-c column">
-              <button class="dropbtn ">SHOP</button>
-              <div class="dropdown-content">
-                <a @click="navigateToShop('mtg')">Magic: The Gathering</a>
-                <a @click="navigateToShop('yug')">YuGiOh</a>
-                <a @click="navigateToShop('pok')">Pokemon</a>
-                <a @click="navigateToShop('ddd')">D&D</a>
-                <a href="#">Board Games</a>
-                <a href="#">Accessories</a>
-              </div>
-            </div> -->
-          <a @click="goEvent">EVENTS</a>
-          <a style="text-decoration: line-through;">COMING SOON</a>
-          <a style="text-decoration: line-through;">COMING SOON</a>
-          <!-- <a href="#">CONTACT</a>
-          <a href="#">XYZ123</a> -->
-        </div>
+    <div class="title-container" >
+      <div class=" title" @click="goHome">Good Game</div>
+    </div>
+      
+    <div class="links-wrappa flex grow">
+      <!--
+        <div class="dropdown flex-c column">
+            <button class="dropbtn ">SHOP</button>
+            <div class="dropdown-content">
+              <a @click="navigateToShop('mtg')">Magic: The Gathering</a>
+              <a @click="navigateToShop('yug')">YuGiOh</a>
+              <a @click="navigateToShop('pok')">Pokemon</a>
+              <a @click="navigateToShop('ddd')">D&D</a>
+              <a href="#">Board Games</a>
+              <a href="#">Accessories</a>
+            </div>
+          </div> -->
+        <a @click="goEvent">EVENTS</a>
+        <a style="text-decoration: line-through;">COMING SOON</a>
+        <a style="text-decoration: line-through;">COMING SOON</a>
+        <a v-if="isAdmin" @click="goAdmin">ADMIN</a>
+    </div>
          
     <div class="login-container">
-        <div v-if="user" @click="profileClicked">
+        <div class="flex-c-c" v-if="user">
           <div v-if="user.displayName">
             Welcome, {{ user?.displayName }}!
-            <button type="button" @click="submitSignOut">Sign Out</button>
           </div>
           <div v-else>
             {{ user?.email }}
-            <button type="button" @click="submitSignOut">Sign Out</button>
           </div>
+          <button type="button" class="font-med pink-blur pad-left jockey" @click="submitSignOut">Sign Out</button>
         </div>
-        <div v-else>
-          <button class="login click cool-font" @click="goSignup">LOGIN</button> 
-        </div>
-    </div>
 
-    <div v-if="isMobileMenuOpen" class="mobile-menu" v-click-outside="outsideClickHandler">
-      <a class="mobile-login" @click="goSignupTwo" href="#">LOGIN</a>
-      <a href="#" @click="goEventTwo">EVENTS</a>
-      <a v-if="user" @click="profileClicked">
-        {{ user?.email }}
-        <button type="button" @click="submitSignOut">Sign Out</button>
-      </a>
+        <div v-else>
+          <button class="login cool-font" @click="goSignup">LOGIN</button> 
+        </div>
     </div>
-</div>
+    <div v-if="isMobileMenuOpen" class="overlay">
+      <div v-if="isMobileMenuOpen" class="mobile-menu" v-click-outside="outsideClickHandler">
+        <a v-if="user" class="mobile-login" @click="submitSignOut"> SIGNOUT</a>
+        <a v-else class="mobile-login" @click="goSignupTwo">LOGIN</a>
+        <a @click="goEventTwo">EVENTS</a>
+        <a href="#" style="text-decoration: line-through;">COMING SOON</a>
+        <a href="#" style="text-decoration: line-through;">COMING SOON</a>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped>
@@ -132,17 +137,26 @@ const outsideClickHandler = () => {
   margin-left:2rem;
   margin-bottom:5px;
 }
+
 .mobile-menu{
   display:none;
 }
 
 .burger{
   padding-top:.3rem;
+  z-index:999;
+  transition:0.2s;
 }
+
+.burger:active{
+  transform:scale(1.1);
+}
+
 .menu-icon{
   display:none;
   padding-left:.8rem;
 }
+
 .header-bg{
   background-color: rgb(17, 17, 17);
   position: fixed;
@@ -296,65 +310,3 @@ const outsideClickHandler = () => {
 
 </style>
 
-<script>
-
-export default {
-  name: 'TheHeader',
-  data() {
-    return {
-      burger: burger,
-      isMobileMenuOpen: false,
-      userClickedProfile: false,
-      person: person,
-      
-    };
-  },
-  
-methods: {
-  
-    profileClicked(){
-      userClickedProfile = !userClickedProfile;
-    },
-    
-    toggleMobileMenu() {
-      console.log('Toggling mobile menu');
-      
-      this.isMobileMenuOpen = !this.isMobileMenuOpen;
-      console.log(this.isMobileMenuOpen);
-    },
-    goHome(){
-      this.$router.push('/');
-    },
-    goEvent(){
-      this.$router.push('/event');
-     
-    },
-    goEventTwo(){
-      this.$router.push('/event');
-      this.isMobileMenuOpen = !this.isMobileMenuOpen;
-    },
-    goSignup(){
-      this.$router.push('/login');
-     
-      
-    },
-    goSignupTwo(){
-      this.$router.push('/login');
-      this.isMobileMenuOpen = !this.isMobileMenuOpen;
-      
-    },
-    navigateToShop(category) {
-        this.$router.push({ name: 'shop', query: { category } });
-    },
-
-    outsideClickHandler() {
-        if (this.isMobileMenuOpen) {
-            this.isMobileMenuOpen = false;
-        }
-    }
-    
-  }
-  
-}
-
-</script>
