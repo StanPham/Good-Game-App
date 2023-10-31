@@ -13,8 +13,12 @@ const myShops = defineProps({
 
 <template>
     <div class="main-container rc">
-      <div class="header pad-top title-big-scale cool-font rc">New Products (coming soon)</div>
-      <br>
+      <div class="header-container flex">
+        <div class="header flex pad-top pad-bot title-big-scale cool-font rc">New Products
+          <button class="main-btn-full margin-right" style="text-decoration: line-through;">Coming Soon</button>
+        </div>
+        
+      </div>
       <main class="product-container pad">
         <div class="work-wrap" v-for="item in myShops.items" :key="item.id">
           <router-link :to="`/product/${item.id}`" class="link">
@@ -57,10 +61,16 @@ const myShops = defineProps({
 .price{
   padding-top:5px;
 }
+.header-container{
+  background: rgba(20, 20, 20, 0.616);
+  width:100%;
+  justify-content: flex-end;
+}
 .header{
-    background: rgba(12, 12, 12, 0.616);
-    width:100%;
+    width:60%;
     text-align:center;   
+    align-items:center;
+    justify-content: space-between;
 }
 
 main{
