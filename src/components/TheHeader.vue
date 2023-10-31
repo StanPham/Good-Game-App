@@ -142,10 +142,6 @@ const outsideClickHandler = () => {
   display:none;
 }
 
-.icon-white{
-  filter: invert(100%) sepia(1%) saturate(7418%) hue-rotate(290deg) brightness(105%) contrast(98%);
-}
-
 .burger{
   padding-top:.3rem;
   z-index:999;
