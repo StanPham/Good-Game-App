@@ -131,7 +131,7 @@ const myShops = computed(() => {
 
 <style scoped>
 .facebook-card{
-  min-height:350px;
+  min-height:400px;
 }
 .facebook-card,
 .table-card{

@@ -1,14 +1,16 @@
 <template>
   <div id="fb-root"></div>
   <div class="fb-container rel">
-    <div class="header-container rc-top-top flex-c-c font-med gradient">
-      <h1 class="cool-font">Follow Us On Facebook!</h1>
+    <div class="header-container rc-top-top flex-c-c gradient">
+      <h1 class="title-scale cool-font">Follow Us On Facebook!</h1>
     </div>
-    <div class="fb-page" data-href="https://www.facebook.com/GoodGameRsvlAR/" data-tabs="timeline" data-width="500" data-height="300" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
+    
+    <div class="fb-page"  data-href="https://www.facebook.com/GoodGameRsvlAR/" data-tabs="timeline" data-width="500" data-height="300" data-small-header="true"  data-hide-cover="false" data-show-facepile="true">
       <blockquote cite="https://www.facebook.com/GoodGameRsvlAR/" class="fb-xfbml-parse-ignore">
         <a href="https://www.facebook.com/GoodGameRsvlAR/">Good Game</a>
       </blockquote>
     </div>
+    
   </div>
 </template>
 
@@ -38,12 +40,11 @@ export default {
   border-radius: 1rem;
 }
 .fb_iframe_widget{
- 
   display:block;
   position:absolute;
   top:60%;
   left:50%;
-  transform:translate(-50%, -50%);
+  transform:translate(-50%,-50%);
   
 }
 </style>
