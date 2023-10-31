@@ -55,12 +55,15 @@ onMounted( () => {
        quant: doc.data().quant,
        desc: doc.data().desc,
        img: doc.data().img,
+       creationDate: doc.data().creationDate
 
        
      }
+     
      tmpItems.push(item)
    });
-   shopItems.value = tmpItems;
+   tmpItems.sort((a, b) => b.creationDate - a.creationDate);
+   shopItems.value = tmpItems.slice(0, 4);
  
  });
  
