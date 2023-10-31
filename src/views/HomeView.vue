@@ -8,7 +8,7 @@ import TodaysEvent from '../components/TodaysEvent.vue';
 import ShopCard from '../components/MobileShopCard.vue';
 import ShopComp from '../components/DtopShopComp.vue';
 import TableCard from '../components/TableCard.vue'
-import MiniGame from '../components/MiniGame.vue';
+import FacebookCard from '../components/FacebookCard.vue';
 
 
 const mySlides = ref([]);
@@ -88,17 +88,17 @@ const slideContents = computed(() => {
       <TableCard />
     </div>
 
-    <div class="minigame-card">
-      <MiniGame />
+    <div class="facebook-card">
+      <FacebookCard />
     </div>
   </div>
 </template>
 
 <style scoped>
-.minigame-card{
-  min-height:300px;
+.facebook-card{
+  min-height:400px;
 }
-.minigame-card,
+.facebook-card,
 .table-card{
   width:clamp(1000px,80vw,80vw);
 }
@@ -124,7 +124,7 @@ const slideContents = computed(() => {
   .shop-card,
   .event-card,
   .table-card,
-  .minigame-card{
+  .facebook-card{
     width:clamp(700px,30%,30%);
   }
 }
@@ -139,7 +139,7 @@ const slideContents = computed(() => {
   .shop-card{
     display:none;
   }
-  .minigame-card,
+  .facebook-card,
   .table-card{
     width:45%;
   }
