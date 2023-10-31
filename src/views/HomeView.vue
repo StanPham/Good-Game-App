@@ -8,7 +8,7 @@ import TodaysEvent from '../components/TodaysEvent.vue';
 import ShopCard from '../components/MobileShopCard.vue';
 import ShopComp from '../components/DtopShopComp.vue';
 import TableCard from '../components/TableCard.vue'
-import MiniGame from '../components/MiniGame.vue';
+import FacebookCard from '../components/FacebookCard.vue';
 
 
 const mySlides = ref([]);
@@ -89,7 +89,7 @@ const slideContents = computed(() => {
     </div>
 
     <div class="minigame-card">
-      <MiniGame />
+      <FacebookCard />
     </div>
   </div>
 </template>
