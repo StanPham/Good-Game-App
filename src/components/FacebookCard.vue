@@ -5,7 +5,14 @@
       <h1 class="title-scale cool-font">Follow Us On Facebook!</h1>
     </div>
     
-    <div class="fb-page"  data-href="https://www.facebook.com/GoodGameRsvlAR/" data-tabs="timeline" data-width="500" data-height="300" data-small-header="true"  data-hide-cover="false" data-show-facepile="true">
+    <div class="fb-page" 
+      data-href="https://www.facebook.com/GoodGameRsvlAR/" 
+      data-tabs="timeline" 
+      data-width="500" 
+      data-height="300" 
+      data-small-header="true"  
+      data-hide-cover="false" 
+      data-show-facepile="true">
       <blockquote cite="https://www.facebook.com/GoodGameRsvlAR/" class="fb-xfbml-parse-ignore">
         <a href="https://www.facebook.com/GoodGameRsvlAR/">Good Game</a>
       </blockquote>
