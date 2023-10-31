@@ -123,17 +123,17 @@ const myShops = computed(() => {
       <TableCard />
     </div>
 
-    <div class="minigame-card">
+    <div class="facebook-card">
       <FacebookCard />
     </div>
   </div>
 </template>
 
 <style scoped>
-.minigame-card{
-  min-height:300px;
+.facebook-card{
+  min-height:350px;
 }
-.minigame-card,
+.facebook-card,
 .table-card{
   width:clamp(1000px,80vw,80vw);
 }
@@ -159,7 +159,7 @@ const myShops = computed(() => {
   .shop-card,
   .event-card,
   .table-card,
-  .minigame-card{
+  .facebook-card{
     width:clamp(700px,30%,30%);
   }
 }
@@ -174,7 +174,7 @@ const myShops = computed(() => {
   .shop-card{
     display:none;
   }
-  .minigame-card,
+  .facebook-card,
   .table-card{
     width:45%;
   }
