@@ -110,7 +110,7 @@ const outsideClickHandler = () => {
           <div v-else>
             {{ user?.email }}
           </div>
-          <button type="button" @click="submitSignOut">Sign Out</button>
+          <button type="button" class="font-med pink-blur pad-left jockey" @click="submitSignOut">Sign Out</button>
         </div>
 
         <div v-else>
