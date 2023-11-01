@@ -3,7 +3,7 @@
         :center="{lat: 35.282609, lng: -93.134994}"
         :zoom="20"
         map-type-id="terrain"
-        style="width: 100vw; height: 900px"
+        style="width: 100%;height: 50vh; border-radius: 0 0 1rem 1rem;"
     >
     <GMapMarker
     :key="index"
