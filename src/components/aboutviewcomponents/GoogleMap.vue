@@ -1,40 +1,12 @@
 <template>
-  <GMapMap
-    :center="{lat: 35.282609, lng: -93.134994}"
-    :zoom="20"
-    map-type-id="terrain"
-    style="width: 100%;height: 50vh; border-radius: 0 0 1rem 1rem;"
-  >
-    <GMapMarker
-      :key="index"
-      v-for="(m, index) in markers"
-      :position="m.position"
-    >
-      <GMapInfoWindow >
-        <div style="color: black;">
-        407 N Arkansas Ave #13
-        Russellville, AR 72801
-        </div>
-      </GMapInfoWindow>
-    </GMapMarker>
-  </GMapMap>
+  <h1 class="gradient pad rc-top-top cool-font">Our Location</h1>
+  <iframe class="map" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d13027.768366036556!2d-93.1350479!3d35.282566!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87cc5375cd5833d7%3A0x4e106ec6d74cf6e0!2sGood%20Game!5e0!3m2!1sen!2sus!4v1698878974570!5m2!1sen!2sus" width="100%" height="500px" style="border:0;" allowfullscreen="true" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 </template>
           
-
-<script >
-export default {
-  data() {
-    return {
-      center: {lat: 35.282609, lng: -93.134994},
-      markers: [
-      {
-        position: {
-          lat: 35.282565, lng: -93.134994
-        },
-      }
-    ]
-    }
-  }
+<style scoped>
+.map{
+  border-radius: 0 0 1rem 1rem;
 }
-</script>
+</style>
+
   

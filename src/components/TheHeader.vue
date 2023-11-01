@@ -55,6 +55,15 @@ const goSignupTwo = () => {
     isMobileMenuOpen.value = !isMobileMenuOpen.value;
 };
 
+const goAbout = () => {
+    router.push('/about');
+};
+
+const goAboutTwo = () => {
+    router.push('/about');
+    isMobileMenuOpen.value = !isMobileMenuOpen.value;
+};
+
 const goAdmin = () => {
     router.push('/admin');
 };
@@ -97,7 +106,7 @@ const outsideClickHandler = () => {
             </div>
           </div> -->
         <a @click="goEvent">EVENTS</a>
-        <a style="text-decoration: line-through;">COMING SOON</a>
+        <a @click="goAbout">ABOUT</a>
         <a style="text-decoration: line-through;">COMING SOON</a>
         <a v-if="isAdmin" @click="goAdmin">ADMIN</a>
     </div>
@@ -122,7 +131,7 @@ const outsideClickHandler = () => {
         <a v-if="user" class="mobile-login" @click="submitSignOut"> SIGNOUT</a>
         <a v-else class="mobile-login" @click="goSignupTwo">LOGIN</a>
         <a @click="goEventTwo">EVENTS</a>
-        <a href="#" style="text-decoration: line-through;">COMING SOON</a>
+        <a @click="goAboutTwo">ABOUT</a>
         <a href="#" style="text-decoration: line-through;">COMING SOON</a>
       </div>
     </div>

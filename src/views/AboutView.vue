@@ -10,7 +10,7 @@ import TheHours from '../components/aboutviewcomponents/TheHours.vue'
     </div>
 
     <div class="google-maps-container  rc black text-center">
-      <h1 class="gradient pad rc-top-top cool-font">Our Location</h1>
+      
       <GoogleMapVue />
     </div>
   </div>
@@ -28,6 +28,11 @@ import TheHours from '../components/aboutviewcomponents/TheHours.vue'
 .hours-container,
 .google-maps-container{
   width: 95%;
+
+}
+
+.google-maps-container{
+  
 }
 
 @media(min-width: 1200px){
