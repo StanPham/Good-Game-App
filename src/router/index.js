@@ -2,10 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { firebaseAppAuth } from '@/firebase'
 import { onAuthStateChanged } from 'firebase/auth'
 
-import SignupView from '../views/SignupView.vue'
-import LoginView from '../views/LoginView.vue'
-import EventView from '../views/EventView.vue'
-
 function requireAuth(to, from, next ){
   const unsubscribe = onAuthStateChanged(firebaseAppAuth, user => {
     unsubscribe()
@@ -59,6 +55,11 @@ const router = createRouter({
       path: '/event',
       name: 'event',
       component: () => import('../views/EventView.vue')
+    }, 
+    {
+      path: '/about',
+      name: 'about',
+      component: () => import('../views/AboutView.vue')
     }, 
     {
       path: '/admin',
