@@ -31,10 +31,6 @@ import TheHours from '../components/aboutviewcomponents/TheHours.vue'
 
 }
 
-.google-maps-container{
-  
-}
-
 @media(min-width: 1200px){
   .hours-container{
     width: calc(35% - 2vmax);
