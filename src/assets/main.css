@@ -213,6 +213,15 @@ h2 {
 .text-center{
   text-align:center;
 }
+
+.link-hover:hover{
+  color:rgb(214, 110, 214);
+  text-decoration: underline;
+}
+
+a{
+  text-decoration:none;
+}
 /* font end */
 
 /* layout start */

@@ -11,12 +11,19 @@ import GoogleMapVue from '../components/aboutviewcomponents/GoogleMap.vue';
           <div class="flex">
             <div class="title grow">479-219-5162</div>
             <div class="flex gap">
-              <img src="../images/discord.svg" alt="" class="icon-white icon-small">
-              <img src="../images/facebook.svg" alt="" class="icon-white icon-small">
-              <img src="../images/instagram.svg" alt="" class="icon-white icon-small">
+              <a href="https://discord.com/invite/AmCadcysE4">
+                <img src="../images/discord.svg" alt="" class="icon-white icon-small">
+              </a>
+              <a href="https://www.facebook.com/GoodGameRsvlAR/">
+                <img src="../images/facebook.svg" alt="" class="icon-white icon-small">
+              </a>
+              <a href="https://www.instagram.com/goodgamersvl">
+                <img src="../images/instagram.svg" alt="" class="icon-white icon-small">
+              </a>
+              
             </div>
           </div>
-          <div class="title">goodgame.rsvl.ar@gmail.com</div>
+          <a href="mailto:goodgame.rsvl.ar@gmail.com" class="title link-hover">goodgame.rsvl.ar@gmail.com</a>
         </div>
         <hr>
         <div class="pad-top flex gap-big">
@@ -41,6 +48,7 @@ import GoogleMapVue from '../components/aboutviewcomponents/GoogleMap.vue';
         </div>
       </article> 
     </div>
+
     <div class="google-maps-container  rc black text-center">
       <h1 class="gradient pad rc-top-top cool-font">Our Location</h1>
       <GoogleMapVue />
