@@ -4,7 +4,7 @@ import TheHours from '../components/aboutviewcomponents/TheHours.vue'
 </script>
 
 <template>
-  <div class="flex-c gap main-container">
+  <div class="flex-c wrap gap main-container">
     <div class="hours-container black rc">
       <TheHours />
     </div>
@@ -19,17 +19,23 @@ import TheHours from '../components/aboutviewcomponents/TheHours.vue'
 <style scoped>
 
 .main-container{
-  width:90%;
+  
   margin-left:auto;
   margin-right:auto;
   margin-top:calc(var(--header-height) + 3rem);
 }
-.hours-container{
-  width:clamp(350px, 35%, 35rem);
-  
-}
+
+.hours-container,
 .google-maps-container{
-  width:clamp(350px, 60%, 40rem);
-  
+  width: 95%;
+}
+
+@media(min-width: 1200px){
+  .hours-container{
+    width: calc(35% - 2vmax);
+  }
+  .google-maps-container{
+    width: calc(60% - 2vmax);
+  }
 }
 </style>
