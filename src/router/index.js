@@ -2,10 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { firebaseAppAuth } from '@/firebase'
 import { onAuthStateChanged } from 'firebase/auth'
 
-import SignupView from '../views/SignupView.vue'
-import LoginView from '../views/LoginView.vue'
-import EventView from '../views/EventView.vue'
-
 function requireAuth(to, from, next ){
   const unsubscribe = onAuthStateChanged(firebaseAppAuth, user => {
     unsubscribe()
@@ -21,6 +17,18 @@ function requireAuth(to, from, next ){
           next('/')
         }
     })
+    }
+  })
+}
+
+function requireLogin(to, from, next ){
+  const unsubscribe = onAuthStateChanged(firebaseAppAuth, user => {
+    unsubscribe()
+    if(!user){
+      console.log("no user, route to login")
+      next('/login')
+    } else {
+      next()
     }
   })
 }
@@ -66,6 +74,12 @@ const router = createRouter({
       component: () => import('../views/AdminView.vue'),
      beforeEnter: requireAuth,  
     },
+    {
+      path: '/phone',
+      name: 'phone',
+      component: () => import('../views/PhoneView.vue'),
+      beforeEnter: requireLogin
+    }
      
   ]
 })
