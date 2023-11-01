@@ -1,37 +1,21 @@
 <template>
     <GMapMap
-      :center="center"
-      :zoom="10"
-      map-type-id="terrain"
-      style="width: 100vw; height: 20rem"
+        :center="{lat: 35.282609, lng: -93.134994}"
+        :zoom="20"
+        map-type-id="terrain"
+        style="width: 100vw; height: 900px"
     >
-      <GMapCluster :zoomOnClick="true">
-        <GMapMarker
-          :key="index"
-          v-for="(m, index) in markers"
-          :position="m.position"
-          :clickable="true"
-          :draggable="true"
-          @click="center = m.position"
-        />
-      </GMapCluster>
     </GMapMap>
   </template>
   
-  <script>
+  <script >
   export default {
+    name: 'App',
     data() {
       return {
-        center: { lat: 35.282609, lng: -93.134994 },
-       
-      };
-    },
-  };
-  </script>
-  
-  <style>
-  body {
-    margin: 0;
+        center: {lat: 35.282609, lng: -93.134994},
+      }
+    }
   }
-  </style>
+  </script>
   

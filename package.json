@@ -8,7 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@fawmi/vue-google-maps": "^0.9.79",
+    "@fawmi/vue-google-maps": "0.9.67",
     "firebase": "^10.3.1",
     "firebase-admin": "^11.10.1",
     "firebase-functions": "^4.4.1",
