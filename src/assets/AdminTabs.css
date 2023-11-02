@@ -162,4 +162,10 @@ tr{
     background-color: rgba(0, 0, 0, 0.7); 
     z-index: 998; 
 }
+
+.variant-btn{
+    text-align:right;
+    width:auto;
+    margin-left:auto;
+}
   /*end form stuff*/

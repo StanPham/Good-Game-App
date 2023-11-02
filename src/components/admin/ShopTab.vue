@@ -8,6 +8,7 @@ const searchQuery = ref('');
 
 const showEditModal = ref(false);
 const editingItem = ref({});
+let showVariants = ref(false);
 
 const newItem = ref({
  name: '',
@@ -40,6 +41,14 @@ const onImageChange = async (event) => {
 }
 
 const addItem = async () =>{
+  console.log(newItem.value.variants);
+  const variantsLength = newItem.value.variants?.length || 0;
+  if (variantsLength > 0) {
+       newItem.value.variants.pop();
+   }
+   if (!newItem.variants || newItem.variants.length === 0) {
+  delete newItem.variants;
+}
    await addDoc(collection(db, "shop"), {
      name: newItem.value.name,
      category: newItem.value.category,
@@ -59,9 +68,11 @@ const addItem = async () =>{
         quantity: '',
         desc: '',
         image: '',
+        variants: ref([{ name: '', priceDiff: '', varQuantity: '' }]),
        
     };
     document.querySelector('input[type="file"]').value = null;
+    
 }
 
 
@@ -142,6 +153,10 @@ const updateItem = async () => {
    editingItem.value = {};
 }
 
+const showVariantForm = () => {
+  showVariants = !showVariants;
+  console.log(showVariants);
+}
 const addVariant = () => {
   newItem.value.variants.push({ name: '', priceDiff: '', varQuantity: '' });
 };
@@ -198,7 +213,8 @@ const addVariant = () => {
           @change="onImageChange"
           required>
         
-        <div v-for="(variant, index) in newItem.variants" :key="index" class="variant flex column">
+        <button v-if="!showVariants" type="button" class="variant-btn" @click="showVariantForm">Add Variants +</button>
+        <div v-if="showVariants = true" v-for="(variant, index) in newItem.variants" :key="index" class="variant flex column">
           <input v-model="variant.name" placeholder="Variant Name" type="text">
           <input v-model="variant.priceDiff" placeholder="Price" type="text">
           <input v-model="variant.varQuantity" placeholder="Quantity" type="text">
