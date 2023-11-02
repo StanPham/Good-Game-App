@@ -1,13 +1,9 @@
 <script setup>
-import { initializeApp } from "firebase/app";
-import { getAuth, inMemoryPersistence, setPersistence } from 'firebase/auth'
 import { ref } from "vue";
 import { updatePhoneNumber } from "firebase/auth";
-import { onAuthStateChanged, RecaptchaVerifier, PhoneAuthProvider, signInWithCredential } from "firebase/auth";
-import { firebaseAppAuth, firebaseConfig } from '@/firebase'
+import { onAuthStateChanged, RecaptchaVerifier, PhoneAuthProvider } from "firebase/auth";
+import { firebaseAppAuth } from '@/firebase'
 const phoneNumber = ref('')
-const verificationCode = ref('')
-const verificationID = ref(null)
 const verification = ref(null)
 const user = ref(null)
 
