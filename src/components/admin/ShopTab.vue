@@ -16,7 +16,7 @@ const newItem = ref({
  quantity:'',
  desc: '',
  image:'',
- variants: ref([{ name: '', priceDiff: '' }]),
+ variants: ref([{ name: '', priceDiff: '', varQuantity: '' }]),
 })
 
 
@@ -143,7 +143,7 @@ const updateItem = async () => {
 }
 
 const addVariant = () => {
-  newItem.variants.push({ name: '', priceDiff: '' });
+  newItem.value.variants.push({ name: '', priceDiff: '', varQuantity: '' });
 };
 </script>
 
@@ -198,12 +198,13 @@ const addVariant = () => {
           @change="onImageChange"
           required>
         
-        <div v-for="(variant, index) in newItem.variants" :key="index" class="variant">
+        <div v-for="(variant, index) in newItem.variants" :key="index" class="variant flex column">
           <input v-model="variant.name" placeholder="Variant Name" type="text">
           <input v-model="variant.priceDiff" placeholder="Price" type="text">
-          <button @click="removeVariant(index)">Remove</button>
+          <input v-model="variant.varQuantity" placeholder="Quantity" type="text">
+          <button type="button" class="submit-btn" @click="addVariant">Add Variant</button>
         </div>
-        <button type="button" @click="addVariant">Add Variant</button>
+        
 
         <button type="submit" class="submit-btn">Submit</button>
         
