@@ -17,7 +17,7 @@ const newItem = ref({
  quantity:'',
  desc: '',
  image:'',
- variants: [{ name: '', priceDiff: '', varQuantity: '' }],
+ variants: [{ varName: '', varPrice: '', varQuantity: '' }],
 })
 
 
@@ -68,7 +68,7 @@ const addItem = async () =>{
         quantity: '',
         desc: '',
         image: '',
-        variants: ref([{ name: '', priceDiff: '', varQuantity: '' }]),
+        variants: ref([{ varName: '', varPrice: '', varQuantity: '' }]),
        
     };
     document.querySelector('input[type="file"]').value = null;
@@ -158,7 +158,7 @@ const showVariantForm = () => {
   console.log(showVariants);
 }
 const addVariant = () => {
-  newItem.value.variants.push({ name: '', priceDiff: '', varQuantity: '' });
+  newItem.value.variants.push({ varName: '', varPrice: '', varQuantity: '' });
 };
 </script>
 
@@ -215,10 +215,11 @@ const addVariant = () => {
         
         <button v-if="!showVariants" type="button" class="variant-btn" @click="showVariantForm">Add Variants +</button>
         <div v-if="showVariants" v-for="(variant, index) in newItem.variants" :key="index" class="variant flex column">
-          <input v-model="variant.name" placeholder="Variant Name" type="text">
-          <input v-model="variant.priceDiff" placeholder="Price" type="text">
+          <input v-model="variant.varName" placeholder="Variant Name" type="text">
+          <input v-model="variant.varPrice" placeholder="Price" type="text">
           <input v-model="variant.varQuantity" placeholder="Quantity" type="text">
           <button type="button" class="submit-btn" @click="addVariant">Add Variant</button>
+          <br><br>
         </div>
         
 

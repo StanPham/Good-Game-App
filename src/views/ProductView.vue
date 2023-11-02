@@ -10,6 +10,7 @@ const amount = ref('1');
 const route = useRoute();
 const productID = route.params.name; 
 const productData = ref(null);
+const selectedVariantName = ref('');
 
 const user = ref(null)
 const isAdmin = ref(false)
@@ -17,11 +18,13 @@ const phoneNumber = ref('')
 
 let badReserve = ref(false)
 
+
 onMounted(async () => {
   const productDoc = doc(db, 'shop', productID); 
   const productSnapshot = await getDoc(productDoc);
   if (productSnapshot.exists()) {
     productData.value = productSnapshot.data();
+    firstVariant();
   } else {
     console.log("No such product!");
   }
@@ -47,6 +50,21 @@ onAuthStateChanged(firebaseAppAuth, currentUser => {
 const makeReservation = () => {
    badReserve.value = true;
 }
+
+function firstVariant(){
+  if(productData.value.variants){
+    productData.value.name = productData.value.name + ': ' + productData.value.variants[0].varName;
+    productData.value.price = productData.value.variants[0].varPrice;
+    productData.value.quant = productData.value.variants[0].varQuantity;
+  }
+}
+
+const updateVariant = (variant) => {
+  productData.value.name = productData.value.name + ': ' + variant.varName;
+  productData.value.price = variant.varPrice;
+  productData.value.quant = variant.varQuantity;
+};
+
 </script>
 
 <template>
@@ -61,10 +79,17 @@ const makeReservation = () => {
       </nav>
       <img :src="productData.img" alt="Product Image" class="product-img">
       <div class="product-text">
-        <h1>{{ productData.name }}</h1>
+        <h1>{{ productData.name }} </h1>
         <p class="font-med">{{ productData.desc }}</p>
         <p class="price pad-top bold">{{ productData.price }}</p>
+        
+        <div class="flex gap title">
+          <button class="variants" v-for="variant in productData.variants" :key="variant.varName" @click="updateVariant(variant)">
+            {{ variant.varName }}
+          </button>
+        </div> 
         <br>
+
         <div v-if="productData.quant!=0" class="flex gap pad-bot">
           <select v-model="amount">
             <option v-for="num in productQuantityOptions" :key="num" :value="num">
@@ -99,6 +124,15 @@ const makeReservation = () => {
 </template>
 
 <style scoped>
+.variants{
+  background:rgb(29, 28, 28);
+  border:rgb(73, 69, 69) 1px solid;
+  padding: .3em .5em;
+}
+.variants:hover{
+  background:rgb(44, 43, 43);
+  
+}
 .breadcrumbs{
   top:0;
   left:0;
