@@ -15,7 +15,8 @@ const newItem = ref({
  price: '',
  quantity:'',
  desc: '',
- image:''
+ image:'',
+ variants: ref([{ name: '', priceDiff: '' }]),
 })
 
 
@@ -46,6 +47,7 @@ const addItem = async () =>{
      quant: newItem.value.quantity,
      desc: newItem.value.desc,
      img: newItem.value.image,
+     variants: newItem.value.variants,
     
      creationDate: Timestamp.fromDate(new Date())
    });
@@ -139,6 +141,10 @@ const updateItem = async () => {
    showEditModal.value = false;
    editingItem.value = {};
 }
+
+const addVariant = () => {
+  newItem.variants.push({ name: '', priceDiff: '' });
+};
 </script>
 
 <template>
@@ -192,7 +198,13 @@ const updateItem = async () => {
           @change="onImageChange"
           required>
         
-      
+        <div v-for="(variant, index) in newItem.variants" :key="index" class="variant">
+          <input v-model="variant.name" placeholder="Variant Name" type="text">
+          <input v-model="variant.priceDiff" placeholder="Price" type="text">
+          <button @click="removeVariant(index)">Remove</button>
+        </div>
+        <button type="button" @click="addVariant">Add Variant</button>
+
         <button type="submit" class="submit-btn">Submit</button>
         
       </form>
