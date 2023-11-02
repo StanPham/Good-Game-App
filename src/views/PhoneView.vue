@@ -4,7 +4,6 @@ import { updatePhoneNumber } from "firebase/auth";
 import { onAuthStateChanged, RecaptchaVerifier, PhoneAuthProvider } from "firebase/auth";
 import { firebaseAppAuth } from '@/firebase'
 const phoneNumber = ref('')
-const verification = ref(null)
 const user = ref(null)
 
 const submitPhoneNumber = async () => {
@@ -13,15 +12,18 @@ const submitPhoneNumber = async () => {
     const applicationVerifier = new RecaptchaVerifier(firebaseAppAuth,'recaptcha-container');
     const provider = new PhoneAuthProvider(firebaseAppAuth);
     const fullPhoneNumber = countryCode + phoneNumber.value;
-    verification.value = await provider.verifyPhoneNumber(fullPhoneNumber, applicationVerifier)
+    await provider.verifyPhoneNumber(fullPhoneNumber, applicationVerifier)
         .then((result) =>{
+            applicationVerifier.clear()
             console.log("sms sent")
             var verifyCode = window.prompt("Please enter the verification \n code that was sent to your device")
             return PhoneAuthProvider.credential(result,verifyCode)
-        }).then((phoneCred) =>{
-            return updatePhoneNumber(user.value, phoneCred).then((result) => {
+        }).then((phoneCredential) =>{
+            return updatePhoneNumber(user.value, phoneCredential).then((result) => {
                 console.log("worked")
             })
+        }).catch((err) => {
+            console.log(err)
         })
 }
 onAuthStateChanged(firebaseAppAuth, currentUser => {
