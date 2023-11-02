@@ -10,7 +10,7 @@ const amount = ref('1');
 const route = useRoute();
 const productID = route.params.name; 
 const productData = ref(null);
-const selectedVariantName = ref('');
+const originalProductName = ref('');
 
 const user = ref(null)
 const isAdmin = ref(false)
@@ -24,6 +24,7 @@ onMounted(async () => {
   const productSnapshot = await getDoc(productDoc);
   if (productSnapshot.exists()) {
     productData.value = productSnapshot.data();
+    originalProductName.value = productData.value.name;
     firstVariant();
   } else {
     console.log("No such product!");
@@ -53,14 +54,14 @@ const makeReservation = () => {
 
 function firstVariant(){
   if(productData.value.variants){
-    productData.value.name = productData.value.name + ': ' + productData.value.variants[0].varName;
+    productData.value.name = originalProductName.value + ': ' + productData.value.variants[0].varName;
     productData.value.price = productData.value.variants[0].varPrice;
     productData.value.quant = productData.value.variants[0].varQuantity;
   }
 }
 
 const updateVariant = (variant) => {
-  productData.value.name = productData.value.name + ': ' + variant.varName;
+  productData.value.name = originalProductName.value + ': ' + variant.varName;
   productData.value.price = variant.varPrice;
   productData.value.quant = variant.varQuantity;
 };
@@ -131,8 +132,13 @@ const updateVariant = (variant) => {
 }
 .variants:hover{
   background:rgb(44, 43, 43);
-  
 }
+
+.variants:focus{
+  background:rgb(61, 60, 60);
+  border:rgb(121, 115, 115) 1px solid;
+}
+
 .breadcrumbs{
   top:0;
   left:0;
