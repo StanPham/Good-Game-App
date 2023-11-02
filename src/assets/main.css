@@ -210,6 +210,18 @@ h2 {
   width:100%;
 }
 
+.text-center{
+  text-align:center;
+}
+
+.link-hover:hover{
+  color:rgb(214, 110, 214);
+  text-decoration: underline;
+}
+
+a{
+  text-decoration:none;
+}
 /* font end */
 
 /* layout start */
@@ -232,6 +244,10 @@ h2 {
   align-items: center;
 }
 
+.flex-sb{
+  justify-content: space-between;
+}
+
 .grow{
   flex-grow:1;
 }
@@ -242,6 +258,10 @@ h2 {
 
 .gap{
   gap: 1rem;
+}
+
+.gap-big{
+  gap:4rem;
 }
 /* layout end */
 
@@ -305,6 +325,11 @@ h2 {
 
 .icon-white{
   filter: invert(100%) sepia(1%) saturate(7418%) hue-rotate(290deg) brightness(105%) contrast(98%);
+}
+
+.icon-small{
+  width:30px;
+  height:30px;
 }
 
 button,
