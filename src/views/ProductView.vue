@@ -33,8 +33,10 @@ onMounted(async () => {
 });
 
 const productQuantityOptions = computed(() => {
+  const maxQuantity = 3;
   const quantity = productData.value?.quant || 0;
-  return Array.from({ length: quantity }, (_, i) => i + 1);
+  const limitedQuantity = Math.min(quantity, maxQuantity);
+  return Array.from({ length: limitedQuantity }, (_, i) => i + 1);
 });
 
 const goHome = () => router.push('/');
