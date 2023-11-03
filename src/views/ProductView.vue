@@ -1,11 +1,23 @@
 <script setup>
-import { ref, onMounted, computed} from 'vue';
+import { httpsCallable } from 'firebase/functions';
+import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { doc, getDoc } from 'firebase/firestore';
-import { db, firebaseAppAuth  } from '@/firebase';
+import { db, firebaseAppAuth, firebaseFunctions } from '@/firebase';
 import { onAuthStateChanged } from 'firebase/auth'
 import router from '../router'
+/*
+<div v-if="!user && !user?.phoneNumber" class="pad font-med">You must be logged in and have
+           a verified phone number to make reservations. <a class="italic underline pink">Signup here.</a>
+          </div>
 
+          <div v-else-if="!user" class="pad font-med">You must be logged in to make reservations.</div>
+
+          <div v-else="user && !user?.phoneNumber" class="pad font-med">You must have a verified phone 
+           number to make reservations. Verify your phone number <a class="italic underline pink">here</a>
+
+
+*/
 const amount = ref('1');
 const route = useRoute();
 const productID = route.params.name; 
@@ -13,10 +25,10 @@ const productData = ref(null);
 const originalProductName = ref('');
 
 const user = ref(null)
+const reservationPressed = ref(false)
 const isAdmin = ref(false)
-const phoneNumber = ref('')
 
-let badReserve = ref(false)
+const badReserve = ref(null)
 
 
 onMounted(async () => {
@@ -48,8 +60,22 @@ onAuthStateChanged(firebaseAppAuth, currentUser => {
     }
 })
 
-const makeReservation = () => {
-   badReserve.value = true;
+const makeReservation = async () => {
+  reservationPressed.value = true;
+  if(user.value == null){
+    return badReserve.value = `You must be logged in and have a verified phone number to make reservations. <a class=\"italic underline pink\">Signup here.</a>`;
+  } else if (!user.value.phoneNumber) {
+    return badReserve.value = `You must have a verified phone number to make reservations. Verify your phone number <a class="italic underline pink">here</a>`
+  }
+  console.log(productID)
+
+  // const createReservation = httpsCallable(firebaseFunctions, 'addreservation');
+  //   await createReservation({ productID: productID })
+  //   .then((result) => {
+  //       addAdminResponse.value = result.data.message
+  //   }).catch(err => {
+  //       console.log(err);
+  //   });
 }
 
 function firstVariant(){
@@ -106,17 +132,11 @@ const updateVariant = (variant) => {
         <div v-else class="title-scale" style="font-style:italic">Sold Out</div>
 
         <div v-if="badReserve" class="grey rc">
-          <div v-if="!user && !user?.phoneNumber" class="pad font-med">You must be logged in and have
-           a verified phone number to make reservations. <a class="italic underline pink">Signup here.</a>
-          </div>
-
-          <div v-else-if="!user" class="pad font-med">You must be logged in to make reservations.</div>
-
-          <div v-else="user && !user?.phoneNumber" class="pad font-med">You must have a verified phone 
-           number to make reservations. Verify your phone number <a class="italic underline pink">here</a>
-          </div> 
+          <span v-html="badReserve"></span>
         </div>
-
+        <div v-if="reservationPressed">
+          Reservation attempted
+        </div>
         <p class="italic light pad-top">Reserved items must be paid for and picked up in store. </p>
       </div>
       

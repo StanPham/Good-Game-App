@@ -4,6 +4,7 @@ import {ref} from 'vue'
 import EventTab from '../components/admin/EventTab.vue'
 import AdminTab from '../components/admin/AdminTab.vue'
 import ShopTab from '../components/admin/ShopTab.vue'
+import ShopReservationTab from '../components/admin/ShopReservationTab.vue'
 import CarouselTab from '../components/admin/CarouselTab.vue'
 
 const activeTab = ref('Events')
@@ -17,6 +18,7 @@ const setActiveTab = (tabName) => {
     <div class="tab">
       <button class="tablinks" @click="setActiveTab('Events')">Events</button>
       <button class="tablinks" @click="setActiveTab('Shop')">Shop</button>
+      <button class="tablinks" @click="setActiveTab('ShopReservation')">Shop Reservation</button>
       <button class="tablinks" @click="setActiveTab('Table')">Table Reservations</button>
       <button class="tablinks" @click="setActiveTab('Account')">Accounts</button>
       <button class="tablinks" @click="setActiveTab('Carousel')">Carousel</button>
@@ -25,6 +27,7 @@ const setActiveTab = (tabName) => {
   <!-- Tab content -->
     <EventTab v-if="activeTab === 'Events'" class="tabcontent" />
     <ShopTab v-if="activeTab === 'Shop'" class="tabcontent" />
+    <ShopReservationTab v-if="activeTab === 'ShopReservation'" class="tabcontent" />
     <CarouselTab v-if="activeTab === 'Carousel'" class="tabcontent" />
     <AdminTab v-if="activeTab === 'Admin'" class="tabcontent" />
   </body>
