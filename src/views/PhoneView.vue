@@ -2,9 +2,12 @@
 import { ref } from "vue";
 import { updatePhoneNumber } from "firebase/auth";
 import { onAuthStateChanged, RecaptchaVerifier, PhoneAuthProvider } from "firebase/auth";
-import { firebaseAppAuth } from '@/firebase'
+import { db, firebaseAppAuth } from '@/firebase'
+import { doc, onSnapshot} from "firebase/firestore"; 
 const phoneNumber = ref('')
 const user = ref(null)
+
+const shopReservationList = ref([])
 
 const submitPhoneNumber = async () => {
     console.log(phoneNumber.value)
@@ -28,6 +31,25 @@ const submitPhoneNumber = async () => {
 }
 onAuthStateChanged(firebaseAppAuth, currentUser => {
     user.value = currentUser
+    onSnapshot(doc(db, 'shopReservation', user.value.uid), (doc) => {
+    const tmpShopReservationList = [];
+    const reservationArr = doc.data().reservations;
+    console.log("here")
+    console.log(reservationArr.length)
+    const arrayLength = reservationArr.length
+    
+    for(var i = 0; i <= arrayLength - 1; i++){
+        const item = {
+            productId: reservationArr[i].productID,
+            creationDate: new Date(reservationArr[i].creationDate.seconds*1000),
+            quantity: reservationArr[i].quantity
+        }
+        tmpShopReservationList.push(item);
+    }
+    console.log(tmpShopReservationList)
+    shopReservationList.value = tmpShopReservationList;
+    console.log(shopReservationList.value)
+  });
 })
 </script>
 

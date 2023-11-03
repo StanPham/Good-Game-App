@@ -21,8 +21,6 @@ onMounted( () => {
           creationDate: new Date(reservationArr[i].creationDate.seconds*1000),
           quantity: reservationArr[i].quantity
         }
-        console.log("item:")
-        console.log(item)
         tmpShopReservationList.push(item);
       }
     });
