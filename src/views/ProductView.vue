@@ -53,7 +53,7 @@ const makeReservation = () => {
 }
 
 function firstVariant(){
-  if(productData.value.variants){
+  if(productData.value.variants && productData.value.variants.length > 0){
     productData.value.name = originalProductName.value + ': ' + productData.value.variants[0].varName;
     productData.value.price = productData.value.variants[0].varPrice;
     productData.value.quant = productData.value.variants[0].varQuantity;

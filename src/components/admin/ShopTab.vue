@@ -138,11 +138,12 @@ const updateItemQuantity = async (item) => {
 
 const startEditing = (item) => {
    editingItem.value = { ...item};
-   console.log(editingItem.value)
    showEditModal.value = true;
 }
 
 const updateItem = async () => {
+  if (!editingItem.value.variants || editingItem.value.variants.length === 0) {
+ editingItem.value.variants = [];}
    await updateDoc(doc(db, "shop", editingItem.value.id), {
      name: editingItem.value.name,
      category: editingItem.value.category,
@@ -291,7 +292,7 @@ const deleteVariant = (index) => {
         @change="onImageChange"
         >
 
-        <button v-if="!showEditVariants" type="button" class="variant-btn" @click="showEditVariantForm">Show Variants +</button>
+        <button v-if="!showEditVariants && editingItem.variants" type="button" class="variant-btn" @click="showEditVariantForm">Show Variants +</button>
         <div v-if="showEditVariants" v-for="(variant, index) in editingItem.variants" :key="index" class="variant flex column">
           <input v-model="variant.varName" placeholder="Variant Name" type="text">
           <input v-model="variant.varPrice" placeholder="Price" type="text">
