@@ -12,9 +12,10 @@ onMounted( () => {
     querySnapshot.forEach((doc) => {
       const reservationArr = doc.data().reservations;
       console.log("here")
-
+      console.log(reservationArr.length)
+      const arrayLength = reservationArr.length
       
-      for(var i = 0; i < reservationArr.length - 1; i++){
+      for(var i = 0; i <= arrayLength - 1; i++){
         const item = {
           productId: reservationArr[i].productID,
           creationDate: new Date(reservationArr[i].creationDate.seconds*1000),
