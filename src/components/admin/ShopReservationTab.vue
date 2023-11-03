@@ -9,6 +9,7 @@ const shopReservationList = ref([])
 onMounted( () => {
   onSnapshot(collection(db, 'shopReservation'), (querySnapshot) => {
     const tmpShopReservationList = [];
+    let counter = 0;
     querySnapshot.forEach((doc) => {
       const reservationArr = doc.data().reservations;
       console.log("here")
@@ -16,7 +17,9 @@ onMounted( () => {
       const arrayLength = reservationArr.length
       
       for(var i = 0; i <= arrayLength - 1; i++){
+        counter++;
         const item = {
+          id: counter,
           productId: reservationArr[i].productID,
           creationDate: new Date(reservationArr[i].creationDate.seconds*1000),
           quantity: reservationArr[i].quantity
@@ -55,7 +58,7 @@ function fullDate(dateObj) {
      <tbody v-for="reservation in shopReservationList" :key="reservation.id">
        <tr >
          <td class="name">[[person]]</td>
-         <td class="scrollable-cell"><div class="scrollable-content">{{ resevation.productID }}</div></td>
+         <td class="scrollable-cell"><div class="scrollable-content">{{ reservation.productId }}</div></td>
          <td>{{ reservation.quantity }}</td>
          <td>{{ fullDate(reservation.creationDate) }}</td>
          
