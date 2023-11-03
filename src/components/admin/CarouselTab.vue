@@ -154,9 +154,9 @@ const sortedSlides = computed(() => {
 
         <label for="order">Order</label>
         <input
-          v-model="newSlide.order" 
+          v-model.number="newSlide.order" 
           class="input"
-          type="text"
+          type="number"
         >
         
         
@@ -218,9 +218,9 @@ const sortedSlides = computed(() => {
 
         <label for="order">Order</label>
         <input
-          v-model="editingSlide.order" 
+          v-model.number="editingSlide.order" 
           class="input"
-          type="text"
+          type="number"
         >
 
         <label for="iamge">Background</label>

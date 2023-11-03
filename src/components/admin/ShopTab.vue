@@ -202,13 +202,16 @@ const deleteVariant = (index) => {
           v-model="newItem.price" 
           class="input"
           type="text"
+          pattern="^\$\d+\.\d{2}$"
+          title="$12.99"
         >
 
         <label for="itemQuant">Quantity</label>
         <input
-          v-model="newItem.quantity" 
+          v-model.number="newItem.quantity" 
           class="input"
-          type="text"
+          type="number"
+          min="0"
         >
         
         <label for="Description">Description</label>
@@ -266,13 +269,16 @@ const deleteVariant = (index) => {
           v-model="editingItem.price" 
           class="input"
           type="text"
+          pattern="^\$\d+\.\d{2}$"
+          title="$12.99"
         >
 
         <label for="itemQuant">Quantity</label>
         <input
-          v-model="editingItem.quant" 
+          v-model.number="editingItem.quant" 
           class="input"
-          type="text"
+          type="number"
+          min="0"
         >
           
         
