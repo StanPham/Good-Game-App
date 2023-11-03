@@ -9,6 +9,7 @@ const searchQuery = ref('');
 const showEditModal = ref(false);
 const editingItem = ref({});
 const showVariants = ref(false);
+const showEditVariants = ref(false);
 
 const newItem = ref({
  name: '',
@@ -158,10 +159,18 @@ const updateItem = async () => {
 
 const showVariantForm = () => {
   showVariants.value = !showVariants.value;
-  console.log(showVariants);
 }
+
 const addVariant = () => {
   newItem.value.variants.push({ varName: '', varPrice: '', varQuantity: '' });
+};
+
+const showEditVariantForm = () => {
+  showEditVariants.value = !showEditVariants.value;
+}
+
+const deleteVariant = (index) => {
+  editingItem.value.variants.splice(index, 1);
 };
 </script>
 
@@ -221,11 +230,10 @@ const addVariant = () => {
           <input v-model="variant.varName" placeholder="Variant Name" type="text">
           <input v-model="variant.varPrice" placeholder="Price" type="text">
           <input v-model="variant.varQuantity" placeholder="Quantity" type="text">
-          <button type="button" class="submit-btn" @click="addVariant">Add Variant</button>
-          <br><br>
         </div>
-        
+        <button v-if="showVariants" type="button" class="submit-btn" @click="addVariant">Add Variant</button>
 
+        <br><br>
         <button type="submit" class="submit-btn">Submit</button>
         
       </form>
@@ -283,12 +291,12 @@ const addVariant = () => {
         @change="onImageChange"
         >
 
-        <button v-if="!showVariants" type="button" class="variant-btn" @click="showVariantForm">Add Variants +</button>
-        <div v-if="showVariants" v-for="(variant, index) in editingItem.variants" :key="index" class="variant flex column">
+        <button v-if="!showEditVariants" type="button" class="variant-btn" @click="showEditVariantForm">Show Variants +</button>
+        <div v-if="showEditVariants" v-for="(variant, index) in editingItem.variants" :key="index" class="variant flex column">
           <input v-model="variant.varName" placeholder="Variant Name" type="text">
           <input v-model="variant.varPrice" placeholder="Price" type="text">
           <input v-model="variant.varQuantity" placeholder="Quantity" type="text">
-          <button type="button" class="submit-btn" @click="addVariant">Add Variant</button>
+          <button type="button" class="del-btn" @click="deleteVariant(index)">Delete Variant</button>
           <br><br>
         </div>
         
