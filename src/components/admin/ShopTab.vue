@@ -292,7 +292,7 @@ const deleteVariant = (index) => {
         @change="onImageChange"
         >
 
-        <button v-if="!showEditVariants && editingItem.variants" type="button" class="variant-btn" @click="showEditVariantForm">Show Variants +</button>
+        <button v-if="!showEditVariants && (editingItem.variants.length > 0)" type="button" class="variant-btn" @click="showEditVariantForm">Show Variants +</button>
         <div v-if="showEditVariants" v-for="(variant, index) in editingItem.variants" :key="index" class="variant flex column">
           <input v-model="variant.varName" placeholder="Variant Name" type="text">
           <input v-model="variant.varPrice" placeholder="Price" type="text">
