@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed} from 'vue';
 import { useRoute } from 'vue-router';
 import { doc, getDoc } from 'firebase/firestore';
 import { db, firebaseAppAuth  } from '@/firebase';
@@ -85,8 +85,12 @@ const updateVariant = (variant) => {
         <p class="price pad-top bold">{{ productData.price }}</p>
         
         <div class="flex gap title">
-          <button class="variants" v-for="variant in productData.variants" :key="variant.varName" @click="updateVariant(variant)">
-            {{ variant.varName }}
+          <button 
+            class="variants" 
+            v-for="variant in productData.variants" 
+            :key="variant.varName" 
+            @click="updateVariant(variant)">
+              {{ variant.varName }}
           </button>
         </div> 
         <br>
@@ -130,6 +134,7 @@ const updateVariant = (variant) => {
   border:rgb(73, 69, 69) 1px solid;
   padding: .3em .5em;
 }
+
 .variants:hover{
   background:rgb(44, 43, 43);
 }

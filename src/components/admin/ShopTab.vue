@@ -94,6 +94,7 @@ onMounted( () => {
        quant: doc.data().quant,
        desc: doc.data().desc,
        img: doc.data().img,
+       variants: doc.data().variants
 
        
      }
@@ -135,7 +136,8 @@ const updateItemQuantity = async (item) => {
 
 
 const startEditing = (item) => {
-   editingItem.value = { ...item };
+   editingItem.value = { ...item};
+   console.log(editingItem.value)
    showEditModal.value = true;
 }
 
@@ -147,6 +149,7 @@ const updateItem = async () => {
      quant: editingItem.value.quant,
      desc: editingItem.value.desc,
      img: editingItem.value.img,
+     variants: editingItem.value.variants
    });
 
    showEditModal.value = false;
@@ -279,6 +282,15 @@ const addVariant = () => {
         type="file"
         @change="onImageChange"
         >
+
+        <button v-if="!showVariants" type="button" class="variant-btn" @click="showVariantForm">Add Variants +</button>
+        <div v-if="showVariants" v-for="(variant, index) in editingItem.variants" :key="index" class="variant flex column">
+          <input v-model="variant.varName" placeholder="Variant Name" type="text">
+          <input v-model="variant.varPrice" placeholder="Price" type="text">
+          <input v-model="variant.varQuantity" placeholder="Quantity" type="text">
+          <button type="button" class="submit-btn" @click="addVariant">Add Variant</button>
+          <br><br>
+        </div>
         
         <button type="submit" class="submit-btn">Save Changes</button>
         <button @click="showEditModal = false">Cancel</button>
