@@ -274,6 +274,12 @@ a{
   position:relative;
 }
 
+.abs-center{
+  position:absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 /* position end */
 
 /* padding start */
@@ -297,6 +303,11 @@ a{
   padding-bottom:1rem;
 }
 /* padding end */
+
+/* margin start */
+.margin-right{
+  margin-right:1rem;
+}
 
 /* background start */
 .grey{
