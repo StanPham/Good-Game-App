@@ -46,6 +46,33 @@ const goEventTwo = () => {
     console.log('xd');
 };
 
+const goShop = () => {
+    router.push('/shop');
+};
+
+const goShopTwo = () => {
+    router.push('/shop');
+    isMobileMenuOpen.value = !isMobileMenuOpen.value;
+};
+
+const goAbout = () => {
+    router.push('/about');
+};
+
+const goAboutTwo = () => {
+    router.push('/about');
+    isMobileMenuOpen.value = !isMobileMenuOpen.value;
+};
+
+const goUser = () => {
+    router.push('/user');
+};
+
+const goUserTwo = () => {
+    router.push('/user');
+    isMobileMenuOpen.value = !isMobileMenuOpen.value;
+};
+
 const goSignup = () => {
     router.push('/login');
 };
@@ -57,10 +84,6 @@ const goSignupTwo = () => {
 
 const goAdmin = () => {
     router.push('/admin');
-};
-
-const navigateToShop = (category) => {
-    router.push({ name: 'shop', query: { category } });
 };
 
 const outsideClickHandler = () => {
@@ -97,8 +120,10 @@ const outsideClickHandler = () => {
             </div>
           </div> -->
         <a @click="goEvent">EVENTS</a>
-        <a style="text-decoration: line-through;">COMING SOON</a>
-        <a style="text-decoration: line-through;">COMING SOON</a>
+        <a @click="goShop">SHOP</a>
+        <a @click="goAbout">ABOUT</a>
+        <a v-if="user" @click="goUser">PROFILE</a>
+        
         <a v-if="isAdmin" @click="goAdmin">ADMIN</a>
     </div>
          
@@ -122,12 +147,14 @@ const outsideClickHandler = () => {
         <a v-if="user" class="mobile-login" @click="submitSignOut"> SIGNOUT</a>
         <a v-else class="mobile-login" @click="goSignupTwo">LOGIN</a>
         <a @click="goEventTwo">EVENTS</a>
-        <a href="#" style="text-decoration: line-through;">COMING SOON</a>
-        <a href="#" style="text-decoration: line-through;">COMING SOON</a>
+        <a @click="goShopTwo">SHOP</a>
+        <a @click="goAboutTwo">ABOUT</a>
+        <a @click="goUserTwo">PROFILE</a>
       </div>
     </div>
   </div>
 </template>
+        
 
 <style scoped>
 
