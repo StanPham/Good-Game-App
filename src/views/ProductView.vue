@@ -90,7 +90,7 @@ const updateVariant = (variant) => {
 </script>
 
 <template>
-  <div class="view-top-margin flex-c-c">
+  <div class="main-wrapper flex-c-c">
     <div class="product-container flex-c-c wrap rc rel" v-if="productData">
       <nav class="breadcrumbs flex pad abs">
         <a class="underline" @click="goHome">Home</a>
@@ -144,6 +144,9 @@ const updateVariant = (variant) => {
 </template>
 
 <style scoped>
+.main-wrapper{
+  margin-top: calc(var(--header-height) + 1vmax );
+}
 .variants{
   background:rgb(29, 28, 28);
   border:rgb(73, 69, 69) 1px solid;
