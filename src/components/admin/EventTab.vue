@@ -196,6 +196,15 @@ const closeEditModal = () => {
   gameName.value = '';
   gameFormat.value = '';
 }
+
+const deletePastEvents = async () => {
+  const now = new Date();
+  const pastEvents = myEvents.value.filter(event => event.endDateObj < now);
+
+  for(const event of pastEvents){
+    await deleteDoc(doc(db, "events", event.id));
+  }
+}
  </script>
 
 <template>
@@ -324,6 +333,9 @@ const closeEditModal = () => {
       </form>
     </div>
      <!-- end editing form -->
+ <div class="delete-past-events-wrapper pad-bot">
+  <button class="main-btn-full delete-past-events-btn" @click="deletePastEvents">Delete Past Events</button>
+ </div>
  <table>
      <thead>
        <th scope="col">Name</th>

@@ -169,4 +169,11 @@ tr{
     width:auto;
     margin-left:auto;
 }
+
+.delete-past-events-wrapper{
+    width:100%;
+    display:flex;
+    justify-content: flex-end;
+}
+
   /*end form stuff*/
