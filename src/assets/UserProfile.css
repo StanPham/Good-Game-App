@@ -1,0 +1,45 @@
+.header{
+    text-align: center;
+    padding-top:.7rem;
+    text-decoration: underline;
+  }
+  
+  
+  
+  .event-wrapper{
+    padding: 1rem;
+    text-align: center;
+  }
+  
+  .container{
+    background: linear-gradient(98.79deg, #a45aee -8.25%, #180030 30.07%); 
+    border-radius: 1rem;
+    height:100%;
+  }
+      
+  .title-wrapper{
+    padding-top: .5rem;
+  }
+  
+  .event-description{
+    padding: 1.5rem 0;
+  }
+
+
+
+
+
+
+
+  form{
+    width: 100%;
+}
+
+.submit-btn{
+    margin: auto;    
+    width: 30%;
+}
+
+.event-card{
+  width:clamp(490px,30%,30%);
+}
