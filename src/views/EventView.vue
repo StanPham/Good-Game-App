@@ -12,16 +12,18 @@ const allEvents = ref([]);
 const myEvents = ref([]);
 const eventRef = collection(db, 'events');
 const q = query(eventRef, orderBy("startDate"));
-const myGames = collection(db, 'games')
+const myGames = collection(db, 'game')
 const logoMap = ref({})
 
 
 async function fetchGameLogos() {
+  
   return new Promise((resolve) => {
     onSnapshot(myGames, (gamesSnapshot) => {
       gamesSnapshot.forEach((gameDoc) => {
         const gameData = gameDoc.data();
         logoMap.value[gameData.name] = gameData.logo;
+        
       });
       resolve(); // Resolve the promise once all logos are fetched
     });
