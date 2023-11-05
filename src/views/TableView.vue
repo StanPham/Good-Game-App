@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-c-c outer-container">
+  <div class="outer-container">
     <main class="main-card rc">
       <div class="left-content">
         <h1 class="jockey rc text-center">Create Table Reservation</h1>
@@ -46,15 +46,17 @@
 }
 .main-card{
   background: rgb(0, 0, 0);
-  width: clamp(350px, 60rem, 100rem);
+  width: min(100%, 60rem);
   display:grid;
   gap:1rem;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  margin-left:auto;
+  margin-right:auto;
 }
 .outer-container{
-  min-height:100vh;
+  margin-top: calc(var(--header-height) + 2rem);
 }
 form{
   margin-top:2rem;
@@ -77,4 +79,12 @@ input{
   font-size: 1.4rem;
 }
 
+@media(max-width:900px){
+  .img-container{
+    display:none;
+  }
+  .main-card{
+    grid-template-columns: 1fr;
+  }
+}
 </style>
