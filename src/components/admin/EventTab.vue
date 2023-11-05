@@ -17,6 +17,7 @@ const myGames = ref([])
 const gameName = ref('')
 const gameFormat = ref('')
 const selectedGameFormats = ref([])
+const logoFlag = ref(false)
 let gameImage = ref(null)
 var newGame = false
 var newFormat = false
@@ -71,6 +72,7 @@ const addEvent = async () =>{
     };
     gameName.value = '';
     gameFormat.value = '';
+    logoFlag.value = false;
 } else {
    
     const startTimeDate = new Date(newEvent.value.startTime);
@@ -219,6 +221,10 @@ const deletePastEvents = async () => {
     await deleteDoc(doc(db, "events", event.id));
   }
 }
+
+const addLogo = () => {
+  logoFlag.value = true;
+}
  </script>
 
 <template>
@@ -277,13 +283,15 @@ const deletePastEvents = async () => {
       <option v-for="format in selectedGameFormats" >{{ format }}</option>
       </datalist>
 
-      <label for="iamge">Logo</label>
-        <input
-          class="input"
-          type="file"
-          @change="onImageChange"
-        >
-
+      <button v-if="!logoFlag" type="button" class="variant-btn" @click="addLogo">Add Logo +</button>
+      <div v-if="logoFlag" class="flex column gap">
+        <label for="iamge">Logo</label>
+          <input
+            class="input"
+            type="file"
+            @change="onImageChange"
+          >
+      </div>
       <button type="submit" class="submit-btn">Submit</button>
 
       <label for="keepData" class="check-wrap">Keep Data:
