@@ -130,12 +130,10 @@ const myShops = computed(() => {
 </template>
 
 <style scoped>
-.facebook-card{
-  min-height:400px;
-}
 .facebook-card,
 .table-card{
   width:clamp(1000px,80vw,80vw);
+  min-height:400px;
 }
 .car-card{
   width: 100vw;

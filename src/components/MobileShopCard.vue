@@ -1,19 +1,19 @@
 <script setup>
 import router from '../router'
 
-// const goEvent = () =>  router.push('/shop');
+const goShop = () =>  router.push('/shop');
 </script>
 
 <template>
     <div class="container flex rel rc">
         <div class="card-picture">
-                <img src="../images/booster.png" alt="" class="shop-card-picture"> 
+            <img src="../images/booster.png" alt="" class="shop-card-picture"> 
         </div>
         <div class="text-wrapper pad-top font-med">
             <h1 class="">SHOP</h1>
-            <h2 class="description">Coming soon!</h2>
+            <h2 class="description">Check out our Products!</h2>
             <br>
-            <button class="main-btn-full" @click="goEvent">SHOP</button>
+            <button class="main-btn-full" @click="goShop">SHOP</button>
             <br> <br> <br><br> <br> <br>
         </div>
     </div>

@@ -1,6 +1,7 @@
 <script setup>
 import { collection, onSnapshot, addDoc, Timestamp, doc, deleteDoc, updateDoc } from "firebase/firestore"; 
-import { db } from "@/firebase"
+import { db, storage } from "@/firebase"
+import{ref as storageRef, uploadBytesResumable, getDownloadURL} from 'firebase/storage'
 import { onMounted, ref, computed } from 'vue'
 
 const keepData = ref(false);
@@ -16,6 +17,7 @@ const myGames = ref([])
 const gameName = ref('')
 const gameFormat = ref('')
 const selectedGameFormats = ref([])
+let gameImage = ref(null)
 var newGame = false
 var newFormat = false
 
@@ -38,7 +40,8 @@ const addEvent = async () =>{
    if(newGame) {
     await addDoc(collection(db, "game"), {
     name: gameName.value,
-    format: []
+    format: [],
+    logo: gameImage.value
   }).then(() =>{
     newGame = false
   }).catch(err => {
@@ -109,7 +112,18 @@ const formatChange = () => {
     newFormat = false
   }
 }
- 
+
+const onImageChange = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        const imageRef = storageRef(storage, 'game-images/' + file.name);
+        await uploadBytesResumable(imageRef, file);
+        
+        gameImage.value = await getDownloadURL(imageRef);
+  
+    }
+}
+
 onMounted( () => {
  onSnapshot(collection(db, 'events'), (querySnapshot) => {
    const tmpEvents = [];
@@ -262,6 +276,13 @@ const deletePastEvents = async () => {
       <datalist  id="formatName">
       <option v-for="format in selectedGameFormats" >{{ format }}</option>
       </datalist>
+
+      <label for="iamge">Logo</label>
+        <input
+          class="input"
+          type="file"
+          @change="onImageChange"
+        >
 
       <button type="submit" class="submit-btn">Submit</button>
 
