@@ -3,13 +3,6 @@ import { onMounted, ref, watch, computed } from 'vue'
 import { collection, onSnapshot, orderBy, query} from "firebase/firestore"
 import { db } from "@/firebase"
 
-import cardback from '../images/cardback.png'
-import pokeball from '../images/pokeball.png'
-import warhammer from '../images/warhammer.jpg'
-import myhero from '../images/hero.webp'
-import yugioh from '../images/yugioh.png'
-import dnd from '../images/dnd_logo_2.png'
-
 const selectedMonth = ref(new Date().getMonth());
 const monthNames = [
     "January", "February", "March", "April", "May", "June",
@@ -19,9 +12,23 @@ const allEvents = ref([]);
 const myEvents = ref([]);
 const eventRef = collection(db, 'events');
 const q = query(eventRef, orderBy("startDate"));
-const myGames = ref([]);
+const myGames = collection(db, 'games')
+const logoMap = ref({})
 
-onMounted(() => {
+
+async function fetchGameLogos() {
+  return new Promise((resolve) => {
+    onSnapshot(myGames, (gamesSnapshot) => {
+      gamesSnapshot.forEach((gameDoc) => {
+        const gameData = gameDoc.data();
+        logoMap.value[gameData.name] = gameData.logo;
+      });
+      resolve(); // Resolve the promise once all logos are fetched
+    });
+  });
+}
+onMounted(async () => {
+  await fetchGameLogos();
   onSnapshot(q, (querySnapshot) => {
     const tmpEvents = [];
     querySnapshot.forEach((doc) => {
@@ -32,25 +39,16 @@ onMounted(() => {
         game: doc.data().game || "No Game Set In Database",
         format: doc.data().format,
         startDate: new Date(doc.data().startDate.seconds*1000),
-        endDate: new Date(doc.data().endDate.seconds*1000)
+        endDate: new Date(doc.data().endDate.seconds*1000),
+        logo: logoMap.value[doc.data().game]
       }
+      console.log(event.logo)
       tmpEvents.push(event)
     });
     allEvents.value = tmpEvents;
     filterEventsByMonth(); 
   });
-  onSnapshot(collection(db, 'game'), (querySnapshot) => {
-    const tmpGames = [];
-    querySnapshot.forEach((doc) =>{
-      const game = {
-        id: doc.id,
-        name: doc.data().name,
-        format: doc.data().format
-      }
-      tmpGames.push(game)
-    })
-    myGames.value = tmpGames
-  })
+ 
 })
 
 watch(selectedMonth, () => {
@@ -97,25 +95,6 @@ function dateWithHoursMinutes(date) {
     return `${someHours}:${minutes}pm`;
 }
 
-function getImageForGame(gameName) {
-    const formattedGameName = gameName.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
-   
-    const gameImageMap = {
-        'magicthegathering': cardback,
-        'pokemon': pokeball,
-        'warhammer': warhammer,
-        'myhero': myhero,
-        'yugioh': yugioh,
-        'myheroacademia':myhero,
-        'dungeonsanddragons': dnd,
-        'dandd': dnd,
-        'dungeonsdragons': dnd,
-        'dd': dnd,
-    };
-
-    return gameImageMap[formattedGameName]; 
-}
-
 const currentMonth = ref(new Date().getMonth());
 
 const getNextMonth = computed(() => {
@@ -139,7 +118,7 @@ const getCurrentMonth = computed(() => {
             <div class="event-wrapper">
                 <h1 class="event-day">{{ dateWithNameMonthDay(event.startDate) }}</h1>
 
-                <img :src="getImageForGame(event.game)" alt="" class="logo">
+                <img :src="event.logo" alt="" class="logo">
                 <div class="stop-flex">
                     <div class="title">
                         <h2 class="pink-italic">{{ event.name }} </h2>
