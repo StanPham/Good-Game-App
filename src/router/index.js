@@ -93,7 +93,7 @@ const router = createRouter({
     {
       path: '/user',
       name: 'user',
-      component: () => import('../views/UserProfile.vue'),
+      component: () => import('../views/UserProfileView.vue'),
       beforeEnter: requireLogin
     }
      

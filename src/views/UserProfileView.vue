@@ -1,20 +1,44 @@
-<!-- <script setup>
-import TodaysEvent from '../components/TodaysEvent.vue';
-</script> -->
+<script setup>
+import { onAuthStateChanged, RecaptchaVerifier, PhoneAuthProvider } from "firebase/auth";
+import { db, firebaseAppAuth } from '@/firebase'
+import { ref } from "vue";
+
+const user = ref(null)
+const userTableInfo = ref({
+    displayName: '(Not Set)',
+    email: '',
+    phoneNumber: '+1'
+})
+
+const submitUserUpdate = () => {
+    //TODO
+}
+
+onAuthStateChanged(firebaseAppAuth, currentUser => {
+    user.value = currentUser
+    if(currentUser){
+        userTableInfo.value = {
+            displayName: user?.value.displayName ? user?.value.displayName : '(Not Set)' ,
+            email: user?.value.email,
+            phoneNumber: user?.value.phoneNumber ? user?.value.phoneNumber : '+1'
+        }
+    }
+})
+</script>
 
 <template>
 
 <div>
     <div class = "form-container">
         
-        <form action="">
+        <form @submit.prevent="submitUserUpdate">
             <h4>USER INFORMATION</h4>
             
             <label for="username">Username</label>
-            <input type="text" id="username" name="username" value="current username">
+            <input type="text" id="username" name="username" v-model="userTableInfo.displayName">
 
             <label for="email">Email</label>
-            <input type="text" id="email" name="email" value="name@example.com">
+            <input type="text" id="email" name="email" v-model="userTableInfo.email">
 
             <label for="fname">First Name</label>
             <input type="text" id="fname" name="fname" value="fname">
@@ -23,10 +47,9 @@ import TodaysEvent from '../components/TodaysEvent.vue';
             <input type="text" id="lname" name="lname" value="lname">
 
             <label for="phone">Phone Number</label>
-            <input type="tel" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{2}-[0-9]{4}" value="(xxx) xxx-xxxx">
+            <input type="tel" id="phone" name="phone"  v-model="userTableInfo.phoneNumber">
 
-
-            <button type="button" class="submit-btn main-btn">Update</button>
+            <button type="submit" class="submit-btn main-btn">Update</button>
         </form>
        
     </div>
