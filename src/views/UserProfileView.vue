@@ -40,12 +40,6 @@ onAuthStateChanged(firebaseAppAuth, currentUser => {
             <label for="email">Email</label>
             <input type="text" id="email" name="email" v-model="userTableInfo.email">
 
-            <label for="fname">First Name</label>
-            <input type="text" id="fname" name="fname" value="fname">
-
-            <label for="lname">Last Name</label>
-            <input type="text" id="lname" name="lname" value="lname">
-
             <label for="phone">Phone Number</label>
             <input type="tel" id="phone" name="phone"  v-model="userTableInfo.phoneNumber">
 
@@ -54,18 +48,18 @@ onAuthStateChanged(firebaseAppAuth, currentUser => {
        
     </div>
 
-    <!-- <div class="event-card">
+    <!-- <div class="profile-container">
         <div class="container">
-            <h1 class="header">{{titleOfCard}}</h1>
-            <div class="event-wrapper">
-                <h1 class="event-day">{{ dayMonthDay(todaysEvent.startDate) }}</h1>
-                <div class="title-wrapper title">
-                    <h2 class="pink-italic">{{ todaysEvent.name }} </h2>
-                    <h3 class="pink"> {{ todaysEvent.format}}</h3>
-                    <div class="start-time bold title-scale">hi hello</div>
+            <h1 class="profile-header">header</h1>
+            <div class="profile-body-container">
+                <h1 class="body-header">event header</h1>
+                <div class="profile-body">
+                    <h2 class="pink-italic">todays event name </h2>
+                    <h3 class="pink"> todays event format</h3>
+                    <div class="bold title-scale">start time div</div>
                 </div>
                     
-                <p class="event-description font-med">hi hello</p>
+                <p class="profile-description font-med">hi hello</p>
                 <br>
                 <button class="all-events-btn main-btn-full bold" @click="goEvent">All Events</button>
             </div>
