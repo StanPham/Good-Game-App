@@ -19,7 +19,7 @@ onAuthStateChanged(firebaseAppAuth, currentUser => {
     if(currentUser){
         userTableInfo.value = {
             displayName: user?.value.displayName ? user?.value.displayName : '(Not Set)' ,
-            email: user?.value.email,
+            email: user?.value.emanpmil,
             phoneNumber: user?.value.phoneNumber ? user?.value.phoneNumber : '+1'
         }
     }
@@ -38,10 +38,16 @@ onAuthStateChanged(firebaseAppAuth, currentUser => {
             <input type="text" id="username" name="username" v-model="userTableInfo.displayName">
 
             <label for="email">Email</label>
-            <input type="text" id="email" name="email" v-model="userTableInfo.email">
+            <div>
+            <input type="text" class="form-input" name="email" v-model="userTableInfo.email">
+            <button type="submit" class="submit-btn main-btn">Verify</button>
+            </div>
 
             <label for="phone">Phone Number</label>
-            <input type="tel" id="phone" name="phone"  v-model="userTableInfo.phoneNumber">
+            <div>
+            <input type="tel" class="form-input" name="phone"  v-model="userTableInfo.phoneNumber">
+            <button type="submit" class="submit-btn main-btn">Verify</button>
+            </div>
 
             <button type="submit" class="submit-btn main-btn">Update</button>
         </form>

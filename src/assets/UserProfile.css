@@ -1,3 +1,4 @@
+/* User Profile Card */
 .profile-container{
     width:clamp(490px,30%,30%);
 
@@ -30,7 +31,7 @@
 
 
 
-
+/* User Profile Form */
 form{
     width: 100%;
 }
@@ -40,4 +41,6 @@ form{
     width: 30%;
 }
 
-
+.form-input{
+width: 100%;
+}
