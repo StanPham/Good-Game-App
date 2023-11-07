@@ -40,6 +40,23 @@ exports.addreservation = onCall((request) => {
     return new Promise(async (resolve,reject) => {
         let productRef;
         let productNumLeft;
+        
+        console.log(request.auth.token.email)
+
+        //base protections
+        if(!request.auth.token.email_verified){
+            resolve({
+                state: "error",
+                message: "unverified-email"
+            })
+            return;
+        }
+        if(!request.auth.token.phone_number){
+            resolve({
+                state: "error",
+                message: "unverified-phone"
+            })
+        }
         //check that quantity is 3 or less
         if(request.data.quantity >= 3 || parseInt(request.data.quantity) == NaN){
             console.log("quantity error")
@@ -99,7 +116,8 @@ exports.addreservation = onCall((request) => {
                         creationDate: Timestamp.fromDate(new Date()),
                         productID: request.data.productID,
                         quantity: parseInt(request.data.quantity),
-                        productName : productRef
+                        productName : productRef,
+                        email: request.auth.token.email
                     })
                 }).then(() =>{
                     productDoc.update({
@@ -123,7 +141,8 @@ exports.addreservation = onCall((request) => {
                         creationDate: Timestamp.fromDate(new Date()),
                         productID: request.data.productID,
                         quantity: parseInt(request.data.quantity),
-                        productName : productRef
+                        productName : productRef,
+                        email: request.auth.token.email
                     }]
                 }).then(() => {
                     productDoc.update({
