@@ -1,12 +1,12 @@
 <script setup>
-import { onAuthStateChanged, RecaptchaVerifier, PhoneAuthProvider } from "firebase/auth";
+import { onAuthStateChanged, RecaptchaVerifier, PhoneAuthProvider, updatePhoneNumber } from "firebase/auth";
 import { db, firebaseAppAuth } from '@/firebase'
 import { ref, onMounted, watch, computed } from "vue";
 import { doc, collection, onSnapshot } from "firebase/firestore";
 import UserReservations from '../components/userprofile/UserReservations.vue'
 
 const shopReservationList = ref([])
-
+const phoneNumber = ref('')
 const user = ref(null)
 const userTableInfo = ref({
     displayName: '(Not Set)',
@@ -27,7 +27,7 @@ onAuthStateChanged(firebaseAppAuth, currentUser => {
             phoneNumber: user?.value.phoneNumber ? user?.value.phoneNumber : '+1'
         }
 
-        fetchUserData(currentUser.uid);
+        fetchUserData();
     }
 })
 
@@ -53,6 +53,27 @@ const fetchUserData = () => {
     });
   }
 };
+
+const submitPhoneNumber = async () => {
+    console.log(phoneNumber.value)
+    const countryCode = '+1'
+    const applicationVerifier = new RecaptchaVerifier(firebaseAppAuth,'recaptcha-container');
+    const provider = new PhoneAuthProvider(firebaseAppAuth);
+    const fullPhoneNumber = countryCode + phoneNumber.value;
+    await provider.verifyPhoneNumber(fullPhoneNumber, applicationVerifier)
+        .then((result) =>{
+            applicationVerifier.clear()
+            console.log("sms sent")
+            var verifyCode = window.prompt("Please enter the verification \n code that was sent to your device")
+            return PhoneAuthProvider.credential(result,verifyCode)
+        }).then((phoneCredential) =>{
+            return updatePhoneNumber(user.value, phoneCredential).then((result) => {
+                console.log("worked")
+            })
+        }).catch((err) => {
+            console.log(err)
+        })
+}
 
 watch(user, (newValue) => {
   if (newValue) {
@@ -88,15 +109,17 @@ const myReservations = computed(() => {
 
             <label for="email">Email</label>
             <div>
-            <input type="text" class="form-input" name="email" v-model="userTableInfo.email">
-            <button type="submit" class="submit-btn main-btn">Verify</button>
+                <input type="text" class="form-input" name="email" v-model="userTableInfo.email">
+                <button v-if="!user?.emailVerified" type="button" class="submit-btn main-btn">Verify Email</button>
             </div>
 
             <label for="phone">Phone Number</label>
             <div>
-            <input type="tel" class="form-input" name="phone"  v-model="userTableInfo.phoneNumber">
-            <button type="submit" class="submit-btn main-btn">Verify</button>
+                <input type="tel" class="form-input" name="phone"  v-model="userTableInfo.phoneNumber">
+                <button v-if="!user?.phoneNumber" type="button" class="submit-btn main-btn" @click="submitPhoneNumber">Verify Phone</button>
             </div>
+                
+            <div id="recaptcha-container"></div>
 
             <button type="submit" class="submit-btn main-btn">Update</button>
         </form>
