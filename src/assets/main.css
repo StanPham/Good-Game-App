@@ -245,6 +245,10 @@ a{
   align-items: center;
 }
 
+.align-c{
+  align-items: center;
+}
+
 .flex-sb{
   justify-content: space-between;
 }
@@ -390,6 +394,12 @@ video {
   font-size:1.2rem;
   
   padding: .7em 1.2em;
+}
+
+.delete-btn{
+  padding:.5rem 1rem;
+  background:red;
+  border-radius:1rem;
 }
 /* buttons end */
 

@@ -1,7 +1,11 @@
 <script setup>
 import { onAuthStateChanged, RecaptchaVerifier, PhoneAuthProvider } from "firebase/auth";
 import { db, firebaseAppAuth } from '@/firebase'
-import { ref } from "vue";
+import { ref, onMounted, watch, computed } from "vue";
+import { doc, collection, onSnapshot } from "firebase/firestore";
+import UserReservations from '../components/userprofile/UserReservations.vue'
+
+const shopReservationList = ref([])
 
 const user = ref(null)
 const userTableInfo = ref({
@@ -19,11 +23,54 @@ onAuthStateChanged(firebaseAppAuth, currentUser => {
     if(currentUser){
         userTableInfo.value = {
             displayName: user?.value.displayName ? user?.value.displayName : '(Not Set)' ,
-            email: user?.value.emanpmil,
+            email: user?.value.email,
             phoneNumber: user?.value.phoneNumber ? user?.value.phoneNumber : '+1'
         }
+
+        fetchUserData(currentUser.uid);
     }
 })
+
+const fetchUserData = () => {
+  if (user.value) {
+    const docRef = doc(db, 'shopReservation', user.value.uid);
+    onSnapshot(docRef, (doc) => {
+      if (doc.exists) {
+        const reservations = doc.data().reservations;
+        const tmpShopReservationList = [];
+        for (let i = 0; i < reservations.length; i++) {
+          tmpShopReservationList.push({
+            id: i + 1,
+            productId: reservations[i].productID,
+            creationDate: new Date(reservations[i].creationDate.seconds * 1000),
+            quantity: reservations[i].quantity
+          });
+        }
+        shopReservationList.value = tmpShopReservationList;
+        console.log(shopReservationList.value)
+      }
+    });
+  }
+};
+
+watch(user, (newValue) => {
+  if (newValue) {
+    fetchUserData();
+  }
+});
+
+onMounted(fetchUserData);
+
+const myReservations = computed(() => {
+  return shopReservationList.value.map(item => {
+    return {
+      id: item.id,
+      creationDate: item.creationDate,
+      quantity: item.quantity
+    }
+  });
+});
+
 </script>
 
 <template>
@@ -72,14 +119,20 @@ onAuthStateChanged(firebaseAppAuth, currentUser => {
         </div>
     </div> -->
 </div>
-
+<br><br>
+<div class="reservations-card-wrap rc black">
+    <UserReservations v-if="myReservations.length" :reservations = "myReservations" />
+</div>
 </template>
 
 <style scoped>
 @import '@/assets/LoginSignup.css';
 @import '@/assets/UserProfile.css';
      
-
+.reservations-card-wrap{
+    width: clamp(200px, 90vw,50rem);
+    margin-inline:auto;
+}
 
    
 </style>
