@@ -47,7 +47,7 @@ exports.addreservation = onCall((request) => {
         if(!request.auth.token.email_verified){
             resolve({
                 state: "error",
-                message: "unverified-email"
+                message: "You have an unverified email."
             })
             return;
         }

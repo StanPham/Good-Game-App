@@ -15,6 +15,7 @@ const originalProductName = ref('');
 
 const user = ref(null)
 const createReservationResponse = ref(false)
+const reservationSuccess = ref(false)
 const isAdmin = ref(false)
 
 const badReserve = ref(null)
@@ -62,7 +63,15 @@ onAuthStateChanged(firebaseAppAuth, currentUser => {
 })
 
 const makeReservation = async () => {
- 
+  /*if(user.value == null){
+    return badReserve.value = `You must be logged in and verify your phone number and email to make reservations. <a class="italic underline pink" data-action="goSignup">Signup here.</a>`;
+  } else if (!user.value.phoneNumber && !user.value.emailVerified) {
+    return badReserve.value = `You must have a verified phone number and email to make reservations. <a class="italic underline pink" data-action="goProfile">Visit Profile Page</a>`
+  } else if (!user.value.phoneNumber) {
+    return badReserve.value = `You must have a verified phone number to make reservations. <a class="italic underline pink" data-action="goProfile">Visit Profile Page</a>`
+  } else if (!user.value.emailVerified) {
+    return badReserve.value = `You must have a verified email to make reservations. <a class="italic underline pink" data-action="goProfile">Visit Profile Page</a>`
+  }*/
   
   console.log("productID:")
   console.log(productID)
@@ -74,9 +83,19 @@ const makeReservation = async () => {
       quantity: amount.value
     })
     .then((result) => {
+      if(result.data.state === "pass"){
         createReservationResponse.value = result.data.message
+        reservationSuccess.value = true;
+      } else {
+        createReservationResponse.value = result.data.message
+        reservationSuccess.value = false;
+        console.log('xd');
+      }
+    
     }).catch(err => {
         console.log(err);
+        
+        
     });
 }
 
@@ -136,8 +155,8 @@ const updateVariant = (variant) => {
         <div v-if="badReserve" class="grey pad font-med rc">
           <span @click="badReserveRedirects" v-html="badReserve"></span>
         </div>
-        <div v-if="createReservationResponse" class="pad-small grey title italic flex align-c gap">
-          <img src="../images/caution.png" alt="" class="caution">
+        <div v-if="createReservationResponse" class="pad-small grey title italic flex align-c gap blink-bg">
+          <img v-if="!reservationSuccess" src="../images/caution.png" alt="" class="caution">
           {{ createReservationResponse }}
         </div>
         <p class="italic light pad-top">Reserved items must be paid for and picked up in store. </p>
@@ -152,6 +171,13 @@ const updateVariant = (variant) => {
 </template>
 
 <style scoped>
+.blink-bg{
+    animation: blinkingBackground 1s 2;
+}
+@keyframes blinkingBackground{
+    0%   {background-color: rgb(37, 37, 37);;}
+    50% {background-color: rgb(80, 80, 80);;}
+}
 .main-wrapper{
   margin-top: calc(var(--header-height) + 1vmax );
 }
