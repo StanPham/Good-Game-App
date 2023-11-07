@@ -3,6 +3,7 @@ import { collection, onSnapshot, addDoc, Timestamp, doc, deleteDoc, updateDoc } 
 import { db, storage } from "@/firebase"
 import {ref as storageRef, uploadBytesResumable, getDownloadURL} from 'firebase/storage'
 import { onMounted, ref, computed } from 'vue'
+import AdminSuccess from "../alerts/AdminSuccess.vue";
 
 const searchQuery = ref('');
 const showPopup = ref(false);
@@ -29,7 +30,7 @@ const displayPopup = () => {
   setTimeout(() => {
     showPopup.value = false;
 
-  }, 3000);
+  }, 50);
 }
 
 
@@ -371,36 +372,16 @@ const deleteVariant = (index) => {
         <tr class="filler-row"></tr>
       </tbody>
     </table>
+    <transition name="fade-translate">
+    <AdminSuccess v-if="showPopup" message="Item Added" />
+  </transition>
   </body>
-  <transition name="fade-translate">
-    <div v-if="showPopup" class="popup">test</div>
-  </transition> 
+
 </template>
 
 <style scoped>
 @import '@/assets/AdminTabs.css';
 
-.popup{
-  color:black;
-  position:fixed;
-  top:20%;
-  left:50%;
-  width:200px;
-  height:100px;
-  background:white;
-}
-
-.popup-enter-active, .popup-leave-active {
-  transition: all 0.5s ease-out;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-
-.popup-enter, .popup-leave-to {
-  opacity: 0;
-  transform: translateY(-50px); 
-}
 
 .quant-ops{
   padding:.1rem .5rem;
