@@ -3,6 +3,7 @@ import { collection, onSnapshot, addDoc, Timestamp, doc, deleteDoc, updateDoc } 
 import { db, storage } from "@/firebase"
 import{ref as storageRef, uploadBytesResumable, getDownloadURL} from 'firebase/storage'
 import { onMounted, ref, computed } from 'vue'
+import AdminSuccess from "../alerts/AdminSuccess.vue";
 
 const keepData = ref(false);
 
@@ -13,6 +14,7 @@ const newEvent = ref({
  desc: ''
 })
 
+const showPopup = ref(false);
 const myGames = ref([])
 const gameName = ref('')
 const gameFormat = ref('')
@@ -26,6 +28,15 @@ const showEditModal = ref(false);
 const editingEvent = ref({});
 
 const myEvents = ref([])
+
+
+const displayPopup = () => {
+  showPopup.value = true;
+  setTimeout(() => {
+    showPopup.value = false;
+
+  }, 50);
+}
 
 const addEvent = async () =>{
    await addDoc(collection(db, "events"), {
@@ -85,6 +96,7 @@ const addEvent = async () =>{
     newEvent.value.startTime = startTimeDate.toISOString().slice(0,16);
     newEvent.value.endTime = endTimeDate.toISOString().slice(0,16);
 }
+displayPopup();
 }
  
 
@@ -397,6 +409,9 @@ const addLogo = () => {
        <tr class="filler-row"></tr>
      </tbody>
   </table>
+  <transition name="fade-translate">
+    <AdminSuccess v-if="showPopup" message="Event Added" />
+  </transition>
 </body> 
 </template>
 

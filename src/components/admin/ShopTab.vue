@@ -373,8 +373,8 @@ const deleteVariant = (index) => {
       </tbody>
     </table>
     <transition name="fade-translate">
-    <AdminSuccess v-if="showPopup" message="Item Added" />
-  </transition>
+      <AdminSuccess v-if="showPopup" message="Item Added" />
+    </transition>
   </body>
 
 </template>
