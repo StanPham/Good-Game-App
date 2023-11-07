@@ -63,7 +63,7 @@ onAuthStateChanged(firebaseAppAuth, currentUser => {
 })
 
 const makeReservation = async () => {
-  /*if(user.value == null){
+  if(user.value == null){
     return badReserve.value = `You must be logged in and verify your phone number and email to make reservations. <a class="italic underline pink" data-action="goSignup">Signup here.</a>`;
   } else if (!user.value.phoneNumber && !user.value.emailVerified) {
     return badReserve.value = `You must have a verified phone number and email to make reservations. <a class="italic underline pink" data-action="goProfile">Visit Profile Page</a>`
@@ -71,7 +71,7 @@ const makeReservation = async () => {
     return badReserve.value = `You must have a verified phone number to make reservations. <a class="italic underline pink" data-action="goProfile">Visit Profile Page</a>`
   } else if (!user.value.emailVerified) {
     return badReserve.value = `You must have a verified email to make reservations. <a class="italic underline pink" data-action="goProfile">Visit Profile Page</a>`
-  }*/
+  }
   
   console.log("productID:")
   console.log(productID)
