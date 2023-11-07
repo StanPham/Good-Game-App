@@ -9,16 +9,26 @@ const myReservations = defineProps({
 </script>
 
 <template>
-  <div class="pad ">
-    <h1 class="flex-c pad-bot">Your Reservations</h1>
-    <div class="work-wrap" v-for="reservation in myReservations.reservations" :key="reservation.id">
-        <div class="flex align-c gap">
-            <div class="title">{{ reservation.productName }}</div>
+  <div class="">
+    <div class=" grey rc-top-top text-center">
+      <h1 class="cool-font letter-space pad">Reservations</h1>
+    </div>
+    <div class="pad">
+        <div class="content " v-for="reservation in myReservations.reservations" :key="reservation.id">
+            <div class="title roboto">{{ reservation.productName }}</div>
             <div class="title">x{{ reservation.quantity }}</div>
             <button class="delete-btn">Delete</button>
-            <br><br><br>
+            <br>
         </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.content{
+  display:grid;
+  grid-template-columns: 3fr 2fr 1fr;
+ 
+}
+</style>
     

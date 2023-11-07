@@ -403,13 +403,13 @@ video {
 
 .delete-btn{
   padding:.5rem 1rem;
-  background:red;
+  background:rgb(109, 9, 9);
   border-radius:1rem;
   font-weight:bold;
 }
 
 .delete-btn:hover{
-  background: rgb(245, 88, 88);
+  background: rgb(145, 26, 26);
 }
 /* buttons end */
 

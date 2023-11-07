@@ -55,7 +55,7 @@ const fetchUserData = () => {
 };
 
 const submitPhoneNumber = async () => {
-    console.log(phoneNumber.value)
+    console.log(userTableInfo.value.phoneNumber)
     const countryCode = '+1'
     const applicationVerifier = new RecaptchaVerifier(firebaseAppAuth,'recaptcha-container');
     const provider = new PhoneAuthProvider(firebaseAppAuth);
@@ -115,7 +115,7 @@ const myReservations = computed(() => {
 
             <label for="phone">Phone Number</label>
             <div>
-                <input type="tel" class="form-input" name="phone"  v-model="userTableInfo.phoneNumber">
+                <input type="tel" class="form-input" name="phone" pattern="[0-9]{10}" v-model="userTableInfo.phoneNumber">
                 <button v-if="!user?.phoneNumber" type="button" class="submit-btn main-btn" @click="submitPhoneNumber">Verify Phone</button>
             </div>
                 
@@ -145,7 +145,7 @@ const myReservations = computed(() => {
     </div> -->
 </div>
 <br><br>
-<div class="reservations-card-wrap rc form-bg">
+<div class="reservations-card-wrap rc black">
     <UserReservations v-if="myReservations.length" :reservations = "myReservations" />
 </div>
 </template>
