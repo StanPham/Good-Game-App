@@ -58,6 +58,7 @@ const addItem = async () =>{
      desc: newItem.value.desc,
      img: newItem.value.image,
      variants: newItem.value.variants,
+     numLeft: newItem.value.quantity,
     
      creationDate: Timestamp.fromDate(new Date())
    });
