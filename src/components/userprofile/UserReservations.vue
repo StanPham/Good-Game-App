@@ -14,7 +14,7 @@ const myReservations = defineProps({
       <h1 class="cool-font letter-space pad">Reservations</h1>
     </div>
     <div class="pad">
-        <div class="content " v-for="reservation in myReservations.reservations" :key="reservation.id">
+        <div class="content" v-for="reservation in myReservations.reservations" :key="reservation.id">
             <div class="title roboto">{{ reservation.productName }}</div>
             <div class="title">x{{ reservation.quantity }}</div>
             <button class="delete-btn">Delete</button>

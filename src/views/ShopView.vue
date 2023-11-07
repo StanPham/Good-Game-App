@@ -5,6 +5,7 @@ import { useRoute } from 'vue-router';
 import { onMounted, ref, watch, computed} from 'vue';
 
 const selectedCategory = ref("");
+const sortMethod = ref("");
 const searchQuery = ref("");
 
 const setActiveTab = (tabName) => {
@@ -25,15 +26,32 @@ onMounted( () => {
        quant: doc.data().quant,
        desc: doc.data().desc,
        img: doc.data().img,
-
+       creationDate: doc.data().creationDate,
        
      }
      tmpItems.push(item)
    });
    myShops.value = tmpItems;
- 
+   sortItems();
  });
  
+})
+
+const sortItems = () => {
+  if (sortMethod.value === 'low') {
+    const getPriceAsNumber = (priceString) => parseFloat(priceString.replace(/[^\d.]/g, ''));
+
+    myShops.value.sort((a, b) => getPriceAsNumber(a.price) - getPriceAsNumber(b.price));
+    console.log(sortMethod.value)
+
+  } else {
+    myShops.value.sort((a, b) => a.creationDate - b.creationDate);
+  }
+};
+  
+watch(sortMethod, () => {
+  sortItems();
+  console.log(myShops.value);
 })
 
 const categoryMapping = {
@@ -112,8 +130,15 @@ watch(route, (newRoute) => {
         </div>
               
         <div class="title-wrap">
-          <div class="results">{{ categoryMapping[selectedCategory] }}: {{ filteredShops.length }} RESULTS </div>
-          
+          <div class="flex-sb">
+            <div class="results">{{ categoryMapping[selectedCategory] }}: {{ filteredShops.length }} RESULTS </div>
+            <div class="sort-options">Sort by: 
+              <select style="font-size:20px" v-model="sortMethod">
+                <option value="">newest</option>
+                <option value="low">lo/hi</option>
+              </select>
+            </div>
+          </div>
           <main class="product-container" >
             <div class="work-wrap" v-for="shop in filteredShops" :key="shop.id">
               <router-link :to="`/product/${shop.id}`" class="link">
@@ -134,6 +159,10 @@ watch(route, (newRoute) => {
     
           
 <style scoped>
+.sort-options{
+  display:none;
+  margin-right:.5rem;
+}
 
 .results{
   font-size:1.1rem;
@@ -277,6 +306,9 @@ img{
 @media(min-width:763px){
   main{
     grid-template-columns: repeat(auto-fit, minmax(13rem,1fr));
+  }
+  .sort-options{
+    display:block;
   }
 }
 @media(min-width:1450px){
