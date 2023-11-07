@@ -5,7 +5,7 @@ import {ref as storageRef, uploadBytesResumable, getDownloadURL} from 'firebase/
 import { onMounted, ref, computed } from 'vue'
 
 const searchQuery = ref('');
-
+const showPopup = ref(false);
 const showEditModal = ref(false);
 const editingItem = ref({});
 const showVariants = ref(false);
@@ -23,6 +23,14 @@ const newItem = ref({
 
 
 const myItems = ref([])
+
+const displayPopup = () => {
+  showPopup.value = true;
+  setTimeout(() => {
+    showPopup.value = false;
+
+  }, 3000);
+}
 
 
 const onImageChange = async (event) => {
@@ -75,6 +83,7 @@ const addItem = async () =>{
     };
     document.querySelector('input[type="file"]').value = null;
     showVariants.value = false;
+    displayPopup();
 }
 
 
@@ -362,21 +371,47 @@ const deleteVariant = (index) => {
         <tr class="filler-row"></tr>
       </tbody>
     </table>
-  </body> 
-    
+  </body>
+  <transition name="fade-translate">
+    <div v-if="showPopup" class="popup">test</div>
+  </transition> 
 </template>
 
 <style scoped>
 @import '@/assets/AdminTabs.css';
-.quant-ops:hover{
-  color:grey;
+
+.popup{
+  color:black;
+  position:fixed;
+  top:20%;
+  left:50%;
+  width:200px;
+  height:100px;
   background:white;
+}
+
+.popup-enter-active, .popup-leave-active {
+  transition: all 0.5s ease-out;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+.popup-enter, .popup-leave-to {
+  opacity: 0;
+  transform: translateY(-50px); 
 }
 
 .quant-ops{
   padding:.1rem .5rem;
   margin-left:.1rem;
   background:grey;
+}
+
+.quant-ops:hover{
+  color:grey;
+  background:white;
+  
 }
 
 thead{

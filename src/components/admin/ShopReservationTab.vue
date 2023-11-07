@@ -21,6 +21,7 @@ onMounted( () => {
         const item = {
           id: counter,
           productId: reservationArr[i].productID,
+          productName: reservationArr[i].productName,
           creationDate: new Date(reservationArr[i].creationDate.seconds*1000),
           quantity: reservationArr[i].quantity
         }
@@ -49,7 +50,8 @@ function fullDate(dateObj) {
   <table>
      <thead>
        <th scope="col">Person</th>
-       <th scope="col">Items</th>
+       <th scope="col">Item ID</th>
+       <th scope="col">Item Name</th>
        <th scope="col">Quantity</th>
        <th scope="col">Time of Reservation</th>
        <th scope="col">Actions</th>
@@ -59,6 +61,7 @@ function fullDate(dateObj) {
        <tr >
          <td class="name">[[person]]</td>
          <td class="scrollable-cell"><div class="scrollable-content">{{ reservation.productId }}</div></td>
+         <td>{{ reservation.productName }}</td>
          <td>{{ reservation.quantity }}</td>
          <td>{{ fullDate(reservation.creationDate) }}</td>
          
