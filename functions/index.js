@@ -73,14 +73,14 @@ exports.addreservation = onCall((request) => {
                 console.log("product not found error")
                 resolve({
                     state: "error",
-                    message: "product-not-found"
+                    message: "error: product-not-found"
                 })
                 return;
             } else if(doc.data().numLeft < request.data.quantity){
                 console.log("not enough quantity left")
                 resolve({
                     state: "error",
-                    message: "low-quantity"
+                    message: "error: were out of that item"
                 })
                 return;
             } else {
@@ -98,7 +98,7 @@ exports.addreservation = onCall((request) => {
                     console.log("too many reservations error")
                     resolve({
                         state:"error",
-                        message: "too-many-reservations"
+                        message: "You may only have a maximum of 2 reservations."
                     })
                     return;
                 }
@@ -106,7 +106,7 @@ exports.addreservation = onCall((request) => {
                 if(doc.data().reservations[0].productID == request.data.productID){
                     resolve({
                         state:"error",
-                        message: "product-already-reserved"
+                        message: "You already have an existing reservation for this item."
                     })
                     return;
                 }

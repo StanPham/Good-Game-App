@@ -308,6 +308,10 @@ a{
 .pad-bot{
   padding-bottom:1rem;
 }
+
+.pad-small{
+  padding: .2rem;
+}
 /* padding end */
 
 /* margin start */

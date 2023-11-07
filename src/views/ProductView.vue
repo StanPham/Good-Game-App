@@ -19,6 +19,16 @@ const isAdmin = ref(false)
 
 const badReserve = ref(null)
 
+const badReserveRedirects = event => {
+  if (event.target.tagName === 'A' && event.target.dataset.action) {
+    if (event.target.dataset.action === 'goProfile') {
+      router.push('/user')
+    }
+    if(event.target.dataset.action === 'goSignup') {
+      router.push('/signup')
+    }
+  }
+}
 
 onMounted(async () => {
   const productDoc = doc(db, 'shop', productID); 
@@ -52,11 +62,8 @@ onAuthStateChanged(firebaseAppAuth, currentUser => {
 })
 
 const makeReservation = async () => {
-  if(user.value == null){
-    return badReserve.value = `You must be logged in and have a verified phone number to make reservations. <a class=\"italic underline pink\">Signup here.</a>`;
-  } else if (!user.value.phoneNumber) {
-    return badReserve.value = `You must have a verified phone number to make reservations. Verify your phone number <a class="italic underline pink">here</a>`
-  }
+ 
+  
   console.log("productID:")
   console.log(productID)
   console.log("Quantity:")
@@ -126,10 +133,11 @@ const updateVariant = (variant) => {
         </div>
         <div v-else class="title-scale" style="font-style:italic">Sold Out</div>
 
-        <div v-if="badReserve" class="grey rc">
-          <span v-html="badReserve"></span>
+        <div v-if="badReserve" class="grey pad font-med rc">
+          <span @click="badReserveRedirects" v-html="badReserve"></span>
         </div>
-        <div v-if="createReservationResponse">
+        <div v-if="createReservationResponse" class="pad-small grey title italic flex align-c gap">
+          <img src="../images/caution.png" alt="" class="caution">
           {{ createReservationResponse }}
         </div>
         <p class="italic light pad-top">Reserved items must be paid for and picked up in store. </p>
