@@ -1,7 +1,8 @@
 <script setup>
 import { onAuthStateChanged, RecaptchaVerifier, PhoneAuthProvider, updatePhoneNumber } from "firebase/auth";
-import { db, firebaseAppAuth } from '@/firebase'
+import { db, firebaseAppAuth, firebaseFunctions } from '@/firebase'
 import { ref, onMounted, watch, computed } from "vue";
+import { httpsCallable } from 'firebase/functions';
 import { doc, collection, onSnapshot } from "firebase/firestore";
 import UserReservations from '../components/userprofile/UserReservations.vue'
 
@@ -35,12 +36,18 @@ const fetchUserData = () => {
   if (user.value) {
     const docRef = doc(db, 'shopReservation', user.value.uid);
     onSnapshot(docRef, (doc) => {
-      if (doc.exists) {
+      console.log("here")
+      console.log(doc.exists())
+      if (!doc.exists()) {
+
+        shopReservationList.value = []
+        
+      } else {
         const reservations = doc.data().reservations;
         const tmpShopReservationList = [];
         for (let i = 0; i < reservations.length; i++) {
           tmpShopReservationList.push({
-            id: i + 1,
+            id: i,
             productId: reservations[i].productID,
             productName: reservations[i].productName,
             creationDate: new Date(reservations[i].creationDate.seconds * 1000),
@@ -94,6 +101,21 @@ const myReservations = computed(() => {
   });
 });
 
+const deleteReservation = async (index) => {
+  console.log("this button")
+  console.log(index)
+  const deleteReservation = httpsCallable(firebaseFunctions, 'deletereservation');
+  await deleteReservation({ 
+    uid: user.value.uid,
+    index: index,
+    state: "delete"
+  })
+  .then((result) => {
+      console.log(result.data.message)
+  }).catch(err => {
+      console.log(err);
+  });
+}
 </script>
 
 <template>
@@ -146,7 +168,7 @@ const myReservations = computed(() => {
 </div>
 <br><br>
 <div class="reservations-card-wrap rc black">
-    <UserReservations v-if="myReservations.length" :reservations = "myReservations" />
+    <UserReservations @delete-reservation="deleteReservation" v-if="myReservations.length" :reservations = "myReservations" />
 </div>
 </template>
 

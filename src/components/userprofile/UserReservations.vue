@@ -17,7 +17,7 @@ const myReservations = defineProps({
         <div class="content" v-for="reservation in myReservations.reservations" :key="reservation.id">
             <div class="title roboto">{{ reservation.productName }}</div>
             <div class="title">x{{ reservation.quantity }}</div>
-            <button class="delete-btn">Delete</button>
+            <button @click="$emit('deleteReservation', reservation.id)" class="delete-btn">Delete</button>
             <br>
         </div>
     </div>

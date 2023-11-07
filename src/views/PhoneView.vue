@@ -32,23 +32,6 @@ const submitPhoneNumber = async () => {
 }
 
 const submitDeleteReservation = async () => {
-    console.log("button pressed")
-
-    console.log("uid:")
-    console.log(user.value.uid)
-    console.log("Index:")
-    console.log(0)
-    // const createReservation = httpsCallable(firebaseFunctions, 'addreservation');
-    // await createReservation({ 
-    //     productID: productID,
-    //     quantity: amount.value
-    // })
-    // .then((result) => {
-    //     createReservationResponse.value = result.data.message
-    // }).catch(err => {
-    //     console.log(err);
-    // });
-
     const deleteReservation = httpsCallable(firebaseFunctions, 'deletereservation');
     await deleteReservation({ 
       uid: user.value.uid,
