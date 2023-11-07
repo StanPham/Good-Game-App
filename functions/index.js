@@ -72,8 +72,6 @@ exports.addreservation = onCall((request) => {
             }
         })
         //check if document exists in shopReservation collection
-        console.log("productRef:")
-        console.log(productRef)
         let db = getFirestore()
         let collectionRef = db.collection('shopReservation')
         await collectionRef.doc(request.auth.uid).get().then((doc) => {
@@ -156,8 +154,6 @@ exports.deletereservation = onCall((request) => {
         //state: accept or delete
 
         //check state format
-        console.log("state: ")
-        console.log(request.data.state)
         if(!(request.data.state == "accept" || request.data.state == "delete")){
             resolve({
                 state: "error",
