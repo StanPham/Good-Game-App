@@ -331,6 +331,11 @@ a{
   background: linear-gradient(98.79deg, #BA76FF -8.25%, #180030 73.07%);
 }
 
+.form-bg{
+  background-color: rgb(66, 60, 63);
+}
+
+/*background end*/
 .rc{
   border-radius:1rem;
 }
@@ -400,6 +405,11 @@ video {
   padding:.5rem 1rem;
   background:red;
   border-radius:1rem;
+  font-weight:bold;
+}
+
+.delete-btn:hover{
+  background: rgb(245, 88, 88);
 }
 /* buttons end */
 

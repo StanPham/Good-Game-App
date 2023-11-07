@@ -42,6 +42,7 @@ const fetchUserData = () => {
           tmpShopReservationList.push({
             id: i + 1,
             productId: reservations[i].productID,
+            productName: reservations[i].productName,
             creationDate: new Date(reservations[i].creationDate.seconds * 1000),
             quantity: reservations[i].quantity
           });
@@ -65,6 +66,7 @@ const myReservations = computed(() => {
   return shopReservationList.value.map(item => {
     return {
       id: item.id,
+      productName: item.productName,
       creationDate: item.creationDate,
       quantity: item.quantity
     }
@@ -120,7 +122,7 @@ const myReservations = computed(() => {
     </div> -->
 </div>
 <br><br>
-<div class="reservations-card-wrap rc black">
+<div class="reservations-card-wrap rc form-bg">
     <UserReservations v-if="myReservations.length" :reservations = "myReservations" />
 </div>
 </template>
