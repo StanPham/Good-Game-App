@@ -44,7 +44,7 @@ onMounted(async () => {
 });
 
 const productQuantityOptions = computed(() => {
-  const maxQuantity = 3;
+  const maxQuantity = 2;
   const quantity = productData.value?.quant || 0;
   const limitedQuantity = Math.min(quantity, maxQuantity);
   return Array.from({ length: limitedQuantity }, (_, i) => i + 1);
@@ -180,7 +180,7 @@ const updateVariant = (variant) => {
         <div v-if="badReserve" class="grey pad font-med rc">
           <span @click="badReserveRedirects" v-html="badReserve"></span>
         </div>
-        <div v-if="createReservationResponse" class="pad-small grey title italic flex align-c gap blink-bg">
+        <div v-if="createReservationResponse" :class="{'grey': !reservationSuccess, 'blink-bg': !reservationSuccess}" class="pad-small title italic flex align-c gap">
           <img v-if="!reservationSuccess" src="../images/caution.png" alt="" class="caution">
           {{ createReservationResponse }}
         </div>
