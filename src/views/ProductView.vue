@@ -63,7 +63,7 @@ onAuthStateChanged(firebaseAppAuth, currentUser => {
 })
 
 const makeReservation = async () => {
-  /*if(user.value == null){
+  if(user.value == null){
     return badReserve.value = `You must be logged in and verify your phone number and email to make reservations. <a class="italic underline pink" data-action="goSignup">Signup here.</a>`;
   } else if (!user.value.phoneNumber && !user.value.emailVerified) {
     return badReserve.value = `You must have a verified phone number and email to make reservations. <a class="italic underline pink" data-action="goProfile">Visit Profile Page</a>`
@@ -71,7 +71,7 @@ const makeReservation = async () => {
     return badReserve.value = `You must have a verified phone number to make reservations. <a class="italic underline pink" data-action="goProfile">Visit Profile Page</a>`
   } else if (!user.value.emailVerified) {
     return badReserve.value = `You must have a verified email to make reservations. <a class="italic underline pink" data-action="goProfile">Visit Profile Page</a>`
-  }*/
+  }
   
   console.log("productID:")
   console.log(productID)
@@ -84,10 +84,35 @@ const makeReservation = async () => {
     })
     .then((result) => {
       if(result.data.state === "pass"){
-        createReservationResponse.value = result.data.message
+        createReservationResponse.value = "Reservation Success!"
         reservationSuccess.value = true;
       } else {
-        createReservationResponse.value = result.data.message
+        switch(result.data.message) {
+            case "unverified-email":
+                createReservationResponse.value = "Email is not verified, see profile page."  
+                break
+            case "unverified-phone":
+                createReservationResponse.value = "Phone is not verified, see profile page."
+                break
+            case "large-quantity":
+                createReservationResponse.value = "You cannot reserve more than 3 of one item."
+                break
+            case "product-not-found":
+                createReservationResponse.value = "Sorry, this product does not exist."
+                break  
+            case "low-quantity":
+                createReservationResponse.value = "Sorry, this item is out of stock."
+                break 
+            case "too-many-reservations":
+                createReservationResponse.value = "You can only have a maximum of 2 reservations."
+                break 
+            case "product-already-reserved":
+                createReservationResponse.value = "You already have a reservation of this product."
+                break   
+            default:
+                createReservationResponse.value = "An error occured, please try again later"
+        }
+    
         reservationSuccess.value = false;
         console.log('xd');
       }
