@@ -1,4 +1,3 @@
-
 <script setup>
 import {ref} from 'vue'
 import EventTab from '../components/admin/EventTab.vue'
@@ -19,8 +18,6 @@ const setActiveTab = (tabName) => {
       <button class="tablinks" @click="setActiveTab('Events')">Events</button>
       <button class="tablinks" @click="setActiveTab('Shop')">Shop</button>
       <button class="tablinks" @click="setActiveTab('ShopReservation')">Shop Reservation</button>
-      <button class="tablinks" @click="setActiveTab('Table')">Table Reservations</button>
-      <button class="tablinks" @click="setActiveTab('Account')">Accounts</button>
       <button class="tablinks" @click="setActiveTab('Carousel')">Carousel</button>
       <button class="tablinks" @click="setActiveTab('Admin')">Admin</button>
     </div>

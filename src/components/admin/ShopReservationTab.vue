@@ -1,7 +1,8 @@
 <script setup>
-import { db } from "@/firebase"
+import { db, firebaseFunctions  } from "@/firebase"
 import { collection, onSnapshot} from "firebase/firestore"; 
 import { onMounted, ref } from 'vue'
+import { httpsCallable } from 'firebase/functions';
 
 const shopReservationList = ref([])
 
@@ -17,15 +18,18 @@ onMounted( () => {
       const arrayLength = reservationArr.length
       
       for(var i = 0; i <= arrayLength - 1; i++){
-        counter++;
+        
         const item = {
           id: counter,
+          docID: doc.id,
           productId: reservationArr[i].productID,
           productName: reservationArr[i].productName,
           creationDate: new Date(reservationArr[i].creationDate.seconds*1000),
           quantity: reservationArr[i].quantity
         }
+        
         tmpShopReservationList.push(item);
+        counter++;
       }
     });
   console.log(tmpShopReservationList)
@@ -43,6 +47,22 @@ function fullDate(dateObj) {
    const minutes = String(dateObj.getMinutes()).padStart(2, '0'); // January is 0!
   
    return `${month}/${day} ${someHours}:${minutes} PM`;
+}
+
+const deleteReservation = async (index, uid) => {
+  console.log("this button")
+  console.log(index)
+  const deleteReservation = httpsCallable(firebaseFunctions, 'deletereservation');
+  await deleteReservation({ 
+    uid: uid,
+    index: index,
+    state: "delete"
+  })
+  .then((result) => {
+      console.log(result.data.message)
+  }).catch(err => {
+      console.log(err);
+  });
 }
  </script>
 
@@ -66,11 +86,9 @@ function fullDate(dateObj) {
          <td>{{ fullDate(reservation.creationDate) }}</td>
          
          <td >
-           <button class="edit-btn"
-             @click="startEditing(reservation)"
-           >edit</button>
+      
            <button class="del-btn"
-             @click="deleteReservation(reservation.id)"
+             @click="deleteReservation(reservation.id,reservation.docID)"
            >delete</button>
          </td>
          
