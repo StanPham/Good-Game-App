@@ -318,6 +318,9 @@ a{
 .margin-right{
   margin-right:1rem;
 }
+.margin-left{
+  margin-left:1rem;
+}
 
 /* background start */
 .grey{
@@ -351,6 +354,10 @@ a{
 
 .icon-white{
   filter: invert(100%) sepia(1%) saturate(7418%) hue-rotate(290deg) brightness(105%) contrast(98%);
+}
+
+.icon{
+  width:25px;
 }
 
 .icon-small{
