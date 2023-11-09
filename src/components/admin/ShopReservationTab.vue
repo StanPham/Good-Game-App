@@ -56,7 +56,7 @@ const deleteReservation = async (index, uid) => {
   await deleteReservation({ 
     uid: uid,
     index: index,
-    state: "delete"
+    state: "accept"
   })
   .then((result) => {
       console.log(result.data.message)
