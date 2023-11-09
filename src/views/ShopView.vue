@@ -104,7 +104,7 @@ watch(route, (newRoute) => {
       <div class="cat-wrap flex-c pad-top">
         <label for="product-select"></label>
         <select name="products" id="product-select" v-model="selectedCategory">
-            <option value="">--Please choose a category--</option>
+            <option value="">--All Products--</option>
             <option value="mtg">Magic: The Gathering</option>
             <option value="yug">Yugioh</option>
             <option value="pok">Pokemon</option>
@@ -119,7 +119,7 @@ watch(route, (newRoute) => {
     
       <div class="main-container flex-c">
         <div class="desktop-categories rc">
-            <div class="button-wrapper pad flex column">
+            <div class="title gap pad flex column jockey">
               <button @click="setActiveTab('')" class="cat-btn">All Products</button>
               <button @click="setActiveTab('mtg')" class="cat-btn">Magic: The Gathering</button> 
               <button @click="setActiveTab('yug')" class="cat-btn">YuGiOh</button> 
@@ -179,17 +179,13 @@ watch(route, (newRoute) => {
   border-radius:1rem;
   width:100%;
   padding:.5rem;
-}
-   
-.button-wrapper{
-  gap:1rem;
-  font-size:1.3rem;
+  letter-spacing: 1px;
 }
 
 .desktop-categories{
   display:none;
   width:20%;
-  background: black;
+  background-color: black;
   margin-top:1.4rem;
 }
 
