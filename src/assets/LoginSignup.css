@@ -88,6 +88,8 @@ input{
 
 input:focus{
     outline:none;
+    background-color: rgb(45, 45, 45);
+    border-color: rgb(0, 0, 0);
     
 }
 
