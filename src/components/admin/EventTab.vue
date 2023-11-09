@@ -380,7 +380,7 @@ const addLogo = () => {
         </datalist>
           
         <button type="submit" class="submit-btn">Save Changes</button>
-        <button @click="closeEditModal">Cancel</button>
+        <img src="../../images/x.svg" @click="closeEditModal" class="cancel-btn icon-white click">
       </form>
     </div>
      <!-- end editing form -->

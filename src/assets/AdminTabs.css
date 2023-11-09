@@ -44,6 +44,7 @@ form{
     flex-direction: column;
     padding: 1.25em;
     gap:.5rem;
+    position:relative;
 }
   
 input{
@@ -176,4 +177,10 @@ tr{
     justify-content: flex-end;
 }
 
+.cancel-btn{
+    width:40px;
+    position:absolute;
+    top:2%;
+    right:2%;
+}
   /*end form stuff*/

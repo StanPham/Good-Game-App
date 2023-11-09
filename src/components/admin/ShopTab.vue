@@ -329,7 +329,7 @@ const deleteVariant = (index) => {
         </div>
         
         <button type="submit" class="submit-btn">Save Changes</button>
-        <button @click="showEditModal = false">Cancel</button>
+        <img src="../../images/x.svg" @click="showEditModal = false" class="cancel-btn icon-white click">
       </form>
     </div>
      <!-- end editing form -->
