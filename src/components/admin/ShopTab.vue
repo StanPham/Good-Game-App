@@ -7,6 +7,7 @@ import AdminSuccess from "../alerts/AdminSuccess.vue";
 
 const searchQuery = ref('');
 const showPopup = ref(false);
+const showEditPopup = ref(false);
 const showEditModal = ref(false);
 const editingItem = ref({});
 const showVariants = ref(false);
@@ -29,6 +30,14 @@ const displayPopup = () => {
   showPopup.value = true;
   setTimeout(() => {
     showPopup.value = false;
+
+  }, 50);
+}
+
+const displayEditPopup = () => {
+  showEditPopup.value = true;
+  setTimeout(() => {
+    showEditPopup.value = false;
 
   }, 50);
 }
@@ -167,6 +176,7 @@ const updateItem = async () => {
 
    showEditModal.value = false;
    editingItem.value = {};
+   displayEditPopup();
 }
 
 const showVariantForm = () => {
@@ -374,6 +384,9 @@ const deleteVariant = (index) => {
     </table>
     <transition name="fade-translate">
       <AdminSuccess v-if="showPopup" message="Item Added" />
+    </transition>
+    <transition name="fade-translate">
+      <AdminSuccess v-if="showEditPopup" message="Edit Success!" />
     </transition>
   </body>
 

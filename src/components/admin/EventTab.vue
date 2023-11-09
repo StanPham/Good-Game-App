@@ -15,6 +15,7 @@ const newEvent = ref({
 })
 
 const showPopup = ref(false);
+const showEditPopup = ref(false);
 const myGames = ref([])
 const gameName = ref('')
 const gameFormat = ref('')
@@ -34,6 +35,14 @@ const displayPopup = () => {
   showPopup.value = true;
   setTimeout(() => {
     showPopup.value = false;
+
+  }, 50);
+}
+
+const displayEditPopup = () => {
+  showEditPopup.value = true;
+  setTimeout(() => {
+    showEditPopup.value = false;
 
   }, 50);
 }
@@ -217,6 +226,7 @@ const updateEvent = async () => {
    gameName.value = '';
    gameFormat.value = '';
    editingEvent.value = {};
+   displayEditPopup();
 }
 
 const closeEditModal = () => {
@@ -411,6 +421,9 @@ const addLogo = () => {
   </table>
   <transition name="fade-translate">
     <AdminSuccess v-if="showPopup" message="Event Added" />
+  </transition>
+  <transition name="fade-translate">
+    <AdminSuccess v-if="showEditPopup" message="Edit Success!" />
   </transition>
 </body> 
 </template>

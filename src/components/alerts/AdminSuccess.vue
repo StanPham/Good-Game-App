@@ -31,7 +31,7 @@ defineProps({
 }
 
 .fade-translate-enter-active, .fade-translate-leave-active {
-  transition: all .8s ease-in-out;
+  transition: all 1s ease-in-out;
   opacity: 1;
   transform: translateY(0);
 }
