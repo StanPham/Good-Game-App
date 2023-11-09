@@ -215,8 +215,15 @@ const deleteVariant = (index) => {
           v-model="newItem.category" 
           class="input"
           type="text"
+          list="category"
         >
-          
+          <datalist id="category">
+            <option>Magic: The Gathering</option>
+            <option>Pokemon</option>
+            <option>Yugioh</option>
+            <option>RPG</option>
+            <option>Acessories</option>
+          </datalist>
         
         <label for="itemPrice">Price</label>
         <input
