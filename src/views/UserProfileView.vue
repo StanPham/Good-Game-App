@@ -166,14 +166,17 @@ const deleteReservation = async (index) => {
         </div>
     </div> -->
 </div>
+
+
 <br><br>
 <div class="reservations-card-wrap rc black">
     <UserReservations @delete-reservation="deleteReservation" v-if="myReservations.length" :reservations = "myReservations" />
 </div>
+
 </template>
 
 <style scoped>
-@import '@/assets/LoginSignup.css';
+/* @import '@/assets/LoginSignup.css'; */
 @import '@/assets/UserProfile.css';
      
 .reservations-card-wrap{
