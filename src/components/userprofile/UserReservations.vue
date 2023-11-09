@@ -18,8 +18,8 @@ const myReservations = defineProps({
             <div class="roboto">{{ reservation.productName }}</div>
             <div class="product-quant pad-left">x{{ reservation.quantity }}</div>
             
-            <button @click="$emit('deleteReservation', reservation.id)" class=" delete-btn-mq flex align-c">
-            Cancel <span class="roboto margin-left">X</span></button>
+            <button @click="$emit('deleteReservation', reservation.id)" class=" roboto delete-btn-mq font-med ">
+            Cancel </button>
             
           
         </div>
@@ -37,7 +37,15 @@ const myReservations = defineProps({
  
 }
 
+.delete-btn-mq{
+ border: 1px solid white;
+ border-radius:1rem;
+}
+.delete-btn-mq:hover{
+ background:white;
+ color:purple;
 
+}
 @media(max-width:768px){
   .content,
   .delete-btn-mq{
