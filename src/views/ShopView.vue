@@ -145,13 +145,10 @@ watch(route, (newRoute) => {
                   <div class="pad flex column product-info">
                       <div>
                         <img :src="shop.img" alt="" class="pika">
-                        
                         <div class="product-name">{{shop.name}}</div>
                       </div>
-                      <div class="title bold ">{{ shop.price }}</div>
-                      
-                      <p v-if="shop.quant==='0'" class="quant">Sold Out</p>
-                      
+                      <div class="title bold ">{{ shop.price }}</div>                   
+                      <p v-if="shop.quant==='0'" class="quant">Sold Out</p>   
                   </div>
               </router-link>
             </div>
@@ -309,7 +306,10 @@ img{
   padding-top:.5rem;
   font-size:1rem;
   font-family:roboto;
-  flex:1;
+  overflow:hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 @media(min-width:763px){
