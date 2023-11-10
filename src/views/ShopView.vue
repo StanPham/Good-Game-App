@@ -2,7 +2,7 @@
 import { collection, onSnapshot} from "firebase/firestore"; 
 import { db } from "@/firebase"
 import { useRoute } from 'vue-router';
-import { onMounted, ref, watch, computed} from 'vue';
+import { onMounted, ref, watch, computed, onUnmounted} from 'vue';
 
 const selectedCategory = ref("");
 const sortMethod = ref("");
@@ -45,7 +45,7 @@ const sortItems = () => {
     console.log(sortMethod.value)
 
   } else {
-    myShops.value.sort((a, b) => a.creationDate - b.creationDate);
+    myShops.value.sort((a, b) => b.creationDate - a.creationDate);
   }
 };
   
@@ -142,12 +142,16 @@ watch(route, (newRoute) => {
           <main class="product-container" >
             <div class="work-wrap" v-for="shop in filteredShops" :key="shop.id">
               <router-link :to="`/product/${shop.id}`" class="link">
-                  <div class="pad flex column">
-                      <img :src="shop.img" alt="" class="pika">
-                      <div class="product-name">{{shop.name}}</div>
+                  <div class="pad flex column product-info">
+                      <div>
+                        <img :src="shop.img" alt="" class="pika">
+                        
+                        <div class="product-name">{{shop.name}}</div>
+                      </div>
                       <div class="title bold ">{{ shop.price }}</div>
+                      
                       <p v-if="shop.quant==='0'" class="quant">Sold Out</p>
-                      <br>
+                      
                   </div>
               </router-link>
             </div>
@@ -159,6 +163,11 @@ watch(route, (newRoute) => {
     
           
 <style scoped>
+.product-info{
+  justify-content: space-between;
+  height:100%;
+}
+
 .sort-options{
   display:none;
   margin-right:.5rem;
@@ -187,6 +196,7 @@ watch(route, (newRoute) => {
   width:20%;
   background-color: black;
   margin-top:1.4rem;
+  height:100%;
 }
 
 .main-container{
@@ -197,6 +207,7 @@ watch(route, (newRoute) => {
 .link{
   text-decoration: none;
   width:100%;
+  height:100%;
 }
 
 .search-icon{
@@ -296,7 +307,9 @@ img{
  
 .product-name{
   padding-top:.5rem;
-  font-size:1.5rem;
+  font-size:1rem;
+  font-family:roboto;
+  flex:1;
 }
 
 @media(min-width:763px){
