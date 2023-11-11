@@ -15,11 +15,11 @@ const setActiveTab = (tabName) => {
 <template>
   <body class="admin-container">
     <div class="tab">
-      <button class="tablinks" @click="setActiveTab('Events')">Events</button>
-      <button class="tablinks" @click="setActiveTab('Shop')">Shop</button>
-      <button class="tablinks" @click="setActiveTab('ShopReservation')">Shop Reservation</button>
-      <button class="tablinks" @click="setActiveTab('Carousel')">Carousel</button>
-      <button class="tablinks" @click="setActiveTab('Admin')">Admin</button>
+      <button :class="{highlight:activeTab === 'Events'}" @click="setActiveTab('Events')">Events</button>
+      <button :class="{highlight:activeTab === 'Shop'}" @click="setActiveTab('Shop')">Shop</button>
+      <button :class="{highlight:activeTab === 'ShopReservation'}" @click="setActiveTab('ShopReservation')">Shop Reservation</button>
+      <button :class="{highlight:activeTab === 'Carousel'}" @click="setActiveTab('Carousel')">Carousel</button>
+      <button :class="{highlight:activeTab === 'Admin'}" @click="setActiveTab('Admin')">Admin</button>
     </div>
   <!-- Tab content -->
     <EventTab v-if="activeTab === 'Events'" class="tabcontent" />
@@ -40,8 +40,7 @@ const setActiveTab = (tabName) => {
   padding: 1rem;
 }
 
-.tab button:hover,
-.tab button:focus {
+.tab button:hover {
   background-color: #ddd;
   color:black;
 }
