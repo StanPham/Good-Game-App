@@ -148,7 +148,7 @@ const updateVariant = (variant) => {
         <div>></div>
         <a class="underline" @click="goShop">Shop</a>
         <div>></div>
-        <a>{{ productData.name }}</a>
+        <a class="test">{{ productData.name }}</a>
       </nav>
       <img :src="productData.img" alt="Product Image" class="product-img">
       <div class="product-text">
@@ -224,7 +224,14 @@ const updateVariant = (variant) => {
 .breadcrumbs{
   top:0;
   left:0;
-  gap:.5rem;
+  gap:.5rem;  
+}
+
+.test{
+  width:200px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow:ellipsis;
 }
 
 select{
@@ -260,9 +267,7 @@ select{
 }
 
 @media(max-width:1000px){
-  .breadcrumbs{
-    position:static;
-  }
+
   .product-img{
     margin-top:0;
   }
