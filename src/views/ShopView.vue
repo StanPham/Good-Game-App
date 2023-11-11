@@ -4,12 +4,13 @@ import { db } from "@/firebase"
 import { useRoute } from 'vue-router';
 import { onMounted, ref, watch, computed, onUnmounted} from 'vue';
 
-const selectedCategory = ref("");
+const selectedCategory = ref('');
 const sortMethod = ref("");
 const searchQuery = ref("");
 
 const setActiveTab = (tabName) => {
   selectedCategory.value = tabName;
+  
 };
 
 const myShops = ref([]);
@@ -120,12 +121,12 @@ watch(route, (newRoute) => {
       <div class="main-container flex-c">
         <div class="desktop-categories rc">
             <div class="title gap pad flex column jockey">
-              <button @click="setActiveTab('')" class="cat-btn">All Products</button>
-              <button @click="setActiveTab('mtg')" class="cat-btn">Magic: The Gathering</button> 
-              <button @click="setActiveTab('yug')" class="cat-btn">YuGiOh</button> 
-              <button @click="setActiveTab('pok')" class="cat-btn">Pokemon</button>
-              <button @click="setActiveTab('rpg')" class="cat-btn">RPG</button>  
-              <button @click="setActiveTab('oth')" class="cat-btn">Accessories</button> 
+              <button @click="setActiveTab('')" class="cat-btn" :class="{highlight:selectedCategory === ''}">All Products</button>
+              <button @click="setActiveTab('mtg')" class="cat-btn" :class="{highlight:selectedCategory === 'mtg'}">Magic: The Gathering</button> 
+              <button @click="setActiveTab('yug')" class="cat-btn" :class="{highlight:selectedCategory === 'yug'}">YuGiOh</button> 
+              <button @click="setActiveTab('pok')" class="cat-btn" :class="{highlight:selectedCategory === 'pok'}">Pokemon</button>
+              <button @click="setActiveTab('rpg')" class="cat-btn" :class="{highlight:selectedCategory === 'rpg'}">RPG</button>  
+              <button @click="setActiveTab('oth')" class="cat-btn" :class="{highlight:selectedCategory === 'oth'}">Accessories</button> 
             </div>
         </div>
               
@@ -148,7 +149,7 @@ watch(route, (newRoute) => {
                         <div class="product-name">{{shop.name}}</div>
                       </div>
                       <div class="title bold ">{{ shop.price }}</div>                   
-                      <p v-if="shop.quant==='0'" class="quant">Sold Out</p>   
+                      <p v-if="shop.quant===0" class="quant">Sold Out</p>   
                   </div>
               </router-link>
             </div>
@@ -160,6 +161,10 @@ watch(route, (newRoute) => {
     
           
 <style scoped>
+.highlight{
+  background-color: white;
+  color:black;
+}
 .product-info{
   justify-content: space-between;
   height:100%;
@@ -175,11 +180,10 @@ watch(route, (newRoute) => {
   margin-left:1rem;
 }
 
-.cat-btn:hover,
-.cat-btn:focus{
+.cat-btn:hover{
   background:white;
   color:black;
-}
+} 
 
 .cat-btn{
   border-radius:1rem;
