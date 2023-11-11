@@ -70,7 +70,6 @@ const deleteReservation = async (index, uid) => {
   <table>
      <thead>
        <th scope="col">Person</th>
-       <th scope="col">Item ID</th>
        <th scope="col">Item Name</th>
        <th scope="col">Quantity</th>
        <th scope="col">Time of Reservation</th>
@@ -78,15 +77,12 @@ const deleteReservation = async (index, uid) => {
      </thead>
        
      <tbody v-for="reservation in shopReservationList" :key="reservation.id">
-       <tr >
+       <tr>
          <td class="name">[[person]]</td>
-         <td class="scrollable-cell"><div class="scrollable-content">{{ reservation.productId }}</div></td>
          <td>{{ reservation.productName }}</td>
          <td>{{ reservation.quantity }}</td>
-         <td>{{ fullDate(reservation.creationDate) }}</td>
-         
-         <td >
-      
+         <td>{{ fullDate(reservation.creationDate) }}</td> 
+         <td>
            <button class="del-btn"
              @click="deleteReservation(reservation.id,reservation.docID)"
            >delete</button>
@@ -100,4 +96,11 @@ const deleteReservation = async (index, uid) => {
 
 <style scoped>
 @import '@/assets/AdminTabs.css';
+
+@media(max-width:1000px){
+  th,td{
+    font-size:.5rem;
+  }
+
+}
 </style>

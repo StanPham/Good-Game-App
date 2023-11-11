@@ -161,10 +161,6 @@ watch(route, (newRoute) => {
     
           
 <style scoped>
-.highlight{
-  background-color: white;
-  color:black;
-}
 .product-info{
   justify-content: space-between;
   height:100%;
