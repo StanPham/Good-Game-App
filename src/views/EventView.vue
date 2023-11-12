@@ -41,7 +41,7 @@ onMounted(async () => {
         game: doc.data().game || "No Game Set In Database",
         format: doc.data().format,
         startDate: new Date(doc.data().startDate.seconds*1000),
-        endDate: new Date(doc.data().endDate.seconds*1000),
+        endDate: doc.data().endDate == null ? null : new Date(doc.data().endDate.seconds*1000),
         logo: logoMap.value[doc.data().game]
       }
       console.log(event.logo)
@@ -89,12 +89,14 @@ function dateWithNameDay(date){
     return `${dayName}, ${day}`;
 }
 function dateWithHoursMinutes(date) {
-    let hours = date.getHours();
-    hours = hours %12;
-    const someHours = String(hours);
-    const minutes = String(date.getMinutes()).padStart(2, '0');
+    if(date){
+        let hours = date.getHours();
+        hours = hours %12;
+        const someHours = String(hours);
+        const minutes = String(date.getMinutes()).padStart(2, '0');
 
-    return `${someHours}:${minutes}pm`;
+        return `${someHours}:${minutes}pm`;
+    }
 }
 
 const currentMonth = ref(new Date().getMonth());
@@ -125,7 +127,7 @@ const getCurrentMonth = computed(() => {
                     <div class="title">
                         <h2 class="pink-italic">{{ event.name }} </h2>
                         <h3 class="pink"> {{ event.format }}</h3>
-                        <div class="start-time bold">{{ dateWithHoursMinutes(event.startDate) }} - {{ dateWithHoursMinutes(event.endDate) }}</div>
+                        <div class="start-time bold">{{ dateWithHoursMinutes(event.startDate) }} <span v-if="event.endDate">-</span> {{ dateWithHoursMinutes(event.endDate) }}</div>
                     </div>
                     <p class="event-description font-med">{{ event.desc }}</p>
                     <br>

@@ -24,7 +24,7 @@ onMounted( () => {
         game: doc.data().game || "No Game Set In Database",
         format: doc.data().format,
         startDate: new Date(doc.data().startDate.seconds*1000),
-        endDate: new Date(doc.data().endDate.seconds*1000)
+        endDate: doc.data().endDate == null ? null : new Date(doc.data().endDate.seconds*1000)
       }
       tmpEvents.push(event)
     });
@@ -70,11 +70,13 @@ function dayMonthDay(date) {
 }
    
 function hoursMinutes(date) {
+  if(date){
     let hours = date.getHours();
     hours = hours %12;
     const someHours = String(hours);
     const minutes = String(date.getMinutes()).padStart(2, '0');
     return `${someHours}:${minutes}pm`;
+  }
 }
 
 const router = useRouter();
@@ -92,7 +94,7 @@ const goEvent = () => {
           <div class="title-wrapper title">
               <h2 class="pink-italic">{{ todaysEvent.name }} </h2>
               <h3 class="pink"> {{ todaysEvent.format}}</h3>
-              <div class="start-time bold title-scale">{{ hoursMinutes(todaysEvent.startDate) }} - {{hoursMinutes(todaysEvent.endDate) }}</div>
+              <div class="start-time bold title-scale">{{ hoursMinutes(todaysEvent.startDate) }} <span v-if="todaysEvent.endDate">-</span> {{hoursMinutes(todaysEvent.endDate) }}</div>
           </div>
             
           <p class="event-description font-med">{{ todaysEvent.desc }}</p>

@@ -52,7 +52,7 @@ const addEvent = async () =>{
      name: newEvent.value.name,
      desc: newEvent.value.desc,
      startDate: Timestamp.fromDate(new Date(newEvent.value.startTime)),
-     endDate: Timestamp.fromDate(new Date(newEvent.value.endTime)),
+     endDate: newEvent.value.endTime == "" ? null : Timestamp.fromDate(new Date(newEvent.value.endTime)),
      game: gameName.value == "" ? null : gameName.value,
      format: gameFormat.value == "" ? null : gameFormat.value,
      creationDate: Timestamp.fromDate(new Date())
@@ -62,7 +62,6 @@ const addEvent = async () =>{
     await addDoc(collection(db, "game"), {
     name: gameName.value,
     format: [],
-    logo: gameImage.value
   }).then(() =>{
     newGame = false
   }).catch(err => {
@@ -169,7 +168,7 @@ onMounted( () => {
         game: doc.data().game || "No Game Set In Database",
         format: doc.data().format || [],
         startDateObj: new Date(doc.data().startDate.seconds*1000),
-        endDateObj: new Date(doc.data().endDate.seconds*1000),
+        endDateObj: doc.data().endDate == null ? null : new Date(doc.data().endDate.seconds*1000),
      }
      tmpEvents.push(event)
    });
@@ -206,29 +205,35 @@ function fullDate(dateObj) {
 }
 
 function onlyTime(dateObj) {
- let hours = dateObj.getHours();
+  if(dateObj){
+   let hours = dateObj.getHours();
    hours = hours %12;
- const someHours = String(hours).padStart(2, '0');
+   const someHours = String(hours).padStart(2, '0');
    const minutes = String(dateObj.getMinutes()).padStart(2, '0');
    return `${someHours}:${minutes} PM`;
+  }
 }
 
 const startEditing = (event) => {
    editingEvent.value = { ...event };
    editingEvent.value.startTime = `${event.startDateObj.getFullYear()}-${String(event.startDateObj.getMonth() + 1).padStart(2, '0')}-${String(event.startDateObj.getDate()).padStart(2, '0')}T${String(event.startDateObj.getHours()).padStart(2, '0')}:${String(event.startDateObj.getMinutes()).padStart(2, '0')}`;
-   editingEvent.value.endTime = `${event.endDateObj.getFullYear()}-${String(event.endDateObj.getMonth() + 1).padStart(2, '0')}-${String(event.endDateObj.getDate()).padStart(2, '0')}T${String(event.endDateObj.getHours()).padStart(2, '0')}:${String(event.endDateObj.getMinutes()).padStart(2, '0')}`;
-
+   if(event.endDateObj){
+    editingEvent.value.endTime = `${event.endDateObj.getFullYear()}-${String(event.endDateObj.getMonth() + 1).padStart(2, '0')}-${String(event.endDateObj.getDate()).padStart(2, '0')}T${String(event.endDateObj.getHours()).padStart(2, '0')}:${String(event.endDateObj.getMinutes()).padStart(2, '0')}`;
+   }else{
+    editingEvent.value.endTime = null;
+   }
    gameName.value = event.game || "";
    gameFormat.value = event.format || "";
    showEditModal.value = true;
 }
 
 const updateEvent = async () => {
+  console.log(editingEvent.value.endTime)
    await updateDoc(doc(db, "events", editingEvent.value.id), {
      name: editingEvent.value.name,
      desc: editingEvent.value.desc,
      startDate: Timestamp.fromDate(new Date(editingEvent.value.startTime)),
-     endDate: Timestamp.fromDate(new Date(editingEvent.value.endTime)),
+     endDate: editingEvent.value.endTime == "" ? null : Timestamp.fromDate(new Date(editingEvent.value.endTime)),
      game: gameName.value == "" ? null : gameName.value,
      format: gameFormat.value == "" ? null : gameFormat.value,
    });
@@ -265,7 +270,7 @@ const addLogo = () => {
 <div class="form-container">
    <form @submit.prevent="addEvent">
       <h2>Add New Event</h2>
-      <label for="eventName">Event Name</label>
+      <label for="eventName">Event Name*</label>
       <input
       v-model="newEvent.name" 
       class="input"
@@ -273,7 +278,7 @@ const addLogo = () => {
       type="text"
       required>
 
-      <label for="startTime">Start Time</label>
+      <label for="startTime">Start Time*</label>
       <input 
       v-model="newEvent.startTime"
       type="datetime-local"
@@ -288,7 +293,7 @@ const addLogo = () => {
       type="datetime-local"
       id="endTime" 
       name="endTime"
-      required>
+      >
 
       <label for="Description">Description</label>
       <textarea
@@ -362,7 +367,7 @@ const addLogo = () => {
         type="datetime-local"
         id="endTime" 
         name="endTime"
-        required>
+        >
 
         <label for="Description">Description</label>
         <textarea
