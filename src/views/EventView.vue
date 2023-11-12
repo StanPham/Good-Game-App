@@ -117,7 +117,7 @@ const getCurrentMonth = computed(() => {
         </div>
 
         <main class="event-list" v-for="event in myEvents" :key="event.id">
-            <div class="event-wrapper black rc">
+            <div class="event-wrapper black rc rel">
                 <h1 class="event-day">{{ dateWithNameMonthDay(event.startDate) }}</h1>
 
                 <img :src="event.logo" alt="" class="logo">
@@ -149,9 +149,11 @@ const getCurrentMonth = computed(() => {
 }
 
 .logo{
-    width:10%;
-    min-height:60px;
-    display:none;
+    width:15%;
+    height:50px;
+    position:absolute;
+    top:5px;
+    right:16px;
 }
 
 .event-wrapper{
@@ -167,6 +169,11 @@ const getCurrentMonth = computed(() => {
 
 .header{
     font-size: 2.2rem;
+}
+
+.event-day{
+    font-size:1.5em;
+    font-family:jockey;
 }
 
 .event-list{
@@ -201,6 +208,13 @@ const getCurrentMonth = computed(() => {
     }
     .logo{
         display:block;
+        position:static;
+        width:10%;
+        height:auto;
+        min-height:60px;
+    }
+    .event-day{
+        font-size:2em;
     }
 }
 </style>
