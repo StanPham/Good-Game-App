@@ -83,6 +83,17 @@ const addEvent = async () =>{
     console.log(err);
   })
   }
+  if(gameImage.value){
+    const i = myGames.value.findIndex(e => e.name === gameName.value);
+    let gameRef = doc(db, "game", myGames.value[i].id)
+    await updateDoc(gameRef, {
+      logo: gameImage.value
+    }).then(() => {
+      gameImage.value = null;
+    }).catch(err => {
+      console.log(err);
+    })
+  }
   if (!keepData.value) { 
     newEvent.value = {
         name: '',
