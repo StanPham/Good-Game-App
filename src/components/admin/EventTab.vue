@@ -168,7 +168,7 @@ onMounted( () => {
         game: doc.data().game || "No Game Set In Database",
         format: doc.data().format || [],
         startDateObj: new Date(doc.data().startDate.seconds*1000),
-        endDateObj: doc.data().endDate == null ? null : new Date(doc.data().endDate.seconds*1000),
+        endDateObj: doc.data().endDate == null ? '' : new Date(doc.data().endDate.seconds*1000),
      }
      tmpEvents.push(event)
    });
@@ -220,7 +220,7 @@ const startEditing = (event) => {
    if(event.endDateObj){
     editingEvent.value.endTime = `${event.endDateObj.getFullYear()}-${String(event.endDateObj.getMonth() + 1).padStart(2, '0')}-${String(event.endDateObj.getDate()).padStart(2, '0')}T${String(event.endDateObj.getHours()).padStart(2, '0')}:${String(event.endDateObj.getMinutes()).padStart(2, '0')}`;
    }else{
-    editingEvent.value.endTime = null;
+    editingEvent.value.endTime = '';
    }
    gameName.value = event.game || "";
    gameFormat.value = event.format || "";
@@ -233,7 +233,7 @@ const updateEvent = async () => {
      name: editingEvent.value.name,
      desc: editingEvent.value.desc,
      startDate: Timestamp.fromDate(new Date(editingEvent.value.startTime)),
-     endDate: editingEvent.value.endTime == "" ? null : Timestamp.fromDate(new Date(editingEvent.value.endTime)),
+     endDate: editingEvent.value.endTime == '' ? null : Timestamp.fromDate(new Date(editingEvent.value.endTime)),
      game: gameName.value == "" ? null : gameName.value,
      format: gameFormat.value == "" ? null : gameFormat.value,
    });
