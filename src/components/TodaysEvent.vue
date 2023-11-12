@@ -85,9 +85,9 @@ const goEvent = () => {
 </script>
 
 <template>
-  <div class="container">
+  <div class="container rc">
       <h1 class="header">{{titleOfCard}}</h1>
-      <div class="event-wrapper">
+      <div class="pad text-center">
         <h1 class="event-day">{{ dayMonthDay(todaysEvent.startDate) }}</h1>
           <div class="title-wrapper title">
               <h2 class="pink-italic">{{ todaysEvent.name }} </h2>
@@ -109,16 +109,8 @@ const goEvent = () => {
   text-decoration: underline;
 }
 
-
-
-.event-wrapper{
-  padding: 1rem;
-  text-align: center;
-}
-
 .container{
   background: linear-gradient(98.79deg, #a45aee -8.25%, #180030 30.07%); 
-  border-radius: 1rem;
   height:100%;
 }
     

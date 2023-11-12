@@ -112,12 +112,12 @@ const getCurrentMonth = computed(() => {
     <div class="view-top-margin">
         <div class="header-container flex-c">
             <img v-if="getNextMonth" src="../images/arrow.svg" @click="selectedMonth--" alt="" class="arrow-left">
-            <div class="header">{{ currentMonthName }}</div>
+            <div class="header text-center cool-font">{{ currentMonthName }}</div>
             <img v-if="getCurrentMonth" src="../images/arrow.svg" @click="selectedMonth++" alt="" class="arrow">
         </div>
 
         <main class="event-list" v-for="event in myEvents" :key="event.id">
-            <div class="event-wrapper">
+            <div class="event-wrapper black rc">
                 <h1 class="event-day">{{ dateWithNameMonthDay(event.startDate) }}</h1>
 
                 <img :src="event.logo" alt="" class="logo">
@@ -155,8 +155,6 @@ const getCurrentMonth = computed(() => {
 }
 
 .event-wrapper{
-    background:black;
-    border-radius:1rem;
     padding: clamp(20px,1.2rem, 2%);
     width:clamp(12rem, 100vw, 65rem);
     margin-left:auto;
@@ -168,8 +166,6 @@ const getCurrentMonth = computed(() => {
 }
 
 .header{
-    text-align: center;
-    font-family: var(--cool-font);
     font-size: 2.2rem;
 }
 

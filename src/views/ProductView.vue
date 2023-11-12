@@ -152,7 +152,7 @@ const updateVariant = (variant) => {
         <div>></div>
         <a class="underline" @click="goShop">Shop</a>
         <div>></div>
-        <a class="test">{{ productData.name }}</a>
+        <a class="breadcrumbs-overflow">{{ productData.name }}</a>
       </nav>
       <img :src="productData.img" alt="Product Image" class="product-img">
       <div class="product-text">
@@ -172,7 +172,7 @@ const updateVariant = (variant) => {
         <br>
 
         <div v-if="productData.quant!=0" class="flex gap pad-bot">
-          <select v-model="amount">
+          <select v-model="amount" class="black rc title text-center">
             <option v-for="num in productQuantityOptions" :key="num" :value="num">
               {{ num }}
             </option>
@@ -209,9 +209,11 @@ const updateVariant = (variant) => {
     0%   {background-color: rgb(37, 37, 37);;}
     50% {background-color: rgb(80, 80, 80);;}
 }
+
 .main-wrapper{
   margin-top: calc(var(--header-height) + 1vmax );
 }
+
 .variants{
   background:rgb(29, 28, 28);
   border:rgb(73, 69, 69) 1px solid;
@@ -233,7 +235,7 @@ const updateVariant = (variant) => {
   gap:.5rem;  
 }
 
-.test{
+.breadcrumbs-overflow{
   width:200px;
   overflow: hidden;
   white-space: nowrap;
@@ -242,10 +244,6 @@ const updateVariant = (variant) => {
 
 select{
   width:20%;
-  border-radius:1rem;
-  background-color: rgb(0, 0, 0);
-  font-size:1.5rem;
-  text-align: center;
 }
 
 .price{

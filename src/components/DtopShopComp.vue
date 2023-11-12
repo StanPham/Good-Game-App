@@ -14,7 +14,7 @@ const goShop = () => router.push('/shop');
 </script>
 
 <template>
-    <div class="main-container rc">
+    <div class="black rc">
       <div class="header-container flex rc">
         <div class="header flex pad-top pad-bot title-big-scale cool-font rc">New Products
           <button class="main-btn-full margin-right" @click="goShop">View All Products</button>
@@ -41,47 +41,38 @@ const goShop = () => router.push('/shop');
 .link{
   text-decoration:none;
 }
-.arrow{
-    width:50px;
-    filter: invert(100%) sepia(1%) saturate(7418%) hue-rotate(290deg) brightness(105%) contrast(98%);
-    cursor: pointer;
-}
-.left-arrow{
-    width:1px;
-}
-.main-container{
-    background:black;
-   
-}
+
 .quant{
-    font-size: .8rem;
+  font-size: .8rem;
 }
 
 .price{
   padding-top:5px;
 }
+
 .header-container{
   background: rgba(20, 20, 20, 0.616);
   width:100%;
   justify-content: flex-end;
 }
+
 .header{
-    width:60%;
-    text-align:center;   
-    align-items:center;
-    justify-content: space-between;
+  width:60%;
+  text-align:center;   
+  align-items:center;
+  justify-content: space-between;
 }
 
 main{
-    display:grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
-    max-width:100%;
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  max-width:100%;
 }
 
 img{
-    height:300px;
-    max-width:300px;
+  height:300px;
+  max-width:300px;
 }
 
 </style>

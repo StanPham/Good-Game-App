@@ -5,7 +5,7 @@ const discord = () => router.push('https://discord.com/invite/AmCadcysE4')
 </script>
 
 <template>
-    <div class="footer flex-c-c wrap">
+    <div class="footer flex-c-c wrap black">
         <div class="icon-flex-container">
             <a href='https://discord.com/invite/AmCadcysE4'>
                 <img src="../images/discord.svg" alt="" class="icon">
@@ -27,7 +27,6 @@ const discord = () => router.push('https://discord.com/invite/AmCadcysE4')
       
 <style scoped>
 .footer{
-    background: black;
     width:100%;
     padding: 1rem 15%;
     gap:2vw;

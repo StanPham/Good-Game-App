@@ -118,8 +118,8 @@ watch(route, (newRoute) => {
         <button class="filter-button">Filter By</button>
     </div> -->
     
-      <div class="main-container flex-c">
-        <div class="desktop-categories rc">
+      <div class="flex-c gap margin-top">
+        <div class="desktop-categories black rc">
             <div class="title gap pad flex column jockey">
               <button @click="setActiveTab('')" class="cat-btn" :class="{highlight:selectedCategory === ''}">All Products</button>
               <button @click="setActiveTab('mtg')" class="cat-btn" :class="{highlight:selectedCategory === 'mtg'}">Magic: The Gathering</button> 
@@ -140,7 +140,7 @@ watch(route, (newRoute) => {
               </select>
             </div>
           </div>
-          <main class="product-container" >
+          <main class="rc black">
             <div class="work-wrap" v-for="shop in filteredShops" :key="shop.id">
               <router-link :to="`/product/${shop.id}`" class="link">
                   <div class="pad flex column product-info">
@@ -149,7 +149,7 @@ watch(route, (newRoute) => {
                         <div class="product-name">{{shop.name}}</div>
                       </div>
                       <div class="title bold ">{{ shop.price }}</div>                   
-                      <p v-if="shop.quant===0" class="quant">Sold Out</p>   
+                      <p v-if="shop.quant===0" class="quant italic font-normal">Sold Out</p>   
                   </div>
               </router-link>
             </div>
@@ -191,14 +191,8 @@ watch(route, (newRoute) => {
 .desktop-categories{
   display:none;
   width:20%;
-  background-color: black;
   margin-top:1.4rem;
   height:100%;
-}
-
-.main-container{
-  margin-top:1rem;
-  gap:1rem;
 }
 
 .link{
@@ -260,9 +254,7 @@ select{
 }
 
 .quant{
-  font-size: 1rem;
   padding-top:.2rem;
-  font-style:italic;
 }
 
 .header{
@@ -276,8 +268,6 @@ main{
   padding:clamp(10px,3%,1.5rem);
   gap: 1.3rem;
   width:100%;
-  background:rgb(0, 0, 0);
-  border-radius:1rem;
 }
 
 .title-wrap{
@@ -320,7 +310,7 @@ img{
     display:block;
   }
 }
-@media(min-width:1450px){
+@media(min-width:1350px){
     .desktop-categories{
         display:block;
     }

@@ -167,12 +167,10 @@ const deleteReservation = async (index) => {
     </div> -->
 </div>
 
-
-<br><br>
-<div class="reservations-card-wrap rc black">
-    <UserReservations @delete-reservation="deleteReservation" v-if="myReservations.length" :reservations = "myReservations" />
-</div>
-
+  <br><br>
+  <div class="reservations-card-wrap rc black">
+      <UserReservations @delete-reservation="deleteReservation" v-if="myReservations.length" :reservations = "myReservations" />
+  </div>
 </template>
 
 <style scoped>
