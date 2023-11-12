@@ -143,10 +143,10 @@ watch(route, (newRoute) => {
           <main class="rc black">
             <div class="work-wrap" v-for="shop in filteredShops" :key="shop.id">
               <router-link :to="`/product/${shop.id}`" class="link">
-                  <div class="pad flex column product-info">
+                  <div class="pad flex-sb column product-info">
                       <div>
                         <img :src="shop.img" alt="" class="pika">
-                        <div class="product-name">{{shop.name}}</div>
+                        <div class="product-name text-limit roboto">{{shop.name}}</div>
                       </div>
                       <div class="title bold ">{{ shop.price }}</div>                   
                       <p v-if="shop.quant===0" class="quant italic font-normal">Sold Out</p>   
@@ -162,7 +162,6 @@ watch(route, (newRoute) => {
           
 <style scoped>
 .product-info{
-  justify-content: space-between;
   height:100%;
 }
 
@@ -295,11 +294,6 @@ img{
 .product-name{
   padding-top:.5rem;
   font-size:1rem;
-  font-family:roboto;
-  overflow:hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
 }
 
 @media(min-width:763px){

@@ -22,14 +22,14 @@ const goShop = () => router.push('/shop');
         
       </div>
       <main class="product-container pad">
-        <div class="work-wrap" v-for="item in myShops.items" :key="item.id">
+        <div class="pad-bot" v-for="item in myShops.items" :key="item.id">
           <router-link :to="`/product/${item.id}`" class="link">
-            <div class="pad-left click">
-              <img :src="item.img" :alt="`Image of ${item.name}`" class="product-image">
-              <br><br>
-              <div class="font-med">{{ item.name }}</div>
-              <div class="price font-med bold">{{ item.price }}</div>
-              <br>
+            <div class="product-info pad-left click flex-sb column">
+              <div>
+                <img :src="item.img" :alt="`Image of ${item.name}`" class="product-image">
+                <div class="font-med text-limit pad-top">{{ item.name }}</div>
+              </div>
+              <div class="price font-med bold">{{ item.price }}</div> 
             </div>
           </router-link>
         </div>
@@ -38,8 +38,14 @@ const goShop = () => router.push('/shop');
   </template>
 
 <style scoped>
+
+.product-info{
+  height:100%;
+}
+
 .link{
   text-decoration:none;
+  height:100%;
 }
 
 .quant{

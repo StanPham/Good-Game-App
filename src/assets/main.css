@@ -459,3 +459,10 @@ video {
   background-color: white;
   color:black;
 }
+
+.text-limit{
+  overflow:hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
