@@ -6,6 +6,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { db, firebaseAppAuth, firebaseFunctions } from '@/firebase';
 import { onAuthStateChanged } from 'firebase/auth'
 import router from '../router'
+import TheSpinner from '../components/alerts/TheSpinner.vue'
 
 const amount = ref('1');
 const route = useRoute();
@@ -19,6 +20,7 @@ const reservationSuccess = ref(false)
 const isAdmin = ref(false)
 
 const badReserve = ref(null)
+const isLoading = ref(false)
 
 const badReserveRedirects = event => {
   if (event.target.tagName === 'A' && event.target.dataset.action) {
@@ -72,7 +74,7 @@ const makeReservation = async () => {
   } else if (!user.value.emailVerified) {
     return badReserve.value = `You must have a verified email to make reservations. <a class="italic underline pink" data-action="goProfile">Visit Profile Page</a>`
   }
-  
+  isLoading.value = true;
   console.log("productID:")
   console.log(productID)
   console.log("Quantity:")
@@ -86,6 +88,7 @@ const makeReservation = async () => {
       if(result.data.state === "pass"){
         createReservationResponse.value = "Reservation Success!"
         reservationSuccess.value = true;
+        isLoading.value = false;
       } else {
         switch(result.data.message) {
             case "unverified-email":
@@ -114,12 +117,13 @@ const makeReservation = async () => {
         }
     
         reservationSuccess.value = false;
-        console.log('xd');
+        isLoading.value = false;
       }
     
     }).catch(err => {
         console.log(err);
-        
+        isLoading.value = false;
+
         
     });
 }
@@ -180,10 +184,12 @@ const updateVariant = (variant) => {
         <div v-if="badReserve" class="grey pad font-med rc">
           <span @click="badReserveRedirects" v-html="badReserve"></span>
         </div>
+        <TheSpinner v-if="isLoading" />
         <div v-if="createReservationResponse" :class="{'grey': !reservationSuccess, 'blink-bg': !reservationSuccess}" class="pad-small title italic flex align-c gap">
           <img v-if="!reservationSuccess" src="../images/caution.png" alt="" class="caution">
           {{ createReservationResponse }}
         </div>
+        <!-- <div v-else>Loading...</div> -->
         <p class="italic light pad-top">Reserved items must be paid for and picked up in store. </p>
       </div>
       
