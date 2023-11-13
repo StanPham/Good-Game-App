@@ -254,7 +254,7 @@ const sortedSlides = computed(() => {
           <td><div class="scrollable-content">{{ slide.subtitle }}</div></td>
           <td><div class="scrollable-content">{{ slide.subsubtitle }}</div></td>
           <td>{{ slide.btntxt }}</td>
-          <td><div class="scrollable-content">{{ slide.link }}</div></td>
+          <td ><div class="scrollable-content">{{ slide.link }}</div></td>
           <td><img :src="slide.img" alt="rip" width="100"></td>
           <td>{{ slide.order }}</td>
           <td>

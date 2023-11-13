@@ -106,7 +106,6 @@ th{
 td{
     font-size:1.3rem;
     min-height:100%;
-    width:100%;
     border: grey 1px solid;
 }
   
@@ -118,17 +117,15 @@ td{
     max-height: 6rem; 
     overflow-y: auto;
     overflow-x: hidden;
+    
     word-wrap: break-word;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    
     padding: 1rem; 
 }
   
 th,
 td {
-    width: 150px;
+    max-width: 150px;
     text-align: center;
     padding: 1rem;
    

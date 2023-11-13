@@ -1,5 +1,11 @@
 <script setup>
-import { onAuthStateChanged, RecaptchaVerifier, PhoneAuthProvider, updatePhoneNumber } from "firebase/auth";
+import { 
+  onAuthStateChanged, 
+  RecaptchaVerifier, 
+  PhoneAuthProvider, 
+  updatePhoneNumber, 
+  sendEmailVerification } from "firebase/auth";
+
 import { db, firebaseAppAuth, firebaseFunctions } from '@/firebase'
 import { ref, onMounted, watch, computed } from "vue";
 import { httpsCallable } from 'firebase/functions';
@@ -116,6 +122,8 @@ const deleteReservation = async (index) => {
       console.log(err);
   });
 }
+
+               
 </script>
 
 <template>
