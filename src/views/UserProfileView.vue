@@ -13,7 +13,6 @@ import { doc, collection, onSnapshot } from "firebase/firestore";
 import UserReservations from '../components/userprofile/UserReservations.vue'
 
 const shopReservationList = ref([])
-const phoneNumber = ref('')
 const user = ref(null)
 const userTableInfo = ref({
     displayName: '(Not Set)',
@@ -69,11 +68,11 @@ const fetchUserData = () => {
 
 const submitPhoneNumber = async () => {
     console.log(userTableInfo.value.phoneNumber)
-    const countryCode = '+1'
     const applicationVerifier = new RecaptchaVerifier(firebaseAppAuth,'recaptcha-container');
     const provider = new PhoneAuthProvider(firebaseAppAuth);
-    const fullPhoneNumber = countryCode + phoneNumber.value;
-    await provider.verifyPhoneNumber(fullPhoneNumber, applicationVerifier)
+    console.log(userTableInfo.value.phoneNumber)
+    console.log(applicationVerifier)
+    await provider.verifyPhoneNumber(userTableInfo.value.phoneNumber, applicationVerifier)
         .then((result) =>{
             applicationVerifier.clear()
             console.log("sms sent")
