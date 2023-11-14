@@ -6,6 +6,11 @@ const myReservations = defineProps({
         default: () => []
     }
 })
+function expireDate(date) {
+  const day = String(date.getDate() + 2).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  return `${month}/${day}`;
+}
 </script>
 
 <template>
@@ -14,12 +19,16 @@ const myReservations = defineProps({
       <h1 class="cool-font letter-space pad italic">Reservations</h1>
     </div>
     <div class="pad margin-top">
-        <div class="content title gradient pad rc" v-for="reservation in myReservations.reservations" :key="reservation.id">
+        <div class="content title gradient pad rc margin-bottom" v-for="reservation in myReservations.reservations" :key="reservation.id">
+          <div class="mock-enddate roboto pink margin-bottom">Expires After {{ expireDate(reservation.creationDate) }}</div>
+          <div class="grid-wrapper">
             <div class="roboto">{{ reservation.productName }}</div>
             <div class="product-quant pad-left">x{{ reservation.quantity }}</div>
             
             <button @click="$emit('deleteReservation', reservation.id)" class=" roboto delete-btn-mq ">
+              
             Cancel </button>
+          </div>
         </div>
     </div>
   </div>
@@ -27,12 +36,12 @@ const myReservations = defineProps({
 
 <style scoped>
 
-.content{
+.grid-wrapper{
   display:grid;
   grid-template-columns: 3fr 2fr 1fr;
   gap: .5rem;
   align-items:center;
-  margin-bottom:1rem;
+  
  
 }
 
@@ -55,6 +64,10 @@ const myReservations = defineProps({
   }
   .product-quant{
     font-size:1rem;
+  }
+  .mock-enddate{
+    text-align:center;
+    color:white;
   }
 }
 </style>
