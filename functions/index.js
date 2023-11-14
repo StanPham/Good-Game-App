@@ -3,6 +3,10 @@ const {initializeApp} = require("firebase-admin/app");
 initializeApp();
 
 const {getFirestore, Timestamp, Firestore } = require("firebase-admin/firestore");
+const {onSchedule} = require("firebase-functions/v2/scheduler");
+const {logger} = require("firebase-functions");
+
+
 const functions = require("firebase-functions");
 const {onCall} = require("firebase-functions/v2/https");
 const {setGlobalOptions} = require("firebase-functions/v2")
@@ -214,7 +218,7 @@ exports.deletereservation = onCall((request) => {
             //update shop table
             let productDoc = getFirestore().collection('shop').doc(doc.data().reservations[request.data.index].productID);
             productDoc.get().then((productDocRef) => {
-                if(!doc.exists) {
+                if(!productDocRef.exists) {
                     console.log("product not found error")
                     resolve({
                         state: "error",
@@ -258,6 +262,52 @@ exports.deletereservation = onCall((request) => {
                     })
                 }
             })
+        })
+    })
+})
+
+exports.reservationcleanup = onSchedule("every day 06:00", async() => {
+    //clear old reservations
+    const dateOffset = new Date()
+    dateOffset.setDate(dateOffset.getDate() - 2)
+    const offsetTimestamp = Timestamp.fromDate(dateOffset)
+    const db = getFirestore()
+    const reservationRef = db.collection("shopReservation")
+    await reservationRef.get().then((querySnapshot) => {
+        querySnapshot.forEach(async (doc) => {
+            const arrLength = doc.data().reservations.length
+            for(var index = 0; index < arrLength; index++) {
+                if(doc.data().reservations[index].creationDate.seconds < offsetTimestamp.seconds){
+                    //update product
+                    let productDoc = getFirestore().collection('shop').doc(doc.data().reservations[index].productID);
+                    await productDoc.get().then((productDocRef) => {
+                        if(!productDocRef.exists) {
+                            console.log("product not found")
+                        } else{
+                            productDoc.update({
+                                numLeft: productDocRef.data().numLeft + doc.data().reservations[index].quantity
+                            })
+                            console.log("product doc updated")
+                        }
+                        let reservationArr = doc.data().reservations
+                        if (reservationArr.length == 1){
+                            doc.ref.delete()
+                            console.log("reservation deleted")
+                        } else {
+                            reservationArr.splice(index, 1)
+                            doc.ref.update({
+                                reservations : reservationArr
+                            }).then(() => { 
+                                console.log("reservation deleted")
+                                return;
+                            }).catch((err) => {
+                                console.log(err)
+                                return;
+                            })
+                        }
+                    })
+                }
+            }
         })
     })
 })
