@@ -19,7 +19,9 @@ const userTableInfo = ref({
     email: '',
     phoneNumber: '+1'
 })
-
+const initialDisplayName = ref('');
+const initialPhoneNumber = ref('');
+const initialEmail = ref('');
 const submitUserUpdate = () => {
     //TODO
 }
@@ -32,7 +34,10 @@ onAuthStateChanged(firebaseAppAuth, currentUser => {
             email: user?.value.email,
             phoneNumber: user?.value.phoneNumber ? user?.value.phoneNumber : '+1'
         }
-
+        initialDisplayName.value = userTableInfo.value.displayName;
+        initialPhoneNumber.value = userTableInfo.value.phoneNumber;
+        initialEmail.value = userTableInfo.value.email;
+        
         fetchUserData();
     }
 })
@@ -122,57 +127,54 @@ const deleteReservation = async (index) => {
   });
 }
 
-               
+const isNameUnchanged = computed(() => {
+    return userTableInfo.value.displayName === initialDisplayName.value;
+});
+
+const isPhoneUnchanged = computed(() => {
+    return userTableInfo.value.phoneNumber === initialPhoneNumber.value;
+});
+
+const isEmailUnchanged = computed(() => {
+    return userTableInfo.value.email === initialEmail.value;
+});
+
 </script>
 
 <template>
 
-<div>
-    <div class = "form-container">
-        
-        <form @submit.prevent="submitUserUpdate">
-            <h4>USER INFORMATION</h4>
-            
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" v-model="userTableInfo.displayName">
+  <div>
+      <div class ="form-container">
+          <form @submit.prevent="submitUpdateName">
+              <h4>USER INFORMATION</h4>
+              
+              <label for="username">Username</label>
+              <input type="text" id="username" name="username" v-model="userTableInfo.displayName">
+              <button type="submit" class="submit-btn main-btn" :disabled="isNameUnchanged">Update Name</button>
+          </form>
 
-            <label for="email">Email</label>
-            <div>
-                <input type="text" class="form-input" name="email" v-model="userTableInfo.email">
-                <button v-if="!user?.emailVerified" type="button" class="submit-btn main-btn">Verify Email</button>
-            </div>
+          <form>
+              <label for="email">Email</label>
+              <div>
+                  <input type="text" class="form-input" name="email" v-model="userTableInfo.email">
+                  <button v-if="!user?.emailVerified" type="button" class="submit-btn main-btn">Verify Email</button>
+                  <button v-else type="submit" class="submit-btn main-btn" :disabled="isEmailUnchanged">Update Email</button>
+              </div>
+          </form>
 
-            <label for="phone">Phone Number</label>
-            <div>
-                <input type="tel" class="form-input" name="phone" pattern="[0-9]{10}" v-model="userTableInfo.phoneNumber">
-                <button v-if="!user?.phoneNumber" type="button" class="submit-btn main-btn" @click="submitPhoneNumber">Verify Phone</button>
-            </div>
-                
-            <div id="recaptcha-container"></div>
-
-            <button type="submit" class="submit-btn main-btn">Update</button>
-        </form>
-       
-    </div>
-
-    <!-- <div class="profile-container">
-        <div class="container">
-            <h1 class="profile-header">header</h1>
-            <div class="profile-body-container">
-                <h1 class="body-header">event header</h1>
-                <div class="profile-body">
-                    <h2 class="pink-italic">todays event name </h2>
-                    <h3 class="pink"> todays event format</h3>
-                    <div class="bold title-scale">start time div</div>
-                </div>
-                    
-                <p class="profile-description font-med">hi hello</p>
-                <br>
-                <button class="all-events-btn main-btn-full bold" @click="goEvent">All Events</button>
-            </div>
-        </div>
-    </div> -->
-</div>
+            <form>
+              <label for="phone">Phone Number</label>
+              <div>
+                  <input type="tel" class="form-input" name="phone" pattern="[0-9]{10}" v-model="userTableInfo.phoneNumber">
+                  <button v-if="!user?.phoneNumber" type="button" class="submit-btn main-btn" @click="submitPhoneNumber">Verify Phone</button>
+                  <button v-else type="submit" class="submit-btn main-btn" :disabled="isPhoneUnchanged">Update Phone</button>
+              </div>
+              
+                  
+              <div id="recaptcha-container"></div>
+            </form>
+      </div>
+  </div>
 
   <br><br>
   <div class="reservations-card-wrap rc black">
@@ -191,3 +193,24 @@ const deleteReservation = async (index) => {
 
    
 </style>
+
+
+
+
+  <!-- <div class="profile-container">
+        <div class="container">
+            <h1 class="profile-header">header</h1>
+            <div class="profile-body-container">
+                <h1 class="body-header">event header</h1>
+                <div class="profile-body">
+                    <h2 class="pink-italic">todays event name </h2>
+                    <h3 class="pink"> todays event format</h3>
+                    <div class="bold title-scale">start time div</div>
+                </div>
+                    
+                <p class="profile-description font-med">hi hello</p>
+                <br>
+                <button class="all-events-btn main-btn-full bold" @click="goEvent">All Events</button>
+            </div>
+        </div>
+    </div> -->

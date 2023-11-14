@@ -6,7 +6,7 @@ import TheFooter from './components/TheFooter.vue'
 
 <template>
   <div class="wrappity-wrap">
-    <TheHeader :user="user" @login-clicked="showLoginPage"/>
+    <TheHeader />
 
     <main class="global-main">
       <router-view></router-view>

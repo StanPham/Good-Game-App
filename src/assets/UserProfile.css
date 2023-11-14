@@ -34,21 +34,8 @@
 /* User Profile Form */
 
 
-.submit-btn{
-    margin: auto;    
-    width: 30%;
-}
-
-.form-input{
-width: 100%;
-}
-
-
-
-
-
 form{
-    width:clamp(23rem,100%,5000px);
+    width:clamp(15rem,100%,5000px);
     display:flex;
     flex-direction: column;
     padding: 1.25em;
@@ -58,7 +45,6 @@ form{
 .form-container{
     margin-inline: auto;
     width: clamp(200px, 90vw,50rem);
-    display:flex;
     background-color: rgb(66, 60, 63);
     border-radius: 10px;
     margin-top: calc(var(--header-height) + 1.2rem);
@@ -81,27 +67,22 @@ input{
 }
 
 input:focus{
-    outline:none;
-    
+    outline:none;  
 }
 
 .submit-btn{
-   font-size: 20px;
+   font-size: 1rem;
    padding:.35rem;
-  
+   border-radius:5px;
+   width:10rem;
 }
 
-.pika-contain{
-    display:flex;
-    align-items: center;
+label{
+    font-size:1.3rem;
+    font-family:jockey;
 }
 
-.pika{
-    max-width: 50%;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
+
 
 
 

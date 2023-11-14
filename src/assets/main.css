@@ -469,3 +469,9 @@ video {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
+
+button:disabled{
+  background:grey;
+  pointer-events: none;
+  cursor:default;
+}
