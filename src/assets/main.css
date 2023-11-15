@@ -475,3 +475,8 @@ button:disabled{
   pointer-events: none;
   cursor:default;
 }
+
+/* display */
+.block{
+  display:block;
+}

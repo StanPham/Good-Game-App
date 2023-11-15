@@ -11,9 +11,12 @@ import { ref, onMounted, watch, computed } from "vue";
 import { httpsCallable } from 'firebase/functions';
 import { doc, collection, onSnapshot } from "firebase/firestore";
 import UserReservations from '../components/userprofile/UserReservations.vue'
+import VerifySuccess from "../components/alerts/UserInfoPopups.vue";
+import greencheck from '../images/green-check.png'
 
 const shopReservationList = ref([])
 const user = ref(null)
+const isEmailVerified =  ref(null);
 const userTableInfo = ref({
     displayName: '(Not Set)',
     email: '',
@@ -28,6 +31,8 @@ const submitUserUpdate = () => {
 
 onAuthStateChanged(firebaseAppAuth, currentUser => {
     user.value = currentUser
+    isEmailVerified.value = user.value.emailVerified;
+    console.log(user.value.email)
     if(currentUser){
         userTableInfo.value = {
             displayName: user?.value.displayName ? user?.value.displayName : '(Not Set)' ,
@@ -92,11 +97,7 @@ const submitPhoneNumber = async () => {
         })
 }
 
-watch(user, (newValue) => {
-  if (newValue) {
-    fetchUserData();
-  }
-});
+
 
 onMounted(fetchUserData);
 
@@ -139,6 +140,46 @@ const isEmailUnchanged = computed(() => {
     return userTableInfo.value.email === initialEmail.value;
 });
 
+
+watch(user, (newValue) => {
+  if (newValue) {
+    fetchUserData();
+  }
+});
+//popup
+const theyVerifiedEmail = ref(false);
+const test2 = ref(true);
+const verifyEmailButton = ref(false);
+
+
+ watch(isEmailVerified, (newValue, oldValue) => { 
+    if(newValue === true && oldValue === false){
+      console.log('xd')
+      emailSuccess();
+      
+    }
+  }) 
+
+
+function verifyEmail(){
+  verifyEmailButton.value = true;
+}
+
+
+
+function emailSuccess(){
+  verifyEmailButton.value = false;
+  test2.value = false;
+  theyVerifiedEmail.value = true;
+  setTimeout(() => {
+    theyVerifiedEmail.value = false;
+
+  }, 5000);
+  setTimeout(() => {
+    test2.value = true;
+
+  }, 8000);
+}
 </script>
 
 <template>
@@ -153,26 +194,32 @@ const isEmailUnchanged = computed(() => {
               <button type="submit" class="submit-btn main-btn" :disabled="isNameUnchanged">Update Name</button>
           </form>
 
-          <form>
+          <form @submit.prevent="submitUpdateEmail">
               <label for="email">Email</label>
               <div>
                   <input type="text" class="form-input" name="email" v-model="userTableInfo.email">
-                  <button v-if="!user?.emailVerified" type="button" class="submit-btn main-btn">Verify Email</button>
-                  <button v-else type="submit" class="submit-btn main-btn" :disabled="isEmailUnchanged">Update Email</button>
+                  <button v-if="!user?.emailVerified" type="button" class="submit-btn main-btn" @click="verifyEmail">Verify Email</button>
+                  <VerifySuccess v-if="verifyEmailButton" :message="'Verification link send to ' + userTableInfo.email"/>
+                  <transition name="fade">
+                    <VerifySuccess v-if="theyVerifiedEmail" message="Success! Email Verified">
+                      <img :src=greencheck alt="" class="margin-left">
+                    </VerifySuccess>
+                  </transition>
+                  <button v-if="user?.emailVerified && test2" type="submit" class="submit-btn main-btn block" :disabled="isEmailUnchanged">Update Email</button>
               </div>
           </form>
 
-            <form>
-              <label for="phone">Phone Number</label>
-              <div>
-                  <input type="tel" class="form-input" name="phone" pattern="[0-9]{10}" v-model="userTableInfo.phoneNumber">
-                  <button v-if="!user?.phoneNumber" type="button" class="submit-btn main-btn" @click="submitPhoneNumber">Verify Phone</button>
-                  <button v-else type="submit" class="submit-btn main-btn" :disabled="isPhoneUnchanged">Update Phone</button>
-              </div>
-              
-                  
-              <div id="recaptcha-container"></div>
-            </form>
+          <form @submit.prevent="submitUpdatePhone">
+            <label for="phone">Phone Number</label>
+            <div>
+                <input type="tel" class="form-input" name="phone" pattern="[0-9]{10}" v-model="userTableInfo.phoneNumber">
+                <button v-if="!user?.phoneNumber" type="button" class="submit-btn main-btn" @click="submitPhoneNumber">Verify Phone</button>
+                <button v-else type="submit" class="submit-btn main-btn" :disabled="isPhoneUnchanged">Update Phone</button>
+            </div>
+            
+                
+            <div id="recaptcha-container"></div>
+          </form>
       </div>
   </div>
 
