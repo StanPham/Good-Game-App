@@ -10,7 +10,7 @@ defineProps({
    
     <div class="popup black flex align-c gap rc">
       <slot></slot>
-      <div class="font-med roboto">{{ message }}</div>
+      <div class="font-med roboto pad">{{ message }}</div>
     </div>
  
 </template>

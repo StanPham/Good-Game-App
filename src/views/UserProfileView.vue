@@ -7,16 +7,16 @@ import {
   sendEmailVerification } from "firebase/auth";
 
 import { db, firebaseAppAuth, firebaseFunctions } from '@/firebase'
-import { ref, onMounted, watch, computed } from "vue";
+import { ref, onMounted, watch, computed, onUnmounted } from "vue";
 import { httpsCallable } from 'firebase/functions';
 import { doc, collection, onSnapshot } from "firebase/firestore";
 import UserReservations from '../components/userprofile/UserReservations.vue'
-import VerifySuccess from "../components/alerts/UserInfoPopups.vue";
+import UserInfoPopups from "../components/alerts/UserInfoPopups.vue";
 import greencheck from '../images/green-check.png'
 
 const shopReservationList = ref([])
 const user = ref(null)
-const isEmailVerified =  ref(null);
+
 const userTableInfo = ref({
     displayName: '(Not Set)',
     email: '',
@@ -25,24 +25,26 @@ const userTableInfo = ref({
 const initialDisplayName = ref('');
 const initialPhoneNumber = ref('');
 const initialEmail = ref('');
-const submitUserUpdate = () => {
-    //TODO
-}
+
+
+
 
 onAuthStateChanged(firebaseAppAuth, currentUser => {
     user.value = currentUser
-    isEmailVerified.value = user.value.emailVerified;
+   
     console.log(user.value.email)
     if(currentUser){
         userTableInfo.value = {
             displayName: user?.value.displayName ? user?.value.displayName : '(Not Set)' ,
             email: user?.value.email,
-            phoneNumber: user?.value.phoneNumber ? user?.value.phoneNumber : '+1'
+            phoneNumber: user?.value.phoneNumber ? user?.value.phoneNumber : '+1',
+            isTheirEmailVerified: user?.value.emailVerified
         }
         initialDisplayName.value = userTableInfo.value.displayName;
         initialPhoneNumber.value = userTableInfo.value.phoneNumber;
         initialEmail.value = userTableInfo.value.email;
         
+
         fetchUserData();
     }
 })
@@ -90,6 +92,7 @@ const submitPhoneNumber = async () => {
             return PhoneAuthProvider.credential(result,verifyCode)
         }).then((phoneCredential) =>{
             return updatePhoneNumber(user.value, phoneCredential).then((result) => {
+              showPhoneMessage();
                 console.log("worked")
             })
         }).catch((err) => {
@@ -99,7 +102,7 @@ const submitPhoneNumber = async () => {
 
 
 
-onMounted(fetchUserData);
+
 
 const myReservations = computed(() => {
   return shopReservationList.value.map(item => {
@@ -140,46 +143,86 @@ const isEmailUnchanged = computed(() => {
     return userTableInfo.value.email === initialEmail.value;
 });
 
-
 watch(user, (newValue) => {
   if (newValue) {
     fetchUserData();
   }
 });
-//popup
-const theyVerifiedEmail = ref(false);
-const test2 = ref(true);
+
+
+
+const updateNameButton = ref(true);
+const theyUpdatedName = ref(false);
+
+const updateEmailButton = ref(true);
+const theyUpdatedEmail = ref(false);
+
+const updatePhoneButton = ref(true);
+const theyUpdatedPhone = ref(false);
+
 const verifyEmailButton = ref(false);
-
-
- watch(isEmailVerified, (newValue, oldValue) => { 
-    if(newValue === true && oldValue === false){
-      console.log('xd')
-      emailSuccess();
-      
-    }
-  }) 
-
+const verifyPhoneButton = ref(false);
 
 function verifyEmail(){
   verifyEmailButton.value = true;
+  //needs logic to send the email
+}
+
+const submitUpdateEmail = () => {
+  //needs logic to update email
+  showEmailMessage();
+}
+
+const submitUpdateName = () => {
+  //needs logic to update username
+  showNameMessage();
+}
+
+const submitUpdatePhone = () => {
+  //needs logic to update phone
+  showPhoneMessage();
 }
 
 
-
-function emailSuccess(){
-  verifyEmailButton.value = false;
-  test2.value = false;
-  theyVerifiedEmail.value = true;
+function showNameMessage(){
+  updateNameButton.value = false;
+  theyUpdatedName.value = true;
   setTimeout(() => {
-    theyVerifiedEmail.value = false;
+    theyUpdatedName.value = false;
 
   }, 5000);
   setTimeout(() => {
-    test2.value = true;
+    updateNameButton.value = true;
 
-  }, 8000);
+  }, 6000);
 }
+
+function showEmailMessage(){
+  updateEmailButton.value = false;
+  theyUpdatedEmail.value = true;
+  setTimeout(() => {
+    theyUpdatedEmail.value = false;
+
+  }, 5000);
+  setTimeout(() => {
+    updateEmailButton.value = true;
+
+  }, 6000);
+}
+
+function showPhoneMessage(){
+  updatePhoneButton.value = false;
+  theyUpdatedPhone.value = true;
+  setTimeout(() => {
+    theyUpdatedPhone.value = false;
+
+  }, 5000);
+  setTimeout(() => {
+    updatePhoneButton.value = true;
+
+  }, 6000);
+}
+
 </script>
 
 <template>
@@ -191,7 +234,12 @@ function emailSuccess(){
               
               <label for="username">Username</label>
               <input type="text" id="username" name="username" v-model="userTableInfo.displayName">
-              <button type="submit" class="submit-btn main-btn" :disabled="isNameUnchanged">Update Name</button>
+              <button v-if="updateNameButton" type="submit" class="submit-btn main-btn" :disabled="isNameUnchanged">Update Name</button>
+              <transition name="fade">
+                <UserInfoPopups v-if="theyUpdatedName" message="Name Updated">
+                  <img :src=greencheck alt="" class="margin-left">
+                </UserInfoPopups>
+              </transition>
           </form>
 
           <form @submit.prevent="submitUpdateEmail">
@@ -199,13 +247,16 @@ function emailSuccess(){
               <div>
                   <input type="text" class="form-input" name="email" v-model="userTableInfo.email">
                   <button v-if="!user?.emailVerified" type="button" class="submit-btn main-btn" @click="verifyEmail">Verify Email</button>
-                  <VerifySuccess v-if="verifyEmailButton" :message="'Verification link send to ' + userTableInfo.email"/>
+                  <UserInfoPopups v-if="verifyEmailButton" :message="'Verification link sent to ' + userTableInfo.email"/>
+                  <div v-if="user?.emailVerified && updateEmailButton" class="flex align-c gap">
+                    <button  type="submit" class="submit-btn main-btn block" :disabled="isEmailUnchanged">Update Email</button>
+                    <p class="italic">You're Verified</p>
+                  </div>
                   <transition name="fade">
-                    <VerifySuccess v-if="theyVerifiedEmail" message="Success! Email Verified">
+                    <UserInfoPopups v-if="theyUpdatedEmail" :message="'Email updated, verification link sent to ' + user.email">
                       <img :src=greencheck alt="" class="margin-left">
-                    </VerifySuccess>
+                    </UserInfoPopups>
                   </transition>
-                  <button v-if="user?.emailVerified && test2" type="submit" class="submit-btn main-btn block" :disabled="isEmailUnchanged">Update Email</button>
               </div>
           </form>
 
@@ -213,11 +264,16 @@ function emailSuccess(){
             <label for="phone">Phone Number</label>
             <div>
                 <input type="tel" class="form-input" name="phone" pattern="[0-9]{10}" v-model="userTableInfo.phoneNumber">
-                <button v-if="!user?.phoneNumber" type="button" class="submit-btn main-btn" @click="submitPhoneNumber">Verify Phone</button>
-                <button v-else type="submit" class="submit-btn main-btn" :disabled="isPhoneUnchanged">Update Phone</button>
-            </div>
-            
+                <button v-if="!user?.phoneNumber" type="button" class="submit-btn main-btn" @click="submitPhoneNumber">Add Phone</button>
                 
+                <button v-if="user?.phoneNumber && updatePhoneButton" type="submit" class="submit-btn main-btn" :disabled="isPhoneUnchanged">Update Phone</button>
+                <transition name="fade">
+                    <UserInfoPopups v-if="theyUpdatedPhone" message="Phone successfully updated">
+                      <img :src=greencheck alt="" class="margin-left">
+                    </UserInfoPopups>
+                </transition>
+            </div>
+             
             <div id="recaptcha-container"></div>
           </form>
       </div>
