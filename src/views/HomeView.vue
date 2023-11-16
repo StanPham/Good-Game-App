@@ -180,7 +180,7 @@ const myShops = computed(() => {
 
 @media(min-width:1700px){
   .main-home-container{
-    width:90vw;
+    width:min(90vw,2400px);
   }
 }
 </style>
