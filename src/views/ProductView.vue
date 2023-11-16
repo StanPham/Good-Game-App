@@ -172,11 +172,14 @@ const updateVariant = (variant) => {
         <br>
 
         <div v-if="productData.quant!=0" class="flex gap pad-bot">
-          <select v-model="amount" class="black rc title text-center">
-            <option v-for="num in productQuantityOptions" :key="num" :value="num">
-              {{ num }}
-            </option>
-          </select>
+          <div class="select-wrapper rel">
+            <select v-model="amount" class="grey title pad-left">
+              <option v-for="num in productQuantityOptions" :key="num" :value="num">
+                {{ num }}
+              </option>
+            </select>
+            <span class="custom-select abs block"></span>
+          </div>
           <button class="btn-even-pad" @click="makeReservation">Reserve Now</button>
         </div>
         <div v-else class="title-scale" style="font-style:italic">Sold Out</div>
@@ -242,8 +245,26 @@ const updateVariant = (variant) => {
   text-overflow:ellipsis;
 }
 
+.select-wrapper{
+  width:25%;
+
+}
 select{
-  width:20%;
+  width:100%;
+  height:100%;
+  border: 1px solid white;
+  border-radius: .5rem;
+  appearance:none;
+}
+
+.custom-select{
+  top:50%;
+  right:20%;
+  width:.8rem;
+  height: .5rem;
+  transform:translate(0,-50%);
+  background:white;
+  clip-path: polygon(0 0, 100% 0, 50% 100%, 50% 100%);
 }
 
 .price{

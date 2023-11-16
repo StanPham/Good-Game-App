@@ -408,8 +408,9 @@ video {
 }
 
 .btn-even-pad{
-  padding:1rem;
-  font-size:1.5rem;
+  padding:.8em 1.2em;
+  font-size:1.3rem;
+  border-radius: .5rem;
 }
 
 .signout-btn{
