@@ -49,14 +49,14 @@ function fullDate(dateObj) {
    return `${month}/${day} ${someHours}:${minutes} PM`;
 }
 
-const deleteReservation = async (index, uid) => {
+const deleteReservation = async (index, uid, state) => {
   console.log("this button")
   console.log(index)
   const deleteReservation = httpsCallable(firebaseFunctions, 'deletereservation');
   await deleteReservation({ 
     uid: uid,
     index: index,
-    state: "accept"
+    state: state
   })
   .then((result) => {
       console.log(result.data.message)
@@ -83,8 +83,11 @@ const deleteReservation = async (index, uid) => {
          <td>{{ reservation.quantity }}</td>
          <td>{{ fullDate(reservation.creationDate) }}</td> 
          <td>
+           <button class="edit-btn"
+             @click="deleteReservation(reservation.id,reservation.docID, 'accept')"
+           >accept</button>
            <button class="del-btn"
-             @click="deleteReservation(reservation.id,reservation.docID)"
+             @click="deleteReservation(reservation.id,reservation.docID, 'delete')"
            >delete</button>
          </td>
          
