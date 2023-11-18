@@ -25,10 +25,12 @@ input.checkbox{
     color:white;
     width:30%;
     margin-inline:auto;
+    transition:none;
 }
 
 .submit-btn:hover{
     background-color: rgb(180, 44, 180);
+    transform: scale(1.03);
 }
     
 .form-container{
@@ -51,9 +53,18 @@ form{
     position:relative;
 }
   
-input{
+input,
+textarea{
     padding-left:1rem;
     margin-bottom:1rem;
+    outline:none;
+    border:none;
+    transition: all .2s;
+}
+input:focus,
+textarea:focus{
+    box-shadow: 0 0 5px 1px white;
+   
 }
 
 

@@ -75,40 +75,40 @@ const filteredReservations = computed(() => {
 
  <template>
   <body>
-  <div class="search">
-    <div class="search-container">
-      <img src="../../images/search.svg" alt="deez" class="search-icon">
-      <input type = "text" class="input-box" placeholder="Search" v-model="searchQuery">
+    <div class="search">
+      <div class="search-container">
+        <img src="../../images/search.svg" alt="deez" class="search-icon">
+        <input type = "text" class="input-box" placeholder="Search" v-model="searchQuery">
+      </div>
     </div>
-  </div>
-  <table>
-     <thead>
-       <th scope="col">Person</th>
-       <th scope="col">Item Name</th>
-       <th scope="col">Quantity</th>
-       <th scope="col">Time of Reservation</th>
-       <th scope="col">Actions</th>
-     </thead>
-       
-     <tbody v-for="reservation in filteredReservations" :key="reservation.id">
-       <tr>
-         <td class="name">[[person]]</td>
-         <td>{{ reservation.productName }}</td>
-         <td>{{ reservation.quantity }}</td>
-         <td>{{ fullDate(reservation.creationDate) }}</td> 
-         <td>
-           <button class="edit-btn"
-             @click="deleteReservation(reservation.id,reservation.docID, 'accept')"
-           >accept</button>
-           <button class="del-btn"
-             @click="deleteReservation(reservation.id,reservation.docID, 'delete')"
-           >delete</button>
-         </td>
-         
-       </tr>
-       <tr class="filler-row"></tr>
-     </tbody>
-  </table>
+    <table>
+      <thead>
+        <th scope="col">Person</th>
+        <th scope="col">Item Name</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Time of Reservation</th>
+        <th scope="col">Actions</th>
+      </thead>
+        
+      <tbody v-for="reservation in filteredReservations" :key="reservation.id">
+        <tr>
+          <td class="name">[[person]]</td>
+          <td>{{ reservation.productName }}</td>
+          <td>{{ reservation.quantity }}</td>
+          <td>{{ fullDate(reservation.creationDate) }}</td> 
+          <td>
+            <button class="edit-btn"
+              @click="deleteReservation(reservation.id,reservation.docID, 'accept')"
+            >accept</button>
+            <button class="del-btn"
+              @click="deleteReservation(reservation.id,reservation.docID, 'delete')"
+            >delete</button>
+          </td>
+          
+        </tr>
+        <tr class="filler-row"></tr>
+      </tbody>
+    </table>
   </body>
 </template>
 
