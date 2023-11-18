@@ -1,10 +1,11 @@
 <script setup>
 import { db, firebaseFunctions  } from "@/firebase"
 import { collection, onSnapshot} from "firebase/firestore"; 
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { httpsCallable } from 'firebase/functions';
 
 const shopReservationList = ref([])
+const searchQuery = ref('')
 
 
 onMounted( () => {
@@ -64,9 +65,22 @@ const deleteReservation = async (index, uid, state) => {
       console.log(err);
   });
 }
+
+const filteredReservations = computed(() => {
+    return shopReservationList.value.filter(item => 
+        item.productName.toLowerCase().includes(searchQuery.value.toLowerCase())
+    );
+});
  </script>
 
  <template>
+  <body>
+  <div class="search">
+    <div class="search-container">
+      <img src="../../images/search.svg" alt="deez" class="search-icon">
+      <input type = "text" class="input-box" placeholder="Search" v-model="searchQuery">
+    </div>
+  </div>
   <table>
      <thead>
        <th scope="col">Person</th>
@@ -76,7 +90,7 @@ const deleteReservation = async (index, uid, state) => {
        <th scope="col">Actions</th>
      </thead>
        
-     <tbody v-for="reservation in shopReservationList" :key="reservation.id">
+     <tbody v-for="reservation in filteredReservations" :key="reservation.id">
        <tr>
          <td class="name">[[person]]</td>
          <td>{{ reservation.productName }}</td>
@@ -95,6 +109,7 @@ const deleteReservation = async (index, uid, state) => {
        <tr class="filler-row"></tr>
      </tbody>
   </table>
+  </body>
 </template>
 
 <style scoped>

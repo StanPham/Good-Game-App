@@ -317,11 +317,6 @@ img{
   font-size:1rem;
 }
 
-
-
-
-
-
 @media(min-width:763px){
   main{
     grid-template-columns: repeat(auto-fit, minmax(13rem,1fr));

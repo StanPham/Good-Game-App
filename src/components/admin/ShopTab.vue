@@ -81,17 +81,17 @@ const addItem = async () =>{
      creationDate: Timestamp.fromDate(new Date())
    });
 
-  //  newItem.value = {
-  //       name: '',
-  //       category: '',
-  //       price: '',
-  //       quantity: '',
-  //       desc: '',
-  //       image: '',
-  //       variants: ref([{ varName: '', varPrice: '', varQuantity: '' }]),
+   newItem.value = {
+        name: '',
+        category: '',
+        price: '',
+        quantity: '',
+        desc: '',
+        image: '',
+        variants: ref([{ varName: '', varPrice: '', varQuantity: '' }]),
        
-  //   };
-  //   document.querySelector('input[type="file"]').value = null;
+    };
+    document.querySelector('input[type="file"]').value = null;
     showVariants.value = false;
     displayPopup();
 }
@@ -418,39 +418,6 @@ const deleteVariant = (index) => {
 thead{
   position:sticky;
   top:0;
-}
-
-.input-box{
-  width:100%;
-  background-color: rgb(238, 235, 235);
-  border-radius: 20px;
-  border: 1px solid #21272b;
-  padding-left:50px;
-  max-height: 30px;
-  height:30px ;
-  color:black;
-}
-
-.search-container{
-  position:relative;
-  width:70%;
-  display:flex;
-  justify-content:center;
-}
-
-.search{
-  width:100vw;
-  padding-top:1rem;
-  display:flex;
-  justify-content: center;
-}
-
-.search-icon{
-  width:20px;
-  height:20px;
-  position:absolute;
-  top: 15%;
-  left: 1rem;
 }
 
 </style>
