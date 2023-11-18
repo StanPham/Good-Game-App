@@ -393,7 +393,8 @@ video {
 
 .main-btn:hover,
 .main-btn-full:hover,
-.btn-even-pad:hover{
+.btn-even-pad:hover,
+.submit-btn:hover{
   background-color: rgb(180, 70, 202);
 }
 

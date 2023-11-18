@@ -62,13 +62,16 @@ input{
     height: 3rem;
     margin-bottom: 10px;
     padding-left:1.25rem;
-    background-color: rgb(53, 55, 56);
+    background-color: rgb(45, 45, 45);;
     color:white;
     font-size:1.2rem;
+    transition:all .2s;
 }
 
 input:focus{
-    outline:none;  
+    background-color: rgb(53, 55, 56);
+    outline:none;
+    border: 1px solid white;
 }
 
 .submit-btn{

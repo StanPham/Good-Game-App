@@ -26,6 +26,10 @@ input.checkbox{
     width:30%;
     margin-inline:auto;
 }
+
+.submit-btn:hover{
+    background-color: rgb(180, 44, 180);
+}
     
 .form-container{
     margin-inline:auto;
@@ -51,7 +55,8 @@ input{
     padding-left:1rem;
     margin-bottom:1rem;
 }
-  
+
+
 textarea{
     color:black;
     padding-left:1rem;
