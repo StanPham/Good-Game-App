@@ -10,6 +10,7 @@ const searchQuery = ref("");
 
 const setActiveTab = (tabName) => {
   selectedCategory.value = tabName;
+  currentPage.value = 1;
   
 };
 
@@ -84,13 +85,24 @@ const filteredShops = computed(() => {
 });
 
 
-const route = useRoute();
-watch(route, (newRoute) => {
-    if (newRoute.query.category) {
-        selectedCategory.value = newRoute.query.category;
-    }
-});
+//pagination
 
+let currentPage = ref(1);
+const itemsPerPage = 20;
+
+const onClickHandler = (page) => {
+  currentPage.value = page;
+  document.documentElement.scrollTo({
+    top: 0,
+    
+  })
+};
+
+const paginatedShops = computed(() => {
+  let start = (currentPage.value - 1) * itemsPerPage;
+  let end = start + itemsPerPage;
+  return filteredShops.value.slice(start, end);
+});
 </script>
 
 <template>
@@ -141,7 +153,7 @@ watch(route, (newRoute) => {
             </div>
           </div>
           <main class="rc black">
-            <div class="work-wrap" v-for="shop in filteredShops" :key="shop.id">
+            <div class="work-wrap" v-for="shop in paginatedShops" :key="shop.id">
               <router-link :to="`/product/${shop.id}`" class="link">
                   <div class="pad flex-sb column product-info">
                       <div>
@@ -154,6 +166,15 @@ watch(route, (newRoute) => {
               </router-link>
             </div>
           </main>
+
+          <vue-awesome-paginate v-if="filteredShops.length > itemsPerPage"
+          :total-items="filteredShops.length"
+          :items-per-page="itemsPerPage"
+          :max-pages-shown="5"
+          v-model="currentPage"
+          :on-click="onClickHandler"
+          :hide-prev-next-when-ends="true"
+          />
         </div>
       </div>
   </div>
@@ -295,6 +316,11 @@ img{
   padding-top:.5rem;
   font-size:1rem;
 }
+
+
+
+
+
 
 @media(min-width:763px){
   main{

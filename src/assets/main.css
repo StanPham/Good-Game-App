@@ -393,8 +393,7 @@ video {
 
 .main-btn:hover,
 .main-btn-full:hover,
-.btn-even-pad:hover,
-.submit-btn:hover{
+.btn-even-pad:hover{
   background-color: rgb(180, 70, 202);
 }
 
@@ -481,4 +480,34 @@ button:disabled{
 /* display */
 .block{
   display:block;
+}
+
+
+
+/* paginate style*/
+.pagination-container {
+  display: flex;
+  column-gap: 10px;
+  margin-top:.4rem;
+  width:100%;
+  justify-content: center;
+}
+.paginate-buttons{
+  padding: .5em 1em;
+  cursor: pointer;
+  background-color: rgb(65, 59, 59);
+  border: 1px solid rgb(65, 59, 59);
+  border-radius:2px;
+  font-family:roboto;
+}
+.paginate-buttons:hover {
+  background-color: #464141;
+}
+.active-page {
+  background-color: var(--btn-color);
+  border: 1px solid var(--btn-color);
+  color: white;
+}
+.active-page:hover {
+  background-color: #2988c8;
 }

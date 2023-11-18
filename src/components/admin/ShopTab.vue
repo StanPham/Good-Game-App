@@ -81,17 +81,17 @@ const addItem = async () =>{
      creationDate: Timestamp.fromDate(new Date())
    });
 
-   newItem.value = {
-        name: '',
-        category: '',
-        price: '',
-        quantity: '',
-        desc: '',
-        image: '',
-        variants: ref([{ varName: '', varPrice: '', varQuantity: '' }]),
+  //  newItem.value = {
+  //       name: '',
+  //       category: '',
+  //       price: '',
+  //       quantity: '',
+  //       desc: '',
+  //       image: '',
+  //       variants: ref([{ varName: '', varPrice: '', varQuantity: '' }]),
        
-    };
-    document.querySelector('input[type="file"]').value = null;
+  //   };
+  //   document.querySelector('input[type="file"]').value = null;
     showVariants.value = false;
     displayPopup();
 }
