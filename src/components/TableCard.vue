@@ -32,6 +32,9 @@
   border-radius:1rem;
 }
 
+.title-container{
+  height:20%;
+}
 .title-container::before{
   content: "";
   position:absolute;
