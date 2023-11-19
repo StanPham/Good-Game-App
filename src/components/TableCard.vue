@@ -1,6 +1,6 @@
 <template>
   <div class="main-container rc rel">
-    <div class="text-center title-container rel">
+    <div class="text-center title-container rel reverse-gradient rc-top-top">
       <h1 class="pad cool-font">Looking for Singles?</h1>
     </div>
     
@@ -35,14 +35,7 @@
 .title-container{
   height:20%;
 }
-.title-container::before{
-  content: "";
-  position:absolute;
-  inset:0;
-  background: linear-gradient(98.79deg, #BA76FF -8.25%, #180030 73.07%);
-  border-radius: 1rem 1rem 0 0;
-  z-index: -2;
-}
+
 
 </style>
 
