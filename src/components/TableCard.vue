@@ -5,12 +5,12 @@ const goTable = () => router.push('/table')
 </script>
 
 <template>
-  <div class="main-container rc text-center rel">
-    <div class="header-wrapper gradient rc-top-top">
-      <h1 class=" pad cool-font">Table Reservations</h1>
+  <div class="main-container rc text-center rel reverse-gradient">
+    <div class="header-wrapper rc-top-top">
+      <h1 class=" pad cool-font">Looking for Singles?</h1>
     </div>
     <br><br><br><br><br>
-    <button class="main-btn-full" @click="goTable">Reserve Tables</button>
+    <a class="main-btn-full" href="https://shop.tcgplayer.com/sellerfeedback/71c2420f" target="_blank">TCGplayer</a>
   </div>
 </template>        
         
@@ -18,17 +18,18 @@ const goTable = () => router.push('/table')
 <style scoped>
 
 .main-container::before{
-  width:100%;
+  width:50%;
   content: "";
   position: absolute;
-  inset: 0;
-  background-image: url('../images/cat.webp');
-  filter:brightness(35%);
+  inset:75px 0 0 0;
+  background-image: url('../images/testcards.png');
   background-repeat:no-repeat;
   background-size:cover;
-  z-index:-1;
+  overflow:hidden;
+  transform: scale(1.1);
   border-radius: 1rem;
 } 
+
 
 .header-wrapper{
   height:20%;

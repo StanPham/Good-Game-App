@@ -177,6 +177,9 @@ h2 {
 .letter-space{
   letter-spacing:3px;
 }
+.letter-space-small{
+  letter-spacing: 1px;
+}
 .white-blur{
   text-shadow: 0 0 5px rgb(255, 255, 255), 0 0 12px rgb(255, 255, 255), 0 0 20px rgb(255, 255, 255), 0 0 30px rgb(255, 255, 255);
 }
@@ -212,6 +215,10 @@ h2 {
 
 .text-center{
   text-align:center;
+}
+
+.text-right{
+  text-align:right;
 }
 
 .link-hover:hover{
@@ -481,8 +488,6 @@ button:disabled{
 .block{
   display:block;
 }
-
-
 
 /* paginate style*/
 .pagination-container {

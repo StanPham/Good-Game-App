@@ -61,12 +61,11 @@ textarea{
     border:none;
     transition: all .2s;
 }
+
 input:focus,
 textarea:focus{
     box-shadow: 0 0 5px 1px white;
-   
 }
-
 
 textarea{
     color:black;
@@ -133,9 +132,7 @@ td{
     max-height: 6rem; 
     overflow-y: auto;
     overflow-x: hidden;
-    
     word-wrap: break-word;
-    
     padding: 1rem; 
 }
   
@@ -143,8 +140,7 @@ th,
 td {
     max-width: 150px;
     text-align: center;
-    padding: 1rem;
-   
+    padding: 1rem;  
 }
   
 table{ 

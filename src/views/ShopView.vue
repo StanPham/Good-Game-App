@@ -170,7 +170,7 @@ const paginatedShops = computed(() => {
           <vue-awesome-paginate v-if="filteredShops.length > itemsPerPage"
           :total-items="filteredShops.length"
           :items-per-page="itemsPerPage"
-          :max-pages-shown="5"
+          :max-pages-shown="3"
           v-model="currentPage"
           :on-click="onClickHandler"
           :hide-prev-next-when-ends="true"

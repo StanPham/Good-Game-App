@@ -39,6 +39,10 @@
     margin-right: auto;
 }
 
+.pika:hover{
+    transform: scale(1.1);
+}
+
 .form-container{
     margin-inline: auto;
     width: clamp(200px, 90vw,50rem);
