@@ -13,6 +13,7 @@ import { doc, collection, onSnapshot } from "firebase/firestore";
 import UserReservations from '../components/userprofile/UserReservations.vue'
 import UserInfoPopups from "../components/alerts/UserInfoPopups.vue";
 import greencheck from '../images/green-check.png'
+import TheSpinner from '../components/alerts/TheSpinner.vue'
 
 const shopReservationList = ref([])
 const user = ref(null)
@@ -68,7 +69,8 @@ const fetchUserData = () => {
             productId: reservations[i].productID,
             productName: reservations[i].productName,
             creationDate: new Date(reservations[i].creationDate.seconds * 1000),
-            quantity: reservations[i].quantity
+            quantity: reservations[i].quantity,
+            loading:false,
           });
         }
         shopReservationList.value = tmpShopReservationList;
@@ -100,24 +102,10 @@ const submitPhoneNumber = async () => {
         })
 }
 
-
-
-
-
-const myReservations = computed(() => {
-  return shopReservationList.value.map(item => {
-    return {
-      id: item.id,
-      productName: item.productName,
-      creationDate: item.creationDate,
-      quantity: item.quantity
-    }
-  });
-});
-
 const deleteReservation = async (index) => {
-  console.log("this button")
-  console.log(index)
+  console.log('index' + index)
+  
+  shopReservationList.value[index].loading = true;
   const deleteReservation = httpsCallable(firebaseFunctions, 'deletereservation');
   await deleteReservation({ 
     uid: user.value.uid,
@@ -280,21 +268,23 @@ function showPhoneMessage(){
   </div>
 
   <br><br>
+
   <div class="reservations-card-wrap rc black">
-      <UserReservations @delete-reservation="deleteReservation" v-if="myReservations.length" :reservations = "myReservations" />
+    <UserReservations @delete-reservation="deleteReservation" 
+      v-if="shopReservationList.length" 
+      :reservations = "shopReservationList">  
+    </UserReservations>
   </div>
 </template>
 
 <style scoped>
-/* @import '@/assets/LoginSignup.css'; */
 @import '@/assets/UserProfile.css';
      
 .reservations-card-wrap{
     width: clamp(200px, 90vw,50rem);
     margin-inline:auto;
 }
-
-   
+ 
 </style>
 
 

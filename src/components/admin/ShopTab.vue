@@ -16,7 +16,7 @@ const showEditVariants = ref(false);
 const newItem = ref({
  name: '',
  category:'',
- price: '',
+ price: '$',
  quantity:'',
  desc: '',
  image:'',
@@ -84,7 +84,7 @@ const addItem = async () =>{
    newItem.value = {
         name: '',
         category: '',
-        price: '',
+        price: '$',
         quantity: '',
         desc: '',
         image: '',

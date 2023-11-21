@@ -1,11 +1,14 @@
 <script setup>
 import {defineProps} from 'vue'
+import TheSpinner from '../alerts/TheSpinner.vue'
+
 const myReservations = defineProps({
     reservations:{
         type: Array,
         default: () => []
     }
 })
+
 function expireDate(date) {
   const day = String(date.getDate() + 2).padStart(2, '0');
   const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -24,10 +27,14 @@ function expireDate(date) {
           <div class="grid-wrapper">
             <div class="roboto">{{ reservation.productName }}</div>
             <div class="product-quant pad-left">x{{ reservation.quantity }}</div>
-            
-            <button @click="$emit('deleteReservation', reservation.id)" class=" roboto delete-btn-mq ">
-              
-            Cancel </button>
+
+            <TheSpinner v-if="reservation.loading" />
+
+            <button v-if="!reservation.loading" 
+              @click="$emit('deleteReservation', reservation.id)" 
+              class="roboto delete-btn-mq"> 
+              Cancel
+            </button>
           </div>
         </div>
     </div>
@@ -40,9 +47,7 @@ function expireDate(date) {
   display:grid;
   grid-template-columns: 3fr 2fr 1fr;
   gap: .5rem;
-  align-items:center;
-  
- 
+  align-items:center; 
 }
 
 .delete-btn-mq{

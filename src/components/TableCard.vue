@@ -35,8 +35,6 @@
 .title-container{
   height:20%;
 }
-
-
 </style>
 
 
