@@ -62,6 +62,7 @@ const categoryMapping = {
     pok: 'Pokemon',
     rpg: 'RPG',
     oth: 'Accessories',
+    lor: 'Lorcana',
     '':'All Products'
 };
 
@@ -121,6 +122,7 @@ const paginatedShops = computed(() => {
             <option value="mtg">Magic: The Gathering</option>
             <option value="yug">Yugioh</option>
             <option value="pok">Pokemon</option>
+            <option value="lor">Lorcana</option>
             <option value="rpg">RPG</option>
             <option value="oth">Accessories</option>
         </select>
@@ -137,6 +139,7 @@ const paginatedShops = computed(() => {
               <button @click="setActiveTab('mtg')" class="cat-btn" :class="{highlight:selectedCategory === 'mtg'}">Magic: The Gathering</button> 
               <button @click="setActiveTab('yug')" class="cat-btn" :class="{highlight:selectedCategory === 'yug'}">YuGiOh</button> 
               <button @click="setActiveTab('pok')" class="cat-btn" :class="{highlight:selectedCategory === 'pok'}">Pokemon</button>
+              <button @click="setActiveTab('lor')" class="cat-btn" :class="{highlight:selectedCategory === 'lor'}">Lorcana</button>
               <button @click="setActiveTab('rpg')" class="cat-btn" :class="{highlight:selectedCategory === 'rpg'}">RPG</button>  
               <button @click="setActiveTab('oth')" class="cat-btn" :class="{highlight:selectedCategory === 'oth'}">Accessories</button> 
             </div>

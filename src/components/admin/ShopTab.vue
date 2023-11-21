@@ -221,8 +221,9 @@ const deleteVariant = (index) => {
             <option>Magic: The Gathering</option>
             <option>Pokemon</option>
             <option>Yugioh</option>
+            <option>Lorcana</option>
             <option>RPG</option>
-            <option>Acessories</option>
+            <option>Accessories</option>
           </datalist>
         
         <label for="itemPrice">Price</label>
