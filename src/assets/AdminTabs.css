@@ -64,7 +64,7 @@ textarea{
 
 input:focus,
 textarea:focus{
-    box-shadow: 0 0 5px 1px white;
+    box-shadow: 0 0 5px 1px rgb(255, 255, 255);
 }
 
 textarea{
