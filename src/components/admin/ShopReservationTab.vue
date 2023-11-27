@@ -23,6 +23,7 @@ onMounted( () => {
         const item = {
           id: counter,
           docID: doc.id,
+          email: reservationArr[i].email,
           productId: reservationArr[i].productID,
           productName: reservationArr[i].productName,
           creationDate: new Date(reservationArr[i].creationDate.seconds*1000),
@@ -83,7 +84,7 @@ const filteredReservations = computed(() => {
     </div>
     <table>
       <thead>
-        <th scope="col">Person</th>
+        <th scope="col">Email</th>
         <th scope="col">Item Name</th>
         <th scope="col">Quantity</th>
         <th scope="col">Time of Reservation</th>
@@ -92,7 +93,7 @@ const filteredReservations = computed(() => {
         
       <tbody v-for="reservation in filteredReservations" :key="reservation.id">
         <tr>
-          <td class="name">[[person]]</td>
+          <td class="name">{{ reservation.email }}</td>
           <td>{{ reservation.productName }}</td>
           <td>{{ reservation.quantity }}</td>
           <td>{{ fullDate(reservation.creationDate) }}</td> 
