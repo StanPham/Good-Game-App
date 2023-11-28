@@ -154,8 +154,6 @@ watch(user, (newValue) => {
   }
 });
 
-
-
 const updateNameButton = ref(true);
 const theyUpdatedName = ref(false);
 

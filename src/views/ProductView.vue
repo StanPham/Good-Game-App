@@ -291,10 +291,5 @@ select{
   padding:.5rem;
 }
 
-@media(max-width:1000px){
 
-  .product-img{
-    margin-top:0;
-  }
-}
 </style>

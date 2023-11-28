@@ -97,7 +97,7 @@ const goEvent = () => {
               <div class="start-time bold title-scale">{{ hoursMinutes(todaysEvent.startDate) }} <span v-if="todaysEvent.endDate">-</span> {{hoursMinutes(todaysEvent.endDate) }}</div>
           </div>
             
-          <p class="event-description font-med">{{ todaysEvent.desc }}</p>
+          <p class="event-description font-med roboto">{{ todaysEvent.desc }}</p>
           <br>
           <button class="all-events-btn main-btn-full bold" @click="goEvent">All Events</button>
       </div>

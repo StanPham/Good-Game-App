@@ -213,7 +213,7 @@ const getCurrentMonth = computed(() => {
         position:static;
         width:10%;
         height:auto;
-        min-height:60px;
+        min-height:70px;
     }
     .event-day{
         font-size:2em;

@@ -28,7 +28,6 @@ const submitSignOut = async () => {
         })
     }
 })
-const profileClicked = () => userClickedProfile.value = !userClickedProfile.value;
 
 const toggleMobileMenu = () => isMobileMenuOpen.value = !isMobileMenuOpen.value;
 
@@ -129,10 +128,10 @@ const outsideClickHandler = () => {
          
     <div class="login-container">
         <div class="flex-c-c" v-if="user">
-          <div v-if="user.displayName">
+          <div v-if="user.displayName" class="userHeader">
             Welcome, {{ user?.displayName }}!
           </div>
-          <div v-else>
+          <div v-else class="userHeader">
             {{ user?.email }}
           </div>
           <button type="button" class="font-med pink-blur pad-left jockey" @click="submitSignOut">Sign Out</button>
@@ -157,6 +156,9 @@ const outsideClickHandler = () => {
         
 
 <style scoped>
+.userHeader{
+  display:none;
+}
 
 .logo-med{
   width:55px;
@@ -294,7 +296,7 @@ const outsideClickHandler = () => {
   background:var(--btn-color);
 }
 
-@media (max-width: 767px) {
+@media (max-width: 900px) {
   .login-container{
     display:none;
   }
@@ -334,6 +336,10 @@ const outsideClickHandler = () => {
    
 }
     
-
+@media(min-width: 1200px){
+  .userHeader{
+    display:block;
+  }
+}
 </style>
 
