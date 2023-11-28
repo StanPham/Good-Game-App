@@ -159,31 +159,22 @@ watch(user, (newValue) => {
 const updateNameButton = ref(true);
 const theyUpdatedName = ref(false);
 
-const updateEmailButton = ref(true);
-const theyUpdatedEmail = ref(false);
-
 const updatePhoneButton = ref(true);
 const theyUpdatedPhone = ref(false);
 
 const verifyEmailButton = ref(false);
-const verifyPhoneButton = ref(false);
+
 
 function verifyEmail(){
   verifyEmailButton.value = true;
   sendEmailVerification(user.value).then(() => {}).catch((err) => {
     console.log(err)
   })
-  //needs logic to send the email
 }
 
-const submitUpdateEmail = () => {
-  //needs logic to update email
-  
-  showEmailMessage();
-}
 
 const submitUpdateName = () => {
-  //needs logic to update username
+
   updateProfile(user.value, {
   displayName: userTableInfo.value.displayName
   }).then(() => {
@@ -215,18 +206,6 @@ function showNameMessage(){
   }, 6000);
 }
 
-function showEmailMessage(){
-  updateEmailButton.value = false;
-  theyUpdatedEmail.value = true;
-  setTimeout(() => {
-    theyUpdatedEmail.value = false;
-
-  }, 5000);
-  setTimeout(() => {
-    updateEmailButton.value = true;
-
-  }, 6000);
-}
 
 function showPhoneMessage(){
   updatePhoneButton.value = false;
@@ -266,15 +245,9 @@ function showPhoneMessage(){
                   <input type="text" class="form-input" name="email" v-model="userTableInfo.email">
                   <button v-if="!user?.emailVerified" type="button" class="submit-btn main-btn" @click="verifyEmail">Verify Email</button>
                   <UserInfoPopups v-if="verifyEmailButton" :message="'Verification link sent to ' + userTableInfo.email"/>
-                  <div v-if="user?.emailVerified && updateEmailButton" class="flex align-c gap">
-                    <button  type="submit" class="submit-btn main-btn block" :disabled="isEmailUnchanged">Update Email</button>
+                  <div v-if="user?.emailVerified" class="flex align-c gap">
                     <p class="italic">You're Verified</p>
                   </div>
-                  <transition name="fade">
-                    <UserInfoPopups v-if="theyUpdatedEmail" :message="'Email updated, verification link sent to ' + user.email">
-                      <img :src=greencheck alt="" class="margin-left">
-                    </UserInfoPopups>
-                  </transition>
               </div>
           </form>
 
