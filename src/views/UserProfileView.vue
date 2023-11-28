@@ -4,7 +4,8 @@ import {
   RecaptchaVerifier, 
   PhoneAuthProvider, 
   updatePhoneNumber, 
-  sendEmailVerification } from "firebase/auth";
+  sendEmailVerification, 
+  updateProfile} from "firebase/auth";
 
 import { db, firebaseAppAuth, firebaseFunctions } from '@/firebase'
 import { ref, onMounted, watch, computed, onUnmounted } from "vue";
@@ -17,16 +18,13 @@ import TheSpinner from '../components/alerts/TheSpinner.vue'
 
 const shopReservationList = ref([])
 const user = ref(null)
-
 const userTableInfo = ref({
     displayName: '(Not Set)',
     email: '',
     phoneNumber: '+1'
 })
-const initialDisplayName = ref('');
 const initialPhoneNumber = ref('');
 const initialEmail = ref('');
-
 
 
 
@@ -35,13 +33,13 @@ onAuthStateChanged(firebaseAppAuth, currentUser => {
    
     console.log(user.value.email)
     if(currentUser){
+        console.log(currentUser.providerData)
         userTableInfo.value = {
             displayName: user?.value.displayName ? user?.value.displayName : '(Not Set)' ,
             email: user?.value.email,
             phoneNumber: user?.value.phoneNumber ? user?.value.phoneNumber : '+1',
             isTheirEmailVerified: user?.value.emailVerified
         }
-        initialDisplayName.value = userTableInfo.value.displayName;
         initialPhoneNumber.value = userTableInfo.value.phoneNumber;
         initialEmail.value = userTableInfo.value.email;
         
@@ -95,12 +93,31 @@ const submitPhoneNumber = async () => {
         }).then((phoneCredential) =>{
             return updatePhoneNumber(user.value, phoneCredential).then((result) => {
               showPhoneMessage();
-                console.log("worked")
             })
         }).catch((err) => {
             console.log(err)
         })
 }
+
+
+watch(user, (newValue) => {
+  if (newValue) {
+    fetchUserData();
+  }
+});
+
+onMounted(fetchUserData);
+
+const myReservations = computed(() => {
+  return shopReservationList.value.map(item => {
+    return {
+      id: item.id,
+      productName: item.productName,
+      creationDate: item.creationDate,
+      quantity: item.quantity
+    }
+  });
+});
 
 const deleteReservation = async (index) => {
   console.log('index' + index)
@@ -120,7 +137,7 @@ const deleteReservation = async (index) => {
 }
 
 const isNameUnchanged = computed(() => {
-    return userTableInfo.value.displayName === initialDisplayName.value;
+    return userTableInfo.value.displayName === user.value.displayName;
 });
 
 const isPhoneUnchanged = computed(() => {
@@ -128,7 +145,7 @@ const isPhoneUnchanged = computed(() => {
 });
 
 const isEmailUnchanged = computed(() => {
-    return userTableInfo.value.email === initialEmail.value;
+    return userTableInfo.value.email === user.value.email;
 });
 
 watch(user, (newValue) => {
@@ -153,22 +170,35 @@ const verifyPhoneButton = ref(false);
 
 function verifyEmail(){
   verifyEmailButton.value = true;
+  sendEmailVerification(user.value).then(() => {}).catch((err) => {
+    console.log(err)
+  })
   //needs logic to send the email
 }
 
 const submitUpdateEmail = () => {
   //needs logic to update email
+  
   showEmailMessage();
 }
 
 const submitUpdateName = () => {
   //needs logic to update username
+  updateProfile(user.value, {
+  displayName: userTableInfo.value.displayName
+  }).then(() => {
+    // Profile updated!
+    // ...
+  }).catch((error) => {
+    // An error occurred
+    // ...
+    console.log(error)
+  });
   showNameMessage();
 }
 
 const submitUpdatePhone = () => {
-  //needs logic to update phone
-  showPhoneMessage();
+  submitPhoneNumber();
 }
 
 
@@ -251,7 +281,7 @@ function showPhoneMessage(){
           <form @submit.prevent="submitUpdatePhone">
             <label for="phone">Phone Number</label>
             <div>
-                <input type="tel" class="form-input" name="phone" pattern="[0-9]{10}" v-model="userTableInfo.phoneNumber">
+                <input type="tel" class="form-input" name="phone" v-model="userTableInfo.phoneNumber">
                 <button v-if="!user?.phoneNumber" type="button" class="submit-btn main-btn" @click="submitPhoneNumber">Add Phone</button>
                 
                 <button v-if="user?.phoneNumber && updatePhoneButton" type="submit" class="submit-btn main-btn" :disabled="isPhoneUnchanged">Update Phone</button>

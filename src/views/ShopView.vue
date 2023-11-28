@@ -44,7 +44,6 @@ const sortItems = () => {
     const getPriceAsNumber = (priceString) => parseFloat(priceString.replace(/[^\d.]/g, ''));
 
     myShops.value.sort((a, b) => getPriceAsNumber(a.price) - getPriceAsNumber(b.price));
-    console.log(sortMethod.value)
 
   } else {
     myShops.value.sort((a, b) => b.creationDate - a.creationDate);
@@ -53,7 +52,6 @@ const sortItems = () => {
   
 watch(sortMethod, () => {
   sortItems();
-  console.log(myShops.value);
 })
 
 const categoryMapping = {
