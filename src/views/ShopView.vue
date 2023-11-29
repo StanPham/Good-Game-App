@@ -3,6 +3,7 @@ import { collection, onSnapshot} from "firebase/firestore";
 import { db } from "@/firebase"
 import { useRoute } from 'vue-router';
 import { onMounted, ref, watch, computed, onUnmounted} from 'vue';
+import ShoppingCart from "../components/shopviewcomponents/ShoppingCart.vue";
 
 const selectedCategory = ref('');
 const sortMethod = ref("");
@@ -106,10 +107,13 @@ const paginatedShops = computed(() => {
 
 <template>
   <div class="view-top-margin">
-      <div class="search flex-c pad-top">
+      <div class="search flex-c pad-top gap">
         <div class="search-container flex-c rel">
           <img src="../images/search.svg" alt="deez" class="search-icon">
           <input type = "text" class="input-box" placeholder="Search" v-model="searchQuery">
+        </div>
+        <div class="lotus-container">
+          <ShoppingCart />
         </div>
       </div>
 
@@ -262,7 +266,7 @@ const paginatedShops = computed(() => {
 }
 
 .search-container{
-  width:70%;
+  width:90%;
 }
 
 .search{
@@ -318,6 +322,9 @@ img{
   font-size:1rem;
 }
 
+.lotus-container{
+  display:none;
+}
 @media(min-width:763px){
   main{
     grid-template-columns: repeat(auto-fit, minmax(13rem,1fr));
@@ -332,6 +339,12 @@ img{
     }
     .cat-wrap{
         display:none;
+    }
+    .lotus-container{
+      display:block;
+    }
+    .search-container{
+      width:55%;
     }
 }
 </style>

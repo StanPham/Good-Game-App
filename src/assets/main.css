@@ -276,6 +276,10 @@ a{
 .gap-big{
   gap:4rem;
 }
+
+.gap-small{
+  gap:.5rem;
+}
 /* layout end */
 
 /* position start */
