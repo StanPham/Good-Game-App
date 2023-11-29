@@ -164,7 +164,7 @@ const myShops = computed(() => {
 
 @media(min-width:1450px){
    .car-card{
-    width: calc(80% - 15rem);
+    width: calc(80% - 15rem - 1vmax);
   }
   .shop-comp{
     display:block;
