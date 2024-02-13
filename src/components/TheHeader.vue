@@ -81,15 +81,6 @@ const goSignupTwo = () => {
     isMobileMenuOpen.value = !isMobileMenuOpen.value;
 };
 
-const goAbout = () => {
-    router.push('/about');
-};
-
-const goAboutTwo = () => {
-    router.push('/about');
-    isMobileMenuOpen.value = !isMobileMenuOpen.value;
-};
-
 const goAdmin = () => {
     router.push('/admin');
 };
