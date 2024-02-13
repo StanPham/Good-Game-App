@@ -119,7 +119,7 @@ const outsideClickHandler = () => {
             </div>
           </div> -->
         <a @click="goEvent">EVENTS</a>
-        <a @click="goShop">SHOP</a>
+        
         <a @click="goAbout">ABOUT</a>
         <a v-if="user" @click="goUser">PROFILE</a>
         
@@ -146,7 +146,6 @@ const outsideClickHandler = () => {
         <a v-if="user" class="mobile-login" @click="submitSignOut"> SIGNOUT</a>
         <a v-else class="mobile-login" @click="goSignupTwo">LOGIN</a>
         <a @click="goEventTwo">EVENTS</a>
-        <a @click="goShopTwo">SHOP</a>
         <a @click="goAboutTwo">ABOUT</a>
         <a v-if="user" @click="goUserTwo">PROFILE</a>
       </div>

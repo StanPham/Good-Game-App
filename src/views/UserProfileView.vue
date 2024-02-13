@@ -11,12 +11,11 @@ import { db, firebaseAppAuth, firebaseFunctions } from '@/firebase'
 import { ref, onMounted, watch, computed, onUnmounted } from "vue";
 import { httpsCallable } from 'firebase/functions';
 import { doc, collection, onSnapshot } from "firebase/firestore";
-import UserReservations from '../components/userprofile/UserReservations.vue'
 import UserInfoPopups from "../components/alerts/UserInfoPopups.vue";
 import greencheck from '../images/green-check.png'
 import TheSpinner from '../components/alerts/TheSpinner.vue'
 
-const shopReservationList = ref([])
+
 const user = ref(null)
 const userTableInfo = ref({
     displayName: '(Not Set)',
@@ -43,40 +42,10 @@ onAuthStateChanged(firebaseAppAuth, currentUser => {
         initialPhoneNumber.value = userTableInfo.value.phoneNumber;
         initialEmail.value = userTableInfo.value.email;
         
-
-        fetchUserData();
     }
 })
 
-const fetchUserData = () => {
-  if (user.value) {
-    const docRef = doc(db, 'shopReservation', user.value.uid);
-    onSnapshot(docRef, (doc) => {
-      console.log("here")
-      console.log(doc.exists())
-      if (!doc.exists()) {
 
-        shopReservationList.value = []
-        
-      } else {
-        const reservations = doc.data().reservations;
-        const tmpShopReservationList = [];
-        for (let i = 0; i < reservations.length; i++) {
-          tmpShopReservationList.push({
-            id: i,
-            productId: reservations[i].productID,
-            productName: reservations[i].productName,
-            creationDate: new Date(reservations[i].creationDate.seconds * 1000),
-            quantity: reservations[i].quantity,
-            loading:false,
-          });
-        }
-        shopReservationList.value = tmpShopReservationList;
-        console.log(shopReservationList.value)
-      }
-    });
-  }
-};
 
 const submitPhoneNumber = async () => {
     console.log(userTableInfo.value.phoneNumber)
@@ -100,41 +69,7 @@ const submitPhoneNumber = async () => {
 }
 
 
-watch(user, (newValue) => {
-  if (newValue) {
-    fetchUserData();
-  }
-});
 
-onMounted(fetchUserData);
-
-const myReservations = computed(() => {
-  return shopReservationList.value.map(item => {
-    return {
-      id: item.id,
-      productName: item.productName,
-      creationDate: item.creationDate,
-      quantity: item.quantity
-    }
-  });
-});
-
-const deleteReservation = async (index) => {
-  console.log('index' + index)
-  
-  shopReservationList.value[index].loading = true;
-  const deleteReservation = httpsCallable(firebaseFunctions, 'deletereservation');
-  await deleteReservation({ 
-    uid: user.value.uid,
-    index: index,
-    state: "delete"
-  })
-  .then((result) => {
-      console.log(result.data.message)
-  }).catch(err => {
-      console.log(err);
-  });
-}
 
 const isNameUnchanged = computed(() => {
     return userTableInfo.value.displayName === user.value.displayName;
@@ -148,11 +83,6 @@ const isEmailUnchanged = computed(() => {
     return userTableInfo.value.email === user.value.email;
 });
 
-watch(user, (newValue) => {
-  if (newValue) {
-    fetchUserData();
-  }
-});
 
 const updateNameButton = ref(true);
 const theyUpdatedName = ref(false);
@@ -270,12 +200,6 @@ function showPhoneMessage(){
 
   <br><br>
 
-  <div class="reservations-card-wrap rc black">
-    <UserReservations @delete-reservation="deleteReservation" 
-      v-if="shopReservationList.length" 
-      :reservations = "shopReservationList">  
-    </UserReservations>
-  </div>
 </template>
 
 <style scoped>
@@ -289,22 +213,3 @@ function showPhoneMessage(){
 </style>
 
 
-
-
-  <!-- <div class="profile-container">
-        <div class="container">
-            <h1 class="profile-header">header</h1>
-            <div class="profile-body-container">
-                <h1 class="body-header">event header</h1>
-                <div class="profile-body">
-                    <h2 class="pink-italic">todays event name </h2>
-                    <h3 class="pink"> todays event format</h3>
-                    <div class="bold title-scale">start time div</div>
-                </div>
-                    
-                <p class="profile-description font-med">hi hello</p>
-                <br>
-                <button class="all-events-btn main-btn-full bold" @click="goEvent">All Events</button>
-            </div>
-        </div>
-    </div> -->
