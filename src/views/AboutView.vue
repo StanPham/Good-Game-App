@@ -1,5 +1,9 @@
 <script setup>
+
 import GoogleMaps from '../components/aboutviewcomponents/GoogleMaps.vue';
+
+import GoogleMapVue from '../components/aboutviewcomponents/GoogleMap.vue';
+
 import TheHours from '../components/aboutviewcomponents/TheHours.vue'
 </script>
 
@@ -12,6 +16,9 @@ import TheHours from '../components/aboutviewcomponents/TheHours.vue'
     <div class="google-maps-container  rc black text-center">
       
       <GoogleMaps />
+
+      <GoogleMapVue />
+
     </div>
   </div>
 </template>

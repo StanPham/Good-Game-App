@@ -81,6 +81,15 @@ const goSignupTwo = () => {
     isMobileMenuOpen.value = !isMobileMenuOpen.value;
 };
 
+const goAbout = () => {
+    router.push('/about');
+};
+
+const goAboutTwo = () => {
+    router.push('/about');
+    isMobileMenuOpen.value = !isMobileMenuOpen.value;
+};
+
 const goAdmin = () => {
     router.push('/admin');
 };
@@ -119,10 +128,11 @@ const outsideClickHandler = () => {
             </div>
           </div> -->
         <a @click="goEvent">EVENTS</a>
+
         
         <a @click="goAbout">ABOUT</a>
         <a v-if="user" @click="goUser">PROFILE</a>
-        
+
         <a v-if="isAdmin" @click="goAdmin">ADMIN</a>
     </div>
          
@@ -148,6 +158,7 @@ const outsideClickHandler = () => {
         <a @click="goEventTwo">EVENTS</a>
         <a @click="goAboutTwo">ABOUT</a>
         <a v-if="user" @click="goUserTwo">PROFILE</a>
+
       </div>
     </div>
   </div>

@@ -88,6 +88,7 @@ const slideContents = computed(() => {
 </template>
 
 <style scoped>
+
 .facebook-card,
 .table-card{
   width:clamp(1000px,80vw,80vw);

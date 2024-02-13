@@ -217,6 +217,7 @@ h2 {
   text-align:center;
 }
 
+
 .text-right{
   text-align:right;
 }
@@ -258,6 +259,9 @@ a{
 
 .flex-sb{
   display:flex;
+
+.flex-sb{
+
   justify-content: space-between;
 }
 
@@ -280,6 +284,7 @@ a{
 .gap-small{
   gap:.5rem;
 }
+
 /* layout end */
 
 /* position start */
@@ -356,11 +361,13 @@ a{
   background: linear-gradient(98.79deg, #BA76FF -8.25%, #180030 73.07%);
 }
 
+
 .form-bg{
   background-color: rgb(66, 60, 63);
 }
 
 /*background end*/
+
 .rc{
   border-radius:1rem;
 }
@@ -372,6 +379,7 @@ a{
 .icon-white{
   filter: invert(100%) sepia(1%) saturate(7418%) hue-rotate(290deg) brightness(105%) contrast(98%);
 }
+
 
 .icon{
   width:25px;
@@ -470,6 +478,7 @@ video {
   z-index: 998; 
 }
 
+
 .highlight{
   background-color: white;
   color:black;
@@ -520,3 +529,4 @@ button:disabled{
 .active-page:hover {
   background-color: #2988c8;
 }
+
