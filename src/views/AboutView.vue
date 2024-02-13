@@ -12,6 +12,7 @@ import TheHours from '../components/aboutviewcomponents/TheHours.vue'
     <div class="google-maps-container  rc black text-center">
       
       <GoogleMaps />
+
     </div>
   </div>
 </template>

@@ -217,9 +217,11 @@ h2 {
   text-align:center;
 }
 
+
 .text-right{
   text-align:right;
 }
+
 
 .link-hover:hover{
   color:rgb(214, 110, 214);
@@ -252,12 +254,13 @@ a{
   align-items: center;
 }
 
+
 .align-c{
   align-items: center;
 }
 
+
 .flex-sb{
-  display:flex;
   justify-content: space-between;
 }
 
@@ -277,9 +280,11 @@ a{
   gap:4rem;
 }
 
+
 .gap-small{
   gap:.5rem;
 }
+
 /* layout end */
 
 /* position start */
@@ -361,6 +366,7 @@ a{
 }
 
 /*background end*/
+
 .rc{
   border-radius:1rem;
 }
@@ -372,6 +378,7 @@ a{
 .icon-white{
   filter: invert(100%) sepia(1%) saturate(7418%) hue-rotate(290deg) brightness(105%) contrast(98%);
 }
+
 
 .icon{
   width:25px;
@@ -470,6 +477,7 @@ video {
   z-index: 998; 
 }
 
+
 .highlight{
   background-color: white;
   color:black;
@@ -520,3 +528,4 @@ button:disabled{
 .active-page:hover {
   background-color: #2988c8;
 }
+

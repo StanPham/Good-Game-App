@@ -67,6 +67,7 @@ const router = createRouter({
       path: '/about',
       name: 'about',
       component: () => import('../views/AboutView.vue')
+
     },
     {
       path: '/table',
@@ -77,6 +78,7 @@ const router = createRouter({
       path: '/privacy',
       name: 'privacy',
       component: () => import('../views/PPView.vue')
+
     }, 
     {
       path: '/admin',

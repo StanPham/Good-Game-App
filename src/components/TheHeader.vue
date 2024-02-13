@@ -148,6 +148,7 @@ const outsideClickHandler = () => {
         <a @click="goEventTwo">EVENTS</a>
         <a @click="goAboutTwo">ABOUT</a>
         <a v-if="user" @click="goUserTwo">PROFILE</a>
+
       </div>
     </div>
   </div>
