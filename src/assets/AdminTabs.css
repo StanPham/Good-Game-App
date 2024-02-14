@@ -25,6 +25,12 @@ input.checkbox{
     color:white;
     width:30%;
     margin-inline:auto;
+    transition:none;
+}
+
+.submit-btn:hover{
+    background-color: rgb(180, 44, 180);
+    transform: scale(1.03);
 }
     
 .form-container{
@@ -44,13 +50,23 @@ form{
     flex-direction: column;
     padding: 1.25em;
     gap:.5rem;
+    position:relative;
 }
   
-input{
+input,
+textarea{
     padding-left:1rem;
     margin-bottom:1rem;
+    outline:none;
+    border:none;
+    transition: all .2s;
 }
-  
+
+input:focus,
+textarea:focus{
+    box-shadow: 0 0 5px 1px rgb(255, 255, 255);
+}
+
 textarea{
     color:black;
     padding-left:1rem;
@@ -58,7 +74,8 @@ textarea{
     flex-shrink:0;
 }
   
-form input[type="text"]{
+form input[type="text"],
+form input[type="number"]{
     color:black;
 }
   
@@ -104,7 +121,6 @@ th{
 td{
     font-size:1.3rem;
     min-height:100%;
-    width:100%;
     border: grey 1px solid;
 }
   
@@ -117,24 +133,20 @@ td{
     overflow-y: auto;
     overflow-x: hidden;
     word-wrap: break-word;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
     padding: 1rem; 
 }
   
 th,
 td {
-    width: 150px;
+    max-width: 150px;
     text-align: center;
-    padding: 1rem;
-   
+    padding: 1rem;  
 }
   
 table{ 
     table-layout:fixed;
-    width:100%;
+    max-width:100%;
+    min-width:100%;
     border-collapse:collapse;
     border-spacing:0 15px;
 }
@@ -162,4 +174,56 @@ tr{
     background-color: rgba(0, 0, 0, 0.7); 
     z-index: 998; 
 }
+
+.variant-btn{
+    text-align:right;
+    width:auto;
+    margin-left:auto;
+}
+
+.delete-past-events-wrapper{
+    width:100%;
+    display:flex;
+    justify-content: flex-end;
+}
+
+.cancel-btn{
+    width:40px;
+    position:absolute;
+    top:2%;
+    right:2%;
+}
   /*end form stuff*/
+
+.input-box{
+  width:100%;
+  background-color: rgb(238, 235, 235);
+  border-radius: 20px;
+  border: 1px solid #21272b;
+  padding-left:50px;
+  max-height: 30px;
+  height:30px ;
+  color:black;
+}
+
+.search-container{
+  position:relative;
+  width:70%;
+  display:flex;
+  justify-content:center;
+}
+
+.search{
+  width:100vw;
+  padding-top:1rem;
+  display:flex;
+  justify-content: center;
+}
+
+.search-icon{
+  width:20px;
+  height:20px;
+  position:absolute;
+  top: 15%;
+  left: 1rem;
+}

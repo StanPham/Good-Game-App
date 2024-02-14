@@ -24,7 +24,7 @@ onMounted( () => {
         game: doc.data().game || "No Game Set In Database",
         format: doc.data().format,
         startDate: new Date(doc.data().startDate.seconds*1000),
-        endDate: new Date(doc.data().endDate.seconds*1000)
+        endDate: doc.data().endDate == null ? null : new Date(doc.data().endDate.seconds*1000)
       }
       tmpEvents.push(event)
     });
@@ -70,11 +70,13 @@ function dayMonthDay(date) {
 }
    
 function hoursMinutes(date) {
+  if(date){
     let hours = date.getHours();
     hours = hours %12;
     const someHours = String(hours);
     const minutes = String(date.getMinutes()).padStart(2, '0');
     return `${someHours}:${minutes}pm`;
+  }
 }
 
 const router = useRouter();
@@ -85,17 +87,17 @@ const goEvent = () => {
 </script>
 
 <template>
-  <div class="container">
+  <div class="container rc">
       <h1 class="header">{{titleOfCard}}</h1>
-      <div class="event-wrapper">
+      <div class="pad text-center">
         <h1 class="event-day">{{ dayMonthDay(todaysEvent.startDate) }}</h1>
           <div class="title-wrapper title">
               <h2 class="pink-italic">{{ todaysEvent.name }} </h2>
               <h3 class="pink"> {{ todaysEvent.format}}</h3>
-              <div class="start-time bold title-scale">{{ hoursMinutes(todaysEvent.startDate) }} - {{hoursMinutes(todaysEvent.endDate) }}</div>
+              <div class="start-time bold title-scale">{{ hoursMinutes(todaysEvent.startDate) }} <span v-if="todaysEvent.endDate">-</span> {{hoursMinutes(todaysEvent.endDate) }}</div>
           </div>
             
-          <p class="event-description font-med">{{ todaysEvent.desc }}</p>
+          <p class="event-description font-med roboto">{{ todaysEvent.desc }}</p>
           <br>
           <button class="all-events-btn main-btn-full bold" @click="goEvent">All Events</button>
       </div>
@@ -109,16 +111,8 @@ const goEvent = () => {
   text-decoration: underline;
 }
 
-
-
-.event-wrapper{
-  padding: 1rem;
-  text-align: center;
-}
-
 .container{
   background: linear-gradient(98.79deg, #a45aee -8.25%, #180030 30.07%); 
-  border-radius: 1rem;
   height:100%;
 }
     

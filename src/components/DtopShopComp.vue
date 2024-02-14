@@ -1,116 +1,84 @@
 <script setup>
-import {ref} from 'vue';
-import pika from '../images/pikachu.webp';
-import mtg from '../images/mtg.webp'
-import cardcase from '../images/cardcase.png'
-import gengar from '../images/gengar.png'
-import snorlax from '../images/snorlax.png'
-import bulba from '../images/bulba.png'
-const myShops = ref([
-    {
-        id:1,
-        image: gengar,
-        name: 'Product #1',
-        price: '$99.99',
-        quant: 3,
-        category: 'MTG',
+import {ref, defineProps} from 'vue';
+import router from '../router'
 
-    },
-    {
-        id:2,
-        image: snorlax,
-        name: 'Product #2',
-        price: '$19.99',
-        quant: 3,
-        category: 'Pokemon',
+const myShops = defineProps({
+  items: {
+    type: Array,
+    default: () => []
+  }
+});
 
-    },
-    {
-        id:3,
-        image: bulba,
-        name: 'Product #3',
-        price: '$99.99',
-        quant: 3,
-        category: 'Yugioh',
+const goShop = () => router.push('/shop');
 
-    },
-    {
-        id:3,
-        image: gengar,
-        name: 'Product #4',
-        price: '$19.99',
-        quant: 3,
-        category: 'Yugioh',
-
-    },
-]);
 </script>
 
 <template>
-    <div class="main-container">
-        <div class="header pad-top title-big-scale cool-font">New Products (coming soon)</div>
-        <br>
-        <main class="product-container" >
-          
-        <div class="work-wrap" v-for="shop in myShops" :key="shop.id">
-            
-        <div class="pad-left click">
-            <img :src="shop.image" alt="" class="pika">
-            <br><br>
-            <div class="product-name">{{shop.name}}</div>
-            
-            <div class="price">{{ shop.price }}</div>
-            
-            <br>
+    <div class="black rc">
+      <div class="header-container flex rc">
+        <div class="header flex pad-top pad-bot title-big-scale cool-font rc">New Products
+          <button class="main-btn-full margin-right" @click="goShop">View All Products</button>
         </div>
-  
+        
+      </div>
+      <main class="product-container pad">
+        <div class="pad-bot" v-for="item in myShops.items" :key="item.id">
+          <router-link :to="`/product/${item.id}`" class="link">
+            <div class="product-info pad-left click flex-sb column">
+              <div>
+                <img :src="item.img" :alt="`Image of ${item.name}`" class="product-image">
+                <div class="font-med text-limit pad-top">{{ item.name }}</div>
+              </div>
+              <div class="price font-med bold">{{ item.price }}</div> 
+            </div>
+          </router-link>
         </div>
-       
-    </main>
+      </main>
     </div>
-</template>
+  </template>
 
 <style scoped>
-.arrow{
-    width:50px;
-    filter: invert(100%) sepia(1%) saturate(7418%) hue-rotate(290deg) brightness(105%) contrast(98%);
-    cursor: pointer;
+
+.product-info{
+  height:100%;
 }
-.left-arrow{
-    width:1px;
+
+.link{
+  text-decoration:none;
+  height:100%;
 }
-.main-container{
-    background:black;
-   
-}
+
 .quant{
-    font-size: .8rem;
+  font-size: .8rem;
 }
-.product-name,
-.price{
-    font-size:1.1rem;
-}
+
 .price{
   padding-top:5px;
 }
+
+.header-container{
+  background: rgba(20, 20, 20, 0.616);
+  width:100%;
+  justify-content: flex-end;
+}
+
 .header{
-    background: rgba(12, 12, 12, 0.616);
-    width:100%;
-    text-align:center;   
+  width:60%;
+  text-align:center;   
+  align-items:center;
+  justify-content: space-between;
 }
 
 main{
-    display:flex;
-    align-items: center;
-    justify-content:space-evenly;
-    margin:1rem;
-    gap: 1.5rem;
-    max-width:100%;
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  max-width:100%;
 }
 
 img{
-    height:300px;
-    max-width:300px;
+  height:300px;
+  max-width:300px;
 }
 
 </style>

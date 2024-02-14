@@ -13,6 +13,7 @@
     "firebase-functions": "^4.4.1",
     "pinia": "^2.1.6",
     "vue": "^3.3.4",
+    "vue-awesome-paginate": "^1.1.46",
     "vue-router": "^4.2.4"
   },
   "devDependencies": {

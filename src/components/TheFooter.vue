@@ -1,11 +1,11 @@
 <script setup>
 import router from '../router'
 
-const discord = () => router.push('https://discord.com/invite/AmCadcysE4')
+const goPP = () => router.push('/privacy');
 </script>
 
 <template>
-    <div class="footer flex-c-c wrap">
+    <div class="footer flex-c-c wrap black">
         <div class="icon-flex-container">
             <a href='https://discord.com/invite/AmCadcysE4'>
                 <img src="../images/discord.svg" alt="" class="icon">
@@ -19,7 +19,7 @@ const discord = () => router.push('https://discord.com/invite/AmCadcysE4')
         </div>
         <br>
         <div class="copyright">© Good Game 2023</div>
-        <div class="privacy-policy">Privacy Policy | Terms of Service</div>
+        <div class="privacy-policy" @click="goPP">Privacy Policy</div>
         <div class="pnumber">479-219-5162</div>
         <div class="email">goodgame.rsvl.ar@gmail.com</div>
     </div>
@@ -27,7 +27,6 @@ const discord = () => router.push('https://discord.com/invite/AmCadcysE4')
       
 <style scoped>
 .footer{
-    background: black;
     width:100%;
     padding: 1rem 15%;
     gap:2vw;

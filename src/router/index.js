@@ -21,6 +21,18 @@ function requireAuth(to, from, next ){
   })
 }
 
+function requireLogin(to, from, next ){
+  const unsubscribe = onAuthStateChanged(firebaseAppAuth, user => {
+    unsubscribe()
+    if(!user){
+      console.log("no user, route to login")
+      next('/login')
+    } else {
+      next()
+    }
+  })
+}
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -41,11 +53,6 @@ const router = createRouter({
       component: () => import('../views/LoginView.vue')
     },
     {
-      path: '/shop',
-      name: 'shop',
-      component: () => import('../views/ShopView.vue')
-    },
-    {
       path: '/product/:name',
       name: 'product',
       component: () => import('../views/ProductView.vue')
@@ -60,12 +67,36 @@ const router = createRouter({
       path: '/about',
       name: 'about',
       component: () => import('../views/AboutView.vue')
+
+    },
+    {
+      path: '/table',
+      name: 'table',
+      component: () => import('../views/TableView.vue')
+    },  
+    {
+      path: '/privacy',
+      name: 'privacy',
+      component: () => import('../views/PPView.vue')
+
     }, 
     {
       path: '/admin',
       name: 'admin',
       component: () => import('../views/AdminView.vue'),
      beforeEnter: requireAuth,  
+    },
+    {
+      path: '/phone',
+      name: 'phone',
+      component: () => import('../views/PhoneView.vue'),
+      beforeEnter: requireLogin
+    },
+    {
+      path: '/user',
+      name: 'user',
+      component: () => import('../views/UserProfileView.vue'),
+      beforeEnter: requireLogin
     },
      
   ]

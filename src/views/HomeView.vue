@@ -5,13 +5,12 @@ import { db } from "@/firebase"
 
 import TheCarousel from '../components/TheCarousel.vue'
 import TodaysEvent from '../components/TodaysEvent.vue';
-import ShopCard from '../components/MobileShopCard.vue';
-import ShopComp from '../components/DtopShopComp.vue';
 import TableCard from '../components/TableCard.vue'
 import FacebookCard from '../components/FacebookCard.vue';
 
 
 const mySlides = ref([]);
+
 
 function preloadImages(arrayOfImages) {
   arrayOfImages.forEach(imageUrl => {
@@ -42,8 +41,8 @@ onMounted( () => {
    const imageUrls = mySlides.value.map(slide => slide.img);
     preloadImages(imageUrls);
  });
- 
 })
+
 
 const sortedSlides = computed(() => {
   return mySlides.value.slice().sort((a, b) => a.order - b.order);
@@ -64,6 +63,8 @@ const slideContents = computed(() => {
     });
 });
 
+
+
 </script>
 
 <template>
@@ -74,14 +75,6 @@ const slideContents = computed(() => {
 
     <div class="event-card">
       <TodaysEvent />
-    </div>
-
-    <div class="shop-card">
-      <ShopCard />
-    </div>
-
-    <div class="shop-comp">
-      <ShopComp />
     </div>
 
     <div class="table-card">
@@ -95,17 +88,16 @@ const slideContents = computed(() => {
 </template>
 
 <style scoped>
-.facebook-card{
-  min-height:400px;
-}
+
 .facebook-card,
 .table-card{
   width:clamp(1000px,80vw,80vw);
+  min-height:400px;
 }
 .car-card{
   width: 100vw;
 }
-.shop-card,
+
 .event-card{
   width:clamp(490px,30%,30%);
 }
@@ -115,13 +107,9 @@ const slideContents = computed(() => {
   margin-right:auto;
   margin-top: calc(var(--header-height) + 1rem)
 }
-.shop-comp{
-  display:none;
-  width:clamp(80vw,96%,1000rem);
-}
+
 
 @media(max-width:1047px){
-  .shop-card,
   .event-card,
   .table-card,
   .facebook-card{
@@ -133,12 +121,7 @@ const slideContents = computed(() => {
    .car-card{
     width: calc(80% - 15rem - 1vmax);
   }
-  .shop-comp{
-    display:block;
-  }
-  .shop-card{
-    display:none;
-  }
+
   .facebook-card,
   .table-card{
     width:45%;
@@ -147,7 +130,7 @@ const slideContents = computed(() => {
 
 @media(min-width:1700px){
   .main-home-container{
-    width:90vw;
+    width:min(90vw,2400px);
   }
 }
 </style>

@@ -4,6 +4,7 @@ import { getAuth } from 'firebase/auth'
 import { getFunctions } from 'firebase/functions'
 import {getStorage} from "firebase/storage";
 
+
 const firebaseConfig = {
   apiKey: "AIzaSyDuEyCu2MaTN19twMKEB-dfnXiRUy_8y8U",
   authDomain: "goodgamersvl.com",
@@ -13,6 +14,8 @@ const firebaseConfig = {
   appId: "1:699507515979:web:2902c247a989e5902e63ce",
   measurementId: "G-C4SG4GD9CM"
 };
+
+
 
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);

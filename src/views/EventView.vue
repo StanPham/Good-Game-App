@@ -3,13 +3,6 @@ import { onMounted, ref, watch, computed } from 'vue'
 import { collection, onSnapshot, orderBy, query} from "firebase/firestore"
 import { db } from "@/firebase"
 
-import cardback from '../images/cardback.png'
-import pokeball from '../images/pokeball.png'
-import warhammer from '../images/warhammer.jpg'
-import myhero from '../images/hero.webp'
-import yugioh from '../images/yugioh.png'
-import dnd from '../images/dnd_logo_2.png'
-
 const selectedMonth = ref(new Date().getMonth());
 const monthNames = [
     "January", "February", "March", "April", "May", "June",
@@ -19,9 +12,25 @@ const allEvents = ref([]);
 const myEvents = ref([]);
 const eventRef = collection(db, 'events');
 const q = query(eventRef, orderBy("startDate"));
-const myGames = ref([]);
+const myGames = collection(db, 'game')
+const logoMap = ref({})
 
-onMounted(() => {
+
+async function fetchGameLogos() {
+  
+  return new Promise((resolve) => {
+    onSnapshot(myGames, (gamesSnapshot) => {
+      gamesSnapshot.forEach((gameDoc) => {
+        const gameData = gameDoc.data();
+        logoMap.value[gameData.name] = gameData.logo;
+        
+      });
+      resolve(); // Resolve the promise once all logos are fetched
+    });
+  });
+}
+onMounted(async () => {
+  await fetchGameLogos();
   onSnapshot(q, (querySnapshot) => {
     const tmpEvents = [];
     querySnapshot.forEach((doc) => {
@@ -32,25 +41,16 @@ onMounted(() => {
         game: doc.data().game || "No Game Set In Database",
         format: doc.data().format,
         startDate: new Date(doc.data().startDate.seconds*1000),
-        endDate: new Date(doc.data().endDate.seconds*1000)
+        endDate: doc.data().endDate == null ? null : new Date(doc.data().endDate.seconds*1000),
+        logo: logoMap.value[doc.data().game]
       }
+      console.log(event.logo)
       tmpEvents.push(event)
     });
     allEvents.value = tmpEvents;
     filterEventsByMonth(); 
   });
-  onSnapshot(collection(db, 'game'), (querySnapshot) => {
-    const tmpGames = [];
-    querySnapshot.forEach((doc) =>{
-      const game = {
-        id: doc.id,
-        name: doc.data().name,
-        format: doc.data().format
-      }
-      tmpGames.push(game)
-    })
-    myGames.value = tmpGames
-  })
+ 
 })
 
 watch(selectedMonth, () => {
@@ -89,31 +89,14 @@ function dateWithNameDay(date){
     return `${dayName}, ${day}`;
 }
 function dateWithHoursMinutes(date) {
-    let hours = date.getHours();
-    hours = hours %12;
-    const someHours = String(hours);
-    const minutes = String(date.getMinutes()).padStart(2, '0');
+    if(date){
+        let hours = date.getHours();
+        hours = hours %12;
+        const someHours = String(hours);
+        const minutes = String(date.getMinutes()).padStart(2, '0');
 
-    return `${someHours}:${minutes}pm`;
-}
-
-function getImageForGame(gameName) {
-    const formattedGameName = gameName.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
-   
-    const gameImageMap = {
-        'magicthegathering': cardback,
-        'pokemon': pokeball,
-        'warhammer': warhammer,
-        'myhero': myhero,
-        'yugioh': yugioh,
-        'myheroacademia':myhero,
-        'dungeonsanddragons': dnd,
-        'dandd': dnd,
-        'dungeonsdragons': dnd,
-        'dd': dnd,
-    };
-
-    return gameImageMap[formattedGameName]; 
+        return `${someHours}:${minutes}pm`;
+    }
 }
 
 const currentMonth = ref(new Date().getMonth());
@@ -131,20 +114,20 @@ const getCurrentMonth = computed(() => {
     <div class="view-top-margin">
         <div class="header-container flex-c">
             <img v-if="getNextMonth" src="../images/arrow.svg" @click="selectedMonth--" alt="" class="arrow-left">
-            <div class="header">{{ currentMonthName }}</div>
+            <div class="header text-center cool-font">{{ currentMonthName }}</div>
             <img v-if="getCurrentMonth" src="../images/arrow.svg" @click="selectedMonth++" alt="" class="arrow">
         </div>
 
         <main class="event-list" v-for="event in myEvents" :key="event.id">
-            <div class="event-wrapper">
+            <div class="event-wrapper black rc rel">
                 <h1 class="event-day">{{ dateWithNameMonthDay(event.startDate) }}</h1>
 
-                <img :src="getImageForGame(event.game)" alt="" class="logo">
+                <img :src="event.logo" alt="" class="logo">
                 <div class="stop-flex">
                     <div class="title">
                         <h2 class="pink-italic">{{ event.name }} </h2>
                         <h3 class="pink"> {{ event.format }}</h3>
-                        <div class="start-time bold">{{ dateWithHoursMinutes(event.startDate) }} - {{ dateWithHoursMinutes(event.endDate) }}</div>
+                        <div class="start-time bold">{{ dateWithHoursMinutes(event.startDate) }} <span v-if="event.endDate">-</span> {{ dateWithHoursMinutes(event.endDate) }}</div>
                     </div>
                     <p class="event-description font-med">{{ event.desc }}</p>
                     <br>
@@ -168,14 +151,14 @@ const getCurrentMonth = computed(() => {
 }
 
 .logo{
-    width:10%;
-    min-height:60px;
-    display:none;
+    width:15%;
+    height:50px;
+    position:absolute;
+    top:5px;
+    right:16px;
 }
 
 .event-wrapper{
-    background:black;
-    border-radius:1rem;
     padding: clamp(20px,1.2rem, 2%);
     width:clamp(12rem, 100vw, 65rem);
     margin-left:auto;
@@ -187,9 +170,12 @@ const getCurrentMonth = computed(() => {
 }
 
 .header{
-    text-align: center;
-    font-family: var(--cool-font);
     font-size: 2.2rem;
+}
+
+.event-day{
+    font-size:1.5em;
+    font-family:jockey;
 }
 
 .event-list{
@@ -224,6 +210,13 @@ const getCurrentMonth = computed(() => {
     }
     .logo{
         display:block;
+        position:static;
+        width:10%;
+        height:auto;
+        min-height:70px;
+    }
+    .event-day{
+        font-size:2em;
     }
 }
 </style>

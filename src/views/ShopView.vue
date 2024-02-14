@@ -2,13 +2,17 @@
 import { collection, onSnapshot} from "firebase/firestore"; 
 import { db } from "@/firebase"
 import { useRoute } from 'vue-router';
-import { onMounted, ref, watch, computed} from 'vue';
+import { onMounted, ref, watch, computed, onUnmounted} from 'vue';
+import ShoppingCart from "../components/shopviewcomponents/ShoppingCart.vue";
 
-const selectedCategory = ref("");
+const selectedCategory = ref('');
+const sortMethod = ref("");
 const searchQuery = ref("");
 
 const setActiveTab = (tabName) => {
   selectedCategory.value = tabName;
+  currentPage.value = 1;
+  
 };
 
 const myShops = ref([]);
@@ -25,23 +29,39 @@ onMounted( () => {
        quant: doc.data().quant,
        desc: doc.data().desc,
        img: doc.data().img,
-
+       creationDate: doc.data().creationDate,
        
      }
      tmpItems.push(item)
    });
    myShops.value = tmpItems;
- 
+   sortItems();
  });
  
+})
+
+const sortItems = () => {
+  if (sortMethod.value === 'low') {
+    const getPriceAsNumber = (priceString) => parseFloat(priceString.replace(/[^\d.]/g, ''));
+
+    myShops.value.sort((a, b) => getPriceAsNumber(a.price) - getPriceAsNumber(b.price));
+
+  } else {
+    myShops.value.sort((a, b) => b.creationDate - a.creationDate);
+  }
+};
+  
+watch(sortMethod, () => {
+  sortItems();
 })
 
 const categoryMapping = {
     mtg: 'Magic: The Gathering',
     yug: 'Yugioh',
     pok: 'Pokemon',
-    ddd: 'D&D',
+    rpg: 'RPG',
     oth: 'Accessories',
+    lor: 'Lorcana',
     '':'All Products'
 };
 
@@ -65,32 +85,47 @@ const filteredShops = computed(() => {
 });
 
 
-const route = useRoute();
-watch(route, (newRoute) => {
-    if (newRoute.query.category) {
-        selectedCategory.value = newRoute.query.category;
-    }
-});
+//pagination
 
+let currentPage = ref(1);
+const itemsPerPage = 20;
+
+const onClickHandler = (page) => {
+  currentPage.value = page;
+  document.documentElement.scrollTo({
+    top: 0,
+    
+  })
+};
+
+const paginatedShops = computed(() => {
+  let start = (currentPage.value - 1) * itemsPerPage;
+  let end = start + itemsPerPage;
+  return filteredShops.value.slice(start, end);
+});
 </script>
 
 <template>
   <div class="view-top-margin">
-      <div class="search flex-c pad-top">
+      <div class="search flex-c pad-top gap">
         <div class="search-container flex-c rel">
           <img src="../images/search.svg" alt="deez" class="search-icon">
           <input type = "text" class="input-box" placeholder="Search" v-model="searchQuery">
+        </div>
+        <div class="lotus-container">
+          <ShoppingCart />
         </div>
       </div>
 
       <div class="cat-wrap flex-c pad-top">
         <label for="product-select"></label>
         <select name="products" id="product-select" v-model="selectedCategory">
-            <option value="">--Please choose a category--</option>
+            <option value="">--All Products--</option>
             <option value="mtg">Magic: The Gathering</option>
             <option value="yug">Yugioh</option>
             <option value="pok">Pokemon</option>
-            <option value="ddd">D&D</option>
+            <option value="lor">Lorcana</option>
+            <option value="rpg">RPG</option>
             <option value="oth">Accessories</option>
         </select>
       </div>
@@ -99,33 +134,52 @@ watch(route, (newRoute) => {
         <button class="filter-button">Filter By</button>
     </div> -->
     
-      <div class="main-container flex-c">
-        <div class="desktop-categories rc">
-            <div class="button-wrapper pad flex column">
-              <button @click="setActiveTab('')" class="cat-btn">All Products</button>
-              <button @click="setActiveTab('mtg')" class="cat-btn">Magic: The Gathering</button> 
-              <button @click="setActiveTab('yug')" class="cat-btn">YuGiOh</button> 
-              <button @click="setActiveTab('pok')" class="cat-btn">Pokemon</button> 
-              <button @click="setActiveTab('oth')" class="cat-btn">Accessories</button> 
+      <div class="flex-c gap margin-top">
+        <div class="desktop-categories black rc">
+            <div class="title gap pad flex column jockey">
+              <button @click="setActiveTab('')" class="cat-btn" :class="{highlight:selectedCategory === ''}">All Products</button>
+              <button @click="setActiveTab('mtg')" class="cat-btn" :class="{highlight:selectedCategory === 'mtg'}">Magic: The Gathering</button> 
+              <button @click="setActiveTab('yug')" class="cat-btn" :class="{highlight:selectedCategory === 'yug'}">YuGiOh</button> 
+              <button @click="setActiveTab('pok')" class="cat-btn" :class="{highlight:selectedCategory === 'pok'}">Pokemon</button>
+              <button @click="setActiveTab('lor')" class="cat-btn" :class="{highlight:selectedCategory === 'lor'}">Lorcana</button>
+              <button @click="setActiveTab('rpg')" class="cat-btn" :class="{highlight:selectedCategory === 'rpg'}">RPG</button>  
+              <button @click="setActiveTab('oth')" class="cat-btn" :class="{highlight:selectedCategory === 'oth'}">Accessories</button> 
             </div>
         </div>
               
         <div class="title-wrap">
-          <div class="results">{{ categoryMapping[selectedCategory] }}: {{ filteredShops.length }} RESULTS </div>
-          
-          <main class="product-container" >
-            <div class="work-wrap" v-for="shop in filteredShops" :key="shop.id">
+          <div class="flex-sb">
+            <div class="results">{{ categoryMapping[selectedCategory] }}: {{ filteredShops.length }} RESULTS </div>
+            <div class="sort-options">Sort by: 
+              <select style="font-size:20px" v-model="sortMethod">
+                <option value="">newest</option>
+                <option value="low">lo/hi</option>
+              </select>
+            </div>
+          </div>
+          <main class="rc black">
+            <div class="work-wrap" v-for="shop in paginatedShops" :key="shop.id">
               <router-link :to="`/product/${shop.id}`" class="link">
-                  <div class="pad flex column">
-                      <img :src="shop.img" alt="" class="pika">
-                      <div class="product-name">{{shop.name}}</div>
-                      <div class="price">{{ shop.price }}</div>
-                      <p class="quant">Quantity: {{shop.quant}}</p>
-                      <br>
+                  <div class="pad flex-sb column product-info">
+                      <div>
+                        <img :src="shop.img" alt="" class="pika">
+                        <div class="product-name text-limit roboto">{{shop.name}}</div>
+                      </div>
+                      <div class="title bold ">{{ shop.price }}</div>                   
+                      <p v-if="shop.quant===0" class="quant italic font-normal">Sold Out</p>   
                   </div>
               </router-link>
             </div>
           </main>
+
+          <vue-awesome-paginate v-if="filteredShops.length > itemsPerPage"
+          :total-items="filteredShops.length"
+          :items-per-page="itemsPerPage"
+          :max-pages-shown="3"
+          v-model="currentPage"
+          :on-click="onClickHandler"
+          :hide-prev-next-when-ends="true"
+          />
         </div>
       </div>
   </div>
@@ -133,44 +187,43 @@ watch(route, (newRoute) => {
     
           
 <style scoped>
+.product-info{
+  height:100%;
+}
+
+.sort-options{
+  display:none;
+  margin-right:.5rem;
+}
 
 .results{
   font-size:1.1rem;
   margin-left:1rem;
 }
 
-.cat-btn:hover,
-.cat-btn:focus{
+.cat-btn:hover{
   background:white;
   color:black;
-}
+} 
 
 .cat-btn{
   border-radius:1rem;
   width:100%;
   padding:.5rem;
-}
-   
-.button-wrapper{
-  gap:1rem;
-  font-size:1.3rem;
+  letter-spacing: 1px;
 }
 
 .desktop-categories{
   display:none;
   width:20%;
-  background: black;
   margin-top:1.4rem;
-}
-
-.main-container{
-  margin-top:1rem;
-  gap:1rem;
+  height:100%;
 }
 
 .link{
   text-decoration: none;
   width:100%;
+  height:100%;
 }
 
 .search-icon{
@@ -213,7 +266,7 @@ watch(route, (newRoute) => {
 }
 
 .search-container{
-  width:70%;
+  width:90%;
 }
 
 .search{
@@ -226,13 +279,7 @@ select{
 }
 
 .quant{
-  font-size: .8rem;
   padding-top:.2rem;
-}
-
-.price{
-  font-weight: bold;
-  font-size:1.15rem;
 }
 
 .header{
@@ -246,8 +293,6 @@ main{
   padding:clamp(10px,3%,1.5rem);
   gap: 1.3rem;
   width:100%;
-  background:rgb(0, 0, 0);
-  border-radius:1rem;
 }
 
 .title-wrap{
@@ -264,24 +309,42 @@ img{
   border:rgb(73, 69, 69) 1px solid;
   border-radius:.5rem;
   max-width:250px;
+  transition: 0.2s ease-in-out;
+}
+
+.work-wrap:hover{
+  background:rgb(44, 43, 43);
+  
 }
  
 .product-name{
   padding-top:.5rem;
-  font-size:1.5rem;
+  font-size:1rem;
 }
 
+.lotus-container{
+  display:none;
+}
 @media(min-width:763px){
   main{
     grid-template-columns: repeat(auto-fit, minmax(13rem,1fr));
   }
+  .sort-options{
+    display:block;
+  }
 }
-@media(min-width:1450px){
+@media(min-width:1350px){
     .desktop-categories{
         display:block;
     }
     .cat-wrap{
         display:none;
+    }
+    .lotus-container{
+      display:block;
+    }
+    .search-container{
+      width:55%;
     }
 }
 </style>

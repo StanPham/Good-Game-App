@@ -1,0 +1,92 @@
+/* User Profile Card */
+.profile-container{
+    width:clamp(490px,30%,30%);
+
+    background: linear-gradient(98.79deg, #a45aee -8.25%, #180030 30.07%); 
+    border-radius: 1rem;
+    height:100%;
+  }
+
+.profile-header{
+    text-align: center;
+    padding-top:.7rem;
+    text-decoration: underline;
+  }
+  
+.profile-body-container{
+    padding: 1rem;
+    text-align: center;
+  }
+      
+.profile-body{
+    padding-top: .5rem;
+  }
+  
+.profile-description{
+    padding: 1.5rem 0;
+  }
+
+
+
+
+
+
+/* User Profile Form */
+
+
+form{
+   
+    display:flex;
+    flex-direction: column;
+    padding: 1.25em;
+    gap:10px;
+}
+
+.form-container{
+    margin-inline: auto;
+    width: min(95vw,50rem);
+    background-color: black;
+    border-radius: 10px;
+    margin-top: calc(var(--header-height) + 1.2rem);
+}
+
+.form-header{
+    display:flex;
+    justify-content: space-between;
+}
+
+input{
+    border-radius: 5px;
+    border: 1px solid rgb(24, 23, 22);
+    width:100%;
+    height: 3rem;
+    margin-bottom: 10px;
+    padding-left:1.25rem;
+    background-color: rgb(45, 45, 45);;
+    color:white;
+    font-size:1.2rem;
+    transition:all .2s;
+}
+
+input:focus{
+    background-color: rgb(53, 55, 56);
+    outline:none;
+    border: 1px solid white;
+}
+
+.submit-btn{
+   font-size: 1rem;
+   padding:.35rem;
+   border-radius:5px;
+   width:10rem;
+}
+
+label{
+    font-size:1.5rem;
+    font-family:jockey;
+}
+
+
+
+
+

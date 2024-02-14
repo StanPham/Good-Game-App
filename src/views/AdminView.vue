@@ -1,9 +1,7 @@
-
 <script setup>
 import {ref} from 'vue'
 import EventTab from '../components/admin/EventTab.vue'
 import AdminTab from '../components/admin/AdminTab.vue'
-import ShopTab from '../components/admin/ShopTab.vue'
 import CarouselTab from '../components/admin/CarouselTab.vue'
 
 const activeTab = ref('Events')
@@ -15,16 +13,12 @@ const setActiveTab = (tabName) => {
 <template>
   <body class="admin-container">
     <div class="tab">
-      <button class="tablinks" @click="setActiveTab('Events')">Events</button>
-      <button class="tablinks" @click="setActiveTab('Shop')">Shop</button>
-      <button class="tablinks" @click="setActiveTab('Table')">Table Reservations</button>
-      <button class="tablinks" @click="setActiveTab('Account')">Accounts</button>
-      <button class="tablinks" @click="setActiveTab('Carousel')">Carousel</button>
-      <button class="tablinks" @click="setActiveTab('Admin')">Admin</button>
+      <button :class="{highlight:activeTab === 'Events'}" @click="setActiveTab('Events')">Events</button>
+      <button :class="{highlight:activeTab === 'Carousel'}" @click="setActiveTab('Carousel')">Carousel</button>
+      <button :class="{highlight:activeTab === 'Admin'}" @click="setActiveTab('Admin')">Admin</button>
     </div>
   <!-- Tab content -->
     <EventTab v-if="activeTab === 'Events'" class="tabcontent" />
-    <ShopTab v-if="activeTab === 'Shop'" class="tabcontent" />
     <CarouselTab v-if="activeTab === 'Carousel'" class="tabcontent" />
     <AdminTab v-if="activeTab === 'Admin'" class="tabcontent" />
   </body>
@@ -40,8 +34,7 @@ const setActiveTab = (tabName) => {
   padding: 1rem;
 }
 
-.tab button:hover,
-.tab button:focus {
+.tab button:hover {
   background-color: #ddd;
   color:black;
 }

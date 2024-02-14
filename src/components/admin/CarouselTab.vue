@@ -154,9 +154,9 @@ const sortedSlides = computed(() => {
 
         <label for="order">Order</label>
         <input
-          v-model="newSlide.order" 
+          v-model.number="newSlide.order" 
           class="input"
-          type="text"
+          type="number"
         >
         
         
@@ -218,9 +218,9 @@ const sortedSlides = computed(() => {
 
         <label for="order">Order</label>
         <input
-          v-model="editingSlide.order" 
+          v-model.number="editingSlide.order" 
           class="input"
-          type="text"
+          type="number"
         >
 
         <label for="iamge">Background</label>
@@ -231,7 +231,7 @@ const sortedSlides = computed(() => {
         >
 
         <button type="submit" class="submit-btn">Save Changes</button>
-        <button @click="showEditModal = false">Cancel</button>
+        <img src="../../images/x.svg" @click="showEditModal = false" class="cancel-btn icon-white click">
       </form>
     </div>
         
@@ -254,7 +254,7 @@ const sortedSlides = computed(() => {
           <td><div class="scrollable-content">{{ slide.subtitle }}</div></td>
           <td><div class="scrollable-content">{{ slide.subsubtitle }}</div></td>
           <td>{{ slide.btntxt }}</td>
-          <td><div class="scrollable-content">{{ slide.link }}</div></td>
+          <td ><div class="scrollable-content">{{ slide.link }}</div></td>
           <td><img :src="slide.img" alt="rip" width="100"></td>
           <td>{{ slide.order }}</td>
           <td>

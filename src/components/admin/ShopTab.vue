@@ -3,23 +3,44 @@ import { collection, onSnapshot, addDoc, Timestamp, doc, deleteDoc, updateDoc } 
 import { db, storage } from "@/firebase"
 import {ref as storageRef, uploadBytesResumable, getDownloadURL} from 'firebase/storage'
 import { onMounted, ref, computed } from 'vue'
+import AdminSuccess from "../alerts/AdminSuccess.vue";
 
 const searchQuery = ref('');
-
+const showPopup = ref(false);
+const showEditPopup = ref(false);
 const showEditModal = ref(false);
 const editingItem = ref({});
+const showVariants = ref(false);
+const showEditVariants = ref(false);
 
 const newItem = ref({
  name: '',
  category:'',
- price: '',
+ price: '$',
  quantity:'',
  desc: '',
- image:''
+ image:'',
+ variants: [{ varName: '', varPrice: '', varQuantity: '' }],
 })
 
 
 const myItems = ref([])
+
+const displayPopup = () => {
+  showPopup.value = true;
+  setTimeout(() => {
+    showPopup.value = false;
+
+  }, 50);
+}
+
+const displayEditPopup = () => {
+  showEditPopup.value = true;
+  setTimeout(() => {
+    showEditPopup.value = false;
+
+  }, 50);
+}
 
 
 const onImageChange = async (event) => {
@@ -39,6 +60,14 @@ const onImageChange = async (event) => {
 }
 
 const addItem = async () =>{
+  console.log(newItem.value.variants);
+  const variantsLength = newItem.value.variants?.length || 0;
+  if (variantsLength > 0) {
+       newItem.value.variants.pop();
+   }
+   if (!newItem.variants || newItem.variants.length === 0) {
+  delete newItem.variants;
+}
    await addDoc(collection(db, "shop"), {
      name: newItem.value.name,
      category: newItem.value.category,
@@ -46,6 +75,8 @@ const addItem = async () =>{
      quant: newItem.value.quantity,
      desc: newItem.value.desc,
      img: newItem.value.image,
+     variants: newItem.value.variants,
+     numLeft: newItem.value.quantity,
     
      creationDate: Timestamp.fromDate(new Date())
    });
@@ -53,13 +84,16 @@ const addItem = async () =>{
    newItem.value = {
         name: '',
         category: '',
-        price: '',
+        price: '$',
         quantity: '',
         desc: '',
         image: '',
+        variants: ref([{ varName: '', varPrice: '', varQuantity: '' }]),
        
     };
     document.querySelector('input[type="file"]').value = null;
+    showVariants.value = false;
+    displayPopup();
 }
 
 
@@ -81,6 +115,7 @@ onMounted( () => {
        quant: doc.data().quant,
        desc: doc.data().desc,
        img: doc.data().img,
+       variants: doc.data().variants
 
        
      }
@@ -122,11 +157,13 @@ const updateItemQuantity = async (item) => {
 
 
 const startEditing = (item) => {
-   editingItem.value = { ...item };
+   editingItem.value = { ...item};
    showEditModal.value = true;
 }
 
 const updateItem = async () => {
+  if (!editingItem.value.variants || editingItem.value.variants.length === 0) {
+ editingItem.value.variants = [];}
    await updateDoc(doc(db, "shop", editingItem.value.id), {
      name: editingItem.value.name,
      category: editingItem.value.category,
@@ -134,11 +171,29 @@ const updateItem = async () => {
      quant: editingItem.value.quant,
      desc: editingItem.value.desc,
      img: editingItem.value.img,
+     variants: editingItem.value.variants
    });
 
    showEditModal.value = false;
    editingItem.value = {};
+   displayEditPopup();
 }
+
+const showVariantForm = () => {
+  showVariants.value = !showVariants.value;
+}
+
+const addVariant = () => {
+  newItem.value.variants.push({ varName: '', varPrice: '', varQuantity: '' });
+};
+
+const showEditVariantForm = () => {
+  showEditVariants.value = !showEditVariants.value;
+}
+
+const deleteVariant = (index) => {
+  editingItem.value.variants.splice(index, 1);
+};
 </script>
 
 <template>
@@ -160,21 +215,32 @@ const updateItem = async () => {
           v-model="newItem.category" 
           class="input"
           type="text"
+          list="category"
         >
-          
+          <datalist id="category">
+            <option>Magic: The Gathering</option>
+            <option>Pokemon</option>
+            <option>Yugioh</option>
+            <option>Lorcana</option>
+            <option>RPG</option>
+            <option>Accessories</option>
+          </datalist>
         
         <label for="itemPrice">Price</label>
         <input
           v-model="newItem.price" 
           class="input"
           type="text"
+          pattern="^\$\d+\.\d{2}$"
+          title="$12.99"
         >
 
         <label for="itemQuant">Quantity</label>
         <input
-          v-model="newItem.quantity" 
+          v-model.number="newItem.quantity" 
           class="input"
-          type="text"
+          type="number"
+          min="0"
         >
         
         <label for="Description">Description</label>
@@ -192,7 +258,15 @@ const updateItem = async () => {
           @change="onImageChange"
           required>
         
-      
+        <button v-if="!showVariants" type="button" class="variant-btn" @click="showVariantForm">Add Variants +</button>
+        <div v-if="showVariants" v-for="(variant, index) in newItem.variants" :key="index" class="variant flex column">
+          <input v-model="variant.varName" placeholder="Variant Name" type="text">
+          <input v-model="variant.varPrice" placeholder="Price" type="text">
+          <input v-model="variant.varQuantity" placeholder="Quantity" type="text">
+        </div>
+        <button v-if="showVariants" type="button" class="submit-btn" @click="addVariant">Add Variant</button>
+
+        <br><br>
         <button type="submit" class="submit-btn">Submit</button>
         
       </form>
@@ -224,13 +298,16 @@ const updateItem = async () => {
           v-model="editingItem.price" 
           class="input"
           type="text"
+          pattern="^\$\d+\.\d{2}$"
+          title="$12.99"
         >
 
         <label for="itemQuant">Quantity</label>
         <input
-          v-model="editingItem.quant" 
+          v-model.number="editingItem.quant" 
           class="input"
-          type="text"
+          type="number"
+          min="0"
         >
           
         
@@ -249,9 +326,18 @@ const updateItem = async () => {
         type="file"
         @change="onImageChange"
         >
+
+        <button v-if="!showEditVariants && (editingItem.variants.length > 0)" type="button" class="variant-btn" @click="showEditVariantForm">Show Variants +</button>
+        <div v-if="showEditVariants" v-for="(variant, index) in editingItem.variants" :key="index" class="variant flex column">
+          <input v-model="variant.varName" placeholder="Variant Name" type="text">
+          <input v-model="variant.varPrice" placeholder="Price" type="text">
+          <input v-model="variant.varQuantity" placeholder="Quantity" type="text">
+          <button type="button" class="del-btn" @click="deleteVariant(index)">Delete Variant</button>
+          <br><br>
+        </div>
         
         <button type="submit" class="submit-btn">Save Changes</button>
-        <button @click="showEditModal = false">Cancel</button>
+        <img src="../../images/x.svg" @click="showEditModal = false" class="cancel-btn icon-white click">
       </form>
     </div>
      <!-- end editing form -->
@@ -304,16 +390,19 @@ const updateItem = async () => {
         <tr class="filler-row"></tr>
       </tbody>
     </table>
-  </body> 
-    
+    <transition name="fade-translate">
+      <AdminSuccess v-if="showPopup" message="Item Added" />
+    </transition>
+    <transition name="fade-translate">
+      <AdminSuccess v-if="showEditPopup" message="Edit Success!" />
+    </transition>
+  </body>
+
 </template>
 
 <style scoped>
 @import '@/assets/AdminTabs.css';
-.quant-ops:hover{
-  color:grey;
-  background:white;
-}
+
 
 .quant-ops{
   padding:.1rem .5rem;
@@ -321,42 +410,15 @@ const updateItem = async () => {
   background:grey;
 }
 
+.quant-ops:hover{
+  color:grey;
+  background:white;
+  
+}
+
 thead{
   position:sticky;
   top:0;
-}
-
-.input-box{
-  width:100%;
-  background-color: rgb(238, 235, 235);
-  border-radius: 20px;
-  border: 1px solid #21272b;
-  padding-left:50px;
-  max-height: 30px;
-  height:30px ;
-  color:black;
-}
-
-.search-container{
-  position:relative;
-  width:70%;
-  display:flex;
-  justify-content:center;
-}
-
-.search{
-  width:100vw;
-  padding-top:1rem;
-  display:flex;
-  justify-content: center;
-}
-
-.search-icon{
-  width:20px;
-  height:20px;
-  position:absolute;
-  top: 15%;
-  left: 1rem;
 }
 
 </style>

@@ -28,7 +28,6 @@ const submitSignOut = async () => {
         })
     }
 })
-const profileClicked = () => userClickedProfile.value = !userClickedProfile.value;
 
 const toggleMobileMenu = () => isMobileMenuOpen.value = !isMobileMenuOpen.value;
 
@@ -46,12 +45,12 @@ const goEventTwo = () => {
     console.log('xd');
 };
 
-const goSignup = () => {
-    router.push('/login');
+const goShop = () => {
+    router.push('/shop');
 };
 
-const goSignupTwo = () => {
-    router.push('/login');
+const goShopTwo = () => {
+    router.push('/shop');
     isMobileMenuOpen.value = !isMobileMenuOpen.value;
 };
 
@@ -64,12 +63,26 @@ const goAboutTwo = () => {
     isMobileMenuOpen.value = !isMobileMenuOpen.value;
 };
 
-const goAdmin = () => {
-    router.push('/admin');
+const goUser = () => {
+    router.push('/user');
 };
 
-const navigateToShop = (category) => {
-    router.push({ name: 'shop', query: { category } });
+const goUserTwo = () => {
+    router.push('/user');
+    isMobileMenuOpen.value = !isMobileMenuOpen.value;
+};
+
+const goSignup = () => {
+    router.push('/login');
+};
+
+const goSignupTwo = () => {
+    router.push('/login');
+    isMobileMenuOpen.value = !isMobileMenuOpen.value;
+};
+
+const goAdmin = () => {
+    router.push('/admin');
 };
 
 const outsideClickHandler = () => {
@@ -106,17 +119,19 @@ const outsideClickHandler = () => {
             </div>
           </div> -->
         <a @click="goEvent">EVENTS</a>
+        
         <a @click="goAbout">ABOUT</a>
-        <a style="text-decoration: line-through;">COMING SOON</a>
+        <a v-if="user" @click="goUser">PROFILE</a>
+        
         <a v-if="isAdmin" @click="goAdmin">ADMIN</a>
     </div>
          
     <div class="login-container">
         <div class="flex-c-c" v-if="user">
-          <div v-if="user.displayName">
+          <div v-if="user.displayName" class="userHeader">
             Welcome, {{ user?.displayName }}!
           </div>
-          <div v-else>
+          <div v-else class="userHeader">
             {{ user?.email }}
           </div>
           <button type="button" class="font-med pink-blur pad-left jockey" @click="submitSignOut">Sign Out</button>
@@ -132,13 +147,18 @@ const outsideClickHandler = () => {
         <a v-else class="mobile-login" @click="goSignupTwo">LOGIN</a>
         <a @click="goEventTwo">EVENTS</a>
         <a @click="goAboutTwo">ABOUT</a>
-        <a href="#" style="text-decoration: line-through;">COMING SOON</a>
+        <a v-if="user" @click="goUserTwo">PROFILE</a>
+
       </div>
     </div>
   </div>
 </template>
+        
 
 <style scoped>
+.userHeader{
+  display:none;
+}
 
 .logo-med{
   width:55px;
@@ -149,10 +169,6 @@ const outsideClickHandler = () => {
 
 .mobile-menu{
   display:none;
-}
-
-.icon-white{
-  filter: invert(100%) sepia(1%) saturate(7418%) hue-rotate(290deg) brightness(105%) contrast(98%);
 }
 
 .burger{
@@ -280,7 +296,7 @@ const outsideClickHandler = () => {
   background:var(--btn-color);
 }
 
-@media (max-width: 767px) {
+@media (max-width: 900px) {
   .login-container{
     display:none;
   }
@@ -320,6 +336,10 @@ const outsideClickHandler = () => {
    
 }
     
-
+@media(min-width: 1200px){
+  .userHeader{
+    display:block;
+  }
+}
 </style>
 
