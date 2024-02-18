@@ -1,7 +1,7 @@
 <script setup>
 import { addDoc, getDocs, updateDoc, query, where, collection, doc } from 'firebase/firestore';
 import { db } from "@/firebase"
-import {ref} from 'vue'
+import {ref, watch} from 'vue'
 
 const numLongTables = 5;
 const numRoundTables = 5;
@@ -11,40 +11,59 @@ const reserveDate = ref();
 const numTables = ref();
 const startTime = ref();
 const endTime = ref();
+const timeSlotAvailability = ref(new Array(11).fill(true));
 const addTableReservation = async () =>{
   const q = query(collection(db, tableType.value), where("date", "==", reserveDate.value));
   const querySnapshot = await getDocs(q);
-  let docRef = null;
+ 
+  const editData = {
+    tables: new Array(11).fill(5)
+  };
   let tableArr = null;
+
   if(querySnapshot.empty){
-    docRef = await addDoc(collection(db, tableType.value),{
+    for(let i = startTime.value; i<endTime.value; i++ ){
+      editData.tables[i] -= numTables.value;
+    }
+      await addDoc(collection(db, tableType.value),{
       date: reserveDate.value,
-      tables: new Array(7).fill(5),
+      tables: editData.tables,
       
     })
-    tableArr = docRef.tables;
-    for(let i = startTime.value; i<endTime.value; i++ ){
-      tableArr[i] -= numTables.value;
-    }
-    await updateDoc(docRef,{
-      tables: tableArr
-    })
+    
   }else{
-    const document = querySnapshot.docs[0];
-    docRef = doc(db, tableType.value, document.id)
-    tableArr = docRef.tables;
+    const documentSnapshot = querySnapshot.docs[0];
+    const documentRef = documentSnapshot.ref;
+    const documentData = documentSnapshot.data();
+    tableArr = documentData.tables;
     for(let i = startTime.value; i<endTime.value; i++ ){
       tableArr[i] -= numTables.value;
     }
-    await updateDoc(docRef,{
+    await updateDoc(documentRef,{
       tables: tableArr
     })
   }
   
-
   console.log('here')
 }
 
+watch([reserveDate, tableType, numTables], async () => {
+  if(reserveDate.value && tableType.value && numTables.value){
+    const q = query(collection(db, tableType.value), where("date", "==", reserveDate.value));
+    const querySnapshot = await getDocs(q);
+    if(!querySnapshot.empty){
+      const documentSnapshot = querySnapshot.docs[0];
+      const documentData = documentSnapshot.data();
+      for(let i = 0; i < 11; i++){ // Assuming 11 time slots for simplicity
+        // Update timeSlotAvailability based on table availability
+        timeSlotAvailability.value[i] = documentData.tables[i] >= numTables.value;
+      }
+    } else {
+      // If no reservation exists for the day, all slots are available
+      timeSlotAvailability.value.fill(true);
+    }
+  }
+}, { immediate: true });
 </script>
 
 <template>
@@ -79,25 +98,13 @@ const addTableReservation = async () =>{
             <div class="input-container">
               <label>Choose Start Time</label>
               <select v-model="startTime">
-                <option value="0">2:00PM</option>
-                <option value="1">3:00PM</option>
-                <option value="2">4:00PM</option>
-                <option value="3">5:00PM</option>
-                <option value="4">6:00PM</option>
-                <option value="5">7:00PM</option>
-                <option value="6">8:00PM</option>
+                <option v-for="(available, index) in timeSlotAvailability" :key="index" :value="index" :disabled="!available">{{ index }}:00PM</option>
               </select>
             </div>
             <div class="input-container">
               <label>Choose End Time</label>
               <select v-model="endTime">
-                <option value="0">2:00PM</option>
-                <option value="1">3:00PM</option>
-                <option value="2">4:00PM</option>
-                <option value="3">5:00PM</option>
-                <option value="4">6:00PM</option>
-                <option value="5">7:00PM</option>
-                <option value="6">8:00PM</option>
+                <option v-for="(available, index) in timeSlotAvailability" :key="index" :value="index" :disabled="!available">{{ index }}:00PM</option>
               </select>
             </div>
             <button class="main-btn-full reserve-btn">Make Reservation</button>
