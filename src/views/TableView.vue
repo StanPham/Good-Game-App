@@ -1,17 +1,43 @@
 <script setup>
-import { addDoc, getDocs, updateDoc, query, where, collection, doc } from 'firebase/firestore';
-import { db } from "@/firebase"
-import {ref, watch} from 'vue'
+import { addDoc, getDocs, updateDoc, query, where, collection, doc, setDoc } from 'firebase/firestore';
+import { db, firebaseAppAuth } from "@/firebase"
+import {ref, watch, computed} from 'vue'
+import { onAuthStateChanged } from 'firebase/auth'
+const user = ref(null);
+onAuthStateChanged(firebaseAppAuth, currentUser => {
+  
+    if(currentUser) {
+      user.value = currentUser
+    }
+})
 
-const numLongTables = 5;
-const numRoundTables = 5;
-const numFeltTables = 1;
+const maxTables = {
+  round: 5,
+  long: 8,
+  felt: 1,
+};
+
+
+const numTablesAvailable = computed(() => {
+  // Dynamically set the max number of tables based on the selected type
+  switch (tableType.value) {
+    case 'round':
+      return maxTables.round;
+    case 'long':
+      return maxTables.long;
+    case 'felt':
+      return maxTables.felt;
+    default:
+      return 0; // Default case if none of the types match
+  }
+});
 const tableType = ref();
 const reserveDate = ref();
 const numTables = ref();
 const startTime = ref();
 const endTime = ref();
 const timeSlotAvailability = ref(new Array(11).fill(true));
+
 const addTableReservation = async () =>{
   const q = query(collection(db, tableType.value), where("date", "==", reserveDate.value));
   const querySnapshot = await getDocs(q);
@@ -45,6 +71,16 @@ const addTableReservation = async () =>{
   }
   
   console.log('here')
+  
+await setDoc(doc(collection(db, "tableReservations"), user.value.uid), {
+  date: reserveDate.value,
+  name: user.value.displayName,
+  email: user.value.email,
+  startTime: startTime.value,
+  endTime:endTime.value
+});
+
+ 
 }
 
 watch([reserveDate, tableType, numTables], async () => {
@@ -84,9 +120,7 @@ watch([reserveDate, tableType, numTables], async () => {
             <div class="input-container">
               <label>Number of Tables</label>
               <select v-model="numTables">
-                <option value=1>1</option>
-                <option value=2>2</option>
-                <option value=3>3</option>
+                <option v-for="n in numTablesAvailable" :key="n" :value="n">{{ n }}</option>
               </select>
             </div>
 
