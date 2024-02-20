@@ -3,6 +3,7 @@ import { addDoc, getDocs, updateDoc, query, where, collection, doc, setDoc } fro
 import { db, firebaseAppAuth } from "@/firebase"
 import {ref, watch, computed} from 'vue'
 import { onAuthStateChanged } from 'firebase/auth'
+import FlatpickrComponent from '../components/FlatpickrComp.vue';
 const user = ref(null);
 onAuthStateChanged(firebaseAppAuth, currentUser => {
   
@@ -17,6 +18,35 @@ const maxTables = {
   felt: 1,
 };
 
+function addDaysToDate(date, days) {
+  const result = new Date(date);
+  result.setDate(result.getDate() + days);
+  return result.toISOString().split('T')[0];
+}
+
+const today = new Date().toISOString().split('T')[0]; // Today's date in "YYYY-MM-DD"
+const tomorrow = addDaysToDate(new Date(), 1); // Tomorrow's date in "YYYY-MM-DD"
+
+const flatpickrConfig = ref({
+  disable: [
+    function(date) {
+      // Disable Sunday (0), Monday (1), and Tuesday (2)
+      if ([0, 1, 2].includes(date.getDay())) {
+        return true;
+      }
+
+      // Disable the next day (tomorrow)
+      const dateStr = date.toISOString().split('T')[0];
+      if (dateStr === tomorrow) {
+        return true;
+      }
+
+      return false; // Enable all other days
+    }
+  ],
+  dateFormat: "Y-m-d",
+  minDate: today, // Disable all days before today
+});
 
 const numTablesAvailable = computed(() => {
   // Dynamically set the max number of tables based on the selected type
@@ -126,7 +156,7 @@ watch([reserveDate, tableType, numTables], async () => {
 
             <div class="input-container">
               <label>Choose a Date</label>
-              <input type="date" v-model="reserveDate">
+              <FlatpickrComponent v-model="reserveDate" :config="flatpickrConfig" />
             </div>
 
             <div class="input-container">
