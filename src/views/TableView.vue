@@ -24,17 +24,22 @@ const isSaturday = computed(() => {
   console.log(date.getDay())
   return date.getDay() === 5; 
 });
+
+const formatTimeOption = (index) => {
+  const hour = index === 0 ? 12 : index; // Convert "0" to "12"
+  return `${hour}:00PM`;
+};
+
 const numTablesAvailable = computed(() => {
-  // Dynamically set the max number of tables based on the selected type
   switch (tableType.value) {
     case 'round':
       return maxTables.round;
-    case 'long':
-      return maxTables.long;
+    case 'standard':
+      return maxTables.standard;
     case 'felt':
       return maxTables.felt;
     default:
-      return 0; // Default case if none of the types match
+      return 0; 
   }
 });
 const tableType = ref();
@@ -43,14 +48,28 @@ const numTables = ref();
 const startTime = ref();
 const endTime = ref();
 const timeSlotAvailability = ref(new Array(11).fill(true));
-const modifiedTimeSlotAvailability = computed(() => timeSlotAvailability.value.slice(2));
+const modifiedTimeSlotsStartTime = computed(() => {
+  if(isSaturday.value){
+    return timeSlotAvailability.value.slice(0,-1);
+  }else{
+    console.log('check')
+    return timeSlotAvailability.value.slice(2,-1);
+  }
+});
+const modifiedTimeSlotsEndTime = computed(() => {
+  if(isSaturday.value){
+    return timeSlotAvailability.value.slice(startTime.value, -1);
+  }else{
+    return timeSlotAvailability.value.slice(startTime.value, -1);
+  }
+});
 
 const addTableReservation = async () =>{
   const q = query(collection(db, tableType.value), where("date", "==", reserveDate.value));
   const querySnapshot = await getDocs(q);
  
   const editData = {
-    tables: new Array(11).fill(5)
+    tables: new Array(11).fill(numTablesAvailable.value)
   };
   let tableArr = null;
 
@@ -85,10 +104,12 @@ const addTableReservation = async () =>{
     name: user.value.displayName,
     email: user.value.email,
     startTime: startTime.value,
-    endTime:endTime.value
+    endTime:endTime.value,
+    numberOfTables: numTables.value
   });
 }
 
+//update the start time and end time lists
 watch([reserveDate, tableType, numTables], async () => {
   if(reserveDate.value && tableType.value && numTables.value){
     const q = query(collection(db, tableType.value), where("date", "==", reserveDate.value));
@@ -105,7 +126,6 @@ watch([reserveDate, tableType, numTables], async () => {
     }
   }
 }, { immediate: true });
-
 
 //flatpickr
 function addDaysToDate(date, days) {
@@ -168,19 +188,19 @@ const flatpickrConfig = ref({
             <div class="input-container">
               <label>Choose Start Time</label>
               <select v-if="isSaturday" v-model="startTime">
-                <option v-for="(available, index) in timeSlotAvailability" :key="index" :value="index" :disabled="!available">{{ index }}:00PM</option>
+                <option v-for="(available, index) in modifiedTimeSlotsStartTime" :key="index" :value="index" :disabled="!available">{{ formatTimeOption(index) }}</option>
               </select>
               <select v-else v-model="startTime">
-                <option v-for="(available, index) in modifiedTimeSlotAvailability" :key="index+2" :value="index+2" :disabled="!available">{{ index+2 }}:00PM</option>
+                <option v-for="(available, index) in modifiedTimeSlotsStartTime" :key="index+2" :value="index+2" :disabled="!available">{{ index+2 }}:00PM</option>
               </select>
             </div>
             <div class="input-container">
               <label>Choose End Time</label>
               <select v-if="isSaturday" v-model="endTime">
-                <option v-for="(available, index) in timeSlotAvailability" :key="index" :value="index" :disabled="!available">{{ index }}:00PM</option>
+                <option v-if="startTime != null" v-for="(available, index) in modifiedTimeSlotsEndTime" :key="index+startTime+1" :value="index+startTime+1" :disabled="!available">{{ index+startTime+1 }}:00PM</option>
               </select>
               <select v-else v-model="endTime">
-                <option v-for="(available, index) in modifiedTimeSlotAvailability" :key="index+2" :value="index+2" :disabled="!available">{{ index+2 }}:00PM</option>
+                <option v-if="startTime" v-for="(available, index) in modifiedTimeSlotsEndTime" :key="index+startTime+1" :value="index+startTime+1" :disabled="!available">{{ index+startTime+1 }}:00PM</option>
               </select>
             </div>
             <button class="main-btn-full reserve-btn">Make Reservation</button>
