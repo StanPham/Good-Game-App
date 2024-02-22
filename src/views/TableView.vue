@@ -14,40 +14,16 @@ onAuthStateChanged(firebaseAppAuth, currentUser => {
 
 const maxTables = {
   round: 5,
-  long: 8,
+  standard: 8,
   felt: 1,
 };
 
-function addDaysToDate(date, days) {
-  const result = new Date(date);
-  result.setDate(result.getDate() + days);
-  return result.toISOString().split('T')[0];
-}
-
-const today = new Date().toISOString().split('T')[0]; // Today's date in "YYYY-MM-DD"
-const tomorrow = addDaysToDate(new Date(), 1); // Tomorrow's date in "YYYY-MM-DD"
-
-const flatpickrConfig = ref({
-  disable: [
-    function(date) {
-      // Disable Sunday (0), Monday (1), and Tuesday (2)
-      if ([0, 1, 2].includes(date.getDay())) {
-        return true;
-      }
-
-      // Disable the next day (tomorrow)
-      const dateStr = date.toISOString().split('T')[0];
-      if (dateStr === tomorrow) {
-        return true;
-      }
-
-      return false; // Enable all other days
-    }
-  ],
-  dateFormat: "Y-m-d",
-  minDate: today, // Disable all days before today
+const isSaturday = computed(() => {
+  if (!reserveDate.value) return false; 
+  const date = new Date(reserveDate.value);
+  console.log(date.getDay())
+  return date.getDay() === 5; 
 });
-
 const numTablesAvailable = computed(() => {
   // Dynamically set the max number of tables based on the selected type
   switch (tableType.value) {
@@ -67,6 +43,7 @@ const numTables = ref();
 const startTime = ref();
 const endTime = ref();
 const timeSlotAvailability = ref(new Array(11).fill(true));
+const modifiedTimeSlotAvailability = computed(() => timeSlotAvailability.value.slice(2));
 
 const addTableReservation = async () =>{
   const q = query(collection(db, tableType.value), where("date", "==", reserveDate.value));
@@ -81,7 +58,8 @@ const addTableReservation = async () =>{
     for(let i = startTime.value; i<endTime.value; i++ ){
       editData.tables[i] -= numTables.value;
     }
-      await addDoc(collection(db, tableType.value),{
+
+    await addDoc(collection(db, tableType.value),{
       date: reserveDate.value,
       tables: editData.tables,
       
@@ -102,15 +80,13 @@ const addTableReservation = async () =>{
   
   console.log('here')
   
-await setDoc(doc(collection(db, "tableReservations"), user.value.uid), {
-  date: reserveDate.value,
-  name: user.value.displayName,
-  email: user.value.email,
-  startTime: startTime.value,
-  endTime:endTime.value
-});
-
- 
+  await setDoc(doc(collection(db, "tableReservations"), user.value.uid), {
+    date: reserveDate.value,
+    name: user.value.displayName,
+    email: user.value.email,
+    startTime: startTime.value,
+    endTime:endTime.value
+  });
 }
 
 watch([reserveDate, tableType, numTables], async () => {
@@ -120,16 +96,46 @@ watch([reserveDate, tableType, numTables], async () => {
     if(!querySnapshot.empty){
       const documentSnapshot = querySnapshot.docs[0];
       const documentData = documentSnapshot.data();
-      for(let i = 0; i < 11; i++){ // Assuming 11 time slots for simplicity
-        // Update timeSlotAvailability based on table availability
+      for(let i = 0; i < 11; i++){ 
+       
         timeSlotAvailability.value[i] = documentData.tables[i] >= numTables.value;
       }
     } else {
-      // If no reservation exists for the day, all slots are available
       timeSlotAvailability.value.fill(true);
     }
   }
 }, { immediate: true });
+
+
+//flatpickr
+function addDaysToDate(date, days) {
+  const result = new Date(date);
+  result.setDate(result.getDate() + days);
+  return result.toISOString().split('T')[0];
+}
+
+const today = new Date().toISOString().split('T')[0]; 
+const tomorrow = addDaysToDate(new Date(), 1); 
+
+const flatpickrConfig = ref({
+  disable: [
+    function(date) {
+   
+      if ([0, 1, 2].includes(date.getDay())) {
+        return true;
+      }
+
+      const dateStr = date.toISOString().split('T')[0];
+      if (dateStr === tomorrow) {
+        return true;
+      }
+
+      return false; 
+    }
+  ],
+  dateFormat: "Y-m-d",
+  minDate: today, 
+});
 </script>
 
 <template>
@@ -143,7 +149,7 @@ watch([reserveDate, tableType, numTables], async () => {
               <label>Choose Table Type</label>
               <select v-model="tableType">
                 <option value="round">Round Table</option>
-                <option value="long">Long Table</option>
+                <option value="standard">Standard Table</option>
                 <option value="felt">Felt Table</option>
               </select>
             </div>
@@ -161,14 +167,20 @@ watch([reserveDate, tableType, numTables], async () => {
 
             <div class="input-container">
               <label>Choose Start Time</label>
-              <select v-model="startTime">
+              <select v-if="isSaturday" v-model="startTime">
                 <option v-for="(available, index) in timeSlotAvailability" :key="index" :value="index" :disabled="!available">{{ index }}:00PM</option>
+              </select>
+              <select v-else v-model="startTime">
+                <option v-for="(available, index) in modifiedTimeSlotAvailability" :key="index+2" :value="index+2" :disabled="!available">{{ index+2 }}:00PM</option>
               </select>
             </div>
             <div class="input-container">
               <label>Choose End Time</label>
-              <select v-model="endTime">
+              <select v-if="isSaturday" v-model="endTime">
                 <option v-for="(available, index) in timeSlotAvailability" :key="index" :value="index" :disabled="!available">{{ index }}:00PM</option>
+              </select>
+              <select v-else v-model="endTime">
+                <option v-for="(available, index) in modifiedTimeSlotAvailability" :key="index+2" :value="index+2" :disabled="!available">{{ index+2 }}:00PM</option>
               </select>
             </div>
             <button class="main-btn-full reserve-btn">Make Reservation</button>
