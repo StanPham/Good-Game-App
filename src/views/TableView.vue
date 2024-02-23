@@ -57,11 +57,19 @@ const modifiedTimeSlotsStartTime = computed(() => {
   }
 });
 const modifiedTimeSlotsEndTime = computed(() => {
-  if(isSaturday.value){
+  let checkFutureSlots = null;
+    for(let i = startTime.value;i<11;i++){
+      if(!timeSlotAvailability.value[i]){
+       
+        checkFutureSlots = i;
+      }
+    }
+    if(!checkFutureSlots){
     return timeSlotAvailability.value.slice(startTime.value, -1);
-  }else{
-    return timeSlotAvailability.value.slice(startTime.value, -1);
-  }
+    }else{
+      
+      return timeSlotAvailability.value.slice(startTime.value, checkFutureSlots-1);
+    }
 });
 
 const addTableReservation = async () =>{
@@ -196,11 +204,8 @@ const flatpickrConfig = ref({
             </div>
             <div class="input-container">
               <label>Choose End Time</label>
-              <select v-if="isSaturday" v-model="endTime">
+              <select v-model="endTime">
                 <option v-if="startTime != null" v-for="(available, index) in modifiedTimeSlotsEndTime" :key="index+startTime+1" :value="index+startTime+1" :disabled="!available">{{ index+startTime+1 }}:00PM</option>
-              </select>
-              <select v-else v-model="endTime">
-                <option v-if="startTime" v-for="(available, index) in modifiedTimeSlotsEndTime" :key="index+startTime+1" :value="index+startTime+1" :disabled="!available">{{ index+startTime+1 }}:00PM</option>
               </select>
             </div>
             <button class="main-btn-full reserve-btn">Make Reservation</button>
