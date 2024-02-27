@@ -4,14 +4,21 @@ import { db, firebaseAppAuth } from "@/firebase"
 import {ref, watch, computed} from 'vue'
 import { onAuthStateChanged } from 'firebase/auth'
 import FlatpickrComponent from '../components/FlatpickrComp.vue';
+
 const user = ref(null);
+
 onAuthStateChanged(firebaseAppAuth, currentUser => {
-  
     if(currentUser) {
       user.value = currentUser
     }
 })
 
+const tableType = ref();
+const reserveDate = ref();
+const numTables = ref();
+const startTime = ref();
+const endTime = ref();
+const timeSlotAvailability = ref(new Array(11).fill(true));
 const maxTables = {
   round: 5,
   standard: 8,
@@ -42,12 +49,7 @@ const numTablesAvailable = computed(() => {
       return 0; 
   }
 });
-const tableType = ref();
-const reserveDate = ref();
-const numTables = ref();
-const startTime = ref();
-const endTime = ref();
-const timeSlotAvailability = ref(new Array(11).fill(true));
+
 const modifiedTimeSlotsStartTime = computed(() => {
   if(isSaturday.value){
     return timeSlotAvailability.value.slice(0,-1);
@@ -105,8 +107,6 @@ const addTableReservation = async () =>{
     })
   }
   
-  console.log('here')
-  
   await setDoc(doc(collection(db, "tableReservations"), user.value.uid), {
     date: reserveDate.value,
     name: user.value.displayName,
@@ -134,6 +134,8 @@ watch([reserveDate, tableType, numTables], async () => {
     }
   }
 }, { immediate: true });
+
+
 
 //flatpickr
 function addDaysToDate(date, days) {
