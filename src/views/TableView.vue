@@ -18,93 +18,64 @@ const reserveDate = ref();
 const numTables = ref();
 const startTime = ref();
 const endTime = ref();
-const timeSlotAvailability = ref(new Array(11).fill(true));
-const maxTables = {
-  round: 5,
-  standard: 8,
-  felt: 1,
-};
+
+
+const tempTimeInfo = [
+  '12:00PM', '1:00PM','2:00PM','3:00PM','4:00PM','5:00PM','6:00PM','7:00PM',
+]
+
+const timeSlotAvailability = ref(new Array(tempTimeInfo.length).fill(true));
+
+const tempTableInfo = {
+  'Round': 5,
+  'Standard': 8,
+  'Felt': 1
+}
 
 const isSaturday = computed(() => {
   if (!reserveDate.value) return false; 
   const date = new Date(reserveDate.value);
-  console.log(date.getDay())
+
   return date.getDay() === 5; 
 });
 
-const formatTimeOption = (index) => {
-  const hour = index === 0 ? 12 : index; // Convert "0" to "12"
-  return `${hour}:00PM`;
-};
-
 const numTablesAvailable = computed(() => {
-  switch (tableType.value) {
-    case 'round':
-      return maxTables.round;
-    case 'standard':
-      return maxTables.standard;
-    case 'felt':
-      return maxTables.felt;
-    default:
-      return 0; 
-  }
+  if (!tableType.value) return [];
+  const maxTables = tempTableInfo[tableType.value] || 0;
+  return Array.from({ length: maxTables }, (_, i) => i + 1);
 });
 
-const modifiedTimeSlotsStartTime = computed(() => {
-  if(isSaturday.value){
-    return timeSlotAvailability.value.slice(0,-1);
-  }else{
-    console.log('check')
-    return timeSlotAvailability.value.slice(2,-1);
+const dayTables = tempTimeInfo.reduce((acc, timeSlot) => {
+  acc[timeSlot] = JSON.parse(JSON.stringify(tempTableInfo));
+  return acc;
+}, {});
+
+function updateDayTablesAvailability(startTime, endTime, tableType, numTables) {
+  let startIndex = tempTimeInfo.indexOf(startTime);
+  let endIndex = tempTimeInfo.indexOf(endTime);
+
+  for (let i = startIndex; i < endIndex; i++) {
+    let timeSlot = tempTimeInfo[i];
+    dayTables[timeSlot][tableType] = dayTables[timeSlot][tableType] - numTables;
   }
-});
-const modifiedTimeSlotsEndTime = computed(() => {
-  let checkFutureSlots = null;
-    for(let i = startTime.value;i<11;i++){
-      if(!timeSlotAvailability.value[i]){
-       
-        checkFutureSlots = i;
-      }
-    }
-    if(!checkFutureSlots){
-    return timeSlotAvailability.value.slice(startTime.value, -1);
-    }else{
-      
-      return timeSlotAvailability.value.slice(startTime.value, checkFutureSlots-1);
-    }
-});
+}
 
 const addTableReservation = async () =>{
-  const q = query(collection(db, tableType.value), where("date", "==", reserveDate.value));
+  const q = query(collection(db, 'remainingTables'), where("date", "==", reserveDate.value));
   const querySnapshot = await getDocs(q);
- 
-  const editData = {
-    tables: new Array(11).fill(numTablesAvailable.value)
-  };
-  let tableArr = null;
-
+  updateDayTablesAvailability(startTime.value, endTime.value, tableType.value, numTables.value);
   if(querySnapshot.empty){
-    for(let i = startTime.value; i<endTime.value; i++ ){
-      editData.tables[i] -= numTables.value;
-    }
-
-    await addDoc(collection(db, tableType.value),{
+    await addDoc(collection(db, 'remainingTables'),{
       date: reserveDate.value,
-      tables: editData.tables,
+      dayTables,
       
     })
-    
   }else{
     const documentSnapshot = querySnapshot.docs[0];
     const documentRef = documentSnapshot.ref;
     const documentData = documentSnapshot.data();
-    tableArr = documentData.tables;
-    for(let i = startTime.value; i<endTime.value; i++ ){
-      tableArr[i] -= numTables.value;
-    }
-    await updateDoc(documentRef,{
-      tables: tableArr
-    })
+    
+   
   }
   
   await setDoc(doc(collection(db, "tableReservations"), user.value.uid), {
@@ -120,17 +91,23 @@ const addTableReservation = async () =>{
 //update the start time and end time lists
 watch([reserveDate, tableType, numTables], async () => {
   if(reserveDate.value && tableType.value && numTables.value){
-    const q = query(collection(db, tableType.value), where("date", "==", reserveDate.value));
+    const q = query(collection(db, 'remainingTables'), where("date", "==", reserveDate.value));
+   
     const querySnapshot = await getDocs(q);
     if(!querySnapshot.empty){
+     
       const documentSnapshot = querySnapshot.docs[0];
       const documentData = documentSnapshot.data();
-      for(let i = 0; i < 11; i++){ 
-       
-        timeSlotAvailability.value[i] = documentData.tables[i] >= numTables.value;
+     
+      for(let i = 0; i < tempTimeInfo.length; i++){ 
+    
+        timeSlotAvailability.value[i] = documentData.dayTables[tempTimeInfo[i]][tableType.value] >= numTables.value;
+        console.log(timeSlotAvailability.value[i])
       }
+     
     } else {
       timeSlotAvailability.value.fill(true);
+      console.log(timeSlotAvailability.value)
     }
   }
 }, { immediate: true });
@@ -150,7 +127,6 @@ const tomorrow = addDaysToDate(new Date(), 1);
 const flatpickrConfig = ref({
   disable: [
     function(date) {
-   
       if ([0, 1, 2].includes(date.getDay())) {
         return true;
       }
@@ -166,6 +142,8 @@ const flatpickrConfig = ref({
   dateFormat: "Y-m-d",
   minDate: today, 
 });
+
+
 </script>
 
 <template>
@@ -178,10 +156,9 @@ const flatpickrConfig = ref({
             <div class="input-container">
               <label>Choose Table Type</label>
               <select v-model="tableType">
-                <option value="round">Round Table</option>
-                <option value="standard">Standard Table</option>
-                <option value="felt">Felt Table</option>
+                <option v-for="(value, key) in Object.keys(tempTableInfo)" :key="value" :value="value">{{ value }}</option>
               </select>
+
             </div>
             <div class="input-container">
               <label>Number of Tables</label>
@@ -198,16 +175,16 @@ const flatpickrConfig = ref({
             <div class="input-container">
               <label>Choose Start Time</label>
               <select v-if="isSaturday" v-model="startTime">
-                <option v-for="(available, index) in modifiedTimeSlotsStartTime" :key="index" :value="index" :disabled="!available">{{ formatTimeOption(index) }}</option>
+                <option v-for="time in tempTimeInfo" :key="time" :value="time">{{ time }}</option>
               </select>
               <select v-else v-model="startTime">
-                <option v-for="(available, index) in modifiedTimeSlotsStartTime" :key="index+2" :value="index+2" :disabled="!available">{{ index+2 }}:00PM</option>
+                <option v-for="time in tempTimeInfo" :key="time" :value="time">{{ time }}</option>
               </select>
             </div>
             <div class="input-container">
               <label>Choose End Time</label>
               <select v-model="endTime">
-                <option v-if="startTime != null" v-for="(available, index) in modifiedTimeSlotsEndTime" :key="index+startTime+1" :value="index+startTime+1" :disabled="!available">{{ index+startTime+1 }}:00PM</option>
+                <option v-for="time in tempTimeInfo" :key="time" :value="time">{{ time }}</option>
               </select>
             </div>
             <button class="main-btn-full reserve-btn">Make Reservation</button>
@@ -219,6 +196,8 @@ const flatpickrConfig = ref({
       </div>
     </main>
   </div>
+
+  
 </template>
 
 <style scoped>
