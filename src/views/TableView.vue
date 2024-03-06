@@ -1,81 +1,118 @@
 <script setup>
 import { addDoc, getDocs, updateDoc, query, where, collection, doc, setDoc } from 'firebase/firestore';
 import { db, firebaseAppAuth } from "@/firebase"
-import {ref, watch, computed} from 'vue'
+import {ref, watch, computed, onMounted} from 'vue'
 import { onAuthStateChanged } from 'firebase/auth'
 import FlatpickrComponent from '../components/FlatpickrComp.vue';
 
 const user = ref(null);
-
-onAuthStateChanged(firebaseAppAuth, currentUser => {
-    if(currentUser) {
-      user.value = currentUser
-    }
-})
-
+const tableInfo = ref({});
+const dayTables = ref([])
 const tableType = ref();
 const reserveDate = ref();
 const numTables = ref();
 const startTime = ref();
 const endTime = ref();
 
+onMounted(() => {
+  fetchTableInfo();
+});
+
+const fetchTableInfo = async () => {
+  const tableInfoCollectionRef = collection(db, "tableInfo");
+  const snapshot = await getDocs(tableInfoCollectionRef);
+  if (!snapshot.empty) {
+    tableInfo.value = snapshot.docs[0].data();
+  }
+};
+
+watch(tableInfo, (newValue) => {
+  dayTables.value = tempTimeInfo.map(time => ({
+    time,
+    tables: JSON.parse(JSON.stringify(newValue)) 
+  }));
+}, { deep: true });
+
+onAuthStateChanged(firebaseAppAuth, currentUser => {
+    if(currentUser) {
+      user.value = currentUser
+      fetchTableInfo();
+    }
+})
 
 const tempTimeInfo = [
-  '12:00PM', '1:00PM','2:00PM','3:00PM','4:00PM','5:00PM','6:00PM','7:00PM',
+  '12:00PM', '1:00PM','2:00PM','3:00PM','4:00PM','5:00PM','6:00PM','7:00PM','8:00PM','9:00PM','10:00PM',
 ]
 
 const timeSlotAvailability = ref(new Array(tempTimeInfo.length).fill(true));
 
-const tempTableInfo = {
-  'Round': 5,
-  'Standard': 8,
-  'Felt': 1
-}
+const availableStartTimes = computed(() => {
+  if(isSaturday.value){
+    return tempTimeInfo.filter((_, index) => timeSlotAvailability.value[index]);
+  }
+  else{
+    tempTimeInfo.filter((_, index) => timeSlotAvailability.value[index]);
+    return tempTimeInfo.slice(2);
+  }
+});
+
+const availableEndTimes = computed(() => {
+  const startIndex = tempTimeInfo.indexOf(startTime.value);
+  if (startIndex === -1) return [];
+
+  let filteredTimes = [];
+  for (let i = startIndex + 1; i < tempTimeInfo.length; i++) {
+    filteredTimes.push(tempTimeInfo[i]);
+    if (!timeSlotAvailability.value[i]) break; 
+  }
+  return filteredTimes;
+});
 
 const isSaturday = computed(() => {
   if (!reserveDate.value) return false; 
   const date = new Date(reserveDate.value);
-
+  console.log(date.getDay())
   return date.getDay() === 5; 
 });
 
 const numTablesAvailable = computed(() => {
   if (!tableType.value) return [];
-  const maxTables = tempTableInfo[tableType.value] || 0;
+  const maxTables = tableInfo.value[tableType.value] || 0;
   return Array.from({ length: maxTables }, (_, i) => i + 1);
 });
 
-const dayTables = tempTimeInfo.reduce((acc, timeSlot) => {
-  acc[timeSlot] = JSON.parse(JSON.stringify(tempTableInfo));
-  return acc;
-}, {});
-
-function updateDayTablesAvailability(startTime, endTime, tableType, numTables) {
+function updateDayTablesAvailability(startTime, endTime, tableType, numTables, dayTables) {
   let startIndex = tempTimeInfo.indexOf(startTime);
   let endIndex = tempTimeInfo.indexOf(endTime);
 
-  for (let i = startIndex; i < endIndex; i++) {
-    let timeSlot = tempTimeInfo[i];
-    dayTables[timeSlot][tableType] = dayTables[timeSlot][tableType] - numTables;
-  }
+  dayTables.forEach((slot, index) => {
+    if (index >= startIndex && index < endIndex) {
+      slot.tables[tableType] -= numTables;
+    }
+  });
+
+  return dayTables;
 }
 
 const addTableReservation = async () =>{
   const q = query(collection(db, 'remainingTables'), where("date", "==", reserveDate.value));
   const querySnapshot = await getDocs(q);
-  updateDayTablesAvailability(startTime.value, endTime.value, tableType.value, numTables.value);
+  
   if(querySnapshot.empty){
+    const remainingTables = updateDayTablesAvailability(startTime.value, endTime.value, tableType.value, numTables.value, dayTables.value);
     await addDoc(collection(db, 'remainingTables'),{
       date: reserveDate.value,
-      dayTables,
+      remainingTables,
       
     })
   }else{
     const documentSnapshot = querySnapshot.docs[0];
     const documentRef = documentSnapshot.ref;
-    const documentData = documentSnapshot.data();
-    
-   
+    const testtwo = updateDayTablesAvailability(startTime.value, endTime.value, tableType.value, numTables.value, documentSnapshot.data().remainingTables);
+
+    await updateDoc(documentRef, {
+      remainingTables: testtwo,
+    });
   }
   
   await setDoc(doc(collection(db, "tableReservations"), user.value.uid), {
@@ -100,14 +137,13 @@ watch([reserveDate, tableType, numTables], async () => {
       const documentData = documentSnapshot.data();
      
       for(let i = 0; i < tempTimeInfo.length; i++){ 
-    
-        timeSlotAvailability.value[i] = documentData.dayTables[tempTimeInfo[i]][tableType.value] >= numTables.value;
-        console.log(timeSlotAvailability.value[i])
+        
+        timeSlotAvailability.value[i] = documentData.remainingTables[i].tables[tableType.value] >= numTables.value;
       }
      
     } else {
       timeSlotAvailability.value.fill(true);
-      console.log(timeSlotAvailability.value)
+     
     }
   }
 }, { immediate: true });
@@ -142,8 +178,6 @@ const flatpickrConfig = ref({
   dateFormat: "Y-m-d",
   minDate: today, 
 });
-
-
 </script>
 
 <template>
@@ -156,7 +190,7 @@ const flatpickrConfig = ref({
             <div class="input-container">
               <label>Choose Table Type</label>
               <select v-model="tableType">
-                <option v-for="(value, key) in Object.keys(tempTableInfo)" :key="value" :value="value">{{ value }}</option>
+                <option v-for="(value, key) in Object.keys(tableInfo)" :key="value" :value="value">{{ value }}</option>
               </select>
 
             </div>
@@ -174,17 +208,14 @@ const flatpickrConfig = ref({
 
             <div class="input-container">
               <label>Choose Start Time</label>
-              <select v-if="isSaturday" v-model="startTime">
-                <option v-for="time in tempTimeInfo" :key="time" :value="time">{{ time }}</option>
-              </select>
-              <select v-else v-model="startTime">
-                <option v-for="time in tempTimeInfo" :key="time" :value="time">{{ time }}</option>
+              <select v-model="startTime">
+                <option v-for="time in availableStartTimes" :key="time" :value="time">{{ time }}</option>
               </select>
             </div>
             <div class="input-container">
               <label>Choose End Time</label>
               <select v-model="endTime">
-                <option v-for="time in tempTimeInfo" :key="time" :value="time">{{ time }}</option>
+                <option v-for="time in availableEndTimes" :key="time" :value="time">{{ time }}</option>
               </select>
             </div>
             <button class="main-btn-full reserve-btn">Make Reservation</button>
@@ -195,6 +226,7 @@ const flatpickrConfig = ref({
         <img src="../images/table.webp" alt="" class="table-image">
       </div>
     </main>
+    <button @click="tempTest">xd</button>
   </div>
 
   
