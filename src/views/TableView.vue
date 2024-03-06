@@ -1,5 +1,5 @@
 <script setup>
-import { addDoc, getDocs, updateDoc, query, where, collection, doc, setDoc } from 'firebase/firestore';
+import { addDoc, getDocs, updateDoc, query, where, collection, doc, setDoc, getDoc, arrayUnion } from 'firebase/firestore';
 import { db, firebaseAppAuth } from "@/firebase"
 import {ref, watch, computed, onMounted} from 'vue'
 import { onAuthStateChanged } from 'firebase/auth'
@@ -13,6 +13,8 @@ const reserveDate = ref();
 const numTables = ref();
 const startTime = ref();
 const endTime = ref();
+const tempTimeInfo = ['12:00PM', '1:00PM','2:00PM','3:00PM','4:00PM','5:00PM','6:00PM','7:00PM','8:00PM','9:00PM','10:00PM']
+const timeSlotAvailability = ref(new Array(tempTimeInfo.length).fill(true));
 
 onMounted(() => {
   fetchTableInfo();
@@ -39,12 +41,6 @@ onAuthStateChanged(firebaseAppAuth, currentUser => {
       fetchTableInfo();
     }
 })
-
-const tempTimeInfo = [
-  '12:00PM', '1:00PM','2:00PM','3:00PM','4:00PM','5:00PM','6:00PM','7:00PM','8:00PM','9:00PM','10:00PM',
-]
-
-const timeSlotAvailability = ref(new Array(tempTimeInfo.length).fill(true));
 
 const availableStartTimes = computed(() => {
   if(isSaturday.value){
@@ -115,14 +111,34 @@ const addTableReservation = async () =>{
     });
   }
   
-  await setDoc(doc(collection(db, "tableReservations"), user.value.uid), {
-    date: reserveDate.value,
-    name: user.value.displayName,
-    email: user.value.email,
-    startTime: startTime.value,
-    endTime:endTime.value,
-    numberOfTables: numTables.value
-  });
+  const docRef = doc(collection(db, 'tableReservations'), user.value.uid)
+  const docSnap = await getDoc(docRef)
+  if(!docSnap.exists()){
+    await setDoc(docRef, {
+      userReservations: [{
+      date: reserveDate.value,
+      name: user.value.displayName,
+      email: user.value.email,
+      startTime: startTime.value,
+      endTime:endTime.value,
+      numberOfTables: numTables.value,
+      tableType: tableType.value}]
+    });
+  }else{
+    if(docSnap.data().userReservations.length < 2){
+      await updateDoc(docRef, {
+        userReservations: arrayUnion({
+          date: reserveDate.value,
+          name: user.value.displayName,
+          email: user.value.email,
+          startTime: startTime.value,
+          endTime:endTime.value,
+          numberOfTables: numTables.value,
+          tableType: tableType.value
+        })
+      })
+    }
+  }
 }
 
 //update the start time and end time lists
@@ -137,7 +153,6 @@ watch([reserveDate, tableType, numTables], async () => {
       const documentData = documentSnapshot.data();
      
       for(let i = 0; i < tempTimeInfo.length; i++){ 
-        
         timeSlotAvailability.value[i] = documentData.remainingTables[i].tables[tableType.value] >= numTables.value;
       }
      

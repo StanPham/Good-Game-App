@@ -4,6 +4,7 @@ import EventTab from '../components/admin/EventTab.vue'
 import AdminTab from '../components/admin/AdminTab.vue'
 import CarouselTab from '../components/admin/CarouselTab.vue'
 
+
 const activeTab = ref('Events')
 const setActiveTab = (tabName) => {
   activeTab.value = tabName
