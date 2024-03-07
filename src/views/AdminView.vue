@@ -3,6 +3,7 @@ import {ref} from 'vue'
 import EventTab from '../components/admin/EventTab.vue'
 import AdminTab from '../components/admin/AdminTab.vue'
 import CarouselTab from '../components/admin/CarouselTab.vue'
+import TableReservationTab from '../components/admin/TableReservationTab.vue'
 
 
 const activeTab = ref('Events')
@@ -16,11 +17,13 @@ const setActiveTab = (tabName) => {
     <div class="tab">
       <button :class="{highlight:activeTab === 'Events'}" @click="setActiveTab('Events')">Events</button>
       <button :class="{highlight:activeTab === 'Carousel'}" @click="setActiveTab('Carousel')">Carousel</button>
+      <button :class="{highlight:activeTab === 'Tables'}" @click="setActiveTab('Tables')">Tables</button>
       <button :class="{highlight:activeTab === 'Admin'}" @click="setActiveTab('Admin')">Admin</button>
     </div>
   <!-- Tab content -->
     <EventTab v-if="activeTab === 'Events'" class="tabcontent" />
     <CarouselTab v-if="activeTab === 'Carousel'" class="tabcontent" />
+    <TableReservationTab v-if="activeTab === 'Tables'" class="tabcontent" />
     <AdminTab v-if="activeTab === 'Admin'" class="tabcontent" />
   </body>
 </template>

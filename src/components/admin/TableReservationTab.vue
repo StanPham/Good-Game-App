@@ -73,9 +73,11 @@ const filteredReservations = computed(() => {
       <thead>
         <th scope="col">Email</th>
         <th scope="col">Username</th>
-        <th scope="col">Quantity</th>
-        <th scope="col">Time of Reservation</th>
-        <th scope="col">Actions</th>
+        <th scope="col">Date</th>
+        <th scope="col">Table Type</th>
+        <th scope="col"># of Tables</th>
+        <th scope="col">Start</th>
+        <th scope="col">End</th>
       </thead>
         
       <tbody v-for="reservation in filteredReservations" :key="reservation.id">
