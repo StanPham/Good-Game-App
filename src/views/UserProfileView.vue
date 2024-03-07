@@ -11,6 +11,7 @@ import { db, firebaseAppAuth, firebaseFunctions } from '@/firebase'
 import { ref, onMounted, watch, computed, onUnmounted } from "vue";
 import { httpsCallable } from 'firebase/functions';
 import { doc, collection, onSnapshot } from "firebase/firestore";
+import UserReservations from '../components/userprofile/UserReservations.vue'
 import UserInfoPopups from "../components/alerts/UserInfoPopups.vue";
 import greencheck from '../images/green-check.png'
 import TheSpinner from '../components/alerts/TheSpinner.vue'
@@ -41,7 +42,7 @@ onAuthStateChanged(firebaseAppAuth, currentUser => {
         }
         initialPhoneNumber.value = userTableInfo.value.phoneNumber;
         initialEmail.value = userTableInfo.value.email;
-        
+        fetchUserData();
     }
 })
 
@@ -148,6 +149,37 @@ function showPhoneMessage(){
   }, 6000);
 }
 
+
+const tableReservationList = ref([])
+const fetchUserData = () => {
+  if (user.value) {
+    const docRef = doc(db, 'tableReservations', user.value.uid);
+    onSnapshot(docRef, (doc) => {
+      if (!doc.exists()) {
+
+        tableReservationList.value = []
+        
+      } else {
+        const reservations = doc.data().reservations;
+        const tmpTableReservationList = [];
+        for (let i = 0; i < reservations.length; i++) {
+          tmpTableReservationList.push({
+            id: i,
+            date: reservations[i].date,
+            tableType: reservations[i].tableType,
+            numTables: reservations[i].numberOfTables,
+            startTime: reservations[i].startTime,
+            endTime: reservations[i].endTime,
+            loading:false,
+          });
+        }
+        tableReservationList.value = tmpTableReservationList;
+      }
+    });
+  }
+};
+
+onMounted(fetchUserData())
 </script>
 
 <template>
@@ -199,6 +231,13 @@ function showPhoneMessage(){
   </div>
 
   <br><br>
+
+  <div class="reservations-card-wrap rc black">
+    <UserReservations 
+      v-if="tableReservationList.length" 
+      :reservations = "tableReservationList">  
+    </UserReservations>
+  </div>
 
 </template>
 

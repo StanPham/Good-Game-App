@@ -8,12 +8,6 @@ const myReservations = defineProps({
         default: () => []
     }
 })
-
-function expireDate(date) {
-  const day = String(date.getDate() + 2).padStart(2, '0');
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  return `${month}/${day}`;
-}
 </script>
 
 <template>
@@ -23,11 +17,21 @@ function expireDate(date) {
     </div>
     <div class="pad margin-top">
         <div class="content title gradient pad rc margin-bottom" v-for="reservation in myReservations.reservations" :key="reservation.id">
-          <div class="mock-enddate roboto pink margin-bottom">Expires After {{ expireDate(reservation.creationDate) }}</div>
-          <div class="grid-wrapper">
-            <div class="roboto">{{ reservation.productName }}</div>
-            <div class="product-quant pad-left">x{{ reservation.quantity }}</div>
-
+          <div class="flex gap">
+            <ul>
+              <li>Date</li>
+              <li>Table Type</li>
+              <li>Number of Tables</li>
+              <li>Start Time</li>
+              <li>End Time</li>
+            </ul>
+            <ul>
+              <li>{{ reservation.date }}</li>
+              <li>{{ reservation.tableType }}</li>
+              <li>{{ reservation.numTables }}</li>
+              <li>{{ reservation.startTime }}</li>
+              <li>{{ reservation.endTime }}</li>
+            </ul>
             <TheSpinner v-if="reservation.loading" />
 
             <button v-if="!reservation.loading" 
