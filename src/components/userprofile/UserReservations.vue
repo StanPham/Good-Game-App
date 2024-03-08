@@ -17,11 +17,11 @@ const myReservations = defineProps({
     </div>
     <div class="pad margin-top">
         <div class="content title gradient pad rc margin-bottom" v-for="reservation in myReservations.reservations" :key="reservation.id">
-          <div class="flex gap">
+          <div class="grid-wrapper">
             <ul>
               <li>Date</li>
               <li>Table Type</li>
-              <li>Number of Tables</li>
+              <li># of Tables</li>
               <li>Start Time</li>
               <li>End Time</li>
             </ul>
@@ -46,19 +46,23 @@ const myReservations = defineProps({
 </template>
 
 <style scoped>
-
 .grid-wrapper{
-  display:grid;
-  grid-template-columns: 3fr 2fr 1fr;
-  gap: .5rem;
-  align-items:center; 
+  display:flex;
+  justify-content: space-between;
+  align-items:center;
 }
-
+ul{
+  list-style-type:none;
+}
+li{
+  margin-bottom:6px;
+}
 .delete-btn-mq{
   background: white;
   color: var(--btn-color);
   border-radius:1rem;
   padding: .1em .5em;
+  font-size: 1.5rem; 
 }
 
 .delete-btn-mq:hover{

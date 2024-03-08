@@ -10,7 +10,7 @@ import {
 import { db, firebaseAppAuth, firebaseFunctions } from '@/firebase'
 import { ref, onMounted, watch, computed, onUnmounted } from "vue";
 import { httpsCallable } from 'firebase/functions';
-import { doc, collection, onSnapshot } from "firebase/firestore";
+import { doc, collection, onSnapshot, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
 import UserReservations from '../components/userprofile/UserReservations.vue'
 import UserInfoPopups from "../components/alerts/UserInfoPopups.vue";
 import greencheck from '../images/green-check.png'
@@ -73,7 +73,7 @@ const submitPhoneNumber = async () => {
 
 
 const isNameUnchanged = computed(() => {
-    return userTableInfo.value.displayName === user.value.displayName;
+    return userTableInfo.value?.displayName === user.value?.displayName;
 });
 
 const isPhoneUnchanged = computed(() => {
@@ -160,7 +160,7 @@ const fetchUserData = () => {
         tableReservationList.value = []
         
       } else {
-        const reservations = doc.data().reservations;
+        const reservations = doc.data().userReservations;
         const tmpTableReservationList = [];
         for (let i = 0; i < reservations.length; i++) {
           tmpTableReservationList.push({
@@ -179,7 +179,22 @@ const fetchUserData = () => {
   }
 };
 
-onMounted(fetchUserData())
+//needs to be a cloud function
+
+async function deleteReservation(index){
+  const docRef = doc(db, 'tableReservations', user.value.uid);
+  const userDoc = await getDoc(docRef);
+
+  if(userDoc.data().userReservations.length === 1){
+    await deleteDoc(docRef)
+  }else {
+    let arr = userDoc.data().userReservations
+    arr.splice(index, 1)
+    await updateDoc(docRef, {
+      userReservations: arr
+    })
+  }
+}
 </script>
 
 <template>
@@ -234,6 +249,7 @@ onMounted(fetchUserData())
 
   <div class="reservations-card-wrap rc black">
     <UserReservations 
+      @delete-reservation="deleteReservation" 
       v-if="tableReservationList.length" 
       :reservations = "tableReservationList">  
     </UserReservations>
