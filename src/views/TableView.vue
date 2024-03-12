@@ -47,7 +47,6 @@ const availableStartTimes = computed(() => {
     return tempTimeInfo.filter((_, index) => timeSlotAvailability.value[index]);
   }
   else{
-    console.log(tempTimeInfo.filter((_, index) => timeSlotAvailability.value[index]))
     return tempTimeInfo.filter((_, index) => timeSlotAvailability.value[index]).slice(2);
   }
 });
@@ -67,7 +66,7 @@ const availableEndTimes = computed(() => {
 const isSaturday = computed(() => {
   if (!reserveDate.value) return false; 
   const date = new Date(reserveDate.value);
-  console.log(date.getDay())
+
   return date.getDay() === 5; 
 });
 
@@ -156,7 +155,7 @@ watch([reserveDate, tableType, numTables], async () => {
   if(reserveDate.value && tableType.value && numTables.value){
     const q = query(collection(db, 'remainingTables'), where("date", "==", reserveDate.value));
     const querySnapshot = await getDocs(q);
-    console.log('here')
+  
     if(!querySnapshot.empty){
      
       const documentSnapshot = querySnapshot.docs[0];
@@ -165,10 +164,8 @@ watch([reserveDate, tableType, numTables], async () => {
       for(let i = 0; i < tempTimeInfo.length; i++){ 
         timeSlotAvailability.value[i] = documentData.remainingTables[i].tables[tableType.value] >= numTables.value;
       }
-     console.log(timeSlotAvailability.value)
     } else{
-      console.log('else')
-      timeSlotAvailability.value.fill(true);
+        timeSlotAvailability.value.fill(true);
     }
   }
 }, { immediate: true });
