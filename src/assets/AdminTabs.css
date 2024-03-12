@@ -90,14 +90,14 @@ form input[type="file"]{
 
 .edit-btn{
     background-color: rgb(24, 216, 56);
-    padding: .4rem;
+    padding: .4em;
     font-weight:bold;
     border-radius: 4px;
 }
   
 .del-btn{
     background-color: rgba(255, 18, 18, 0.678);
-    padding: .4rem;
+    padding: .4em;
     font-weight:bold;
     border-radius: 4px;
     margin-left:5px;
