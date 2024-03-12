@@ -8,11 +8,11 @@ import FlatpickrComponent from '../components/FlatpickrComp.vue';
 const user = ref(null);
 const tableInfo = ref({});
 const dayTables = ref([])
-const tableType = ref();
-const reserveDate = ref();
-const numTables = ref();
-const startTime = ref();
-const endTime = ref();
+const tableType = ref('');
+const reserveDate = ref('');
+const numTables = ref('');
+const startTime = ref('');
+const endTime = ref('');
 const tempTimeInfo = ['12:00PM', '1:00PM','2:00PM','3:00PM','4:00PM','5:00PM','6:00PM','7:00PM','8:00PM','9:00PM','10:00PM']
 const timeSlotAvailability = ref(new Array(tempTimeInfo.length).fill(true));
 
@@ -47,8 +47,8 @@ const availableStartTimes = computed(() => {
     return tempTimeInfo.filter((_, index) => timeSlotAvailability.value[index]);
   }
   else{
-    tempTimeInfo.filter((_, index) => timeSlotAvailability.value[index]);
-    return tempTimeInfo.slice(2);
+    console.log(tempTimeInfo.filter((_, index) => timeSlotAvailability.value[index]))
+    return tempTimeInfo.filter((_, index) => timeSlotAvailability.value[index]).slice(2);
   }
 });
 
@@ -92,6 +92,12 @@ function updateDayTablesAvailability(startTime, endTime, tableType, numTables, d
 
 //needs to be cloud function
 const addTableReservation = async () =>{
+  //make sure user doesn't have more than 2 reservations, here would also check user isn't blacklisted
+  const docRef = doc(collection(db, 'tableReservations'), user.value.uid)
+  const docSnap = await getDoc(docRef)
+  if(docSnap.exists() && docSnap.data().userReservations.length >= 2) return;
+
+
   const q = query(collection(db, 'remainingTables'), where("date", "==", reserveDate.value));
   const querySnapshot = await getDocs(q);
   //update that days table info, if doc doesnt exist create it with local data (dayTables.value), else use the doc data
@@ -113,8 +119,6 @@ const addTableReservation = async () =>{
   }
   
   //create or update the user's reservation doc
-  const docRef = doc(collection(db, 'tableReservations'), user.value.uid)
-  const docSnap = await getDoc(docRef)
   if(!docSnap.exists()){
     await setDoc(docRef, {
       userReservations: [{
@@ -127,20 +131,24 @@ const addTableReservation = async () =>{
       tableType: tableType.value}]
     });
   }else{
-    if(docSnap.data().userReservations.length < 2){
-      await updateDoc(docRef, {
-        userReservations: arrayUnion({
-          date: reserveDate.value,
-          name: user.value.displayName,
-          email: user.value.email,
-          startTime: startTime.value,
-          endTime:endTime.value,
-          numberOfTables: numTables.value,
-          tableType: tableType.value
-        })
+    await updateDoc(docRef, {
+      userReservations: arrayUnion({
+        date: reserveDate.value,
+        name: user.value.displayName,
+        email: user.value.email,
+        startTime: startTime.value,
+        endTime:endTime.value,
+        numberOfTables: numTables.value,
+        tableType: tableType.value
       })
-    }
+    }) 
   }
+
+  tableType.value = '';
+  numTables.value = '';
+  reserveDate.value = '';
+  startTime.value = '';
+  endTime.value = '';
 }
 
 //update the start time and end time lists
@@ -148,7 +156,7 @@ watch([reserveDate, tableType, numTables], async () => {
   if(reserveDate.value && tableType.value && numTables.value){
     const q = query(collection(db, 'remainingTables'), where("date", "==", reserveDate.value));
     const querySnapshot = await getDocs(q);
-
+    console.log('here')
     if(!querySnapshot.empty){
      
       const documentSnapshot = querySnapshot.docs[0];
@@ -157,8 +165,9 @@ watch([reserveDate, tableType, numTables], async () => {
       for(let i = 0; i < tempTimeInfo.length; i++){ 
         timeSlotAvailability.value[i] = documentData.remainingTables[i].tables[tableType.value] >= numTables.value;
       }
-     
+     console.log(timeSlotAvailability.value)
     } else{
+      console.log('else')
       timeSlotAvailability.value.fill(true);
     }
   }

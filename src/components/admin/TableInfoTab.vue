@@ -1,13 +1,14 @@
 <script setup>
-import { collection, onSnapshot, addDoc, Timestamp, doc, deleteDoc, updateDoc, deleteField } from "firebase/firestore"; 
-import { db, storage } from "@/firebase"
-import{ref as storageRef, uploadBytesResumable, getDownloadURL} from 'firebase/storage'
+import { collection, onSnapshot, doc, updateDoc, deleteField } from "firebase/firestore"; 
+import { db } from "@/firebase"
 import { onMounted, ref, computed } from 'vue'
+
 const docFields = ref({});
 const documentId = ref();
 const newTableType = ref('');
 const newTableCount = ref('');
 const showEditSuccess = ref({ show: false, counter: 0 });
+
 onMounted(() => {
   onSnapshot(collection(db, 'tableInfo'), (querySnapshot) => {
     if (querySnapshot.docs.length > 0) {
@@ -114,8 +115,9 @@ form{
 }
 
 .blink-bg{
-    animation: blinkingBackground 1s 2;
+  animation: blinkingBackground 1s 2;
 }
+
 @keyframes blinkingBackground{
     0%   {background-color: #35bd40;}
     50% {background-color: rgb(60, 240, 24);}
