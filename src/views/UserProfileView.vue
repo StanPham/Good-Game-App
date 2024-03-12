@@ -10,7 +10,7 @@ import {
 import { db, firebaseAppAuth, firebaseFunctions } from '@/firebase'
 import { ref, onMounted, watch, computed, onUnmounted } from "vue";
 import { httpsCallable } from 'firebase/functions';
-import { doc, collection, onSnapshot, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
+import { doc, collection, onSnapshot, getDoc, updateDoc, deleteDoc, getDocs, query, where, setDoc } from "firebase/firestore";
 import UserReservations from '../components/userprofile/UserReservations.vue'
 import UserInfoPopups from "../components/alerts/UserInfoPopups.vue";
 import greencheck from '../images/green-check.png'
@@ -26,12 +26,9 @@ const userTableInfo = ref({
 const initialPhoneNumber = ref('');
 const initialEmail = ref('');
 
-
-
 onAuthStateChanged(firebaseAppAuth, currentUser => {
     user.value = currentUser
    
-    console.log(user.value.email)
     if(currentUser){
         console.log(currentUser.providerData)
         userTableInfo.value = {
@@ -45,8 +42,6 @@ onAuthStateChanged(firebaseAppAuth, currentUser => {
         fetchUserData();
     }
 })
-
-
 
 const submitPhoneNumber = async () => {
     console.log(userTableInfo.value.phoneNumber)
@@ -69,9 +64,6 @@ const submitPhoneNumber = async () => {
         })
 }
 
-
-
-
 const isNameUnchanged = computed(() => {
     return userTableInfo.value?.displayName === user.value?.displayName;
 });
@@ -93,7 +85,6 @@ const theyUpdatedPhone = ref(false);
 
 const verifyEmailButton = ref(false);
 
-
 function verifyEmail(){
   verifyEmailButton.value = true;
   sendEmailVerification(user.value).then(() => {}).catch((err) => {
@@ -101,17 +92,12 @@ function verifyEmail(){
   })
 }
 
-
 const submitUpdateName = () => {
-
   updateProfile(user.value, {
   displayName: userTableInfo.value.displayName
   }).then(() => {
     // Profile updated!
-    // ...
   }).catch((error) => {
-    // An error occurred
-    // ...
     console.log(error)
   });
   showNameMessage();
@@ -120,7 +106,6 @@ const submitUpdateName = () => {
 const submitUpdatePhone = () => {
   submitPhoneNumber();
 }
-
 
 function showNameMessage(){
   updateNameButton.value = false;
@@ -174,31 +159,68 @@ const fetchUserData = () => {
           });
         }
         tableReservationList.value = tmpTableReservationList;
+        console.log(tableReservationList.value)
       }
     });
   }
 };
 
-//needs to be a cloud function
 
+
+//needs to be a cloud function
 async function deleteReservation(index){
-  const docRef = doc(db, 'tableReservations', user.value.uid);
-  const userDoc = await getDoc(docRef);
+  //re-adds the tables to that days reservation table info list
+  const tempTimeInfo = ['12:00PM', '1:00PM','2:00PM','3:00PM','4:00PM','5:00PM','6:00PM','7:00PM','8:00PM','9:00PM','10:00PM']
+  const reservationInfoQuery = query(collection(db, 'remainingTables'), where("date", "==", tableReservationList.value[index].date));
+  const querySnapshot = await getDocs(reservationInfoQuery);
+  const documentSnapshot = querySnapshot.docs[0];
+  const docData = documentSnapshot.data();
+  const documentRef = documentSnapshot.ref;
+
+  let startIndex = tempTimeInfo.indexOf(tableReservationList.value[index].startTime);
+  let endIndex = tempTimeInfo.indexOf(tableReservationList.value[index].endTime);
+
+  docData.remainingTables.forEach((slot, i) => {
+    if (i >= startIndex && i < endIndex) {
+      slot.tables[tableReservationList.value[index].tableType] += tableReservationList.value[index].numTables;
+    }
+  });
+
+  await updateDoc(documentRef, {
+    remainingTables: docData.remainingTables
+  })
+
+
+  //delete or slice the users array of reservations
+  const userDocRef = doc(db, 'tableReservations', user.value.uid);
+  const userDoc = await getDoc(userDocRef);
 
   if(userDoc.data().userReservations.length === 1){
-    await deleteDoc(docRef)
+    await deleteDoc(userDocRef)
   }else {
     let arr = userDoc.data().userReservations
     arr.splice(index, 1)
-    await updateDoc(docRef, {
+    await updateDoc(userDocRef, {
       userReservations: arr
+    })
+  }
+
+  //increment the users blacklist counter
+  const docRef = doc(collection(db, 'userBlacklist'), user.value.uid)
+  const docSnap = await getDoc(docRef)
+  if(!docSnap.exists()){
+    await setDoc(docRef, {
+      reservationDeletionCounter: 1
+    })
+  }else{
+    await updateDoc(docRef, {
+      reservationDeletionCounter: docSnap.data().reservationDeletionCounter + 1
     })
   }
 }
 </script>
 
 <template>
-
   <div>
       <div class ="form-container">
           <form @submit.prevent="submitUpdateName">
@@ -254,7 +276,6 @@ async function deleteReservation(index){
       :reservations = "tableReservationList">  
     </UserReservations>
   </div>
-
 </template>
 
 <style scoped>

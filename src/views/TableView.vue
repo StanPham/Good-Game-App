@@ -90,10 +90,11 @@ function updateDayTablesAvailability(startTime, endTime, tableType, numTables, d
   return dayTables;
 }
 
+//needs to be cloud function
 const addTableReservation = async () =>{
   const q = query(collection(db, 'remainingTables'), where("date", "==", reserveDate.value));
   const querySnapshot = await getDocs(q);
-  
+  //update that days table info, if doc doesnt exist create it with local data (dayTables.value), else use the doc data
   if(querySnapshot.empty){
     const remainingTables = updateDayTablesAvailability(startTime.value, endTime.value, tableType.value, numTables.value, dayTables.value);
     await addDoc(collection(db, 'remainingTables'),{
@@ -104,13 +105,14 @@ const addTableReservation = async () =>{
   }else{
     const documentSnapshot = querySnapshot.docs[0];
     const documentRef = documentSnapshot.ref;
-    const testtwo = updateDayTablesAvailability(startTime.value, endTime.value, tableType.value, numTables.value, documentSnapshot.data().remainingTables);
+    const updateTables = updateDayTablesAvailability(startTime.value, endTime.value, tableType.value, numTables.value, documentSnapshot.data().remainingTables);
 
     await updateDoc(documentRef, {
-      remainingTables: testtwo,
+      remainingTables: updateTables,
     });
   }
   
+  //create or update the user's reservation doc
   const docRef = doc(collection(db, 'tableReservations'), user.value.uid)
   const docSnap = await getDoc(docRef)
   if(!docSnap.exists()){
@@ -145,8 +147,8 @@ const addTableReservation = async () =>{
 watch([reserveDate, tableType, numTables], async () => {
   if(reserveDate.value && tableType.value && numTables.value){
     const q = query(collection(db, 'remainingTables'), where("date", "==", reserveDate.value));
-   
     const querySnapshot = await getDocs(q);
+
     if(!querySnapshot.empty){
      
       const documentSnapshot = querySnapshot.docs[0];
@@ -156,9 +158,8 @@ watch([reserveDate, tableType, numTables], async () => {
         timeSlotAvailability.value[i] = documentData.remainingTables[i].tables[tableType.value] >= numTables.value;
       }
      
-    } else {
+    } else{
       timeSlotAvailability.value.fill(true);
-     
     }
   }
 }, { immediate: true });
@@ -241,10 +242,7 @@ const flatpickrConfig = ref({
         <img src="../images/table.webp" alt="" class="table-image">
       </div>
     </main>
-    <button @click="tempTest">xd</button>
   </div>
-
-  
 </template>
 
 <style scoped>
