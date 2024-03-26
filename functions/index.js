@@ -311,3 +311,76 @@ exports.reservationcleanup = onSchedule("every day 06:00", async() => {
         })
     })
 })
+
+exports.tableReservationCleanup = functions.pubsub.schedule("every day 20:00").onRun(async(context) => {
+    try {
+        const date = new Date();
+
+        date.setDate(date.getDate() - 1);
+        console.log(date);
+        const formattedDate = date.getFullYear() +
+                              '-' + ((date.getMonth() + 1) + '').padStart(2, '0') +
+                              '-' + (date.getDate() + '').padStart(2, '0');
+
+        const db = getFirestore();
+        const reservationRef = db.collection('remainingTables');
+        const snapshot = await reservationRef.where('date', '==', formattedDate).get();
+
+        if (!snapshot.empty) {
+            for (const doc of snapshot.docs) {
+                await reservationRef.doc(doc.id).delete();
+                console.log('Document successfully deleted!');
+            }
+        }
+        
+        const userReservationsRef = db.collection('tableReservations');
+        const trSnapshot = await userReservationsRef.get();
+
+        for(const doc of trSnapshot.docs){
+            let reservations = doc.data().userReservations;
+            let updatedReservations = [];
+
+            for(let reservation of reservations){
+                if(reservation.date != formattedDate){
+                    updatedReservations.push(reservation);
+                }
+            }
+
+            if(updatedReservations.length === reservations.length){
+                console.log("dont need to do anything")
+            } else if(updatedReservations.length === 0) {
+                await doc.ref.delete(); 
+                console.log("reservation document deleted");
+            } else {
+                await doc.ref.update({ userReservations: updatedReservations }); 
+                console.log("reservations updated");
+            }
+        }
+       
+        return null;
+    } catch (error) {
+        console.error("Error during cleanup:", error);
+        
+    }
+});
+
+exports.userBlacklistCleanup = functions.pubsub.schedule('0 18 * * MON').onRun(async(context) => {
+    try{
+        db = getFirestore();
+        const blacklistRef = db.collection('userBlacklist');
+        const snapshot = await blacklistRef.get();
+        const batch = db.batch();
+
+        snapshot.docs.forEach((doc) => {
+            batch.delete(doc.ref);
+        })
+
+        await batch.commit();
+        console.log("userBlacklist collection deleted");
+
+
+    } catch(error){
+        console.error("Error during cleanup:", error)
+    }
+
+});
